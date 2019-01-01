@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "115265590242",
+    "firebase_url": "https://ezwheels-24ec6.firebaseio.com",
+    "project_id": "ezwheels-24ec6",
+    "storage_bucket": "ezwheels-24ec6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115265590242:android:fd7332830f29ef01",
+        "android_client_info": {
+          "package_name": "vincegeralddelaccerna.ezwheels"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "115265590242-3q88pfei74v8p5dr9oju8se4j7vc0sd1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vincegeralddelaccerna.ezwheels",
+            "certificate_hash": "4976b62f0436a01a530a27b1810027d8c89bca6e"
+          }
+        },
+        {
+          "client_id": "115265590242-lmns9b181vgu2rod4ccegpaa02brbqen.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCI1Ifx4pX8cZB3UI-JNrZA-NvcHIe2mV4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "115265590242-lmns9b181vgu2rod4ccegpaa02brbqen.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
