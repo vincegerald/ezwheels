@@ -13,19 +13,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView register;
+    TextView register, shopView;
     Button cancelRegister, loginButton;
     EditText loginUsername, loginPassword;
-
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,47 +27,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         this.register  = this.findViewById(R.id.textView);
         this.loginButton = this.findViewById(R.id.button);
+        shopView = findViewById(R.id.shopView);
         this.loginUsername = this.findViewById(R.id.editText);
         this.loginPassword = this.findViewById(R.id.editText2);
+        shopView.setOnClickListener(this);
         //this.register.setOnClickListener(this);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//
+//        if(!networkConnection()){
+//            Toast.makeText(this, "No Internet Connection. Please check internet connection", Toast.LENGTH_SHORT).show();
+//        }
+//        else{
+//            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+//            if(currentUser != null){
+//                Intent dashhboardintent = new Intent(this, DashBoard.class);
+//                startActivity(dashhboardintent);
+//            }
+//        }
+//    }
 
-        if(!networkConnection()){
-            Toast.makeText(this, "No Internet Connection. Please check internet connection", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-            if(currentUser != null){
-                Intent dashhboardintent = new Intent(this, DashBoard.class);
-                startActivity(dashhboardintent);
-            }
-        }
-    }
-
-    private boolean networkConnection(){
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        return cm.getActiveNetworkInfo() != null;
-    }
-
-    public void successful(){
-        Intent dashboadintent = new Intent(this, DashBoard.class);
-        startActivity(dashboadintent);
-        Toast.makeText(this, "Welcome to Dashboard", Toast.LENGTH_SHORT).show();
-    }
-
-    public void notSuccessful(){
-        if(!networkConnection()){
-            Toast.makeText(this, "No Internet Connection. Please check internet connection", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     @Override
     public void onClick(View view) {
@@ -83,6 +59,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.textView:
                 Intent intent = new Intent(this, Register.class);
                 startActivity(intent);
+                break;
+            case R.id.shopView:
+                Intent shopReg = new Intent(this, LoginShop.class);
+                startActivity(shopReg);
         }
     }
 
@@ -100,22 +80,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
-        mAuth = FirebaseAuth.getInstance();
-        mAuth.signInWithEmailAndPassword(logUsername, logPassword)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                        if(task.isSuccessful()){
-                            FirebaseUser currentUser = mAuth.getCurrentUser();
-                            successful();
-                        }
-                        else{
-                            notSuccessful();
-                        }
-
-                    }
-                });
 
 
     }

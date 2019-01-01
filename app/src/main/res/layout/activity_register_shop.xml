@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#528aed"
+    android:orientation="vertical"
+    tools:context=".RegisterShop">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        app:srcCompat="@drawable/logo" />
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Vehicle Shop Traders"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:id="@+id/registerStep1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/regshopFirstname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:autofillHints=""
+            android:background="@drawable/border"
+            android:ems="10"
+            android:hint="Firstname"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColor="#FEFEFE"
+            android:textColorHighlight="#FEFEFE"
+            android:textColorHint="#fefefe"
+            android:textColorLink="#FEFEFE" />
+
+        <EditText
+            android:id="@+id/regshopLastname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:autofillHints=""
+            android:background="@drawable/border"
+            android:ems="10"
+            android:hint="Lastname"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColor="#FEFEFE"
+            android:textColorHighlight="#FEFEFE"
+            android:textColorHint="#fefefe"
+            android:textColorLink="#FEFEFE" />
+
+        <EditText
+            android:id="@+id/regshopUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:autofillHints=""
+            android:background="@drawable/border"
+            android:ems="10"
+            android:hint="Username"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColor="#FEFEFE"
+            android:textColorHighlight="#FEFEFE"
+            android:textColorHint="#fefefe"
+            android:textColorLink="#FEFEFE" />
+
+        <EditText
+            android:id="@+id/regshopEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:autofillHints=""
+            android:background="@drawable/border"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColor="#FEFEFE"
+            android:textColorHighlight="#FEFEFE"
+            android:textColorHint="#fefefe"
+            android:textColorLink="#FEFEFE" />
+
+        <EditText
+            android:id="@+id/regshopContact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:autofillHints=""
+            android:background="@drawable/border"
+            android:ems="10"
+            android:hint="Contact Number"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColor="#FEFEFE"
+            android:textColorHighlight="#FEFEFE"
+            android:textColorHint="#fefefe"
+            android:textColorLink="#FEFEFE" />
+
+        <EditText
+            android:id="@+id/regshopPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:autofillHints=""
+            android:background="@drawable/border"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:textColor="#FEFEFE"
+            android:textColorHighlight="#FEFEFE"
+            android:textColorHint="#fefefe"
+            android:textColorLink="#FEFEFE" />
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="270dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:background="#fefefe"
+            android:text="Next"
+            android:textAllCaps="false"
+            android:textColor="#000000" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/registerStep2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="-400dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/regShopname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:autofillHints=""
+            android:background="@drawable/border"
+            android:ems="10"
+            android:hint="Shopname"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColor="#FEFEFE"
+            android:textColorHighlight="#FEFEFE"
+            android:textColorHint="#fefefe"
+            android:textColorLink="#FEFEFE" />
+
+        <EditText
+            android:id="@+id/regShopLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:autofillHints=""
+            android:background="@drawable/border"
+            android:ems="10"
+            android:hint="Shop Location"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColor="#FEFEFE"
+            android:textColorHighlight="#FEFEFE"
+            android:textColorHint="#fefefe"
+            android:textColorLink="#FEFEFE" />
+
+
+        <EditText
+            android:id="@+id/regDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:autofillHints=""
+            android:background="@drawable/border"
+            android:ems="10"
+            android:hint="Description"
+            android:inputType="textMultiLine"
+            android:lines="5"
+            android:padding="10dp"
+            android:textColor="#FEFEFE"
+            android:textColorHighlight="#FEFEFE"
+            android:textColorHint="#fefefe"
+            android:textColorLink="#FEFEFE" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:background="#fefefe"
+                android:text="Back"
+                android:textAllCaps="false"
+                android:textColor="#000000" />
+
+            <Button
+                android:id="@+id/btnFinish"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="155dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:background="#fefefe"
+                android:text="Finish"
+                android:textAllCaps="false"
+                android:textColor="#000000" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout> 

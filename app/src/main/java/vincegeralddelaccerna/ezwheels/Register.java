@@ -1,7 +1,7 @@
 package vincegeralddelaccerna.ezwheels;
 
 
-import android.app.ProgressDialog;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,20 +13,12 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.IgnoreExtraProperties;
+
 
 import org.w3c.dom.Text;
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
 
-    private FirebaseAuth mAuth;
     EditText name;
     EditText username;
     EditText email;
@@ -51,24 +43,13 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         password = findViewById(R.id.registerPassword);
         btnRegister = findViewById(R.id.btnRegister);
         btnRegisterCancel = findViewById(R.id.btnRegisterCancel);
-        mProgress = findViewById(R.id.progressBar)
+        mProgress = findViewById(R.id.progressBar);
         btnRegister.setOnClickListener(this);
         btnRegisterCancel.setOnClickListener(this);
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseAuth mAuth;
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-
-        if(currentUser != null){
-            Intent mainIntent = new Intent(Register.this, DashBoard.class);
-            startActivity(mainIntent);
-        }
-    }
+  
 
 
     @Override
@@ -113,27 +94,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 return;
             }
 
-            mDialog.setMessage("Registering User... Wait for a moment");
-            mDialog.show();
-            mAuth = FirebaseAuth.getInstance();
-            mAuth.createUserWithEmailAndPassword(finalEmail, finalPassword)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                //Toast.makeText(Register.this, "Success", Toast.LENGTH_SHORT).show();
-                                FirebaseUser currentUser = mAuth.getCurrentUser();
-                                String uid = currentUser.getUid();
-
-                                FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-                                DatabaseReference buyersRef = database.getReference("buyers");
-                                mDialog.dismiss();
-
-
-                            }
-                        }
-                    });
 
         }
         else{
