@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#528aed"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".MainActivity">
+
 
         <ImageView
             android:id="@+id/imageView"
@@ -79,19 +76,22 @@
             android:text="Not yet registered? Create one"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/shopView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:layout_weight="1"
-            android:clickable="false"
-            android:gravity="center_horizontal"
-            android:onClick="onClick"
-            android:text="Shop owner? Click here"
-            android:textColor="#fefefefe"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/shopView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:gravity="bottom|center"
+                android:text="Shop owner? Click here"
+                android:textColor="#fefefefe"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+
 
     </LinearLayout>
-</ScrollView>
