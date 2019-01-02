@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -35,21 +37,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //this.register.setOnClickListener(this);
     }
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//
-//        if(!networkConnection()){
-//            Toast.makeText(this, "No Internet Connection. Please check internet connection", Toast.LENGTH_SHORT).show();
-//        }
-//        else{
-//            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-//            if(currentUser != null){
-//                Intent dashhboardintent = new Intent(this, DashBoard.class);
-//                startActivity(dashhboardintent);
-//            }
-//        }
-//    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(!networkConnection()){
+            Toast.makeText(this, "No Internet Connection. Please check internet connection", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            if(currentUser != null){
+                Intent dashhboardintent = new Intent(this, DashBoard.class);
+                startActivity(dashhboardintent);
+            }
+        }
+    }
+
+    private boolean networkConnection() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null;
+    }
 
 
     @Override
@@ -80,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "Missing password", Toast.LENGTH_SHORT).show();
             return;
         }
+
+
 
 
 

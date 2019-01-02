@@ -70,6 +70,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         super.onStart();
 
         if(mAuth.getCurrentUser() != null){
+            Intent dashhboardintent = new Intent(this, DashBoard.class);
+            startActivity(dashhboardintent);
 
         }
     }
