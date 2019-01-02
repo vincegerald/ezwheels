@@ -70,26 +70,29 @@
         android:text="Login"
         android:textColor="#000000" />
 
-    <Button
+    <TextView
         android:id="@+id/btnShopreg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="#528aed"
-        android:clickable="false"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
         android:text="Not yet registered? Create one"
-        android:textAllCaps="false" />
+        android:textSize="16sp" />
 
-    <Button
-        android:id="@+id/btnShophome"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="15dp"
-        android:background="#528aed"
-        android:text="Back to home page"
-        android:textAllCaps="false" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/btnShophome"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:gravity="bottom|center"
+            android:text="Back to home"
+            android:textSize="16sp" />
+
+    </LinearLayout>
 
 </LinearLayout>
