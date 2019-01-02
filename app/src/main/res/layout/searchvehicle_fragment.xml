@@ -54,7 +54,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="20dp" />
+            android:drawableRight="@drawable/btn_dropdown"
+            android:dropDownWidth="fill_parent"
+            android:padding="20dp"
+            style="@style/spinner_style"/>
     </LinearLayout>
 
     <LinearLayout
