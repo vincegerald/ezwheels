@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
@@ -55,6 +56,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         password = findViewById(R.id.registerPassword);
         btnRegister = findViewById(R.id.btnRegister);
         btnRegisterCancel = findViewById(R.id.btnRegisterCancel);
+        mProgress = findViewById(R.id.progressBar);
         btnRegister.setOnClickListener(this);
         btnRegisterCancel.setOnClickListener(this);
 
@@ -127,12 +129,33 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                     return;
                 }
 
+                mProgress.setVisibility(View.VISIBLE);
                 mAuth.createUserWithEmailAndPassword(finalEmail, finalPassword)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
+                                mProgress.setVisibility(View.GONE);
                                 if(task.isSuccessful()){
-                                    Toast.makeText(Register.this, "Registered Successful", Toast.LENGTH_SHORT).show();
+                                    Buyer buyer = new Buyer(
+                                            finalFirstname,
+                                            finalLastname,
+                                            finalUsername,
+                                            finalContact
+                                    );
+                                    FirebaseDatabase.getInstance().getReference("Buyers")
+                                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                            .setValue(buyer).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+                                                Toast.makeText(Register.this, "Succesful Registration", Toast.LENGTH_SHORT).show();
+                                            }
+                                            else{
+                                                Toast.makeText(Register.this, "Registration Unsuccessful", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+//                                    Toast.makeText(Register.this, "Registered Successful", Toast.LENGTH_SHORT).show();
                                 }
                                 else{
                                     Toast.makeText(Register.this, "Registration Error", Toast.LENGTH_SHORT).show();
