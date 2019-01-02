@@ -46,7 +46,8 @@
             android:layout_width="70dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:src="@drawable/car" />
+            app:srcCompat="@drawable/car"
+            android:contentDescription="TODO" />
 
         <Spinner
             android:id="@+id/spinner"
@@ -70,7 +71,7 @@
             android:layout_width="70dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:src="@drawable/year" />
+            app:srcCompat="@drawable/year" />
 
         <Spinner
             android:id="@+id/spinner2"
@@ -113,7 +114,7 @@
             android:layout_width="70dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_location_on_black_24dp" />
+            app:srcCompat="@drawable/ic_location_on_black_24dp" />
 
         <Spinner
             android:id="@+id/spinner3"
