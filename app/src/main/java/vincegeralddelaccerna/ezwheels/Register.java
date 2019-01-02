@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.net.HttpURLConnection;
+
 public class Register extends AppCompatActivity implements View.OnClickListener {
 
     EditText name;
@@ -72,11 +74,11 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         if(view.getId() == R.id.btnRegister){
 
             final String finalFirstname = firstname.getText().toString();
-        final String finalLastname = lastname.getText().toString();
-        final String finalUsername = username.getText().toString();
-        final String finalEmail = email.getText().toString();
-        final String finalContact = contactnumber.getText().toString();
-        final String finalPassword = password.getText().toString();
+            final String finalLastname = lastname.getText().toString();
+            final String finalUsername = username.getText().toString();
+            final String finalEmail = email.getText().toString();
+            final String finalContact = contactnumber.getText().toString();
+            final String finalPassword = password.getText().toString();
 
             if(TextUtils.isEmpty(finalFirstname)){
                 Toast.makeText(getApplicationContext(), "Enter firstname", Toast.LENGTH_SHORT).show();
@@ -115,6 +117,9 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 Toast.makeText(getApplicationContext(), "Please input a valid email", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+            String url = "http://192.168.10.115/ezwheels/addBuyer.php";
+            
         }
 
 
