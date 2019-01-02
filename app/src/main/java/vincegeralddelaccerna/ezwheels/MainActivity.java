@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.loginUsername = this.findViewById(R.id.editText);
         this.loginPassword = this.findViewById(R.id.editText2);
         shopView.setOnClickListener(this);
+        register.setOnClickListener(this);
         //this.register.setOnClickListener(this);
     }
 

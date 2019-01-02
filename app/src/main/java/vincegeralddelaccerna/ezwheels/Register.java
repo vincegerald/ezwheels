@@ -24,6 +24,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     EditText email;
     EditText contactnumber;
     EditText password;
+    EditText firstname;
+    EditText lastname;
     Button btnRegister, btnRegisterCancel;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     String mobilePattern = "^(09|\\+639)\\d{9}$";
@@ -36,14 +38,14 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        name = findViewById(R.id.registerName);
+        firstname = findViewById(R.id.registerFirstname);
+        lastname = findViewById(R.id.registerLastname);
         username = findViewById(R.id.registerUsername);
         email = findViewById(R.id.registerEmail);
         contactnumber = findViewById(R.id.registerContact);
         password = findViewById(R.id.registerPassword);
         btnRegister = findViewById(R.id.btnRegister);
         btnRegisterCancel = findViewById(R.id.btnRegisterCancel);
-        mProgress = findViewById(R.id.progressBar);
         btnRegister.setOnClickListener(this);
         btnRegisterCancel.setOnClickListener(this);
 
@@ -54,15 +56,24 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View view) {
-        final String finalName = name.getText().toString();
-        final String finalUsername = username.getText().toString();
-        final String finalEmail = email.getText().toString();
-        final String finalContact = contactnumber.getText().toString();
-        final String finalPassword = password.getText().toString();
+
 
         if(view.getId() == R.id.btnRegister){
-            if(TextUtils.isEmpty(finalName)){
-                Toast.makeText(getApplicationContext(), "Enter name", Toast.LENGTH_SHORT).show();
+
+            final String finalFirstname = firstname.getText().toString();
+            final String finalLastname = lastname.getText().toString();
+            final String finalUsername = username.getText().toString();
+            final String finalEmail = email.getText().toString();
+            final String finalContact = contactnumber.getText().toString();
+            final String finalPassword = password.getText().toString();
+
+            if(TextUtils.isEmpty(finalFirstname)){
+                Toast.makeText(getApplicationContext(), "Enter firstname", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if(TextUtils.isEmpty(finalLastname)){
+                Toast.makeText(getApplicationContext(), "Enter lastname", Toast.LENGTH_SHORT).show();
                 return;
             }
             if(TextUtils.isEmpty(finalUsername)){
@@ -96,8 +107,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
 
         }
-        else{
-            Intent mainIntent = new Intent(Register.this, MainActivity.class);
+        if(view.getId() == R.id.btnRegisterCancel){
+            Intent mainIntent = new Intent(this, MainActivity.class);
             startActivity(mainIntent);
         }
 

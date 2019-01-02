@@ -26,7 +26,6 @@
             android:layout_marginRight="20dp"
             android:background="@drawable/border"
             android:cursorVisible="true"
-            android:editable="true"
             android:ems="10"
             android:hint="Username"
             android:inputType="textPersonName"
@@ -72,7 +71,7 @@
             android:layout_marginTop="15dp"
             android:clickable="true"
             android:gravity="center_horizontal"
-            android:onClick="onClick"
+            android:textColor="#fefefe"
             android:text="Not yet registered? Create one"
             android:textSize="18sp" />
 
