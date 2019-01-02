@@ -64,16 +64,17 @@
             android:text="Login"
             android:textColor="#000000" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:clickable="true"
-            android:gravity="center_horizontal"
-            android:textColor="#fefefe"
-            android:text="Not yet registered? Create one"
-            android:textSize="18sp" />
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="70dp"
+        android:clickable="true"
+        android:gravity="center_horizontal"
+        android:text="Not yet registered? Create one"
+        android:textColor="#fefefe"
+        android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
