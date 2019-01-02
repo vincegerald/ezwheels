@@ -14,10 +14,16 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.w3c.dom.Text;
 
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
 
@@ -33,6 +39,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     String mobilePattern = "^(09|\\+639)\\d{9}$";
     ProgressBar mProgress;
 
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -51,21 +58,23 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         btnRegister.setOnClickListener(this);
         btnRegisterCancel.setOnClickListener(this);
 
+        mAuth = FirebaseAuth.getInstance();
+
     }
 
-  
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(mAuth.getCurrentUser() != null){
+
+        }
+    }
 
     @Override
     public void onClick(View view) {
 
-//
-
-//        if(view.getId() == R.id.btnRegister){
-//            Toast.makeText(this, "Registered", Toast.LENGTH_SHORT).show();
-//
-//
-//        }
         if(view.getId() == R.id.btnRegisterCancel){
             Intent mainIntent = new Intent(this, MainActivity.class);
             startActivity(mainIntent);
@@ -80,46 +89,57 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             final String finalContact = contactnumber.getText().toString();
             final String finalPassword = password.getText().toString();
 
-            if(TextUtils.isEmpty(finalFirstname)){
-                Toast.makeText(getApplicationContext(), "Enter firstname", Toast.LENGTH_SHORT).show();
-                return;
-            }
+                if(TextUtils.isEmpty(finalFirstname)){
+                    Toast.makeText(getApplicationContext(), "Enter firstname", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-            if(TextUtils.isEmpty(finalLastname)){
-                Toast.makeText(getApplicationContext(), "Enter lastname", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(TextUtils.isEmpty(finalUsername)){
-                Toast.makeText(getApplicationContext(), "Enter username", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(TextUtils.isEmpty(finalEmail)){
-                Toast.makeText(getApplicationContext(), "Enter email", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(TextUtils.isEmpty(finalContact)){
-                Toast.makeText(getApplicationContext(), "Enter contact number", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(TextUtils.isEmpty(finalPassword)){
-                Toast.makeText(getApplicationContext(), "Enter password", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(finalPassword.length() < 6){
-                Toast.makeText(getApplicationContext(), "Password too short... Minimum of 6 characters", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(!finalContact.matches(mobilePattern)){
-                Toast.makeText(getApplicationContext(), "Please input a valid number", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(!finalEmail.matches(emailPattern)){
-                Toast.makeText(getApplicationContext(), "Please input a valid email", Toast.LENGTH_SHORT).show();
-                return;
-            }
+                if(TextUtils.isEmpty(finalLastname)){
+                    Toast.makeText(getApplicationContext(), "Enter lastname", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(TextUtils.isEmpty(finalUsername)){
+                    Toast.makeText(getApplicationContext(), "Enter username", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(TextUtils.isEmpty(finalEmail)){
+                    Toast.makeText(getApplicationContext(), "Enter email", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(TextUtils.isEmpty(finalContact)){
+                    Toast.makeText(getApplicationContext(), "Enter contact number", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(TextUtils.isEmpty(finalPassword)){
+                    Toast.makeText(getApplicationContext(), "Enter password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(finalPassword.length() < 6){
+                    Toast.makeText(getApplicationContext(), "Password too short... Minimum of 6 characters", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(!finalContact.matches(mobilePattern)){
+                    Toast.makeText(getApplicationContext(), "Please input a valid number", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(!finalEmail.matches(emailPattern)){
+                    Toast.makeText(getApplicationContext(), "Please input a valid email", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-            String url = "http://192.168.10.115/ezwheels/addBuyer.php";
-            
+                mAuth.createUserWithEmailAndPassword(finalEmail, finalPassword)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(Register.this, "Registered Successful", Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    Toast.makeText(Register.this, "Registration Error", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
         }
 
 
@@ -127,4 +147,4 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
     }
 
-}
+
