@@ -1,14 +1,16 @@
 package vincegeralddelaccerna.ezwheels;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class RegisterShop extends AppCompatActivity implements View.OnClickListener{
 
-    Button btnNext, btnBack, btnFinish;
+    Button btnNext, btnBack, btnFinish, btnHome;
     LinearLayout step1, step2;
 
     @Override
@@ -18,11 +20,13 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
         btnNext = findViewById(R.id.btnNext);
         btnBack = findViewById(R.id.btnBack);
         btnFinish = findViewById(R.id.btnFinish);
+        btnHome = findViewById(R.id.btnHome);
         step1 = findViewById(R.id.registerStep1);
         step2 = findViewById(R.id.registerStep2);
         btnNext.setOnClickListener(this);
         btnBack.setOnClickListener(this);
         btnFinish.setOnClickListener(this);
+        btnHome.setOnClickListener(this);
     }
 
     @Override
@@ -35,6 +39,15 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
         if(view.getId() == R.id.btnBack){
             step1.setVisibility(View.VISIBLE);
             step2.setVisibility(View.GONE);
+        }
+
+        if(view.getId() == R.id.btnHome){
+            Intent loginShop = new Intent(this, LoginShop.class);
+            startActivity(loginShop);
+        }
+
+        if(view.getId() == R.id.btnFinish){
+            Toast.makeText(this, "Finish Registration", Toast.LENGTH_SHORT).show();
         }
     }
 }
