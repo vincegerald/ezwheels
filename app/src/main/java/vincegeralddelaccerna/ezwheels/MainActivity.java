@@ -10,9 +10,13 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -22,6 +26,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView register, shopView;
     Button cancelRegister, loginButton;
     EditText loginUsername, loginPassword;
+    ProgressBar mProgress;
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +39,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         shopView = findViewById(R.id.shopView);
         this.loginUsername = this.findViewById(R.id.editText);
         this.loginPassword = this.findViewById(R.id.editText2);
+        mProgress = findViewById(R.id.progressBar2);
         shopView.setOnClickListener(this);
         register.setOnClickListener(this);
         //this.register.setOnClickListener(this);
+
+        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -89,9 +99,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
+        mProgress.setVisibility(View.VISIBLE);
+        mAuth.signInWithEmailAndPassword(logUsername, logPassword)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            FirebaseUser currentUser =mAuth.getCurrentUser();
+                            successful();
+                        }
+                        else{
 
+                        }
+                    }
+                });
 
+    }
+    public void successful(){
+        Intent successIntent = new Intent(this, DashBoard.class);
+        startActivity(successIntent);
+        Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
+    }
 
-
+    public void error(){
+        if(!networkConnection()){
+            Toast.makeText(this, "No Internet Connection. Please check internet connection", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show();
+        }
     }
 }
