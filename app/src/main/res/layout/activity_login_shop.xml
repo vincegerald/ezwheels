@@ -33,7 +33,7 @@
         android:layout_marginRight="10dp"
         android:background="@drawable/border"
         android:ems="10"
-        android:hint="Username"
+        android:hint="Email"
         android:inputType="textPersonName"
         android:padding="10dp"
         android:textColor="#FEFEFE"
@@ -67,7 +67,7 @@
         android:textColorLink="#FEFEFE" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/shopLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"

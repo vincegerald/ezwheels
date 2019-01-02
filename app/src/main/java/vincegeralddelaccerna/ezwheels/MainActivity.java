@@ -90,12 +90,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String logPassword = this.loginPassword.getText().toString();
 
         if(TextUtils.isEmpty(logUsername)){
-            Toast.makeText(this, "Missing username", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Enter email", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if(TextUtils.isEmpty(logPassword)){
-            Toast.makeText(this, "Missing password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Enter password", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            FirebaseUser currentUser =mAuth.getCurrentUser();
+                            FirebaseUser currentUser = mAuth.getCurrentUser();
                             successful();
                         }
                         else{
