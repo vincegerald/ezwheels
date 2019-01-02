@@ -1,21 +1,32 @@
 package vincegeralddelaccerna.ezwheels;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterShop extends AppCompatActivity implements View.OnClickListener{
 
     Button btnNext, btnBack, btnFinish, btnHome;
     LinearLayout step1, step2;
     EditText shopFirstname, shopLastname, shopUsername, shopEmail, shopContact, shopPassword, shopName, shopLocation, shopDescription;
+    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    String mobilePattern = "^(09|\\+639)\\d{9}$";
+    ProgressBar mProgress;
 
     FirebaseAuth mAuth;
 
@@ -27,6 +38,7 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
         btnBack = findViewById(R.id.btnBack);
         btnFinish = findViewById(R.id.btnFinish);
         btnHome = findViewById(R.id.btnHome);
+        mProgress = findViewById(R.id.progressBar3);
         step1 = findViewById(R.id.registerStep1);
         step2 = findViewById(R.id.registerStep2);
 
@@ -89,7 +101,85 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
             final String sLocation = shopLocation.getText().toString();
             final String sDescription = shopDescription.getText().toString();
 
-            if()
+            if(TextUtils.isEmpty(sFirstname)){
+                Toast.makeText(getApplicationContext(), "Enter firstname", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(TextUtils.isEmpty(sLastname)){
+                Toast.makeText(getApplicationContext(), "Enter lastname", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(TextUtils.isEmpty(sEmail)){
+                Toast.makeText(getApplicationContext(), "Enter email", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(TextUtils.isEmpty(sContact)){
+                Toast.makeText(getApplicationContext(), "Enter contactnumber", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(TextUtils.isEmpty(sPassword)){
+                Toast.makeText(getApplicationContext(), "Enter password", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(TextUtils.isEmpty(sName)){
+                Toast.makeText(getApplicationContext(), "Enter shopname", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(TextUtils.isEmpty(sLocation)){
+                Toast.makeText(getApplicationContext(), "Enter shop location", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(TextUtils.isEmpty(sDescription)){
+                Toast.makeText(getApplicationContext(), "Enter shop description", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(sPassword.length() < 6){
+                Toast.makeText(getApplicationContext(), "Enter at least 6 characters", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(!sEmail.matches(emailPattern)){
+                Toast.makeText(getApplicationContext(), "Invalid email", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(!sContact.matches(mobilePattern)){
+                Toast.makeText(getApplicationContext(), "Invalid number", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            mProgress.setVisibility(View.VISIBLE);
+
+            mAuth.createUserWithEmailAndPassword(sEmail, sPassword)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            mProgress.setVisibility(View.GONE);
+                            if(task.isSuccessful()){
+                                Shop shop = new Shop(
+                                        sFirstname,
+                                        sLastname,
+                                        sContact,
+                                        sName,
+                                        sLocation,
+                                        sDescription
+                                );
+                                FirebaseDatabase.getInstance().getReference("Shop")
+                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                        .setValue(shop).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            Toast.makeText(RegisterShop.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else{
+                                            Toast.makeText(RegisterShop.this, "Registration Fail", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+
         }
     }
 }
+
