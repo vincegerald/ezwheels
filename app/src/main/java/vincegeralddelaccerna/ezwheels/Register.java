@@ -57,54 +57,52 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     @Override
     public void onClick(View view) {
 
+//        final String finalFirstname = firstname.getText().toString();
+//        final String finalLastname = lastname.getText().toString();
+//        final String finalUsername = username.getText().toString();
+//        final String finalEmail = email.getText().toString();
+//        final String finalContact = contactnumber.getText().toString();
+//        final String finalPassword = password.getText().toString();
 
         if(view.getId() == R.id.btnRegister){
-
-            final String finalFirstname = firstname.getText().toString();
-            final String finalLastname = lastname.getText().toString();
-            final String finalUsername = username.getText().toString();
-            final String finalEmail = email.getText().toString();
-            final String finalContact = contactnumber.getText().toString();
-            final String finalPassword = password.getText().toString();
-
-            if(TextUtils.isEmpty(finalFirstname)){
-                Toast.makeText(getApplicationContext(), "Enter firstname", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if(TextUtils.isEmpty(finalLastname)){
-                Toast.makeText(getApplicationContext(), "Enter lastname", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(TextUtils.isEmpty(finalUsername)){
-                Toast.makeText(getApplicationContext(), "Enter username", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(TextUtils.isEmpty(finalEmail)){
-                Toast.makeText(getApplicationContext(), "Enter email", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(TextUtils.isEmpty(finalContact)){
-                Toast.makeText(getApplicationContext(), "Enter contact number", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(TextUtils.isEmpty(finalPassword)){
-                Toast.makeText(getApplicationContext(), "Enter password", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(finalPassword.length() < 6){
-                Toast.makeText(getApplicationContext(), "Password too short... Minimum of 6 characters", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(!finalContact.matches(mobilePattern)){
-                Toast.makeText(getApplicationContext(), "Please input a valid number", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(!finalEmail.matches(emailPattern)){
-                Toast.makeText(getApplicationContext(), "Please input a valid email", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
+            Toast.makeText(this, "Registered", Toast.LENGTH_SHORT).show();
+//            if(TextUtils.isEmpty(finalFirstname)){
+//                Toast.makeText(getApplicationContext(), "Enter firstname", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//
+//            if(TextUtils.isEmpty(finalLastname)){
+//                Toast.makeText(getApplicationContext(), "Enter lastname", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if(TextUtils.isEmpty(finalUsername)){
+//                Toast.makeText(getApplicationContext(), "Enter username", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if(TextUtils.isEmpty(finalEmail)){
+//                Toast.makeText(getApplicationContext(), "Enter email", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if(TextUtils.isEmpty(finalContact)){
+//                Toast.makeText(getApplicationContext(), "Enter contact number", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if(TextUtils.isEmpty(finalPassword)){
+//                Toast.makeText(getApplicationContext(), "Enter password", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if(finalPassword.length() < 6){
+//                Toast.makeText(getApplicationContext(), "Password too short... Minimum of 6 characters", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if(!finalContact.matches(mobilePattern)){
+//                Toast.makeText(getApplicationContext(), "Please input a valid number", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if(!finalEmail.matches(emailPattern)){
+//                Toast.makeText(getApplicationContext(), "Please input a valid email", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
 
         }
         if(view.getId() == R.id.btnRegisterCancel){
