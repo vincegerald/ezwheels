@@ -31,7 +31,7 @@ public class LoginShop extends AppCompatActivity implements View.OnClickListener
         }
 
         if(view.getId() == R.id.btnShophome){
-            Intent shopHome = new Intent(this, LoginShop.class);
+            Intent shopHome = new Intent(this, MainActivity.class);
             startActivity(shopHome);
 
         }
