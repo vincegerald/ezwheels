@@ -34,7 +34,11 @@
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme" />
         <activity android:name=".LoginShop" />
-        <activity android:name=".RegisterShop"></activity>
+        <activity android:name=".RegisterShop" />
+        <activity
+            android:name=".ShopDashboard"
+            android:label="@string/title_activity_shop_dashboard"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
