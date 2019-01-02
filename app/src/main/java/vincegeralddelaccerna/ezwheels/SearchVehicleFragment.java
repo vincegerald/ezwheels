@@ -15,14 +15,19 @@ import java.util.ArrayList;
 
 public class SearchVehicleFragment extends Fragment {
     Spinner brand, year, location;
-    ArrayList<String> brnd = new ArrayList<>();
-    ArrayList<String> yr = new ArrayList<>();
-    ArrayList<String> loc = new ArrayList<>();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.searchvehicle_fragment, null);
+        brand = v.findViewById(R.id.spinner);
+
+        String [] brands = {"Toyota", "Kia", "Honda", "Suzuki", "Chevrolet"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1, brands);
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        brand.setAdapter(adapter);
         return v;
+
     }
 
 
