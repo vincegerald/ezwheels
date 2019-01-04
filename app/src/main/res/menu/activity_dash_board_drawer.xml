@@ -11,6 +11,10 @@
                android:icon="@drawable/dashboard"
                android:title="Dashboard" />
            <item
+               android:id="@+id/nav_map"
+               android:icon="@drawable/map"
+               android:title="Map" />
+           <item
                android:id="@+id/nav_search"
                android:icon="@drawable/search"
                android:title="Search for Vehicles" />

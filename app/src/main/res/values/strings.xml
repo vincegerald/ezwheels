@@ -181,4 +181,5 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_shop_dashboard">ShopDashboard</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

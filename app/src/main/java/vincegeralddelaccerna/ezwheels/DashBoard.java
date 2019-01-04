@@ -1,9 +1,11 @@
 package vincegeralddelaccerna.ezwheels;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -16,8 +18,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class DashBoard extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+
+public class DashBoard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,17 +38,13 @@ public class DashBoard extends AppCompatActivity
         FragmentTransaction fragTrans = getSupportFragmentManager().beginTransaction();
         fragTrans.replace(R.id.screen_area, new DashBoardFragment());
         fragTrans.commit();
+
+//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+//        mapFragment.getMapAsync(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -47,6 +55,7 @@ public class DashBoard extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
 
     @Override
     public void onBackPressed() {
@@ -90,7 +99,14 @@ public class DashBoard extends AppCompatActivity
         if (id == R.id.nav_dashboard) {
             fragment = new DashBoardFragment();
             // Handle the camera action
-        } else if (id == R.id.nav_search) {
+        }
+        else if (id == R.id.nav_map) {
+            //fragment = new MapFragment();
+            fragment = new MapFragment();
+//            Intent mapIntent = new Intent(this, MapsActivity.class);
+//            startActivity(mapIntent);
+
+        }else if (id == R.id.nav_search) {
             fragment = new SearchVehicleFragment();
             // getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SearchVehicleFragment()).commit();
         } else if (id == R.id.nav_garage) {
@@ -112,4 +128,13 @@ public class DashBoard extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+//    @Override
+//    public void onMapReady(GoogleMap googleMap) {
+//
+//        LatLng latLng = new LatLng(10.333333,123.933334);
+//        googleMap.addMarker(new MarkerOptions().position(latLng).title("Marker Cebu City"));
+//        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+//    }
 }
