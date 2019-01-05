@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mProgress = findViewById(R.id.progressBar2);
         shopView.setOnClickListener(this);
         register.setOnClickListener(this);
+        loginButton.setOnClickListener(this);
         //this.register.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
@@ -82,6 +83,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.shopView:
                 Intent shopReg = new Intent(this, LoginShop.class);
                 startActivity(shopReg);
+                break;
+            case R.id.button:
+                login();
         }
     }
 

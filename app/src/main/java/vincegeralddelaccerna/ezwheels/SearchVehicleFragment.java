@@ -59,14 +59,14 @@ public class SearchVehicleFragment extends Fragment {
         ArrayAdapter<Brands> adapter;
         ArrayAdapter<Location> locationAdapter;
         ArrayAdapter<Model> modelAdapter;
-        adapter = new ArrayAdapter<Brands>(getActivity(), R.layout.spinner_item, brandsList);
-        adapter.setDropDownViewResource(R.layout.spinner_item);
+        adapter = new ArrayAdapter<Brands>(getActivity(), android.R.layout.simple_spinner_item, brandsList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         brand.setAdapter(adapter);
-        locationAdapter = new ArrayAdapter<Location>(getActivity(), R.layout.spinner_item, locationList);
-        locationAdapter.setDropDownViewResource(R.layout.spinner_item);
+        locationAdapter = new ArrayAdapter<Location>(getActivity(), android.R.layout.simple_spinner_item, locationList);
+        locationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         location.setAdapter(locationAdapter);
-        modelAdapter = new ArrayAdapter<Model>(getActivity(), R.layout.spinner_item, modelList);
-        modelAdapter.setDropDownViewResource(R.layout.spinner_item);
+        modelAdapter = new ArrayAdapter<Model>(getActivity(), android.R.layout.simple_spinner_item, modelList);
+        modelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         year.setAdapter(modelAdapter);
         return v;
 
