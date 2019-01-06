@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,17 +25,20 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class DashBoard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     private GoogleMap mMap;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
+        mAuth = FirebaseAuth.getInstance();
         FragmentTransaction fragTrans = getSupportFragmentManager().beginTransaction();
         fragTrans.replace(R.id.screen_area, new DashBoardFragment());
         fragTrans.commit();
@@ -116,6 +120,10 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
         } else if (id == R.id.nav_request) {
             fragment = new ListingRequestFragment();
         } else if (id == R.id.nav_send) {
+            mAuth.signOut();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show();
 
         }
         if(fragment != null){

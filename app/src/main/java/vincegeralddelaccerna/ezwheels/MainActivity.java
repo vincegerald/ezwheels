@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void login(){
         String logUsername = this.loginUsername.getText().toString();
-        String logPassword = this.loginPassword.getText().toString();
+        final String logPassword = this.loginPassword.getText().toString();
 
         if(TextUtils.isEmpty(logUsername)){
             Toast.makeText(this, "Enter email", Toast.LENGTH_SHORT).show();
@@ -109,10 +109,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+                            mProgress.setVisibility(View.GONE);
                             FirebaseUser currentUser = mAuth.getCurrentUser();
                             successful();
                         }
                         else{
+                            mProgress.setVisibility(View.GONE);
+                            loginUsername.setText("");
+                            loginPassword.setText("");
                             error();
                         }
                     }
