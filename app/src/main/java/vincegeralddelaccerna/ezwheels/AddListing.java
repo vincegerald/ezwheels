@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,8 +33,10 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -57,7 +60,7 @@ import static android.app.Activity.RESULT_OK;
 public class AddListing extends Fragment  implements View.OnClickListener {
 
     private static final String [] brands = new String[]{
-      "Toyota","Suzuki","Mitsubishi","Kia","Chevrolet"
+            "Toyota","Suzuki","Mitsubishi","Kia","Chevrolet"
     };
     private static final String [] model = new String[]{
             "Fortuner","Wigo","LandCruiser","MonteroSport","Sportage"
@@ -89,7 +92,7 @@ public class AddListing extends Fragment  implements View.OnClickListener {
     ImageButton image;
     AutoCompleteTextView brandText, modelText, yearText, transmissionText, colorText, priceConditionText;
     Button btn3, btn4, btnBack, btnStep2, btn6, btn5, btn7, btn8, btn9, btn10, addImage, btnVideo, addPanorama, btnFront, btnfSide, btnBackImage, addFside, buttonBack, buttonSside, buttonVideo,
-    buttonFside, addImageSside;
+            buttonFside, addImageSside;
     ScrollView addList1, addList2;
     LinearLayout addList3, addList4, addList5, addListImage1, addListFside, addListSside;
     ImageView image1, image2, image3, image4, imagePanorama;
@@ -103,6 +106,11 @@ public class AddListing extends Fragment  implements View.OnClickListener {
     private DatabaseReference mDatabaseRef;
     private FirebaseAuth mAuth;
     private StorageTask mUploadTask;
+
+    private static String imagePath1 = "";
+    private static  String imagePath2 = "";
+    private static  String imagePath3 = "";
+    private static String videoPath = "";
 
 
 
@@ -127,12 +135,12 @@ public class AddListing extends Fragment  implements View.OnClickListener {
         btn3 = v.findViewById(R.id.button3);
         btn4 = v.findViewById(R.id.button4);
         btn5 = v.findViewById(R.id.button5);
+        btnFront = v.findViewById(R.id.buttonFront);
         btn6 = v.findViewById(R.id.button6);
         btn7 = v.findViewById(R.id.button7);
         btn8 = v.findViewById(R.id.button8);
         btn9 = v.findViewById(R.id.button9);
         btn10 = v.findViewById(R.id.btnFinish);
-        btnFront = v.findViewById(R.id.buttonFront);
         btnfSide = v.findViewById(R.id.buttonfSide);
         addFside = v.findViewById(R.id.addFside);
         buttonBack = v.findViewById(R.id.buttonBack);
@@ -197,8 +205,8 @@ public class AddListing extends Fragment  implements View.OnClickListener {
 
         mAuth = FirebaseAuth.getInstance();
 
-        mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
-
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Buyers");
         gravityView = GravityView.getInstance(getActivity());
 
 //        adapter = new ListViewAdapter(Shop, getActivity());
@@ -337,15 +345,23 @@ public class AddListing extends Fragment  implements View.OnClickListener {
             final String finalMileage = mileage.getText().toString();
             final String finalPrice = price.getText().toString();
 
-            if(mUploadTask != null && mUploadTask.isInProgress()){
-                Toast.makeText(getActivity(), "Upload in progress", Toast.LENGTH_SHORT).show();
+            final String shop = "";
+            final String status = "pending";
+
+            if(TextUtils.isEmpty(finalBrand) || TextUtils.isEmpty(finalModel) || TextUtils.isEmpty(finalYear) || TextUtils.isEmpty(finalColor) || TextUtils.isEmpty(finalTransmission) || TextUtils.isEmpty(finalPcondition) || TextUtils.isEmpty(finalMileage) || TextUtils.isEmpty(finalPrice)){
+                Toast.makeText(getActivity(), "Input all fields", Toast.LENGTH_SHORT).show();
             }
+
             else{
-                uploadFile(imageUri1);
-                uploadFile(imageUri2);
-                uploadFile(imageUri3);
-                uploadFile(imageUri4);
+                uploadFile(videoUri, imageUri1, imageUri2, imageUri3, imageUri4, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
             }
+
+//                uploadFile(imageUri2);
+//                uploadFile(imageUri3);
+//                uploadFile(imageUri4);
+
+
+
 
 
 
@@ -395,8 +411,8 @@ public class AddListing extends Fragment  implements View.OnClickListener {
 
         if(view.getId() == R.id.addPanorama){
             startActivityForResult(Intent.createChooser(new Intent().
-                    setAction(Intent.ACTION_GET_CONTENT).
-                    setType("panorama/*"),
+                            setAction(Intent.ACTION_GET_CONTENT).
+                            setType("panorama/*"),
                     "Select panorama"),
                     PANORAMA_IMAGE);
         }
@@ -412,6 +428,21 @@ public class AddListing extends Fragment  implements View.OnClickListener {
             if(videoUri != null){
                 videoView.setVideoURI(videoUri);
                 videoView.start();
+
+                final String videoPath1 = System.currentTimeMillis() + "." + getFileExtension(videoUri);
+
+                StorageReference storageReference = mStorageRef.child("Videos").child(videoPath1);
+                storageReference.putFile(videoUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        mStorageRef.child("Videos/"+videoPath1).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                videoPath = uri.toString();
+                            }
+                        });
+                    }
+                });
 
             }
         }
@@ -487,17 +518,61 @@ public class AddListing extends Fragment  implements View.OnClickListener {
 //            }
             imageUri2 = data.getData();
             Picasso.get().load(imageUri2).into(image2);
-        }
 
+            final String path = System.currentTimeMillis() + "." + getFileExtension(imageUri2);
+
+            StorageReference storageReference = mStorageRef.child("Images").child(path);
+            storageReference.putFile(imageUri2).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    mStorageRef.child("Images/"+path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            imagePath1 = uri.toString();
+                        }
+                    });
+                }
+            });
+        }
         else if(requestCode == IMAGE_REQUEST_3 && resultCode == RESULT_OK){
             imageUri3 = data.getData();
             Picasso.get().load(imageUri3).into(image3);
-        }
 
+            final String path1 = System.currentTimeMillis() + "." + getFileExtension(imageUri3);
+            StorageReference storageReference = mStorageRef.child("Images").child(path1);
+            storageReference.putFile(imageUri3).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    mStorageRef.child("Images/"+path1).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            imagePath2 = uri.toString();
+                        }
+                    });
+                }
+            });
+        }
         else if(requestCode == IMAGE_REQUEST_4 && resultCode == RESULT_OK){
+
             imageUri4 = data.getData();
             Picasso.get().load(imageUri4).into(image4);
+
+            final String path2 = System.currentTimeMillis() + "." + getFileExtension(imageUri4);
+            StorageReference storageReference = mStorageRef.child("Images").child(path2);
+            storageReference.putFile(imageUri4).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    mStorageRef.child("Images/"+path2).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            imagePath3 = uri.toString();
+                        }
+                    });
+                }
+            });
         }
+
+
     }
 
     private String getFileExtension(Uri uri) {
@@ -506,81 +581,60 @@ public class AddListing extends Fragment  implements View.OnClickListener {
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
-    public class Upload{
+    private void uploadFile(Uri videoUri, final Uri uriImage, final Uri uriImage1, final Uri uriImage2, final Uri uriImage3, final String finalBrand, final String finalModel, final String finalYear, final String finalColor, final String finalTransmission, final String finalPcondition, final String finalMileage, final String finalPrice, final String shop, final String status){
 
-        private String imageUrl;
+        if(uriImage != null){
 
-        public Upload(){
+            final String uid = mAuth.getCurrentUser().getUid();
+            final String imageUrl = uriImage.toString();
+            //Toast.makeText(getActivity(), imageUrl, Toast.LENGTH_SHORT).show();
+            final String path = System.currentTimeMillis() + "." + getFileExtension(uriImage);
+            StorageReference storageReference = mStorageRef.child("Images").child(path);
+            storageReference.putFile(uriImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
 
-        }
-
-        public Upload(String imageUrl) {
-            this.imageUrl = imageUrl;
-        }
-
-        public String getImageUrl() {
-            return imageUrl;
-        }
-
-        public void setImageUrl(String imageUrl) {
-            this.imageUrl = imageUrl;
-        }
-    }
-    private void uploadFile(Uri uri){
-        if(uri != null){
-            StorageReference storageReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(uri));
-
-            mUploadTask = storageReference.putFile(uri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-
-                            FirebaseUser currentFirebaseUser  = FirebaseAuth.getInstance().getCurrentUser();
-                            final String UID = currentFirebaseUser.getUid().toString();
-                            final DatabaseReference mDatabase;
-                            mDatabase = FirebaseDatabase.getInstance().getReference("Buyers/");
-                            mDatabase.addChildEventListener(new ChildEventListener() {
-                                @Override
-                                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                                    String key = dataSnapshot.getKey();
-
-                                    if(key.equals(UID)){
-
-
-
-
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(getActivity(), "storage", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Images/"+System.currentTimeMillis() + "." + getFileExtension(uriImage), Toast.LENGTH_SHORT ).show();
+                        mStorageRef.child("Images/"+path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Toast.makeText(getActivity(), "Added", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), imagePath1, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), imagePath2, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), videoPath, Toast.LENGTH_SHORT).show();
+                                String image = uri.toString();
+                                Upload upload = new Upload(image, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
+                                mDatabaseRef.child(uid).child("Listing Request").push().setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            Toast.makeText(getActivity(), "saved", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else{
+                                            Toast.makeText(getActivity(), "error", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                }
-
-                                @Override
-                                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                                }
-
-                                @Override
-                                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                                }
-
-                                @Override
-                                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
+                                });
 
 
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
 
+                    }
+                    else{
+                        Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 
-
-                        }
-                    });
         }
     }
 

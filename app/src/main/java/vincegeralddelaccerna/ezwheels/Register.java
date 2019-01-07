@@ -145,10 +145,10 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                                             finalContact
                                     );
                                     FirebaseDatabase.getInstance().getReference("Buyers")
-                                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                            .setValue(buyer).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
+                                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                .setValue(buyer).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
                                                 Toast.makeText(Register.this, "Succesful Registration", Toast.LENGTH_SHORT).show();
                                             }

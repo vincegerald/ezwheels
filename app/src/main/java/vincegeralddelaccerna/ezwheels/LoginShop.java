@@ -37,6 +37,7 @@ public class LoginShop extends AppCompatActivity implements View.OnClickListener
         btnShophome = findViewById(R.id.btnShophome);
         shopUsername = findViewById(R.id.shopUsername);
         shopPassword = findViewById(R.id.shopPassword);
+        shopLogin = findViewById(R.id.shopLogin);
         shopLogin.setOnClickListener(this);
         btnShopreg.setOnClickListener(this);
         btnShophome.setOnClickListener(this);
@@ -111,7 +112,7 @@ public class LoginShop extends AppCompatActivity implements View.OnClickListener
 
     }
     public void successful(){
-        Intent successIntent = new Intent(this, DashBoard.class);
+        Intent successIntent = new Intent(this, ShopDashboard.class);
         startActivity(successIntent);
         Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
     }
