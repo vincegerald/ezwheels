@@ -354,8 +354,7 @@ public class AddListing extends Fragment  implements View.OnClickListener {
 
             else{
                 uploadFile(videoUri, imageUri1, imageUri2, imageUri3, imageUri4, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
-                Intent intent = new Intent(getActivity(), ListingRequestFragment.class);
-                startActivity(intent);
+
             }
 
 //                uploadFile(imageUri2);
@@ -613,6 +612,8 @@ public class AddListing extends Fragment  implements View.OnClickListener {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
                                             Toast.makeText(getActivity(), "saved", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(getActivity(), DashBoard.class);
+                                            startActivity(intent);
                                         }
                                         else{
                                             Toast.makeText(getActivity(), "error", Toast.LENGTH_SHORT).show();
