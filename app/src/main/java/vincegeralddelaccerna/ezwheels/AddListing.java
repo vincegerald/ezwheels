@@ -354,6 +354,8 @@ public class AddListing extends Fragment  implements View.OnClickListener {
 
             else{
                 uploadFile(videoUri, imageUri1, imageUri2, imageUri3, imageUri4, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
+                Intent intent = new Intent(getActivity(), ListingRequestFragment.class);
+                startActivity(intent);
             }
 
 //                uploadFile(imageUri2);
