@@ -79,7 +79,7 @@ public class AddListing extends Fragment  implements View.OnClickListener {
     };
 
 
-    private ListViewAdapter adapter;
+
     private List<String> Shop = new ArrayList<>();
 
     private Uri videoUri, imageUri1, imageUri2, imageUri3, imageUri4;
@@ -357,9 +357,7 @@ public class AddListing extends Fragment  implements View.OnClickListener {
 
             }
 
-//                uploadFile(imageUri2);
-//                uploadFile(imageUri3);
-//                uploadFile(imageUri4);
+
 
 
 
@@ -402,10 +400,7 @@ public class AddListing extends Fragment  implements View.OnClickListener {
         if(view.getId() == R.id.btnVideo){
             Intent gallery = new Intent(Intent.ACTION_PICK,
                     android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
-//            startActivityForResult(Intent.createChooser(new Intent().
-//                    setAction(Intent.ACTION_GET_CONTENT).
-//                    setType("video/mp4"),
-//                    "SELECT VIDEO"),
+
 //                    SINGLE_VIDEO);
             startActivityForResult(gallery, SINGLE_VIDEO);
         }
@@ -454,69 +449,13 @@ public class AddListing extends Fragment  implements View.OnClickListener {
         }
 
         else if(requestCode == IMAGE_REQUEST_1 && resultCode == RESULT_OK){
-//            ClipData clipData = data.getClipData();
-//
-//            if(clipData != null){
-//
-//
-//
-//                Picasso.get().load(clipData.getItemAt(0).getUri()).into(image1);
-//                Picasso.get().load(clipData.getItemAt(1).getUri()).into(image2);
-//                Picasso.get().load(clipData.getItemAt(2).getUri()).into(image3);
-//                Picasso.get().load(clipData.getItemAt(3).getUri()).into(image4);
-//
-//                for(int i  = 0; i < data.getClipData().getItemCount(); i++){
-//
-//                    Uri fileUri = data.getClipData().getItemAt(i).getUri();
-//
-//                    String fileName =  getFileName(fileUri);
-//
-//                    StorageReference filesToUpload = mStorageRef.child("uploads").child(fileName);
-//
-//                    filesToUpload.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                        @Override
-//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                            Toast.makeText(getActivity(), "Added", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//
-//
-//                }
-//            }
+
             imageUri1 = data.getData();
             Picasso.get().load(imageUri1).into(image1);
         }
 
         else if(requestCode == IMAGE_REQUEST_2 && resultCode == RESULT_OK){
-//            ClipData clipData = data.getClipData();
-//
-//            if(clipData != null){
-//
-//
-//
-//                Picasso.get().load(clipData.getItemAt(0).getUri()).into(image1);
-//                Picasso.get().load(clipData.getItemAt(1).getUri()).into(image2);
-//                Picasso.get().load(clipData.getItemAt(2).getUri()).into(image3);
-//                Picasso.get().load(clipData.getItemAt(3).getUri()).into(image4);
-//
-//                for(int i  = 0; i < data.getClipData().getItemCount(); i++){
-//
-//                    Uri fileUri = data.getClipData().getItemAt(i).getUri();
-//
-//                    String fileName =  getFileName(fileUri);
-//
-//                    StorageReference filesToUpload = mStorageRef.child("uploads").child(fileName);
-//
-//                    filesToUpload.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                        @Override
-//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                            Toast.makeText(getActivity(), "Added", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//
-//
-//                }
-//            }
+
             imageUri2 = data.getData();
             Picasso.get().load(imageUri2).into(image2);
 

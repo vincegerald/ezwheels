@@ -9,19 +9,27 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ListingRequestFragment extends Fragment implements View.OnClickListener {
 
@@ -29,61 +37,54 @@ public class ListingRequestFragment extends Fragment implements View.OnClickList
     FloatingActionButton add;
     DatabaseReference databaseReference;
     FirebaseAuth mAuth;
-    FirebaseRecyclerOptions<Upload> options;
-    FirebaseRecyclerAdapter<Upload, ListRequestHolder> adapter;
+
+    private ProgressBar mProgressbar;
+
+    ListRequestAdapter mAdapter;
+
+    private List<Upload> mUploads;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.listingrequest_fragment, null);
         recyclerView = v.findViewById(R.id.recyclerRequest);
+        mProgressbar = v.findViewById(R.id.progress);
         recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        mUploads = new ArrayList<>();
+
 
         mAuth = FirebaseAuth.getInstance();
-        String uid = mAuth.getUid().toString();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child(uid).child("Listing Request");
+        String uid = mAuth.getCurrentUser().getUid().toString();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Buyers").child(uid).child("Listing Request");
         add = v.findViewById(R.id.fab);
         add.setOnClickListener(this);
 
-        options = new FirebaseRecyclerOptions.Builder<Upload>()
-                .setQuery(databaseReference, Upload.class).build();
-
-        adapter = new FirebaseRecyclerAdapter<Upload, ListRequestHolder>(options) {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            protected void onBindViewHolder(@NonNull ListRequestHolder holder, int position, @NonNull Upload model) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                Picasso.get().load(model.getImagePath1()).into(holder.image1, new Callback() {
-                    @Override
-                    public void onSuccess() {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()){
+                    Upload upload = postSnapshot.getValue(Upload.class);
+                    mUploads.add(upload);
+                }
 
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }   
-                });
-
-                holder.name.setText(model.getFinalBrand());
-                holder.price.setText(model.getFinalPrice());
-                holder.d1.setText(model.getFinalColor());
-                holder.d2.setText(model.getFinalMileage());
-                holder.d3.setText(model.getFinalTransmission());
-                holder.d4.setText(model.getFinalYear());
-                holder.s1.setText(model.getFinalPrice());
-
+                mAdapter = new ListRequestAdapter(getActivity(), mUploads);
+                recyclerView.setAdapter(mAdapter);
+                mProgressbar.setVisibility(View.INVISIBLE);
 
             }
 
-            @NonNull
             @Override
-            public ListRequestHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent,false);
-
-                return new ListRequestHolder(view);
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                mProgressbar.setVisibility(View.INVISIBLE);
             }
-        };
-        recyclerView.setAdapter(adapter);
+        });
+
+
         return v;
     }
 
@@ -105,28 +106,5 @@ public class ListingRequestFragment extends Fragment implements View.OnClickList
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
 
-        if(adapter != null){
-            adapter.startListening();
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(adapter != null){
-            adapter.startListening();
-        }
-    }
-
-    @Override
-    public void onStop() {
-        if(adapter != null){
-            adapter.startListening();
-        }
-        super.onStop();
-    }
 }

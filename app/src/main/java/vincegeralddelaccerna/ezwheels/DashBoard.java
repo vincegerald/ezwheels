@@ -46,7 +46,7 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
 //        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 //        mapFragment.getMapAsync(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+            setSupportActionBar(toolbar);
 
 
 

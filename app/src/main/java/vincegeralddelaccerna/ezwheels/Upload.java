@@ -6,6 +6,8 @@ public class Upload{
     public Upload() {
     }
 
+
+
     public Upload(String image, String imagePath1, String imagePath2, String imagePath3, String videoPath, String finalBrand, String finalModel, String finalYear, String finalColor, String finalTransmission, String finalPcondition, String finalMileage, String finalPrice, String shop, String status) {
         this.image = image;
         this.imagePath1 = imagePath1;
@@ -52,9 +54,8 @@ public class Upload{
         return imagePath3;
     }
 
-    public void setImagePath3(String imagePath3) {
-        this.imagePath3 = imagePath3;
-    }
+    public void setImagePath3(String imagePath3) { this.imagePath3 = imagePath3; }
+
 
     public String getVideoPath() {
         return videoPath;
