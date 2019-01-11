@@ -41,7 +41,7 @@ public class LoginShop extends AppCompatActivity implements View.OnClickListener
         shopLogin.setOnClickListener(this);
         btnShopreg.setOnClickListener(this);
         btnShophome.setOnClickListener(this);
-
+        mProgress = findViewById(R.id.progressBar4);
         mAuth = FirebaseAuth.getInstance();
 
     }
@@ -50,7 +50,7 @@ public class LoginShop extends AppCompatActivity implements View.OnClickListener
     protected void onStart() {
         super.onStart();
 
-        if(networkConnection()){
+        if(!networkConnection()){
             Toast.makeText(this, "No Internet Connection. Please check internet connection", Toast.LENGTH_SHORT).show();
         }
         else{
@@ -94,20 +94,20 @@ public class LoginShop extends AppCompatActivity implements View.OnClickListener
 
             mProgress.setVisibility(View.VISIBLE);
             mAuth.signInWithEmailAndPassword(user, pass)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                FirebaseUser currentUser = mAuth.getCurrentUser();
-                                successful();
-                            }
-                            else{
-                                error(); 
-                            }
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            FirebaseUser currentUser = mAuth.getCurrentUser();
+                            successful();
                         }
-                    });
+                        else{
+                            error();
+                        }
+                    }
+                });
 
-        }
+    }
 
 
     }

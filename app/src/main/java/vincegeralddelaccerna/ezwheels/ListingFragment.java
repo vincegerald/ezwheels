@@ -31,7 +31,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListingRequestFragment extends Fragment implements View.OnClickListener {
+public class ListingFragment extends Fragment implements View.OnClickListener {
 
     RecyclerView recyclerView;
     FloatingActionButton add;
@@ -47,7 +47,7 @@ public class ListingRequestFragment extends Fragment implements View.OnClickList
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v =  inflater.inflate(R.layout.listingrequest_fragment, null);
+        View v =  inflater.inflate(R.layout.listing_fragment, null);
         recyclerView = v.findViewById(R.id.recyclerRequest);
         mProgressbar = v.findViewById(R.id.progress);
         recyclerView.setHasFixedSize(true);
@@ -58,10 +58,9 @@ public class ListingRequestFragment extends Fragment implements View.OnClickList
 
         mAuth = FirebaseAuth.getInstance();
         String uid = mAuth.getCurrentUser().getUid().toString();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Buyers").child(uid).child("Listing Request");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Shop").child(uid).child("Car");
         add = v.findViewById(R.id.fab);
-        add.setOnClickListener(this)
-;
+        add.setOnClickListener(this);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -98,7 +97,7 @@ public class ListingRequestFragment extends Fragment implements View.OnClickList
     public void onClick(View view) {
 
         if(view.getId() == R.id.fab){
-            AddListing listing = new AddListing();
+            ShopAddListing listing = new ShopAddListing();
             FragmentManager manager = getFragmentManager();
             manager.beginTransaction()
                     .replace(R.id.screen_area, listing, listing.getTag())

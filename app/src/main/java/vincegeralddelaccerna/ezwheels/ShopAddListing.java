@@ -29,6 +29,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.MediaController;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -101,6 +103,8 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
     GravityView gravityView;
     EditText series, edition, mileage, price;
     ListView listViewshop;
+    RadioButton car, motor;
+    RadioGroup vehicleType;
 
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
@@ -111,14 +115,17 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
     private static  String imagePath2 = "";
     private static  String imagePath3 = "";
     private static String videoPath = "";
+    private static String type = "car";
 
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_add_listing, container, false);
+        View v = inflater.inflate(R.layout.shopaddlisting, container, false);
 
+
+        vehicleType = v.findViewById(R.id.type);
         listViewshop = v.findViewById(R.id.listviewshop);
         mileage = v.findViewById(R.id.mileage);
         price = v.findViewById(R.id.price);
@@ -167,6 +174,8 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
         btnVideo = v.findViewById(R.id.btnVideo);
         addPanorama = v.findViewById(R.id.addPanorama);
         imagePanorama = v.findViewById(R.id.imageView15);
+        car = v.findViewById(R.id.radioButton);
+        motor = v.findViewById(R.id.radioButton2);
         ArrayAdapter<String> brandAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, brands);
         brandText.setAdapter(brandAdapter);
         ArrayAdapter<String> modelAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, model);
@@ -203,6 +212,23 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
         buttonFside.setOnClickListener(this);
         buttonVideo.setOnClickListener(this);
 
+        vehicleType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i){
+                    case R.id.radioButton:
+                        type = "car";
+                        Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case R.id.radioButton2:
+                        type = "motor";
+                        Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
         mAuth = FirebaseAuth.getInstance();
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -233,10 +259,6 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
     }
 
 
-
-
-
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -247,7 +269,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if(view.getId() == R.id.button3){
-            ListingRequestFragment listing = new ListingRequestFragment();
+            ShopAddListing listing = new ShopAddListing();
             FragmentManager manager = getFragmentManager();
             manager.beginTransaction()
                     .replace(R.id.screen_area, listing, listing.getTag())
@@ -318,7 +340,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
         }
 
         if(view.getId() == R.id.buttonBack){
-            addList1.setVisibility(View.GONE);
+             addList1.setVisibility(View.GONE);
             addListImage1.setVisibility(View.VISIBLE);
             addListFside.setVisibility(View.GONE);
         }
@@ -546,19 +568,37 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                                 Toast.makeText(getActivity(), videoPath, Toast.LENGTH_SHORT).show();
                                 String image = uri.toString();
                                 Upload upload = new Upload(image, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
-                                mDatabaseRef.child(uid).child("Listing Request").push().setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if(task.isSuccessful()){
-                                            Toast.makeText(getActivity(), "saved", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(getActivity(), DashBoard.class);
-                                            startActivity(intent);
+                              if(type.equals("car")){
+                                Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
+                                    mDatabaseRef.child(uid).child("Car").push().setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+                                                Toast.makeText(getActivity(), "saved", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(getActivity(), ShopDashboard.class);
+                                                startActivity(intent);
+                                            }
+                                            else{
+                                                Toast.makeText(getActivity(), "error", Toast.LENGTH_SHORT).show();
+                                            }
                                         }
-                                        else{
-                                            Toast.makeText(getActivity(), "error", Toast.LENGTH_SHORT).show();
+                                    });
+                                }
+                                else{
+                                    mDatabaseRef.child(uid).child("Motor").push().setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+                                                Toast.makeText(getActivity(), "saved", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(getActivity(), ShopDashboard.class);
+                                                startActivity(intent);
+                                            }
+                                            else{
+                                                Toast.makeText(getActivity(), "error", Toast.LENGTH_SHORT).show();
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                }
 
 
                             }

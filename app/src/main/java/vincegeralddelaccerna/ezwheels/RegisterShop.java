@@ -169,6 +169,8 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
                                             Toast.makeText(RegisterShop.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(RegisterShop.this, ShopDashboard.class);
+                                            startActivity(intent);
                                         }
                                         else{
                                             Toast.makeText(RegisterShop.this, "Registration Fail", Toast.LENGTH_SHORT).show();

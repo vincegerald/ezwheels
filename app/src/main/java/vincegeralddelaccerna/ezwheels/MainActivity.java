@@ -19,6 +19,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -29,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ProgressBar mProgress;
 
     private FirebaseAuth mAuth;
+    private DatabaseReference databaseReference1,databaseReference2;
+    private FirebaseDatabase mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //this.register.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
     }
 
     @Override
@@ -56,11 +64,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "No Internet Connection. Please check internet connection", Toast.LENGTH_SHORT).show();
         }
         else{
-            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+
             if(currentUser != null){
-                Intent dashhboardintent = new Intent(this, DashBoard.class);
-                startActivity(dashhboardintent);
+                mDatabase.getReference("Shop").child(currentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists()){
+                            Intent intent = new Intent(MainActivity.this, ShopDashboard.class);
+                            startActivity(intent);
+                        }
+                        else{
+                            Intent intent = new Intent(MainActivity.this, DashBoard.class);
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
+
+
         }
     }
 

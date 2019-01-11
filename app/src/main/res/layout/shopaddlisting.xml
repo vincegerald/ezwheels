@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#fefefe"
     android:orientation="vertical"
-    tools:context=".AddListing">
+    tools:context=".ShopAddListing">
 
 
     <ScrollView
@@ -48,7 +48,8 @@
                 android:layout_marginTop="20dp"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="visible"
+                android:id="@+id/type">
 
                 <RadioButton
                     android:id="@+id/radioButton"
@@ -56,8 +57,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
                     android:buttonTint="#000000"
+                    android:checked="true"
                     android:text="4 wheels"
-                    android:textColor="#000000" />
+                    android:textColor="#000000"/>
 
                 <RadioButton
                     android:id="@+id/radioButton2"
@@ -65,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:buttonTint="#000000"
                     android:text="2 wheels"
-                    android:textColor="#000000" />
+                    android:textColor="#000000"/>
 
 
             </RadioGroup>

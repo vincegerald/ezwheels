@@ -7,7 +7,8 @@
     android:orientation="vertical"
     app:cardElevation="10dp"
     android:id="@+id/itemList"
-    android:padding="10dp">
+    android:padding="10dp"
+    app:cardCornerRadius="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
