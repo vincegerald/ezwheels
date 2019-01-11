@@ -3,16 +3,36 @@ package vincegeralddelaccerna.ezwheels;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 public class ShopDashBoardFragment extends Fragment {
+
+    TabLayout tabLayout;
+    ViewPager viewPager;
+    ViewPagerAdapter adapter;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_shop_dash_board, container, false);
+        View v = inflater.inflate(R.layout.fragment_shop_dash_board, container, false);
+
+        tabLayout = v.findViewById(R.id.tablayout);
+        viewPager = v.findViewById(R.id.viewpager);
+        adapter = new ViewPagerAdapter(getFragmentManager());
+
+//        adapter.AddFragment(new car_fragment(), "");
+//        adapter.AddFragment(new motor_fragment(), "");
+
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+        return v;
     }
 
     @Override
