@@ -73,10 +73,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if(dataSnapshot.exists()){
                             Intent intent = new Intent(MainActivity.this, ShopDashboard.class);
                             startActivity(intent);
+                            Toast.makeText(MainActivity.this, "Shop", Toast.LENGTH_SHORT).show();
                         }
                         else{
                             Intent intent = new Intent(MainActivity.this, DashBoard.class);
                             startActivity(intent);
+                            Toast.makeText(MainActivity.this, "Buyer", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -86,8 +88,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
             }
-
-
+            else{
+                Toast.makeText(this, "Login", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

@@ -7,30 +7,21 @@
     android:orientation="vertical">
 
     <android.support.design.widget.TabLayout
+        android:id="@+id/tablayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabIndicatorColor="#528aed"
         app:tabSelectedTextColor="#528aed"
         app:tabTextColor="#000000">
 
-        <android.support.design.widget.TabItem
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:clickable="true"
-            android:icon="@drawable/car"
-            android:visibility="visible" />
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/ic_motorcycle_black_24dp" />
-
 
     </android.support.design.widget.TabLayout>
 
-    <ListView
-        android:id="@+id/dashBoardList"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+
 
 </LinearLayout>

@@ -119,6 +119,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
 
 
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -146,8 +147,6 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
         btn6 = v.findViewById(R.id.button6);
         btn7 = v.findViewById(R.id.button7);
         btn8 = v.findViewById(R.id.button8);
-        btn9 = v.findViewById(R.id.button9);
-        btn10 = v.findViewById(R.id.btnFinish);
         btnfSide = v.findViewById(R.id.buttonfSide);
         addFside = v.findViewById(R.id.addFside);
         buttonBack = v.findViewById(R.id.buttonBack);
@@ -201,8 +200,6 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
         buttonSside.setOnClickListener(this);
         btn7.setOnClickListener(this);
         btn8.setOnClickListener(this);
-        btn9.setOnClickListener(this);
-        btn10.setOnClickListener(this);
         btnBack.setOnClickListener(this);
         btnStep2.setOnClickListener(this);
         addImage.setOnClickListener(this);
@@ -230,9 +227,8 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
 
 
         mAuth = FirebaseAuth.getInstance();
-
         mStorageRef = FirebaseStorage.getInstance().getReference();
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Shop");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         gravityView = GravityView.getInstance(getActivity());
 
 //        adapter = new ListViewAdapter(Shop, getActivity());
@@ -346,18 +342,6 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
         }
 
         if(view.getId() == R.id.button8){
-            addList1.setVisibility(View.GONE);
-            addList4.setVisibility(View.GONE);
-            addList5.setVisibility(View.VISIBLE);
-        }
-
-        if(view.getId() == R.id.button9){
-            addList1.setVisibility(View.GONE);
-            addList4.setVisibility(View.VISIBLE);
-            addList5.setVisibility(View.GONE);
-        }
-
-        if(view.getId() == R.id.btnFinish){
             final String finalBrand = brandText.getText().toString();
             final String finalModel = modelText.getText().toString();
             final String finalYear = yearText.getText().toString();
@@ -369,13 +353,14 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
 
             final String shop = "";
             final String status = "pending";
+            final String uid = mAuth.getCurrentUser().getUid();
 
             if(TextUtils.isEmpty(finalBrand) || TextUtils.isEmpty(finalModel) || TextUtils.isEmpty(finalYear) || TextUtils.isEmpty(finalColor) || TextUtils.isEmpty(finalTransmission) || TextUtils.isEmpty(finalPcondition) || TextUtils.isEmpty(finalMileage) || TextUtils.isEmpty(finalPrice)){
                 Toast.makeText(getActivity(), "Input all fields", Toast.LENGTH_SHORT).show();
             }
 
             else{
-                uploadFile(videoUri, imageUri1, imageUri2, imageUri3, imageUri4, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
+                uploadFile(uid, videoUri, imageUri1, imageUri2, imageUri3, imageUri4, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
 
             }
 
@@ -543,11 +528,11 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
-    private void uploadFile(Uri videoUri, final Uri uriImage, final Uri uriImage1, final Uri uriImage2, final Uri uriImage3, final String finalBrand, final String finalModel, final String finalYear, final String finalColor, final String finalTransmission, final String finalPcondition, final String finalMileage, final String finalPrice, final String shop, final String status){
+    private void uploadFile(final String uid, Uri videoUri, final Uri uriImage, final Uri uriImage1, final Uri uriImage2, final Uri uriImage3, final String finalBrand, final String finalModel, final String finalYear, final String finalColor, final String finalTransmission, final String finalPcondition, final String finalMileage, final String finalPrice, final String shop, final String status){
 
         if(uriImage != null){
 
-            final String uid = mAuth.getCurrentUser().getUid();
+
             final String imageUrl = uriImage.toString();
             //Toast.makeText(getActivity(), imageUrl, Toast.LENGTH_SHORT).show();
             final String path = System.currentTimeMillis() + "." + getFileExtension(uriImage);
@@ -567,10 +552,10 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                                 Toast.makeText(getActivity(), imagePath2, Toast.LENGTH_SHORT).show();
                                 Toast.makeText(getActivity(), videoPath, Toast.LENGTH_SHORT).show();
                                 String image = uri.toString();
-                                Upload upload = new Upload(image, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
+                                Upload upload = new Upload(uid, image, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
                               if(type.equals("car")){
                                 Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
-                                    mDatabaseRef.child(uid).child("Car").push().setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    mDatabaseRef.child("Car").push().setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
@@ -585,7 +570,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                                     });
                                 }
                                 else{
-                                    mDatabaseRef.child(uid).child("Motor").push().setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    mDatabaseRef.child("Motor").push().setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){

@@ -19,7 +19,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return null;
+        return listFragment.get(position);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         return listTitles.get(position);
     }
 
-    public void AddFragment(car_fragment fragment, String title){
+    public void AddFragment(Fragment fragment, String title){
         listFragment.add(fragment);
         listTitles.add(title);
     }

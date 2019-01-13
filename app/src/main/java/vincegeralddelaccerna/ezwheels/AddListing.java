@@ -545,8 +545,8 @@ public class AddListing extends Fragment  implements View.OnClickListener {
                                 Toast.makeText(getActivity(), imagePath2, Toast.LENGTH_SHORT).show();
                                 Toast.makeText(getActivity(), videoPath, Toast.LENGTH_SHORT).show();
                                 String image = uri.toString();
-                                Upload upload = new Upload(image, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
-                                mDatabaseRef.child(uid).child("Listing Request").push().setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                Upload upload = new Upload(uid, image, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
+                                mDatabaseRef.child("Car Requests").push().setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
