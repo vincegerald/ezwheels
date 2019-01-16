@@ -47,9 +47,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCn5Caz2H3SqFIIrOSLMJCWYm7n21Oy3VI" />
 
-        <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
         <activity android:name=".AddListing" />
         <activity android:name=".Detailed_Listing" />
         <activity

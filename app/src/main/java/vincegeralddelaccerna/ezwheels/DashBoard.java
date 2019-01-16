@@ -2,6 +2,8 @@ package vincegeralddelaccerna.ezwheels;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -28,7 +30,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-public class DashBoard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class DashBoard extends AppCompatActivity  {
 
 
     private GoogleMap mMap;
@@ -37,112 +39,35 @@ public class DashBoard extends AppCompatActivity implements NavigationView.OnNav
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dash_board);
+        setContentView(R.layout.dashboard);
         mAuth = FirebaseAuth.getInstance();
-        FragmentTransaction fragTrans = getSupportFragmentManager().beginTransaction();
-        fragTrans.replace(R.id.screen_area, new DashBoardFragment());
-        fragTrans.commit();
 
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomnav);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
+        final DashboardFragment dashboardFragment = new DashboardFragment();
 
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+                int id = item.getItemId();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+                if(id == R.id.dashboard){
+                    setFragment(dashboardFragment);
+                    return true;
+                }
+
+                return false;
+            }
+        });
+
+        bottomNavigationView.setSelectedItemId(R.id.dashboard);
     }
 
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.dash_board, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        Fragment fragment = null;
-        int id = item.getItemId();
-
-        if (id == R.id.nav_dashboard) {
-            fragment = new DashBoardFragment();
-            // Handle the camera action
-        }
-        else if (id == R.id.nav_map) {
-            //fragment = new MapFragment();
-            fragment = new MapFragment();
-//            Intent mapIntent = new Intent(this, MapsActivity.class);
-//            startActivity(mapIntent);
-
-        }else if (id == R.id.nav_search) {
-            fragment = new SearchVehicleFragment();
-            // getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SearchVehicleFragment()).commit();
-        } else if (id == R.id.nav_garage) {
-            fragment = new GarageFragment();
-        } else if (id == R.id.nav_notifications) {
-            fragment = new NotificationFragment();
-        } else if (id == R.id.nav_request) {
-            fragment = new ListingRequestFragment();
-        } else if (id == R.id.nav_send) {
-            mAuth.signOut();
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show();
-
-        }
-        if(fragment != null){
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.screen_area, fragment);
-            ft.commit();
-        }
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-
-//    @Override
-//    public void onMapReady(GoogleMap googleMap) {
-//
-//        LatLng latLng = new LatLng(10.333333,123.933334);
-//        googleMap.addMarker(new MarkerOptions().position(latLng).title("Marker Cebu City"));
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-//    }
+   private void setFragment(Fragment fragment){
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.screen_area, fragment);
+        fragmentTransaction.commit();
+   }
 }

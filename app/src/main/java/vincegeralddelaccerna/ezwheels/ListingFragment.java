@@ -96,13 +96,13 @@ public class ListingFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
 
-        if(view.getId() == R.id.fab){
-            ShopAddListing listing = new ShopAddListing();
-            FragmentManager manager = getFragmentManager();
-            manager.beginTransaction()
-                    .replace(R.id.screen_area, listing, listing.getTag())
-                    .commit();
-        }
+//        if(view.getId() == R.id.fab){
+//            ShopAddListing listing = new ShopAddListing();
+//            FragmentManager manager = getFragmentManager();
+//            manager.beginTransaction()
+//                    .replace(R.id.screen_area, listing, listing.getTag())
+//                    .commit();
+//        }
     }
 
 

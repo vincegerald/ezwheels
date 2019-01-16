@@ -63,8 +63,6 @@ public class motor_fragment extends Fragment {
 
                         for (DataSnapshot postSnapshot : dataSnapshot.getChildren()){
 
-                            String shopId = dataSnapshot.child("uid").getValue().toString();
-                            addShopDetails(shopId);
                             Upload upload = postSnapshot.getValue(Upload.class);
                             mUploads.add(upload);
 

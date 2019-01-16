@@ -34,7 +34,8 @@
             android:hint="Firstname"
             android:inputType="text"
             android:padding="10dp"
-            android:textColorHint="#fefefe" />
+            android:textColorHint="#fefefe"
+            android:textColor="#fefefe"/>
 
         <EditText
             android:id="@+id/registerLastname"
@@ -48,7 +49,8 @@
             android:hint="Lastname"
             android:inputType="text"
             android:padding="10dp"
-            android:textColorHint="#fefefe" />
+            android:textColorHint="#fefefe"
+            android:textColor="#fefefe"/>
 
         <EditText
             android:id="@+id/registerUsername"
@@ -62,7 +64,8 @@
             android:hint="Username"
             android:inputType="text"
             android:padding="10dp"
-            android:textColorHint="#fefefe" />
+            android:textColorHint="#fefefe"
+            android:textColor="#fefefe"/>
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -83,7 +86,8 @@
             android:hint="Email"
             android:inputType="text"
             android:padding="10dp"
-            android:textColorHint="#fefefe" />
+            android:textColorHint="#fefefe"
+            android:textColor="#fefefe"/>
 
         <EditText
             android:id="@+id/registerContact"
@@ -97,7 +101,8 @@
             android:hint="Contact Number"
             android:inputType="text"
             android:padding="10dp"
-            android:textColorHint="#fefefe" />
+            android:textColorHint="#fefefe"
+            android:textColor="#fefefe"/>
 
         <EditText
             android:id="@+id/registerPassword"
@@ -111,7 +116,8 @@
             android:hint="Password"
             android:inputType="textPassword"
             android:padding="10dp"
-            android:textColorHint="#fefefe" />
+            android:textColorHint="#fefefe"
+            android:textColor="#fefefe"/>
 
         <LinearLayout
             android:layout_width="match_parent"

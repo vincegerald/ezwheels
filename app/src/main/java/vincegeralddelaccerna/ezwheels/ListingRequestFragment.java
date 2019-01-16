@@ -97,13 +97,13 @@ public class ListingRequestFragment extends Fragment implements View.OnClickList
     @Override
     public void onClick(View view) {
 
-        if(view.getId() == R.id.fab){
-            AddListing listing = new AddListing();
-            FragmentManager manager = getFragmentManager();
-            manager.beginTransaction()
-                    .replace(R.id.screen_area, listing, listing.getTag())
-                    .commit();
-        }
+//        if(view.getId() == R.id.fab){
+//            AddListing listing = new AddListing();
+//            FragmentManager manager = getFragmentManager();
+//            manager.beginTransaction()
+//                    .replace(R.id.screen_area, listing, listing.getTag())
+//                    .commit();
+//        }
     }
 
 

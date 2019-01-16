@@ -131,12 +131,24 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                     return;
                 }
 
+                firstname.setVisibility(View.INVISIBLE);
+                lastname.setVisibility(View.INVISIBLE);
+                username.setVisibility(View.INVISIBLE);
+                email.setVisibility(View.INVISIBLE);
+                contactnumber.setVisibility(View.INVISIBLE);
+                password.setVisibility(View.INVISIBLE);
                 mProgress.setVisibility(View.VISIBLE);
                 mAuth.createUserWithEmailAndPassword(finalEmail, finalPassword)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 mProgress.setVisibility(View.GONE);
+                                firstname.setVisibility(View.VISIBLE);
+                                lastname.setVisibility(View.VISIBLE);
+                                username.setVisibility(View.VISIBLE);
+                                email.setVisibility(View.VISIBLE);
+                                contactnumber.setVisibility(View.VISIBLE);
+                                password.setVisibility(View.VISIBLE);
                                 if(task.isSuccessful()){
                                     Buyer buyer = new Buyer(
                                             finalFirstname,

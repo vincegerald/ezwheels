@@ -31,7 +31,8 @@
             android:inputType="textPersonName"
             android:padding="10dp"
             android:textColorHint="#fefefe"
-            android:textColorLink="#fefefe" />
+            android:textColorLink="#fefefe"
+            android:textColor="#fefefe"/>
 
     <ProgressBar
         android:id="@+id/progressBar2"
@@ -50,13 +51,13 @@
             android:autofillHints=""
             android:background="@drawable/border"
             android:cursorVisible="true"
-            android:editable="true"
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
             android:padding="10dp"
             android:textColorHint="#fefefe"
-            android:textColorLink="#fefefe" />
+            android:textColorLink="#fefefe"
+            android:textColor="#fefefe"/>
 
         <Button
             android:id="@+id/button"

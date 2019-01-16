@@ -134,12 +134,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         mProgress.setVisibility(View.VISIBLE);
+        loginUsername.setVisibility(View.INVISIBLE);
+        loginPassword.setVisibility(View.INVISIBLE);
         mAuth.signInWithEmailAndPassword(logUsername, logPassword)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             mProgress.setVisibility(View.GONE);
+                            loginUsername.setVisibility(View.VISIBLE);
+                            loginPassword.setVisibility(View.VISIBLE);
                             FirebaseUser currentUser = mAuth.getCurrentUser();
                             successful();
                         }

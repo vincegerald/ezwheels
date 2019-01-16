@@ -246,13 +246,13 @@ public class AddListing extends Fragment  implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.button3){
-            ListingRequestFragment listing = new ListingRequestFragment();
-            FragmentManager manager = getFragmentManager();
-            manager.beginTransaction()
-                    .replace(R.id.screen_area, listing, listing.getTag())
-                    .commit();
-        }
+//        if(view.getId() == R.id.button3){
+//            ListingRequestFragment listing = new ListingRequestFragment();
+//            FragmentManager manager = getFragmentManager();
+//            manager.beginTransaction()
+//                    .replace(R.id.screen_area, listing, listing.getTag())
+//                    .commit();
+//        }
         if(view.getId() == R.id.button4){
             addList1.setVisibility(View.GONE);
             addList2.setVisibility(View.VISIBLE);
