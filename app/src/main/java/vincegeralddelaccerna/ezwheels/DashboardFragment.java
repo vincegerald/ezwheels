@@ -32,7 +32,6 @@ public class DashboardFragment extends Fragment {
     }
 
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,7 +46,7 @@ public class DashboardFragment extends Fragment {
         adapter.AddFragment(new motor_fragment(), "MOTORCYCLES");
 //
         viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
+
         return v;
     }
 

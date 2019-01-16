@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/finalCard"
     android:layout_width="match_parent"
-    android:layout_height="270dp">
+    android:layout_height="300dp"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,7 +16,7 @@
         <ImageView
             android:id="@+id/finalImage"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="160dp"
             android:background="#fefefe" />
 
         <LinearLayout
@@ -29,27 +32,14 @@
 
                 <TextView
                     android:id="@+id/finalModel"
-                    android:layout_width="200dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="Text Here"
                     android:textColor="#000000"
-                    android:textSize="18sp" />
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/finalPrice"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Brand"
-                    android:textColor="#00FF00"
-                    android:textSize="18sp" />
-            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -57,22 +47,22 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp">
 
-            <TextView
-                android:id="@+id/finalDetails1"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Details 1"
-                android:textColor="#000000"
-                android:textSize="16sp" />
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:srcCompat="@drawable/philippinepeso" />
 
             <TextView
-                android:id="@+id/finalDetails2"
+                android:id="@+id/finalPrice"
                 android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="50dp"
-                android:text="Details 2"
-                android:textColor="#000000"
-                android:textSize="16sp" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Price"
+                android:textColor="#00e500"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -81,22 +71,52 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp">
 
-            <TextView
-                android:id="@+id/finalDetails3"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Details 1"
-                android:textColor="#000000"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/finalDetails4"
-                android:layout_width="100dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="50dp"
-                android:text="Details 2"
-                android:textColor="#000000"
-                android:textSize="16sp" />
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:srcCompat="@drawable/spraygun" />
+
+                <TextView
+                    android:id="@+id/finalDetails3"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Details 1"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:srcCompat="@drawable/calendar" />
+
+                <TextView
+                    android:id="@+id/finalDetails4"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:text="Details 2"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -110,9 +130,11 @@
                 android:id="@+id/finalSeller"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Seller"
+                android:layout_marginTop="15dp"
+                android:text="Date Posted"
                 android:textColor="#000000"
-                android:textSize="15sp" />
+                android:textSize="12sp"
+                android:textStyle="italic" />
         </LinearLayout>
 
 

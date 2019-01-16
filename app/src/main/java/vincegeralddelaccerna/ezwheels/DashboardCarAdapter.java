@@ -1,6 +1,7 @@
 package vincegeralddelaccerna.ezwheels;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -37,14 +38,33 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
     public void onBindViewHolder(@NonNull DashboardCarViewHolder holder, int position) {
 
         final Upload uploadCurrent = mUploads.get(position);
-        holder.brand.setText(uploadCurrent.getFinalBrand());
+        holder.brand.setText(uploadCurrent.getFinalBrand() + " "+ uploadCurrent.getFinalModel());
         holder.price.setText(uploadCurrent.getFinalPrice());
-        holder.d1.setText(uploadCurrent.getFinalColor());
-        holder.d2.setText(uploadCurrent.getFinalMileage());
-        holder.d3.setText(uploadCurrent.getFinalTransmission());
+        holder.d3.setText(uploadCurrent.getFinalColor());
         holder.d4.setText(uploadCurrent.getFinalYear());
         holder.price.setText(uploadCurrent.getFinalPrice());
         Picasso.get().load(uploadCurrent.getImagePath1()).fit().centerCrop().into(holder.image);
+        holder.item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ScrollingActivity.class);
+                intent.putExtra("image_url1", uploadCurrent.getImage());
+                intent.putExtra("image_url2", uploadCurrent.getImagePath1());
+                intent.putExtra("image_url3", uploadCurrent.getImagePath2());
+                intent.putExtra("image_url4", uploadCurrent.getImagePath3());
+                intent.putExtra("videoUrl", uploadCurrent.getVideoPath());
+                intent.putExtra("brand", uploadCurrent.getFinalBrand());
+                intent.putExtra("model", uploadCurrent.getFinalModel());
+                intent.putExtra("year", uploadCurrent.getFinalYear());
+                intent.putExtra("color", uploadCurrent.getFinalColor());
+                intent.putExtra("transmission", uploadCurrent.getFinalTransmission());
+                intent.putExtra("pricecondition", uploadCurrent.getFinalPcondition());
+                intent.putExtra("mileage", uploadCurrent.getFinalMileage());
+                intent.putExtra("price", uploadCurrent.getFinalPrice());
+                intent.putExtra("uid", uploadCurrent.getUid());
+                mContext.startActivity(intent);
+            }
+        });
 
     }
 
@@ -64,8 +84,6 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
 
             brand = itemView.findViewById(R.id.finalModel);
             price = itemView.findViewById(R.id.finalPrice);
-            d1 = itemView.findViewById(R.id.finalDetails1);
-            d2 = itemView.findViewById(R.id.finalDetails2);
             d3 = itemView.findViewById(R.id.finalDetails3);
             d4 = itemView.findViewById(R.id.finalDetails4);
             seller = itemView.findViewById(R.id.finalSeller);
