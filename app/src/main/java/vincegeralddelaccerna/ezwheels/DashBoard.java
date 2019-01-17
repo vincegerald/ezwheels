@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -36,6 +37,9 @@ public class DashBoard extends AppCompatActivity  {
     private GoogleMap mMap;
     private FirebaseAuth mAuth;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +50,10 @@ public class DashBoard extends AppCompatActivity  {
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
         final DashboardFragment dashboardFragment = new DashboardFragment();
+        final SearchFragment searchFragment = new SearchFragment();
+        final ShopAddListing shopAddListing = new ShopAddListing();
+        final ProfileFragment profileFragment = new ProfileFragment();
+        final ReservationFragment reservationFragment = new ReservationFragment();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -56,6 +64,21 @@ public class DashBoard extends AppCompatActivity  {
                 if(id == R.id.dashboard){
                     setFragment(dashboardFragment);
                     return true;
+                }
+
+                if(id == R.id.search){
+                    setFragment(searchFragment);
+                    return  true;
+                }
+
+                if(id == R.id.reservation){
+                    setFragment(reservationFragment);
+                    return  true;
+                }
+
+                if(id == R.id.profile){
+                    setFragment(profileFragment);
+                    return  true;
                 }
 
                 return false;

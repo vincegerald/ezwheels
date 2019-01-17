@@ -80,6 +80,10 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
             "Negotiable","Fixed"
     };
 
+    private static final String [] fuels = new String[]{
+            "Diesel","Gasoline"
+    };
+
 
 
     private List<String> Shop = new ArrayList<>();
@@ -92,7 +96,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
     private static final int IMAGE_REQUEST_3 = 5;
     private static final int IMAGE_REQUEST_4 = 6;
     ImageButton image;
-    AutoCompleteTextView brandText, modelText, yearText, transmissionText, colorText, priceConditionText;
+    AutoCompleteTextView brandText, modelText, yearText, transmissionText, colorText, priceConditionText, fuel;
     Button btn3, btn4, btnBack, btnStep2, btn6, btn5, btn7, btn8, btn9, btn10, addImage, btnVideo, addPanorama, btnFront, btnfSide, btnBackImage, addFside, buttonBack, buttonSside, buttonVideo,
             buttonFside, addImageSside;
     ScrollView addList1, addList2;
@@ -132,6 +136,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
         price = v.findViewById(R.id.price);
         series = v.findViewById(R.id.editText3);
         edition = v.findViewById(R.id.editText4);
+        fuel = v.findViewById(R.id.fuelText);
         brandText = v.findViewById(R.id.brandText);
         modelText = v.findViewById(R.id.modelText);
         yearText = v.findViewById(R.id.yearText);
@@ -187,6 +192,8 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
         colorText.setAdapter(colorAdapter);
         ArrayAdapter<String> condtionAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, priceCondition);
         priceConditionText.setAdapter(condtionAdapter);
+        ArrayAdapter<String> fuelAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, fuels);
+        fuel.setAdapter(fuelAdapter);
         btn3.setOnClickListener(this);
         btn4.setOnClickListener(this);
         btn5.setOnClickListener(this);
@@ -350,6 +357,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
             final String finalPcondition = priceConditionText.getText().toString();
             final String finalMileage = mileage.getText().toString();
             final String finalPrice = price.getText().toString();
+            final String finalFuel = fuel.getText().toString();
 
             final String shop = "";
             final String status = "pending";
@@ -360,7 +368,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
             }
 
             else{
-                uploadFile(uid, videoUri, imageUri1, imageUri2, imageUri3, imageUri4, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
+                uploadFile(finalFuel, uid, videoUri, imageUri1, imageUri2, imageUri3, imageUri4, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
 
             }
 
@@ -528,7 +536,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
-    private void uploadFile(final String uid, Uri videoUri, final Uri uriImage, final Uri uriImage1, final Uri uriImage2, final Uri uriImage3, final String finalBrand, final String finalModel, final String finalYear, final String finalColor, final String finalTransmission, final String finalPcondition, final String finalMileage, final String finalPrice, final String shop, final String status){
+    private void uploadFile(final String fuel, final String uid, Uri videoUri, final Uri uriImage, final Uri uriImage1, final Uri uriImage2, final Uri uriImage3, final String finalBrand, final String finalModel, final String finalYear, final String finalColor, final String finalTransmission, final String finalPcondition, final String finalMileage, final String finalPrice, final String shop, final String status){
 
         if(uriImage != null){
 
@@ -552,7 +560,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                                 Toast.makeText(getActivity(), imagePath2, Toast.LENGTH_SHORT).show();
                                 Toast.makeText(getActivity(), videoPath, Toast.LENGTH_SHORT).show();
                                 String image = uri.toString();
-                                Upload upload = new Upload(uid, image, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
+                                Upload upload = new Upload(fuel, uid, image, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
                               if(type.equals("car")){
                                 Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
                                     mDatabaseRef.child("Car").push().setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
