@@ -19,7 +19,7 @@
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:clickable="true"
-            android:icon="@drawable/car"
+            android:icon="@drawable/car1"
             android:visibility="visible" />
 
         <android.support.design.widget.TabItem

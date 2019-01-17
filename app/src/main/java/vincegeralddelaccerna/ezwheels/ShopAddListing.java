@@ -52,7 +52,10 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import co.gofynd.gravityview.GravityView;
@@ -119,7 +122,8 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
     private static  String imagePath2 = "";
     private static  String imagePath3 = "";
     private static String videoPath = "";
-    private static String type = "car";
+    private static String type = "car1";
+    private static String formattedDate;
 
 
 
@@ -221,7 +225,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 switch (i){
                     case R.id.radioButton:
-                        type = "car";
+                        type = "car1";
                         Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
                         break;
 
@@ -358,6 +362,11 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
             final String finalMileage = mileage.getText().toString();
             final String finalPrice = price.getText().toString();
             final String finalFuel = fuel.getText().toString();
+            Date c = Calendar.getInstance().getTime();
+            System.out.println("Current time => " + c);
+
+            SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+            formattedDate = df.format(c);
 
             final String shop = "";
             final String status = "pending";
@@ -368,7 +377,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
             }
 
             else{
-                uploadFile(finalFuel, uid, videoUri, imageUri1, imageUri2, imageUri3, imageUri4, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
+                uploadFile(finalFuel, formattedDate, uid, videoUri, imageUri1, imageUri2, imageUri3, imageUri4, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
 
             }
 
@@ -536,7 +545,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
-    private void uploadFile(final String fuel, final String uid, Uri videoUri, final Uri uriImage, final Uri uriImage1, final Uri uriImage2, final Uri uriImage3, final String finalBrand, final String finalModel, final String finalYear, final String finalColor, final String finalTransmission, final String finalPcondition, final String finalMileage, final String finalPrice, final String shop, final String status){
+    private void uploadFile(final String fuel, final String formattedData, final String uid, Uri videoUri, final Uri uriImage, final Uri uriImage1, final Uri uriImage2, final Uri uriImage3, final String finalBrand, final String finalModel, final String finalYear, final String finalColor, final String finalTransmission, final String finalPcondition, final String finalMileage, final String finalPrice, final String shop, final String status){
 
         if(uriImage != null){
 
@@ -560,8 +569,8 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                                 Toast.makeText(getActivity(), imagePath2, Toast.LENGTH_SHORT).show();
                                 Toast.makeText(getActivity(), videoPath, Toast.LENGTH_SHORT).show();
                                 String image = uri.toString();
-                                Upload upload = new Upload(fuel, uid, image, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
-                              if(type.equals("car")){
+                                Upload upload = new Upload(fuel, formattedDate, uid, image, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
+                              if(type.equals("car1")){
                                 Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
                                     mDatabaseRef.child("Car").push().setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override

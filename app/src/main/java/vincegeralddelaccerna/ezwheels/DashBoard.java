@@ -46,13 +46,14 @@ public class DashBoard extends AppCompatActivity  {
         setContentView(R.layout.dashboard);
         mAuth = FirebaseAuth.getInstance();
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomnav);
+        final BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomnav);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
         final DashboardFragment dashboardFragment = new DashboardFragment();
         final SearchFragment searchFragment = new SearchFragment();
         final ShopAddListing shopAddListing = new ShopAddListing();
         final ProfileFragment profileFragment = new ProfileFragment();
+        final OthersFragment othersFragment = new OthersFragment();
         final ReservationFragment reservationFragment = new ReservationFragment();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -73,6 +74,12 @@ public class DashBoard extends AppCompatActivity  {
 
                 if(id == R.id.reservation){
                     setFragment(reservationFragment);
+                    return  true;
+                }
+
+                if(id == R.id.others){
+                    setFragment(othersFragment);
+                    bottomNavigationView.setVisibility(View.GONE);
                     return  true;
                 }
 

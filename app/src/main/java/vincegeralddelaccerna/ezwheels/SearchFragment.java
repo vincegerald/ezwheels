@@ -44,7 +44,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
     //strings
 
-    private static String selectedType = "car";
+    private static String selectedType = "car1";
 
     //properties
     AutoCompleteTextView brand, model, transmission, fuel, color, year;
@@ -109,7 +109,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 switch (i){
                     case R.id.car:
-                        selectedType = "car";
+                        selectedType = "car1";
                         break;
                     case R.id.motor:
                         selectedType = "motor";

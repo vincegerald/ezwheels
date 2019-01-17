@@ -149,6 +149,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                         else{
                             mProgress.setVisibility(View.GONE);
+                            loginUsername.setVisibility(View.VISIBLE);
+                            loginPassword.setVisibility(View.VISIBLE);
                             loginUsername.setText("");
                             loginPassword.setText("");
                             error();
