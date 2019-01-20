@@ -52,6 +52,7 @@
 
         <activity android:name=".AddListing" />
         <activity android:name=".Detailed_Listing" />
+        <activity android:name=".SetReservationFragment" />
         <activity
             android:name=".ShopDashBoardFragment"
             android:label="@string/title_activity_shop_dash_board_fragment"

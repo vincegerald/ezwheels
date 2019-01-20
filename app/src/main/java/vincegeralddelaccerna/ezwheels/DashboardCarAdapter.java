@@ -44,6 +44,7 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
         holder.d4.setText(uploadCurrent.getFinalYear());
         holder.price.setText(uploadCurrent.getFinalPrice());
         Picasso.get().load(uploadCurrent.getImagePath1()).fit().centerCrop().into(holder.image);
+        holder.date.setText(uploadCurrent.getDate());
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,6 +63,11 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
                 intent.putExtra("mileage", uploadCurrent.getFinalMileage());
                 intent.putExtra("price", uploadCurrent.getFinalPrice());
                 intent.putExtra("uid", uploadCurrent.getUid());
+                intent.putExtra("fuel", uploadCurrent.getFuel());
+                intent.putExtra("date", uploadCurrent.getDate());
+                intent.putExtra("edition", uploadCurrent.getEdition());
+                intent.putExtra("info", uploadCurrent.getInfo());
+                intent.putExtra("series", uploadCurrent.getSeries());
                 mContext.startActivity(intent);
             }
         });
@@ -75,7 +81,7 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
 
     public class DashboardCarViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView brand, model, price, d1, d2, d3, d4, seller;
+        public TextView brand, model, price, d1, d2, d3, d4, date;
         public ImageView image;
         public CardView item;
 
@@ -86,7 +92,7 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
             price = itemView.findViewById(R.id.finalPrice);
             d3 = itemView.findViewById(R.id.finalDetails3);
             d4 = itemView.findViewById(R.id.finalDetails4);
-            seller = itemView.findViewById(R.id.finalSeller);
+            date = itemView.findViewById(R.id.finalDate);
             image = itemView.findViewById(R.id.finalImage);
             item = itemView.findViewById(R.id.finalCard);
 

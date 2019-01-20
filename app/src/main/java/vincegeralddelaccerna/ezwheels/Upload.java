@@ -1,7 +1,7 @@
 package vincegeralddelaccerna.ezwheels;
 
 public class Upload{
-    public String uid, date, fuel, image,  imagePath1,  imagePath2,  imagePath3,  videoPath,  finalBrand,  finalModel,  finalYear,  finalColor,  finalTransmission,  finalPcondition,  finalMileage,  finalPrice,  shop,  status;
+    public String edition, series, info, uid, date, fuel, image,  imagePath1,  imagePath2,  imagePath3,  videoPath,  finalBrand,  finalModel,  finalYear,  finalColor,  finalTransmission,  finalPcondition,  finalMileage,  finalPrice,  shop,  status;
 
     public Upload() {
     }
@@ -9,7 +9,7 @@ public class Upload{
 
 
 
-    public Upload(String uid, String date, String fuel, String image, String imagePath1, String imagePath2, String imagePath3, String videoPath, String finalBrand, String finalModel, String finalYear, String finalColor, String finalTransmission, String finalPcondition, String finalMileage, String finalPrice, String shop, String status) {
+    public Upload(String edtion, String series, String info, String uid, String date, String fuel, String image, String imagePath1, String imagePath2, String imagePath3, String videoPath, String finalBrand, String finalModel, String finalYear, String finalColor, String finalTransmission, String finalPcondition, String finalMileage, String finalPrice, String shop, String status) {
         this.image = image;
         this.imagePath1 = imagePath1;
         this.imagePath2 = imagePath2;
@@ -28,7 +28,34 @@ public class Upload{
         this.uid = uid;
         this.fuel = fuel;
         this.date = date;
+        this.info = info;
+        this.edition = edtion;
+        this.series = series;
 
+    }
+
+    public String getEdition() {
+        return edition;
+    }
+
+    public void setEdition(String edition) {
+        this.edition = edition;
+    }
+
+    public String getSeries() {
+        return series;
+    }
+
+    public void setSeries(String series) {
+        this.series = series;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public String getDate() { return date; }

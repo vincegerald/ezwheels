@@ -27,17 +27,17 @@ public class ShopDashBoardFragment extends Fragment {
         viewPager = v.findViewById(R.id.viewpager);
         adapter = new ViewPagerAdapter(getFragmentManager());
 
-//        adapter.AddFragment(new car_fragment(), "");
-//        adapter.AddFragment(new motor_fragment(), "");
+        adapter.AddFragment(new car_fragment(), "CARS");
+        adapter.AddFragment(new motor_fragment(), "MOTORCYCLES");
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         return v;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle("Dashboard");
-    }
+//    @Override
+//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//        getActivity().setTitle("Dashboard");
+//    }
 }

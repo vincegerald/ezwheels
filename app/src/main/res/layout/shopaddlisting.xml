@@ -43,13 +43,13 @@
                 android:textSize="22sp" />
 
             <RadioGroup
+                android:id="@+id/type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal"
-                android:visibility="visible"
-                android:id="@+id/type">
+                android:visibility="visible">
 
                 <RadioButton
                     android:id="@+id/radioButton"
@@ -59,7 +59,7 @@
                     android:buttonTint="#000000"
                     android:checked="true"
                     android:text="4 wheels"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000" />
 
                 <RadioButton
                     android:id="@+id/radioButton2"
@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:buttonTint="#000000"
                     android:text="2 wheels"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000" />
 
 
             </RadioGroup>
@@ -191,6 +191,7 @@
                 android:textColorLink="#000000"
                 android:textCursorDrawable="@drawable/cursor"
                 android:textSize="16sp" />
+
             <TextView
                 android:id="@+id/textViewFuel"
                 android:layout_width="match_parent"
@@ -474,6 +475,34 @@
                 android:completionThreshold="1"
                 android:cursorVisible="true"
                 android:hint="Enter price condition"
+                android:padding="10dp"
+                android:textColor="#000000"
+                android:textColorHint="#000000"
+                android:textCursorDrawable="@drawable/cursor"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:text="Additional Details"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editText5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/blackborder"
+                android:ems="10"
+                android:hint="Enter additional details"
+                android:inputType="textMultiLine"
+                android:lines="6"
                 android:padding="10dp"
                 android:textColor="#000000"
                 android:textColorHint="#000000"

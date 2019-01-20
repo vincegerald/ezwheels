@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/dashboard"
+        android:icon="@drawable/car1"
+        android:title="Dashboard">
+    </item>
+
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/search"
+        android:title="Search"
+        android:iconTint="#000000">
+    </item>
+
+    <item
+        android:id="@+id/listing"
+        android:icon="@drawable/ic_add_black_24dp"
+        android:title="Listings">
+    </item>
+
+    <item
+        android:id="@+id/others"
+        android:icon="@drawable/ic_more_vert_black_24dp"
+        android:title="More">
+
+    </item>
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="Profile">
+    </item>
+
+
+
+</menu>

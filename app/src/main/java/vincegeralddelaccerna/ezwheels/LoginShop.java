@@ -93,6 +93,8 @@ public class LoginShop extends AppCompatActivity implements View.OnClickListener
             }
 
             mProgress.setVisibility(View.VISIBLE);
+            shopUsername.setVisibility(View.GONE);
+            shopPassword.setVisibility(View.GONE);
             mAuth.signInWithEmailAndPassword(user, pass)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -102,6 +104,9 @@ public class LoginShop extends AppCompatActivity implements View.OnClickListener
                             successful();
                         }
                         else{
+                            mProgress.setVisibility(View.GONE);
+                            shopUsername.setVisibility(View.VISIBLE);
+                            shopPassword.setVisibility(View.VISIBLE);
                             error();
                         }
                     }
@@ -123,7 +128,7 @@ public class LoginShop extends AppCompatActivity implements View.OnClickListener
         }
         else{
             Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show();
-            mProgress.setVisibility(View.VISIBLE);
+
         }
     }
 }

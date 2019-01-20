@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -27,13 +29,16 @@ import com.squareup.picasso.Picasso;
 public class ScrollingActivity extends AppCompatActivity implements View.OnClickListener {
 
     ImageView scrollImage;
-    TextView shopName, vehicleName, priceView, priceCondition, date, transmissionView, mileageView, yearView,sellerName, sellerAddress, sellerContact;
-    Button call, message;
+    TextView shopName, vehicleName, priceView, priceCondition, date, transmissionView, mileageView, yearView,sellerName, sellerAddress, sellerContact, fuelType, seriesView, editionView, infoView;
+    Button call, message, reserve,trade;
     VideoView video;
+
+    //imageview
+    ImageView imageView1, imageView2, imageView3, imageView4;
 
     DatabaseReference databaseReference;
 
-    private  String firstname, lastname, contact, description, location, name;
+    private  String firstname, lastname, contact, description, location, name, uid;
     private String brand, model;
 
     @Override
@@ -49,22 +54,36 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         priceView = findViewById(R.id.textView23);
         priceCondition = findViewById(R.id.textView24);
         date = findViewById(R.id.textView25);
-        transmissionView = findViewById(R.id.textView29);
+        transmissionView = findViewById(R.id.textView26);
         mileageView = findViewById(R.id.textView27);
         yearView = findViewById(R.id.textView28);
         sellerName = findViewById(R.id.sellerName);
+        fuelType = findViewById(R.id.textView29);
         sellerAddress = findViewById(R.id.sellerAddress);
         sellerContact = findViewById(R.id.sellerContact);
+        editionView = findViewById(R.id.edition);
+        seriesView = findViewById(R.id.series);
+        infoView = findViewById(R.id.info);
         video = findViewById(R.id.video);
 
         //buttons
         call = findViewById(R.id.call);
         message = findViewById(R.id.message);
+        reserve = findViewById(R.id.reserveButton);
+        trade = findViewById(R.id.tradeButton);
+
+        //imageview
+        imageView1 = findViewById(R.id.image1);
+        imageView2 = findViewById(R.id.image2);
+        imageView3 = findViewById(R.id.image3);
+        imageView4 = findViewById(R.id.image4);
 
         //listeners
 
         call.setOnClickListener(this);
         message.setOnClickListener(this);
+        reserve.setOnClickListener(this);
+        trade.setOnClickListener(this);
 
 
 
@@ -87,7 +106,12 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         String pricecondition = getIntent().getStringExtra("pricecondition");
         String mileage = getIntent().getStringExtra("mileage");
         String price = getIntent().getStringExtra("price");
-        String uid = getIntent().getStringExtra("uid");
+        uid = getIntent().getStringExtra("uid");
+        String fuel = getIntent().getStringExtra("fuel");
+        String dateData = getIntent().getStringExtra("date");
+        String seriesData = getIntent().getStringExtra("series");
+        String editionData = getIntent().getStringExtra("edition");
+        String infoData = getIntent().getStringExtra("info");
         getSupportActionBar().setTitle(brand + " " + model);
 
 
@@ -119,13 +143,21 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         //set the datas
 
         Picasso.get().load(image1).fit().centerCrop().into(scrollImage);
+        Picasso.get().load(image1).fit().centerCrop().into(imageView1);
+        Picasso.get().load(image2).fit().centerCrop().into(imageView2);
+        Picasso.get().load(image3).fit().centerCrop().into(imageView3);
+        Picasso.get().load(image4).fit().centerCrop().into(imageView4);
         vehicleName.setText(brand + " " + model);
         priceView.setText(price);
         priceCondition.setText(pricecondition);
-        date.setText("Wala pay data");
+        date.setText(dateData);
         mileageView.setText(mileage);
         transmissionView.setText(transmission);
         yearView.setText(year);
+        fuelType.setText(fuel);
+        seriesView.setText(seriesData);
+        editionView.setText(editionData);
+        infoView.setText(infoData);
         video.setVideoURI(uriVideo);
         video.start();
 
@@ -165,5 +197,13 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             }
 
         }
+
+        if(id == R.id.reserveButton){
+            Intent intent = new Intent(ScrollingActivity.this, SetReservationFragment.class);
+            intent.putExtra("shopuid", uid);
+            startActivity(intent);
+        }
     }
+
+
 }

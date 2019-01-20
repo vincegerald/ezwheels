@@ -112,6 +112,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
     ListView listViewshop;
     RadioButton car, motor;
     RadioGroup vehicleType;
+    EditText editText5;
 
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
@@ -134,6 +135,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
         View v = inflater.inflate(R.layout.shopaddlisting, container, false);
 
 
+        editText5 = v.findViewById(R.id.editText5);
         vehicleType = v.findViewById(R.id.type);
         listViewshop = v.findViewById(R.id.listviewshop);
         mileage = v.findViewById(R.id.mileage);
@@ -180,8 +182,8 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
         addListFside = v.findViewById(R.id.addListFside);
         addListSside = v.findViewById(R.id.addListSside);
         btnVideo = v.findViewById(R.id.btnVideo);
-        addPanorama = v.findViewById(R.id.addPanorama);
-        imagePanorama = v.findViewById(R.id.imageView15);
+//        addPanorama = v.findViewById(R.id.addPanorama);
+//        imagePanorama = v.findViewById(R.id.imageView15);
         car = v.findViewById(R.id.radioButton);
         motor = v.findViewById(R.id.radioButton2);
         ArrayAdapter<String> brandAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, brands);
@@ -215,7 +217,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
         btnStep2.setOnClickListener(this);
         addImage.setOnClickListener(this);
         btnVideo.setOnClickListener(this);
-        addPanorama.setOnClickListener(this);
+//        addPanorama.setOnClickListener(this);
         addImageSside.setOnClickListener(this);
         buttonFside.setOnClickListener(this);
         buttonVideo.setOnClickListener(this);
@@ -245,13 +247,13 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
 //        adapter = new ListViewAdapter(Shop, getActivity());
 //        listViewshop.setAdapter(adapter);
 
-        if(!gravityView.deviceSupported()){
-            Bitmap bitmapFactory = BitmapFactory.decodeResource(getResources(), R.drawable.panorama);
-            imagePanorama.setImageBitmap(bitmapFactory);
-        }
-        else{
-            gravityView.setImage(imagePanorama, R.drawable.panorama).center();
-        }
+//        if(!gravityView.deviceSupported()){
+//            Bitmap bitmapFactory = BitmapFactory.decodeResource(getResources(), R.drawable.panorama);
+//            imagePanorama.setImageBitmap(bitmapFactory);
+//        }
+//        else{
+//            gravityView.setImage(imagePanorama, R.drawable.panorama).center();
+//        }
 
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -362,8 +364,11 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
             final String finalMileage = mileage.getText().toString();
             final String finalPrice = price.getText().toString();
             final String finalFuel = fuel.getText().toString();
+            final String finalEdition = edition.getText().toString();
+            final String finalSeries = series.getText().toString();
             Date c = Calendar.getInstance().getTime();
             System.out.println("Current time => " + c);
+            final String finalInfo = editText5.getText().toString();
 
             SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
             formattedDate = df.format(c);
@@ -377,7 +382,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
             }
 
             else{
-                uploadFile(finalFuel, formattedDate, uid, videoUri, imageUri1, imageUri2, imageUri3, imageUri4, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
+                uploadFile(finalEdition, finalSeries, finalInfo, finalFuel, formattedDate, uid, videoUri, imageUri1, imageUri2, imageUri3, imageUri4, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
 
             }
 
@@ -545,7 +550,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
-    private void uploadFile(final String fuel, final String formattedData, final String uid, Uri videoUri, final Uri uriImage, final Uri uriImage1, final Uri uriImage2, final Uri uriImage3, final String finalBrand, final String finalModel, final String finalYear, final String finalColor, final String finalTransmission, final String finalPcondition, final String finalMileage, final String finalPrice, final String shop, final String status){
+    private void uploadFile(final String edition, final String series, final String info, final String fuel, final String formattedData, final String uid, Uri videoUri, final Uri uriImage, final Uri uriImage1, final Uri uriImage2, final Uri uriImage3, final String finalBrand, final String finalModel, final String finalYear, final String finalColor, final String finalTransmission, final String finalPcondition, final String finalMileage, final String finalPrice, final String shop, final String status){
 
         if(uriImage != null){
 
@@ -569,7 +574,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                                 Toast.makeText(getActivity(), imagePath2, Toast.LENGTH_SHORT).show();
                                 Toast.makeText(getActivity(), videoPath, Toast.LENGTH_SHORT).show();
                                 String image = uri.toString();
-                                Upload upload = new Upload(fuel, formattedDate, uid, image, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
+                                Upload upload = new Upload(edition, series, info, uid, formattedDate, fuel, image, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
                               if(type.equals("car1")){
                                 Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
                                     mDatabaseRef.child("Car").push().setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {

@@ -127,7 +127,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/finalSeller"
+                android:id="@+id/finalDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
