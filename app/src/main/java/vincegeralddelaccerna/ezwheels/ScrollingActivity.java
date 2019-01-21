@@ -19,6 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,15 +34,19 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     ImageView scrollImage;
     TextView shopName, vehicleName, priceView, priceCondition, date, transmissionView, mileageView, yearView,sellerName, sellerAddress, sellerContact, fuelType, seriesView, editionView, infoView;
     Button call, message, reserve,trade;
+    FloatingActionButton fab;
     VideoView video;
 
     //imageview
     ImageView imageView1, imageView2, imageView3, imageView4;
 
-    DatabaseReference databaseReference;
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabaseRef;
+    private DatabaseReference mDatabaseRef1;
 
     private  String firstname, lastname, contact, description, location, name, uid;
     private String brand, model;
+    private String listingid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +78,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         message = findViewById(R.id.message);
         reserve = findViewById(R.id.reserveButton);
         trade = findViewById(R.id.tradeButton);
+        fab = findViewById(R.id.fab);
 
         //imageview
         imageView1 = findViewById(R.id.image1);
@@ -84,8 +92,13 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         message.setOnClickListener(this);
         reserve.setOnClickListener(this);
         trade.setOnClickListener(this);
+        fab.setOnClickListener(this);
 
+        //firebase
 
+        mAuth = FirebaseAuth.getInstance();
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+        mDatabaseRef1 = FirebaseDatabase.getInstance().getReference();
 
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -112,14 +125,15 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         String seriesData = getIntent().getStringExtra("series");
         String editionData = getIntent().getStringExtra("edition");
         String infoData = getIntent().getStringExtra("info");
+        listingid = getIntent().getStringExtra("listingid");
         getSupportActionBar().setTitle(brand + " " + model);
 
 
 
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Shop").child(uid);
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Shop").child(uid);
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                  firstname = dataSnapshot.child("firstname").getValue().toString();
@@ -201,7 +215,35 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         if(id == R.id.reserveButton){
             Intent intent = new Intent(ScrollingActivity.this, SetReservationFragment.class);
             intent.putExtra("shopuid", uid);
+            intent.putExtra("listingid", listingid);
             startActivity(intent);
+        }
+
+        if(id == R.id.tradeButton){
+            Intent intent = new Intent(ScrollingActivity.this, SetTradeinFragment.class);
+            intent.putExtra("shopuid", uid);
+            intent.putExtra("listingid", listingid);
+            startActivity(intent);
+        }
+
+        if(id == R.id.fab){
+
+            String currentUid = mAuth.getCurrentUser().getUid();
+
+            Favorites favorites = new Favorites(currentUid, uid, listingid);
+            mDatabaseRef1.child("Favorites").push().setValue(favorites).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(ScrollingActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(ScrollingActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+
         }
     }
 

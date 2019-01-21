@@ -68,6 +68,7 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
                 intent.putExtra("edition", uploadCurrent.getEdition());
                 intent.putExtra("info", uploadCurrent.getInfo());
                 intent.putExtra("series", uploadCurrent.getSeries());
+                intent.putExtra("listingid", uploadCurrent.getListid());
                 mContext.startActivity(intent);
             }
         });

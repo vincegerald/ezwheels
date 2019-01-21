@@ -210,7 +210,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/blackborder"
-                android:completionHint="Enter Transmission"
+                android:completionHint="Enter Fuel"
                 android:completionThreshold="1"
                 android:cursorVisible="true"
                 android:hint="Enter Fuel"

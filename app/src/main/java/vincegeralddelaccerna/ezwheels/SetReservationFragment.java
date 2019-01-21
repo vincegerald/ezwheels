@@ -3,8 +3,10 @@ package vincegeralddelaccerna.ezwheels;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +24,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -40,7 +44,7 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
     RadioGroup type;
     RadioButton type1, type2;
     EditText address, reminder;
-    TextView dateText, timeText;
+    TextView dateText, timeText, input;
     Button timebtn, datebtn, reservebtn;
     private String resType = "shop";
     private String currentTime;
@@ -74,6 +78,7 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
         timebtn = findViewById(R.id.timebtn);
         datebtn = findViewById(R.id.datebtn);
         reservebtn = findViewById(R.id.reservebtn);
+        input = findViewById(R.id.input);
 
         //listeners
 
@@ -119,7 +124,7 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
             timePicker.show(getSupportFragmentManager(), "time picker");
         }
 
-        if(id == R.id.reserveButton){
+        if(id == R.id.reservebtn){
             final String addressText = address.getText().toString().trim();
             final String reminderText = reminder.getText().toString().trim();
             final String shopuid = getIntent().getStringExtra("shopuid");
@@ -130,10 +135,22 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
     }
 
     private void reservation(String addressText, String reminderText, String shopuid, String currentDate, String currentTime, String uid) {
+        String listingid = getIntent().getStringExtra("listingid");
+        Reservation reservation = new Reservation(addressText, reminderText, shopuid, currentDate, currentTime, uid, listingid, resType);
 
-        Reservation reservation = new Reservation(addressText,reminderText, shopuid, currentDate, currentTime, uid);
-
-        mDatabaseRef.child("Reservation").push().setValue(reservation);
+        mDatabaseRef.child("Reservation").push().setValue(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(SetReservationFragment.this, "Saved", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(SetReservationFragment.this, ShopDashboard.class);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(SetReservationFragment.this, "Error", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 
@@ -156,22 +173,24 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
-        type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                switch (i){
-                    case R.id.radioButton:
-                        resType = "shop";
-                        Toast.makeText(SetReservationFragment.this, resType, Toast.LENGTH_SHORT).show();
-                        break;
+        switch (i){
+            case R.id.radioButton:
+                resType = "shop";
+                input.setVisibility(View.GONE);
+                address.setVisibility(View.GONE);
+                reminder.setVisibility(View.GONE);
+                Toast.makeText(SetReservationFragment.this, resType, Toast.LENGTH_SHORT).show();
+                break;
 
-                    case R.id.radioButton2:
-                        resType = "home";
-                        Toast.makeText(SetReservationFragment.this, resType, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+            case R.id.radioButton2:
+                resType = "home";
+                input.setVisibility(View.VISIBLE);
+                address.setVisibility(View.VISIBLE);
+                reminder.setVisibility(View.VISIBLE);
+                Toast.makeText(SetReservationFragment.this, resType, Toast.LENGTH_SHORT).show();
+        }
     }
 }

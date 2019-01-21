@@ -1,14 +1,246 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".SetTradeinFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".SetTradeInFragment">
 
-</FrameLayout>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:background="@color/colorPrimary"/>
+
+        <!-- TODO: Update blank fragment layout -->
+        <TextView
+            android:id="@+id/reservationText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:text="Set Trade"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <RadioGroup
+            android:layout_below="@+id/reservationText"
+            android:id="@+id/type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:buttonTint="#000000"
+                android:checked="true"
+                android:text="Swap"
+                android:textColor="#000000" />
+
+            <RadioButton
+                android:id="@+id/radioButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="#000000"
+                android:text="I will add"
+                android:textColor="#000000" />
+
+            <RadioButton
+                android:id="@+id/radioButton3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="#000000"
+                android:text="Shop will add"
+                android:textColor="#000000" />
+
+        </RadioGroup>
+
+        <TextView
+            android:layout_below="@id/type"
+            android:id="@+id/textView13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Brand"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <AutoCompleteTextView
+            android:layout_below="@id/textView13"
+            android:id="@+id/brandText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/blackborder"
+            android:completionHint="Enter Brand"
+            android:completionThreshold="1"
+            android:cursorVisible="true"
+            android:hint="Enter brand"
+            android:padding="10dp"
+            android:textColor="#000000"
+            android:textColorHint="#000000"
+            android:textCursorDrawable="@drawable/cursor"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:layout_below="@id/brandText"
+            android:id="@+id/textView14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Model"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <AutoCompleteTextView
+            android:layout_below="@id/textView14"
+            android:id="@+id/modelText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/blackborder"
+            android:completionHint="Enter Brand"
+            android:completionThreshold="1"
+            android:cursorVisible="true"
+            android:hint="Enter model"
+            android:padding="10dp"
+            android:textColor="#000000"
+            android:textColorHint="#000000"
+            android:textCursorDrawable="@drawable/cursor"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter the amount you will add"
+            android:textStyle="italic"
+            android:layout_below="@+id/modelText"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"/>
+        <EditText
+            android:visibility="gone"
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/borderblack"
+            android:hint="*Enter amount here"
+            android:textColorHint="#000000"
+            android:textStyle="italic"
+            android:layout_below="@+id/input"
+            android:padding="10dp"
+            android:inputType="number"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/input1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter the amount they will add"
+            android:textStyle="italic"
+            android:layout_below="@+id/modelText"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"/>
+
+        <EditText
+            android:visibility="gone"
+            android:id="@+id/address1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/input1"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/borderblack"
+            android:hint="*Enter the amount here"
+            android:inputType="number"
+            android:padding="10dp"
+            android:textColorHint="#000000"
+            android:textStyle="italic" />
+
+        <TextView
+
+            android:layout_below="@id/address1"
+            android:id="@+id/text1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="100dp"
+            android:text="Enter Image 1"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@id/image1"
+            android:layout_below="@+id/text1"
+            android:layout_width="match_parent"
+            android:layout_margin="20dp"
+            android:layout_height="250dp"
+            android:layout_marginTop="1000dp"
+            android:background="@drawable/ic_add_to_photos_black_24dp"/>
+
+        <TextView
+            android:layout_below="@id/image1"
+            android:id="@+id/text2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Enter Image 2"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@id/image2"
+            android:layout_below="@+id/text2"
+            android:layout_width="match_parent"
+            android:layout_margin="20dp"
+            android:layout_height="250dp"
+            android:background="@drawable/ic_add_to_photos_black_24dp"/>
+
+        <Button
+
+            android:id="@+id/tradeBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image2"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/colorPrimary"
+            android:padding="10dp"
+            android:text="Submit Trade" />
+
+
+    </RelativeLayout>
+</ScrollView>

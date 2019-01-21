@@ -1,7 +1,7 @@
 package vincegeralddelaccerna.ezwheels;
 
 public class Upload{
-    public String edition, series, info, uid, date, fuel, image,  imagePath1,  imagePath2,  imagePath3,  videoPath,  finalBrand,  finalModel,  finalYear,  finalColor,  finalTransmission,  finalPcondition,  finalMileage,  finalPrice,  shop,  status;
+    public String listid, edition, series, info, uid, date, fuel, image,  imagePath1,  imagePath2,  imagePath3,  videoPath,  finalBrand,  finalModel,  finalYear,  finalColor,  finalTransmission,  finalPcondition,  finalMileage,  finalPrice,  shop,  status;
 
     public Upload() {
     }
@@ -9,7 +9,8 @@ public class Upload{
 
 
 
-    public Upload(String edtion, String series, String info, String uid, String date, String fuel, String image, String imagePath1, String imagePath2, String imagePath3, String videoPath, String finalBrand, String finalModel, String finalYear, String finalColor, String finalTransmission, String finalPcondition, String finalMileage, String finalPrice, String shop, String status) {
+    public Upload(String listid, String edtion, String series, String info, String uid, String date, String fuel, String image, String imagePath1, String imagePath2, String imagePath3, String videoPath, String finalBrand, String finalModel, String finalYear, String finalColor, String finalTransmission, String finalPcondition, String finalMileage, String finalPrice, String shop, String status) {
+        this.listid = listid;
         this.image = image;
         this.imagePath1 = imagePath1;
         this.imagePath2 = imagePath2;
@@ -32,6 +33,14 @@ public class Upload{
         this.edition = edtion;
         this.series = series;
 
+    }
+
+    public void setListid(String listid) {
+        this.listid = listid;
+    }
+
+    public String getListid() {
+        return listid;
     }
 
     public String getEdition() {

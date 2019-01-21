@@ -573,11 +573,13 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                                 Toast.makeText(getActivity(), imagePath1, Toast.LENGTH_SHORT).show();
                                 Toast.makeText(getActivity(), imagePath2, Toast.LENGTH_SHORT).show();
                                 Toast.makeText(getActivity(), videoPath, Toast.LENGTH_SHORT).show();
+                                mDatabaseRef = mDatabaseRef.child("Car");
+                                String listid = mDatabaseRef.push().getKey();
                                 String image = uri.toString();
-                                Upload upload = new Upload(edition, series, info, uid, formattedDate, fuel, image, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
+                                Upload upload = new Upload(listid, edition, series, info, uid, formattedDate, fuel, image, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
                               if(type.equals("car1")){
                                 Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
-                                    mDatabaseRef.child("Car").push().setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    mDatabaseRef.child(listid).setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
@@ -592,7 +594,9 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                                     });
                                 }
                                 else{
-                                    mDatabaseRef.child("Motor").push().setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                  mDatabaseRef = mDatabaseRef.child("Motor");
+                                  String listid1 = mDatabaseRef.push().getKey();
+                                    mDatabaseRef.child(listid1).setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
