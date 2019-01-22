@@ -39,6 +39,10 @@ public class ShopDashboard extends AppCompatActivity {
 
         final ShopDashBoardFragment shopDashboard = new ShopDashBoardFragment();
         final ShopAddListing shopAddListing = new ShopAddListing();
+        final ReservationFragment reservationFragment = new ReservationFragment();
+        final SearchFragment searchFragment = new SearchFragment();
+        final ShopothersFragment shopothersFragment = new ShopothersFragment();
+        final ShopmyListings shopmyListings = new ShopmyListings();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -56,21 +60,21 @@ public class ShopDashboard extends AppCompatActivity {
                     return  true;
                 }
 //
-//                if(id == R.id.reservation){
-//                    setFragment(reservationFragment);
-//                    return  true;
-//                }
+                if(id == R.id.mylisting){
+                    setFragment(shopmyListings);
+                    return  true;
+                }
+
+                if(id == R.id.others){
+                    setFragment(shopothersFragment);
+                    bottomNavigationView.setVisibility(View.GONE);
+                    return  true;
+                }
 //
-//                if(id == R.id.others){
-//                    setFragment(othersFragment);
-//                    bottomNavigationView.setVisibility(View.GONE);
-//                    return  true;
-//                }
-//
-//                if(id == R.id.profile){
-//                    setFragment(profileFragment);
-//                    return  true;
-//                }
+                if(id == R.id.profile){
+                    //setFragment(profileFragment);
+                    return  true;
+                }
 
 
 

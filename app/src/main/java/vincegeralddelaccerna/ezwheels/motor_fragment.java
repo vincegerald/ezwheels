@@ -37,6 +37,10 @@ public class motor_fragment extends Fragment {
 
     private List<Upload> mUploads;
 
+    public motor_fragment(){
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {

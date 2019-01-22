@@ -46,7 +46,7 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
     EditText address, reminder;
     TextView dateText, timeText, input;
     Button timebtn, datebtn, reservebtn;
-    private String resType = "shop";
+    private String resType = "Shop";
     private String currentTime;
     private String currentDate;
 
@@ -128,15 +128,16 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
             final String addressText = address.getText().toString().trim();
             final String reminderText = reminder.getText().toString().trim();
             final String shopuid = getIntent().getStringExtra("shopuid");
+            final String image1 = getIntent().getStringExtra("image1");
             final String uid = mAuth.getCurrentUser().getUid();
-            reservation(addressText, reminderText, shopuid, currentDate, currentTime, uid);
+            reservation(image1, addressText, reminderText, shopuid, currentDate, currentTime, uid);
 
         }
     }
 
-    private void reservation(String addressText, String reminderText, String shopuid, String currentDate, String currentTime, String uid) {
+    private void reservation(String image1, String addressText, String reminderText, String shopuid, String currentDate, String currentTime, String uid) {
         String listingid = getIntent().getStringExtra("listingid");
-        Reservation reservation = new Reservation(addressText, reminderText, shopuid, currentDate, currentTime, uid, listingid, resType);
+        Reservation reservation = new Reservation(image1, addressText, reminderText, shopuid, currentDate, currentTime, uid, listingid, resType);
 
         mDatabaseRef.child("Reservation").push().setValue(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -160,7 +161,7 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR, i);
         c.set(Calendar.MINUTE, i1);
-        currentTime = DateFormat.getDateInstance().format(c.getTime());
+        currentTime = i + " : " + i1;
         timeText.setText("Hour: " + i + " Minute: " + i1);
     }
 
@@ -178,7 +179,7 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         switch (i){
             case R.id.radioButton:
-                resType = "shop";
+                resType = "Shop";
                 input.setVisibility(View.GONE);
                 address.setVisibility(View.GONE);
                 reminder.setVisibility(View.GONE);
@@ -186,7 +187,7 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
                 break;
 
             case R.id.radioButton2:
-                resType = "home";
+                resType = "Home";
                 input.setVisibility(View.VISIBLE);
                 address.setVisibility(View.VISIBLE);
                 reminder.setVisibility(View.VISIBLE);

@@ -47,6 +47,8 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     private  String firstname, lastname, contact, description, location, name, uid;
     private String brand, model;
     private String listingid;
+    private String image1;
+    private String price, year, color;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +107,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        String image1 = getIntent().getStringExtra("image_url1");
+        image1 = getIntent().getStringExtra("image_url1");
         String image2 = getIntent().getStringExtra("image_url2");
         String image3 = getIntent().getStringExtra("image_url3");
         String image4 = getIntent().getStringExtra("image_url4");
@@ -113,12 +115,12 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         Uri uriVideo = Uri.parse(videoUrl);
         brand = getIntent().getStringExtra("brand");
         model = getIntent().getStringExtra("model");
-        String year = getIntent().getStringExtra("year");
-        String color = getIntent().getStringExtra("color");
+        year = getIntent().getStringExtra("year");
+        color = getIntent().getStringExtra("color");
         String transmission = getIntent().getStringExtra("transmission");
         String pricecondition = getIntent().getStringExtra("pricecondition");
         String mileage = getIntent().getStringExtra("mileage");
-        String price = getIntent().getStringExtra("price");
+        price = getIntent().getStringExtra("price");
         uid = getIntent().getStringExtra("uid");
         String fuel = getIntent().getStringExtra("fuel");
         String dateData = getIntent().getStringExtra("date");
@@ -216,6 +218,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             Intent intent = new Intent(ScrollingActivity.this, SetReservationFragment.class);
             intent.putExtra("shopuid", uid);
             intent.putExtra("listingid", listingid);
+            intent.putExtra("image1", image1);
             startActivity(intent);
         }
 
@@ -223,6 +226,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             Intent intent = new Intent(ScrollingActivity.this, SetTradeinFragment.class);
             intent.putExtra("shopuid", uid);
             intent.putExtra("listingid", listingid);
+            intent.putExtra("image1", image1);
             startActivity(intent);
         }
 
@@ -230,7 +234,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
 
             String currentUid = mAuth.getCurrentUser().getUid();
 
-            Favorites favorites = new Favorites(currentUid, uid, listingid);
+            Favorites favorites = new Favorites(brand, model, price, color, year, currentUid, uid, listingid);
             mDatabaseRef1.child("Favorites").push().setValue(favorites).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {

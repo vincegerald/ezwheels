@@ -8,13 +8,6 @@
     </item>
 
     <item
-        android:id="@+id/search"
-        android:icon="@drawable/search"
-        android:title="Search"
-        android:iconTint="#000000">
-    </item>
-
-    <item
         android:id="@+id/reservation"
         android:icon="@drawable/ic_add_black_24dp"
         android:title="Reservation">

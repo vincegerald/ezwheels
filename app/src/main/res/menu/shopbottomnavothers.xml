@@ -8,15 +8,15 @@
     </item>
 
     <item
-        android:id="@+id/reservation"
-        android:icon="@drawable/ic_add_black_24dp"
-        android:title="Add Reservation">
-    </item>
-
-    <item
         android:id="@+id/tradein"
         android:icon="@drawable/ic_swap_horiz_black_24dp"
         android:title="Trade-In">
+    </item>
+
+    <item
+        android:id="@+id/reservation"
+        android:icon="@drawable/ic_playlist_add_black_24dp"
+        android:title="Reservations">
     </item>
 
     <item

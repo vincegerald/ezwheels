@@ -28,6 +28,12 @@ import java.util.List;
 
 public class car_fragment extends Fragment {
 
+
+
+    public car_fragment(){
+
+    }
+
     RecyclerView recyclerView;
     FloatingActionButton add;
     DatabaseReference databaseReference;

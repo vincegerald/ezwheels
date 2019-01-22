@@ -8,9 +8,9 @@
     </item>
 
     <item
-        android:id="@+id/search"
-        android:icon="@drawable/search"
-        android:title="Search"
+        android:id="@+id/mylisting"
+        android:icon="@drawable/car"
+        android:title="My Listings"
         android:iconTint="#000000">
     </item>
 
