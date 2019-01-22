@@ -1,22 +1,58 @@
 package vincegeralddelaccerna.ezwheels;
 
 public class Trade {
-    public String listingid, imagePath1, imagePath2,  price,  price1,  brand,  model,  uid,  shopuid,  type;
+    public String listingid, imagePath1, imagePath2,  price,  price1,  fbrand,  fmodel,  uid,  shopuid,  type, image1, model, brand, name;
 
     public Trade() {
     }
 
-    public Trade(String listingid, String imagePath1, String imagePath2, String price, String price1, String brand, String model, String uid, String shopuid, String type) {
+    public Trade(String listingid, String imagePath1, String imagePath2, String price, String price1, String fbrand, String fmodel, String uid, String shopuid, String type, String image1, String model, String brand, String name) {
         this.listingid = listingid;
         this.imagePath1 = imagePath1;
         this.imagePath2 = imagePath2;
         this.price = price;
         this.price1 = price1;
-        this.brand = brand;
-        this.model = model;
+        this.fbrand = fbrand;
+        this.fmodel = fmodel;
         this.uid = uid;
         this.shopuid = shopuid;
         this.type = type;
+        this.image1 = image1;
+        this.model = model;
+        this.brand = brand;
+        this.name = name;
+    }
+
+    public String getFbrand() {
+        return fbrand;
+    }
+
+    public void setFbrand(String fbrand) {
+        this.fbrand = fbrand;
+    }
+
+    public String getFmodel() {
+        return fmodel;
+    }
+
+    public void setFmodel(String fmodel) {
+        this.fmodel = fmodel;
+    }
+
+    public String getImage1() {
+        return image1;
+    }
+
+    public void setImage1(String image1) {
+        this.image1 = image1;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getListingid() {

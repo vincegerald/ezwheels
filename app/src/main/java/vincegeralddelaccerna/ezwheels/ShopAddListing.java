@@ -116,6 +116,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
 
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
+    private DatabaseReference mDatabaseRef1;
     private FirebaseAuth mAuth;
     private StorageTask mUploadTask;
 
@@ -227,7 +228,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 switch (i){
                     case R.id.radioButton:
-                        type = "car1";
+                        type = "car";
                         Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
                         break;
 
@@ -242,6 +243,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+        mDatabaseRef1 = FirebaseDatabase.getInstance().getReference();
         gravityView = GravityView.getInstance(getActivity());
 
 //        adapter = new ListViewAdapter(Shop, getActivity());
@@ -577,7 +579,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                                 String listid = mDatabaseRef.push().getKey();
                                 String image = uri.toString();
                                 Upload upload = new Upload(listid, edition, series, info, uid, formattedDate, fuel, image, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
-                              if(type.equals("car1")){
+                              if(type.equals("car")){
                                 Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
                                     mDatabaseRef.child(listid).setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
@@ -594,9 +596,9 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                                     });
                                 }
                                 else{
-                                  mDatabaseRef = mDatabaseRef.child("Motor");
-                                  String listid1 = mDatabaseRef.push().getKey();
-                                    mDatabaseRef.child(listid1).setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                  mDatabaseRef1 = mDatabaseRef1.child("Motor");
+                                  String listid1 = mDatabaseRef1.push().getKey();
+                                    mDatabaseRef1.child(listid1).setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){

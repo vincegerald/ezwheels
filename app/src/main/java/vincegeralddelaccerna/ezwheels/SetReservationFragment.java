@@ -130,14 +130,17 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
             final String shopuid = getIntent().getStringExtra("shopuid");
             final String image1 = getIntent().getStringExtra("image1");
             final String uid = mAuth.getCurrentUser().getUid();
-            reservation(image1, addressText, reminderText, shopuid, currentDate, currentTime, uid);
+            final String name = getIntent().getStringExtra("name");
+            final String model = getIntent().getStringExtra("model");
+            final String brand = getIntent().getStringExtra("brand");
+            reservation(model, brand,name, image1, addressText, reminderText, shopuid, currentDate, currentTime, uid);
 
         }
     }
 
-    private void reservation(String image1, String addressText, String reminderText, String shopuid, String currentDate, String currentTime, String uid) {
+    private void reservation(String model, String brand, String name, String image1, String addressText, String reminderText, String shopuid, String currentDate, String currentTime, String uid) {
         String listingid = getIntent().getStringExtra("listingid");
-        Reservation reservation = new Reservation(image1, addressText, reminderText, shopuid, currentDate, currentTime, uid, listingid, resType);
+        Reservation reservation = new Reservation(model, brand, name, image1, addressText, reminderText, shopuid, currentDate, currentTime, uid, listingid, resType);
 
         mDatabaseRef.child("Reservation").push().setValue(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

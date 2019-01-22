@@ -206,16 +206,22 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
             final String finalPrice1 = price1.getText().toString();
             final String finalBrand = brand.getText().toString();
             final String finalModel = model.getText().toString();
-            addTrade(imagePath1, imagePath2, finalPrice, finalPrice1, finalBrand, finalModel, typeText);
+            final String model = getIntent().getStringExtra("model").toString();
+            final String brand = getIntent().getStringExtra("brand").toString();
+            final String name = getIntent().getStringExtra("name").toString();
+            final String image1 = getIntent().getStringExtra("image1").toString();
+            final String listing = getIntent().getStringExtra("listingid");
+            final String seller = getIntent().getStringExtra("shopuid");
+            addTrade(imagePath1, imagePath2, finalPrice, finalPrice1, finalBrand, finalModel, typeText, model, brand, name, image1, listing, seller);
         }
     }
 
-    private void addTrade(final String imagePath1, String imagePath2, String price, String price1, String brand, String model, String type) {
+    private void addTrade(final String imagePath1, String imagePath2, String price, String price1, String finalbrand, String finalmodel, String type, String model, String brand, String name, String image1, String listing, String seller) {
 
         String uid = mAuth.getCurrentUser().getUid();
         String shopuid =  getIntent().getStringExtra("shopuid");
         String listid = getIntent().getStringExtra("listingid");
-        Trade trade = new Trade(listid, imagePath1, imagePath2, price, price1, brand, model, uid, shopuid, type);
+        Trade trade = new Trade(listid, imagePath1, imagePath2, price, price1, brand, model, uid, shopuid, type, image1, model, brand, name);
         mDatabaseRef.child("Trade").push().setValue(trade).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

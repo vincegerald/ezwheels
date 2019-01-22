@@ -15,12 +15,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.ReservationViewHolder> {
+public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.TradeViewHolder> {
 
     private Context mContext;
-    private List<Reservation> mUploads;
+    private List<Trade> mUploads;
 
-    public ReservationAdapter(Context context, List<Reservation> uploads) {
+    public TradeAdapter(Context context, List<Trade> uploads) {
         mContext = context;
         mUploads = uploads;
     }
@@ -28,18 +28,18 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
 
     @NonNull
     @Override
-    public ReservationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TradeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.alllayout, parent, false);
 
-        return new ReservationAdapter.ReservationViewHolder(v);
+        return new TradeAdapter.TradeViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ReservationAdapter.ReservationViewHolder holder, int position) {
-        final Reservation uploadCurrent = mUploads.get(position);
+    public void onBindViewHolder(@NonNull TradeAdapter.TradeViewHolder holder, int position) {
+        final Trade uploadCurrent = mUploads.get(position);
         holder.list.setText(uploadCurrent.getBrand() + " " + uploadCurrent.getModel());
         holder.shop.setText(uploadCurrent.getName());
-        holder.date.setText(uploadCurrent.getCurrentDate() + " : " + uploadCurrent.getCurrentTime());
+//        holder.date.setText(uploadCurrent.getCurrentDate() + " : " + uploadCurrent.getCurrentTime());
         holder.type.setText(uploadCurrent.getType());
         Picasso.get().load(uploadCurrent.getImage1()).fit().centerCrop().into(holder.image);
 
@@ -50,13 +50,13 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
         return mUploads.size();
     }
 
-    public class ReservationViewHolder extends RecyclerView.ViewHolder{
+    public class TradeViewHolder extends RecyclerView.ViewHolder{
 
         public TextView list, shop, date, type;
         public ImageView image;
         public CardView item;
 
-        public ReservationViewHolder(View itemView) {
+        public TradeViewHolder(View itemView) {
             super(itemView);
 
             list = itemView.findViewById(R.id.finalList);

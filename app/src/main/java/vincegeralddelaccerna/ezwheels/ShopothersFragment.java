@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,9 @@ public class ShopothersFragment extends Fragment {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) v.findViewById(R.id.bottomnav1);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+        final ReservationFragment reservationFragment = new ReservationFragment();
+        final TradeinFragment tradeinFragment = new TradeinFragment();
+        final FavoriteFragment favoriteFragment = new FavoriteFragment();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -39,13 +43,18 @@ public class ShopothersFragment extends Fragment {
                 int id = item.getItemId();
 
                 if(id == R.id.favorites){
-                   // setFragment(favoriteFragment);
+                    setFragment(favoriteFragment);
                     return true;
                 }
 
                 if(id == R.id.tradein){
-                   // setFragment(tradeinFragment);
+                    setFragment(tradeinFragment);
                     return  true;
+                }
+
+                if(id == R.id.reservation){
+                    setFragment(reservationFragment);
+                    return true;
                 }
 
                 if(id == R.id.home){
@@ -56,9 +65,15 @@ public class ShopothersFragment extends Fragment {
             }
         });
 
-        bottomNavigationView.setSelectedItemId(R.id.favorites);
+        bottomNavigationView.setSelectedItemId(R.id.reservation);
 
         return v;
+    }
+
+    private void setFragment(Fragment fragment){
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.screen_area1, fragment);
+        fragmentTransaction.commit();
     }
 
 }

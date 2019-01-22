@@ -219,6 +219,9 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             intent.putExtra("shopuid", uid);
             intent.putExtra("listingid", listingid);
             intent.putExtra("image1", image1);
+            intent.putExtra("name", name);
+            intent.putExtra("model", model);
+            intent.putExtra("brand", brand);
             startActivity(intent);
         }
 
@@ -227,6 +230,9 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             intent.putExtra("shopuid", uid);
             intent.putExtra("listingid", listingid);
             intent.putExtra("image1", image1);
+            intent.putExtra("name", name);
+            intent.putExtra("model", model);
+            intent.putExtra("brand", brand);
             startActivity(intent);
         }
 
@@ -234,7 +240,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
 
             String currentUid = mAuth.getCurrentUser().getUid();
 
-            Favorites favorites = new Favorites(brand, model, price, color, year, currentUid, uid, listingid);
+            Favorites favorites = new Favorites(image1, brand, model, price, color, year, currentUid, uid, listingid, name);
             mDatabaseRef1.child("Favorites").push().setValue(favorites).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
