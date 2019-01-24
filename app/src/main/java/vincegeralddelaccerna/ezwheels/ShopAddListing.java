@@ -388,14 +388,6 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
 
             }
 
-
-
-
-
-
-
-
-
         }
 
         if(view.getId() == R.id.addImage){

@@ -57,7 +57,8 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
             "Fortuner","Wigo","LandCruiser","MonteroSport","Sportage"
     };
 
-    private String typeText = "swap";
+    private String typeText = "SWAP";
+    private String status = "PENDING";
     private static String imagePath1;
     private static  String imagePath2;
 
@@ -144,7 +145,7 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
                         break;
 
                     case R.id.radioButton2:
-                        typeText = "add";
+                        typeText = "I WILL ADD";
                         price.setVisibility(View.VISIBLE);
                         input.setVisibility(View.VISIBLE);
                         price1.setVisibility(View.GONE);
@@ -154,7 +155,7 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
                         break;
 
                     case R.id.radioButton3:
-                        typeText = "shopadd";
+                        typeText = "SHOP WILL ADD";
                         price.setVisibility(View.GONE);
                         input.setVisibility(View.GONE);
                         price1.setVisibility(View.VISIBLE);
@@ -212,16 +213,17 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
             final String image1 = getIntent().getStringExtra("image1").toString();
             final String listing = getIntent().getStringExtra("listingid");
             final String seller = getIntent().getStringExtra("shopuid");
-            addTrade(imagePath1, imagePath2, finalPrice, finalPrice1, finalBrand, finalModel, typeText, model, brand, name, image1, listing, seller);
+            final String price = getIntent().getStringExtra("price");
+            addTrade(imagePath1, imagePath2, finalPrice, finalPrice1, finalBrand, finalModel, typeText, model, brand, name, image1, listing, seller, price);
         }
     }
 
-    private void addTrade(final String imagePath1, String imagePath2, String price, String price1, String finalbrand, String finalmodel, String type, String model, String brand, String name, String image1, String listing, String seller) {
+    private void addTrade(final String imagePath1, String imagePath2, String price, String price1, String finalbrand, String finalmodel, String type, String model, String brand, String name, String image1, String listing, String seller, String priceList) {
 
         String uid = mAuth.getCurrentUser().getUid();
         String shopuid =  getIntent().getStringExtra("shopuid");
         String listid = getIntent().getStringExtra("listingid");
-        Trade trade = new Trade(listid, imagePath1, imagePath2, price, price1, brand, model, uid, shopuid, type, image1, model, brand, name);
+        Trade trade = new Trade(listid, imagePath1, imagePath2, price, price1, brand, model, uid, shopuid, type, image1, model, brand, name, status, priceList);
         mDatabaseRef.child("Trade").push().setValue(trade).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

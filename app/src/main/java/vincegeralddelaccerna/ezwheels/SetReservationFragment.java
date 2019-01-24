@@ -133,16 +133,20 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
             final String name = getIntent().getStringExtra("name");
             final String model = getIntent().getStringExtra("model");
             final String brand = getIntent().getStringExtra("brand");
-            reservation(model, brand,name, image1, addressText, reminderText, shopuid, currentDate, currentTime, uid);
+            final String price = getIntent().getStringExtra("price");
+            reservation(model, brand,name, image1, addressText, reminderText, shopuid, currentDate, currentTime, uid, price);
 
         }
     }
 
-    private void reservation(String model, String brand, String name, String image1, String addressText, String reminderText, String shopuid, String currentDate, String currentTime, String uid) {
+    private void reservation(String model, String brand, String name, String image1, String addressText, String reminderText, String shopuid, String currentDate, String currentTime, String uid, String price) {
         String listingid = getIntent().getStringExtra("listingid");
-        Reservation reservation = new Reservation(model, brand, name, image1, addressText, reminderText, shopuid, currentDate, currentTime, uid, listingid, resType);
+        String status = "PENDING";
 
-        mDatabaseRef.child("Reservation").push().setValue(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDatabaseRef = mDatabaseRef.child("Reservation");
+        String resId = mDatabaseRef.push().getKey();
+        Reservation reservation = new Reservation(model, brand, name, image1, addressText, reminderText, shopuid, currentDate, currentTime, uid, listingid, resType, resId, price, status);
+        mDatabaseRef.child(resId).setValue(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
@@ -164,7 +168,15 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR, i);
         c.set(Calendar.MINUTE, i1);
-        currentTime = i + " : " + i1;
+        if (i >= 12){
+            i = i - 12;
+            currentTime = i + " : " + i1 + "0" + " PM";
+        }
+        else{
+            currentTime = i + " : " + i1 + "0" + " AM";
+
+        }
+
         timeText.setText("Hour: " + i + " Minute: " + i1);
     }
 

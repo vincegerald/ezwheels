@@ -1,17 +1,17 @@
 package vincegeralddelaccerna.ezwheels;
 
 public class Trade {
-    public String listingid, imagePath1, imagePath2,  price,  price1,  fbrand,  fmodel,  uid,  shopuid,  type, image1, model, brand, name;
+    public String listingid, imagePath1, imagePath2,  addPrice,  shopAddPrice,  fbrand,  fmodel,  uid,  shopuid,  type, image1, model, brand, name, status, priceList;
 
     public Trade() {
     }
 
-    public Trade(String listingid, String imagePath1, String imagePath2, String price, String price1, String fbrand, String fmodel, String uid, String shopuid, String type, String image1, String model, String brand, String name) {
+    public Trade(String listingid, String imagePath1, String imagePath2, String addPrice, String shopAddPrice, String fbrand, String fmodel, String uid, String shopuid, String type, String image1, String model, String brand, String name, String status, String priceList) {
         this.listingid = listingid;
         this.imagePath1 = imagePath1;
         this.imagePath2 = imagePath2;
-        this.price = price;
-        this.price1 = price1;
+        this.addPrice = addPrice;
+        this.shopAddPrice = shopAddPrice;
         this.fbrand = fbrand;
         this.fmodel = fmodel;
         this.uid = uid;
@@ -21,6 +21,24 @@ public class Trade {
         this.model = model;
         this.brand = brand;
         this.name = name;
+        this.status = status;
+        this.priceList = priceList;
+    }
+
+    public String getPriceList() {
+        return priceList;
+    }
+
+    public void setPriceList(String priceList) {
+        this.priceList = priceList;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getFbrand() {
@@ -79,20 +97,20 @@ public class Trade {
         this.imagePath2 = imagePath2;
     }
 
-    public String getPrice() {
-        return price;
+    public String getAddPrice() {
+        return addPrice;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setAddPrice(String addPrice) {
+        this.addPrice = addPrice;
     }
 
-    public String getPrice1() {
-        return price1;
+    public String getShopAddPrice() {
+        return shopAddPrice;
     }
 
-    public void setPrice1(String price1) {
-        this.price1 = price1;
+    public void setShopAddPrice(String shopAddPrice) {
+        this.shopAddPrice = shopAddPrice;
     }
 
     public String getBrand() {

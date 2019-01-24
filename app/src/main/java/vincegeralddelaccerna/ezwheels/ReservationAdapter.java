@@ -2,6 +2,8 @@ package vincegeralddelaccerna.ezwheels;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -42,6 +44,28 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
         holder.date.setText(uploadCurrent.getCurrentDate() + " : " + uploadCurrent.getCurrentTime());
         holder.type.setText(uploadCurrent.getType());
         Picasso.get().load(uploadCurrent.getImage1()).fit().centerCrop().into(holder.image);
+        holder.price.setText(uploadCurrent.getPrice());
+        holder.status.setText(uploadCurrent.getStatus());
+        if(uploadCurrent.getStatus().equals("PENDING")){
+            holder.status.setTextColor(Color.parseColor("#ffa500"));
+        }
+        else if(uploadCurrent.getStatus().equals("ACCEPTED")){
+            holder.status.setTextColor(Color.parseColor("#008000"));
+        }
+        else{
+            holder.status.setTextColor(Color.parseColor("#FF0000"));
+        }
+        holder.item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ScrollingActivity.class);
+                intent.putExtra("resId", uploadCurrent.getShopuid());
+                intent.putExtra("listingId", uploadCurrent.getListid());
+                intent.putExtra("shopId", uploadCurrent.getShopuid());
+                mContext.startActivity(intent);
+
+            }
+        });
 
     }
 
@@ -52,7 +76,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
 
     public class ReservationViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView list, shop, date, type;
+        public TextView list, shop, date, type, status, price;
         public ImageView image;
         public CardView item;
 
@@ -65,6 +89,8 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
             image = itemView.findViewById(R.id.finalImage);
             item = itemView.findViewById(R.id.finalCard);
             type = itemView.findViewById(R.id.finalType);
+            status = itemView.findViewById(R.id.finalStatus);
+            price = itemView.findViewById(R.id.finalPrice);
 
 
         }

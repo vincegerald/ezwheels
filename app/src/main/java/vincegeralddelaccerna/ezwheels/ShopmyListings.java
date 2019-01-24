@@ -25,10 +25,10 @@ public class ShopmyListings extends Fragment {
 
         tabLayout = v.findViewById(R.id.tablayout);
         viewPager = v.findViewById(R.id.viewpager);
-        adapter = new ViewPagerAdapter(getFragmentManager());
+        adapter = new ViewPagerAdapter(getChildFragmentManager());
 
-        adapter.AddFragment(new CarListFragment(), "CARS");
-        adapter.AddFragment(new MotorListFragment(), "MOTORCYCLES");
+        adapter.AddFragment(new CarListFragment(), "MY CARS");
+        adapter.AddFragment(new MotorListFragment(), "MY MOTORCYCLES");
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

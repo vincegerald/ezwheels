@@ -28,10 +28,10 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CarListFragment extends Fragment {
+public class ShopreceivedTrades extends Fragment {
 
 
-    public CarListFragment() {
+    public ShopreceivedTrades() {
         // Required empty public constructor
     }
 
@@ -42,16 +42,16 @@ public class CarListFragment extends Fragment {
 
     private ProgressBar mProgressbar;
 
-    DashboardCarAdapter mAdapter;
+    ReservationAdapter mAdapter;
 
-    private List<Upload> mUploads;
+    private List<Reservation> mUploads;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_motor_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_shop_received_reservations, container, false);
 
         recyclerView = v.findViewById(R.id.recyclerRequest);
         mProgressbar = v.findViewById(R.id.progress);
@@ -61,8 +61,8 @@ public class CarListFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         String id = mAuth.getCurrentUser().getUid();
-        Query query = FirebaseDatabase.getInstance().getReference("Car")
-                .orderByChild("uid").equalTo(id);
+        Query query = FirebaseDatabase.getInstance().getReference("Trade")
+                .orderByChild("shopuid").equalTo(id);
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -71,11 +71,11 @@ public class CarListFragment extends Fragment {
                 if(dataSnapshot.exists()){
                     for(DataSnapshot snapshot :dataSnapshot.getChildren()){
 
-                        Upload upload = snapshot.getValue(Upload.class);
-                        mUploads.add(upload);
+                        Reservation reservation = snapshot.getValue(Reservation.class);
+                        mUploads.add(reservation);
                     }
 
-                    mAdapter = new DashboardCarAdapter(getActivity(), mUploads);
+                    mAdapter = new ReservationAdapter(getActivity(), mUploads);
                     recyclerView.setAdapter(mAdapter);
                     mProgressbar.setVisibility(View.INVISIBLE);
                 }

@@ -222,6 +222,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             intent.putExtra("name", name);
             intent.putExtra("model", model);
             intent.putExtra("brand", brand);
+            intent.putExtra("price", price);
             startActivity(intent);
         }
 
@@ -233,6 +234,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             intent.putExtra("name", name);
             intent.putExtra("model", model);
             intent.putExtra("brand", brand);
+            intent.putExtra("price", price);
             startActivity(intent);
         }
 

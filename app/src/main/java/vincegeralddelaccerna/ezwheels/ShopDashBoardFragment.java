@@ -25,7 +25,7 @@ public class ShopDashBoardFragment extends Fragment {
 
         tabLayout = v.findViewById(R.id.tablayout);
         viewPager = v.findViewById(R.id.viewpager);
-        adapter = new ViewPagerAdapter(getFragmentManager());
+        adapter = new ViewPagerAdapter(getChildFragmentManager());
 
         adapter.AddFragment(new car_fragment(), "CARS");
         adapter.AddFragment(new motor_fragment(), "MOTORCYCLES");
