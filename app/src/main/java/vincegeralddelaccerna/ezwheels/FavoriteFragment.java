@@ -68,7 +68,7 @@ public class FavoriteFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         String id = mAuth.getCurrentUser().getUid();
         Query query = FirebaseDatabase.getInstance().getReference("Favorites")
-                .orderByChild("uid").equalTo(id);
+                .orderByChild("currentUid").equalTo(id);
 
         query.addValueEventListener(new ValueEventListener() {
             @Override

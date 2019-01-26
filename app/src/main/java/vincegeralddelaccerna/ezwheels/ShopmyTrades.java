@@ -42,9 +42,9 @@ public class ShopmyTrades extends Fragment {
 
     private ProgressBar mProgressbar;
 
-    ReservationAdapter mAdapter;
+    TradeAdapter mAdapter;
 
-    private List<Reservation> mUploads;
+    private List<Trade> mUploads;
 
 
     @Override
@@ -71,11 +71,11 @@ public class ShopmyTrades extends Fragment {
                 if(dataSnapshot.exists()){
                     for(DataSnapshot snapshot :dataSnapshot.getChildren()){
 
-                        Reservation reservation = snapshot.getValue(Reservation.class);
-                        mUploads.add(reservation);
+                        Trade trade = snapshot.getValue(Trade.class);
+                        mUploads.add(trade);
                     }
 
-                    mAdapter = new ReservationAdapter(getActivity(), mUploads);
+                    mAdapter = new TradeAdapter(getActivity(), mUploads);
                     recyclerView.setAdapter(mAdapter);
                     mProgressbar.setVisibility(View.INVISIBLE);
                 }

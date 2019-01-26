@@ -22,7 +22,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Vehicle Shop Traders"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textColor="#FEFEFE"/>
 
     <EditText
         android:id="@+id/shopUsername"
@@ -85,7 +86,8 @@
         android:layout_marginBottom="70dp"
         android:gravity="center"
         android:text="Not yet registered? Create one"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:textColor="#FEFEFE"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -99,7 +101,8 @@
             android:layout_marginBottom="10dp"
             android:gravity="bottom|center"
             android:text="Back to home"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textColor="#FEFEFE"/>
 
     </LinearLayout>
 

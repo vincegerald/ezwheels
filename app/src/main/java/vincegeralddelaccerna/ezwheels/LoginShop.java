@@ -93,8 +93,8 @@ public class LoginShop extends AppCompatActivity implements View.OnClickListener
             }
 
             mProgress.setVisibility(View.VISIBLE);
-            shopUsername.setVisibility(View.GONE);
-            shopPassword.setVisibility(View.GONE);
+            shopUsername.setVisibility(View.INVISIBLE);
+            shopPassword.setVisibility(View.INVISIBLE);
             mAuth.signInWithEmailAndPassword(user, pass)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override

@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,10 +33,12 @@ import com.squareup.picasso.Picasso;
 public class ScrollingActivity extends AppCompatActivity implements View.OnClickListener {
 
     ImageView scrollImage;
-    TextView shopName, vehicleName, priceView, priceCondition, date, transmissionView, mileageView, yearView,sellerName, sellerAddress, sellerContact, fuelType, seriesView, editionView, infoView;
+    TextView shopName, vehicleName, priceView, priceCondition, date, transmissionView, mileageView, yearView,sellerName, sellerAddress, sellerContact, fuelType, seriesView, editionView, infoView,
+    textView13, textView14;
     Button call, message, reserve,trade;
     FloatingActionButton fab;
     VideoView video;
+    CardView cardSeller, cardTrade, cardReservation;
 
     //imageview
     ImageView imageView1, imageView2, imageView3, imageView4;
@@ -74,6 +77,14 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         seriesView = findViewById(R.id.series);
         infoView = findViewById(R.id.info);
         video = findViewById(R.id.video);
+        textView13 = findViewById(R.id.textView13);
+        textView14 = findViewById(R.id.textView14);
+
+        //card
+        cardSeller = findViewById(R.id.cardSeller);
+        cardReservation = findViewById(R.id.cardReservation);
+        cardTrade = findViewById(R.id.cardTrade);
+
 
         //buttons
         call = findViewById(R.id.call);
@@ -128,10 +139,21 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         String editionData = getIntent().getStringExtra("edition");
         String infoData = getIntent().getStringExtra("info");
         listingid = getIntent().getStringExtra("listingid");
+
+
         getSupportActionBar().setTitle(brand + " " + model);
 
 
-
+        //check if the listing is posted by current user
+        String id = mAuth.getCurrentUser().getUid();
+        if(id.equals(uid)){
+            cardSeller.setVisibility(View.GONE);
+            cardReservation.setVisibility(View.GONE);
+            cardTrade.setVisibility(View.GONE);
+            textView13.setVisibility(View.GONE);
+            textView14.setVisibility(View.GONE);
+            fab.setVisibility(View.GONE);
+        }
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Shop").child(uid);
 
@@ -157,25 +179,25 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         });
 
         //set the datas
+                video.setVideoURI(uriVideo);
+                video.start();
+                Picasso.get().load(image1).fit().centerCrop().into(scrollImage);
+                Picasso.get().load(image1).fit().centerCrop().into(imageView1);
+                Picasso.get().load(image2).fit().centerCrop().into(imageView2);
+                Picasso.get().load(image3).fit().centerCrop().into(imageView3);
+                Picasso.get().load(image4).fit().centerCrop().into(imageView4);
+                vehicleName.setText(brand + " " + model);
+                priceView.setText(price);
+                priceCondition.setText(pricecondition);
+                date.setText(dateData);
+                mileageView.setText(mileage);
+                transmissionView.setText(transmission);
+                yearView.setText(year);
+                fuelType.setText(fuel);
+                seriesView.setText(seriesData);
+                editionView.setText(editionData);
+                infoView.setText(infoData);
 
-        Picasso.get().load(image1).fit().centerCrop().into(scrollImage);
-        Picasso.get().load(image1).fit().centerCrop().into(imageView1);
-        Picasso.get().load(image2).fit().centerCrop().into(imageView2);
-        Picasso.get().load(image3).fit().centerCrop().into(imageView3);
-        Picasso.get().load(image4).fit().centerCrop().into(imageView4);
-        vehicleName.setText(brand + " " + model);
-        priceView.setText(price);
-        priceCondition.setText(pricecondition);
-        date.setText(dateData);
-        mileageView.setText(mileage);
-        transmissionView.setText(transmission);
-        yearView.setText(year);
-        fuelType.setText(fuel);
-        seriesView.setText(seriesData);
-        editionView.setText(editionData);
-        infoView.setText(infoData);
-        video.setVideoURI(uriVideo);
-        video.start();
 
 
     }

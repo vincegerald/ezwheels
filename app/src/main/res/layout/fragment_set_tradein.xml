@@ -153,7 +153,7 @@
             android:textStyle="italic"
             android:layout_below="@+id/input"
             android:padding="10dp"
-            android:inputType="number"
+            android:inputType="textPersonName"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"/>
@@ -180,7 +180,7 @@
             android:layout_marginRight="15dp"
             android:background="@drawable/borderblack"
             android:hint="*Enter the amount here"
-            android:inputType="number"
+            android:inputType="textPersonName"
             android:padding="10dp"
             android:textColorHint="#000000"
             android:textStyle="italic" />
@@ -239,6 +239,7 @@
             android:layout_marginBottom="20dp"
             android:background="@color/colorPrimary"
             android:padding="10dp"
+            android:textColor="#fefefe"
             android:text="Submit Trade" />
 
 

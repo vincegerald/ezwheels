@@ -64,7 +64,7 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
         setContentView(R.layout.fragment_set_reservation);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitleTextColor(Color.parseColor("#000000"));
+        toolbar.setTitleTextColor(Color.parseColor("#fefefe"));
         toolbar.setTitle("Reservation");
         setSupportActionBar(toolbar);
 

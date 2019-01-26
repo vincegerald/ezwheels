@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -20,6 +21,9 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.TradeViewHol
 
     private Context mContext;
     private List<Trade> mUploads;
+
+    //firebase
+    private FirebaseAuth mAuth;
 
     public TradeAdapter(Context context, List<Trade> uploads) {
         mContext = context;
@@ -45,6 +49,7 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.TradeViewHol
         Picasso.get().load(uploadCurrent.getImage1()).fit().centerCrop().into(holder.image);
         holder.price.setText(uploadCurrent.getPriceList());
         holder.status.setText(uploadCurrent.getStatus());
+
         if(uploadCurrent.getStatus().equals("PENDING")){
             holder.status.setTextColor(Color.parseColor("#ffa500"));
         }
@@ -54,16 +59,42 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.TradeViewHol
         else{
             holder.status.setTextColor(Color.parseColor("#FF0000"));
         }
+        mAuth = FirebaseAuth.getInstance();
+        String id = mAuth.getUid().toString();
+
         if(uploadCurrent.getType().equals("I WILL ADD")){
-            holder.uadd.setVisibility(View.VISIBLE);
-            holder.saad.setVisibility(View.GONE);
-            holder.uadd.setText(uploadCurrent.getAddPrice());
+            holder.offer.setVisibility(View.VISIBLE);
+            holder.add.setVisibility(View.VISIBLE);
+            holder.logoPeso.setVisibility(View.VISIBLE);
+            holder.add.setText(uploadCurrent.getAddPrice());
+        }
+        else if(uploadCurrent.getType().equals("SHOP WILL ADD")){
+
+            holder.shopaad.setVisibility(View.VISIBLE);
+            holder.offer.setVisibility(View.VISIBLE);
+            holder.logoPeso.setVisibility(View.VISIBLE);
+            holder.shopaad.setText(uploadCurrent.getShopAddPrice());
         }
         else{
-            holder.uadd.setVisibility(View.GONE);
-            holder.saad.setVisibility(View.VISIBLE);
-            holder.saad.setText(uploadCurrent.getShopAddPrice());
+            holder.offer.setVisibility(View.VISIBLE);
+            holder.logoPeso.setVisibility(View.GONE);
         }
+
+        if(id.equals(uploadCurrent.getShopuid())){
+            holder.toffer.setVisibility(View.VISIBLE);
+            holder.offer.setVisibility(View.GONE);
+            holder.offer.setVisibility(View.GONE);
+
+            if(uploadCurrent.getType().equals("I WILL ADD")){
+
+            }
+
+            else if(uploadCurrent.getType().equals("SHOP WILL ADD")){
+                holder.type1.setVisibility(View.VISIBLE);
+            }
+        }
+
+
 
     }
 
@@ -74,8 +105,8 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.TradeViewHol
 
     public class TradeViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView list, shop, date, type, status, price, offer, uadd, saad;
-        public ImageView image;
+        public TextView list, shop, date, type, type1, status, price, offer, add, shopaad, toffer;
+        public ImageView image, logoPeso;
         public CardView item;
 
         public TradeViewHolder(View itemView) {
@@ -90,8 +121,11 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.TradeViewHol
             status = itemView.findViewById(R.id.finalStatus);
             price = itemView.findViewById(R.id.finalPrice);
             offer = itemView.findViewById(R.id.Offer);
-            uadd = itemView.findViewById(R.id.uadd);
-            saad = itemView.findViewById(R.id.sadd);
+            add = itemView.findViewById(R.id.uadd);
+            shopaad = itemView.findViewById(R.id.sadd);
+            logoPeso = itemView.findViewById(R.id.logoPeso);
+            toffer = itemView.findViewById(R.id.offer);
+            type1 = itemView.findViewById(R.id.finalType1);
 
 
         }

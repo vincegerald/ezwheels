@@ -46,6 +46,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
         Picasso.get().load(uploadCurrent.getImage1()).fit().centerCrop().into(holder.image);
         holder.price.setText(uploadCurrent.getPrice());
         holder.status.setText(uploadCurrent.getStatus());
+        holder.logoPeso.setVisibility(View.GONE);
         if(uploadCurrent.getStatus().equals("PENDING")){
             holder.status.setTextColor(Color.parseColor("#ffa500"));
         }
@@ -77,7 +78,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
     public class ReservationViewHolder extends RecyclerView.ViewHolder{
 
         public TextView list, shop, date, type, status, price;
-        public ImageView image;
+        public ImageView image, logoPeso;
         public CardView item;
 
         public ReservationViewHolder(View itemView) {
@@ -91,6 +92,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
             type = itemView.findViewById(R.id.finalType);
             status = itemView.findViewById(R.id.finalStatus);
             price = itemView.findViewById(R.id.finalPrice);
+            logoPeso = itemView.findViewById(R.id.logoPeso);
 
 
         }

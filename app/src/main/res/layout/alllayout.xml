@@ -53,6 +53,7 @@
                     android:layout_height="20dp"
                     app:srcCompat="@drawable/philippinepeso" />
 
+
                 <TextView
                     android:id="@+id/finalPrice"
                     android:layout_width="wrap_content"
@@ -82,6 +83,15 @@
                 <TextView
                     android:visibility="gone"
                     android:id="@+id/Offer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Your Offer : "
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/offer"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="Offer : "
@@ -122,31 +132,49 @@
 
                 <TextView
                     android:id="@+id/finalType"
-                    android:layout_width="100dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="Details 1"
                     android:textColor="#000000"
                     android:textSize="16sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/finalType1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="BUYERS WILL ADD"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/logoPeso"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    app:srcCompat="@drawable/philippinepeso" />
                 <TextView
                     android:visibility="gone"
                     android:id="@+id/uadd"
-                    android:layout_width="100dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:text="You add"
-                    android:textColor="#008000"
+                    android:textColor="#FF0000"
                     android:textSize="16sp"
                     android:textStyle="bold" />
                 <TextView
                     android:visibility="gone"
                     android:id="@+id/sadd"
-                    android:layout_width="100dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:text="Shop add"
-                    android:textColor="#FF0000"
+                    android:textColor="#008000"
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>

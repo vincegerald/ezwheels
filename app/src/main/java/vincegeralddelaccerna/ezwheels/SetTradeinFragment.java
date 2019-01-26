@@ -95,8 +95,8 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitleTextColor(Color.parseColor("#000000"));
-        toolbar.setTitle("Reservation");
+        toolbar.setTitleTextColor(Color.parseColor("#fefefe"));
+        toolbar.setTitle("Trade");
         setSupportActionBar(toolbar);
 
         price = findViewById(R.id.address);

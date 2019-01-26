@@ -237,6 +237,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
                     android:background="#528aed"
+                    android:textColor="#fefefe"
                     android:text="Back" />
 
                 <LinearLayout
@@ -251,6 +252,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:background="#528aed"
+                        android:textColor="#fefefe"
                         android:text="Next" />
                 </LinearLayout>
             </LinearLayout>
@@ -523,6 +525,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
                     android:background="#528aed"
+                    android:textColor="#fefefe"
                     android:text="Back" />
 
                 <LinearLayout
@@ -537,6 +540,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:background="#528aed"
+                        android:textColor="#fefefe"
                         android:text="Next" />
                 </LinearLayout>
             </LinearLayout>
@@ -624,6 +628,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:background="#528aed"
+                android:textColor="#fefefe"
                 android:text="Back" />
 
             <LinearLayout
@@ -638,6 +643,7 @@
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:background="#528aed"
+                    android:textColor="#fefefe"
                     android:text="Next" />
             </LinearLayout>
 
@@ -725,6 +731,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:background="#528aed"
+                android:textColor="#fefefe"
                 android:text="Back" />
 
             <LinearLayout
@@ -739,6 +746,7 @@
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:background="#528aed"
+                    android:textColor="#fefefe"
                     android:text="Next" />
             </LinearLayout>
 
@@ -825,6 +833,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:background="#528aed"
+                android:textColor="#fefefe"
                 android:text="Back" />
 
             <LinearLayout
@@ -839,6 +848,7 @@
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:background="#528aed"
+                    android:textColor="#fefefe"
                     android:text="Next" />
             </LinearLayout>
 
@@ -925,6 +935,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:background="#528aed"
+                android:textColor="#fefefe"
                 android:text="Back" />
 
             <LinearLayout
@@ -939,6 +950,7 @@
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:background="#528aed"
+                    android:textColor="#fefefe"
                     android:text="Next" />
             </LinearLayout>
 
@@ -991,6 +1003,15 @@
             android:layout_width="match_parent"
             android:layout_height="320dp" />
 
+        <ProgressBar
+            android:id="@+id/progressBar5"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/progressbar"
+            android:layout_marginTop="10dp"
+            android:visibility="gone" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -1004,6 +1025,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:background="#528aed"
+                android:textColor="#fefefe"
                 android:text="Back" />
 
             <LinearLayout
@@ -1018,6 +1040,7 @@
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:background="#528aed"
+                    android:textColor="#fefefe"
                     android:text="Finish" />
             </LinearLayout>
         </LinearLayout>

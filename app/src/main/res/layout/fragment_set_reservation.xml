@@ -160,6 +160,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginBottom="20dp"
             android:background="@color/colorPrimary"
+            android:textColor="#fefefe"
             android:padding="10dp"
             android:text="Submit Reservation" />
     </RelativeLayout>

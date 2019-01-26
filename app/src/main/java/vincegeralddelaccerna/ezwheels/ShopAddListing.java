@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.MediaController;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
@@ -113,6 +114,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
     RadioButton car, motor;
     RadioGroup vehicleType;
     EditText editText5;
+    ProgressBar progressBar;
 
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
@@ -135,7 +137,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.shopaddlisting, container, false);
 
-
+        progressBar = v.findViewById(R.id.progressBar5);
         editText5 = v.findViewById(R.id.editText5);
         vehicleType = v.findViewById(R.id.type);
         listViewshop = v.findViewById(R.id.listviewshop);
@@ -551,6 +553,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
 
             final String imageUrl = uriImage.toString();
             //Toast.makeText(getActivity(), imageUrl, Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.VISIBLE);
             final String path = System.currentTimeMillis() + "." + getFileExtension(uriImage);
             StorageReference storageReference = mStorageRef.child("Images").child(path);
             storageReference.putFile(uriImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
@@ -578,6 +581,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
                                                 Toast.makeText(getActivity(), "saved", Toast.LENGTH_SHORT).show();
+                                                progressBar.setVisibility(View.GONE);
                                                 Intent intent = new Intent(getActivity(), ShopDashboard.class);
                                                 startActivity(intent);
                                             }
@@ -595,6 +599,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
                                                 Toast.makeText(getActivity(), "saved", Toast.LENGTH_SHORT).show();
+                                                progressBar.setVisibility(View.GONE);
                                                 Intent intent = new Intent(getActivity(), ShopDashboard.class);
                                                 startActivity(intent);
                                             }
