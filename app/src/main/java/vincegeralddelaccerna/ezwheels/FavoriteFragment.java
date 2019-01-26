@@ -75,6 +75,7 @@ public class FavoriteFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 if(dataSnapshot.exists()){
+                    mUploads.clear();
                     for(DataSnapshot snapshot : dataSnapshot.getChildren()){
 
                         Favorites favorites = snapshot.getValue(Favorites.class);

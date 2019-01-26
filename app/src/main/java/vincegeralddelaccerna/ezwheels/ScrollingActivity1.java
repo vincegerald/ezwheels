@@ -1,5 +1,6 @@
 package vincegeralddelaccerna.ezwheels;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -8,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -59,6 +59,7 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
     private String transmission;
     private String infoData, pricecondition, mileage, fuel, dateData, seriesData, editionData ;
     private Uri uriVideo;
+    private String type;
 
 
     @Override
@@ -132,7 +133,7 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
         listingid = getIntent().getStringExtra("listId");
 
 
-
+        getSupportActionBar().setTitle(getIntent().getStringExtra("brand") + " " + getIntent().getStringExtra("model"));
 
 
         //check if the listing is posted by current user
@@ -180,6 +181,8 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
                             editionData = dataSnapshot.child("edition").getValue().toString();
                             infoData = dataSnapshot.child("info").getValue().toString();
 
+                            type = "car";
+
                             video.setVideoURI(uriVideo);
                             video.start();
                             Picasso.get().load(image1).fit().centerCrop().into(scrollImage);
@@ -198,7 +201,6 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
                             seriesView.setText(seriesData);
                             editionView.setText(editionData);
                             infoView.setText(infoData);
-                            getSupportActionBar().setTitle(brand + " " + model);
 
 
                             mDatabaseRef = FirebaseDatabase.getInstance().getReference("Shop").child(uid);
@@ -239,6 +241,7 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
                     mDatabaseRef2.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                             image1 = dataSnapshot.child("image").getValue().toString();
                             image2 = dataSnapshot.child("imagePath1").getValue().toString();
                             image3 = dataSnapshot.child("imagePath2").getValue().toString();
@@ -259,7 +262,7 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
                             seriesData = dataSnapshot.child("series").getValue().toString();
                             editionData = dataSnapshot.child("edition").getValue().toString();
                             infoData = dataSnapshot.child("info").getValue().toString();
-                            getSupportActionBar().setTitle(brand + " " + model);
+                            type = "motor";
 
                             video.setVideoURI(uriVideo);
                             video.start();
@@ -388,24 +391,17 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
 
         if(id == R.id.fab){
 
-            String currentUid = mAuth.getCurrentUser().getUid();
-
-            Favorites favorites = new Favorites(image1, brand, model, price, color, year, currentUid, uid, listingid, name);
-            mDatabaseRef1.child("Favorites").push().setValue(favorites).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        Toast.makeText(ScrollingActivity1.this, "Saved", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        Toast.makeText(ScrollingActivity1.this, "Error", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-
+                DatabaseReference favDelete = FirebaseDatabase.getInstance().getReference("Favorites").child(getIntent().getStringExtra("fid"));
+                favDelete.removeValue();
+                Toast.makeText(ScrollingActivity1.this, "Favorite Deleted", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ScrollingActivity1.this, ShopDashboard.class);
+                startActivity(intent
+                );
 
         }
     }
+
+
 
 
 }

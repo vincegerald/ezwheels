@@ -263,9 +263,9 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         if(id == R.id.fab){
 
             String currentUid = mAuth.getCurrentUser().getUid();
-
-            Favorites favorites = new Favorites(image1, brand, model, price, color, year, currentUid, uid, listingid, name);
-            mDatabaseRef1.child("Favorites").push().setValue(favorites).addOnCompleteListener(new OnCompleteListener<Void>() {
+            String fid = mDatabaseRef1.push().getKey();
+            Favorites favorites = new Favorites(fid, image1, brand, model, price, color, year, currentUid, uid, listingid, name);
+            mDatabaseRef1.child("Favorites").child(fid).setValue(favorites).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){

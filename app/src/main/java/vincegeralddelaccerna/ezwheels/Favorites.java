@@ -1,12 +1,13 @@
 package vincegeralddelaccerna.ezwheels;
 
 public class Favorites {
-     public String image1, brand, model, price, color, year, currentUid,  uid,  listingid, name;
+     public String fid, image1, brand, model, price, color, year, currentUid,  uid,  listingid, name;
 
     public Favorites() {
     }
 
-    public Favorites(String image1, String brand, String model, String price, String color, String year, String currentUid, String uid, String listingid, String name) {
+    public Favorites(String fid, String image1, String brand, String model, String price, String color, String year, String currentUid, String uid, String listingid, String name) {
+        this.fid = fid;
         this.image1 = image1;
         this.brand = brand;
         this.model = model;
@@ -17,6 +18,14 @@ public class Favorites {
         this.uid = uid;
         this.listingid = listingid;
         this.name = name;
+    }
+
+    public String getFid() {
+        return fid;
+    }
+
+    public void setFid(String fid) {
+        this.fid = fid;
     }
 
     public String getName() {

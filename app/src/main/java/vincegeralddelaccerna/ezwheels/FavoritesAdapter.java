@@ -80,6 +80,9 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, ScrollingActivity1.class);
                 intent.putExtra("listId", uploadCurrent.getListingid());
+                intent.putExtra("brand", uploadCurrent.getBrand());
+                intent.putExtra("model", uploadCurrent.getModel());
+                intent.putExtra("fid", uploadCurrent.getFid());
                 mContext.startActivity(intent);
             }
         });
