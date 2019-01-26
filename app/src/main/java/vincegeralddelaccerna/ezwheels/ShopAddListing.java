@@ -124,7 +124,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
     private static  String imagePath2 = "";
     private static  String imagePath3 = "";
     private static String videoPath = "";
-    private static String type = "car1";
+    private static String type = "car";
     private static String formattedDate;
 
 
