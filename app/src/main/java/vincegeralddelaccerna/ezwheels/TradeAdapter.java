@@ -102,7 +102,7 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.TradeViewHol
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, ScrollingActivity1.class);
+                Intent intent = new Intent(mContext, TradeScrolling.class);
                 intent.putExtra("listId", uploadCurrent.getListingid());
                 intent.putExtra("brand", uploadCurrent.getBrand());
                 intent.putExtra("model", uploadCurrent.getModel());

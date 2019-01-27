@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+tools:context=".DashboardFragment">
+
+<!--<include-->
+<!--android:id="@+id/toolbar"-->
+<!--layout="@layout/toolbar"/>-->
+
+<!-- TODO: Update blank fragment layout -->
+<android.support.design.widget.TabLayout
+    android:id="@+id/tablayout"
+    app:tabGravity="fill"
+    app:tabMode="fixed"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".DashboardFragment">
+    android:layout_height="wrap_content"
+    app:tabIndicatorColor="#528aed"
+    app:tabSelectedTextColor="#528aed"
+    app:tabTextColor="#000000"/>
 
-    <!--<include-->
-        <!--android:id="@+id/toolbar"-->
-        <!--layout="@layout/toolbar"/>-->
-
-    <!-- TODO: Update blank fragment layout -->
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tablayout"
-        app:tabGravity="fill"
-        app:tabMode="fixed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabIndicatorColor="#528aed"
-        app:tabSelectedTextColor="#528aed"
-        app:tabTextColor="#000000"/>
-
-    <android.support.v4.view.ViewPager
-        android:layout_below="@+id/tablayout"
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+<android.support.v4.view.ViewPager
+    android:layout_below="@+id/tablayout"
+    android:id="@+id/viewpager"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
 
 </RelativeLayout>
