@@ -68,17 +68,29 @@ public class TrademyVehicle extends Fragment {
     ViewPager viewPager;
     ViewPagerAdapter adapter;
     Toolbar toolbar;
+    private String parameter;
 
 
     public TrademyVehicle() {
         // Required empty public constructor
     }
 
+    public static TrademyVehicle newInstance(String parameter) {
+
+        Bundle args = new Bundle();
+        args.putString("listingid", parameter);
+        TrademyVehicle fragment = new TrademyVehicle();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        if (getArguments() != null) {
+            listingid = getArguments().getString("listingid");
+        }
     }
 
     @Override
@@ -88,8 +100,8 @@ public class TrademyVehicle extends Fragment {
         View  v =  inflater.inflate(R.layout.fragment_trademy_vehicle, container, false);
 
         Bundle b = getArguments();
-        String id = b.getString("listingid");
-        Toast.makeText(getActivity(), b.getString("listingid"), Toast.LENGTH_SHORT).show();
+//        String id = b.getString("listingid");
+//        Toast.makeText(getActivity(), b.getString("listingid"), Toast.LENGTH_SHORT).show();
 
 
         scrollImage = v.findViewById(R.id.scrollImage);

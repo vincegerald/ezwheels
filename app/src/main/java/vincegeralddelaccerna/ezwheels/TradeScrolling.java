@@ -90,15 +90,16 @@ public class TradeScrolling extends AppCompatActivity{
         tabLayout.setupWithViewPager(viewPager);
 
         listingid = getIntent().getStringExtra("listId");
-
-        if(!listingid.equals("")){
-            
-            Bundle b = new Bundle();
-            b.putString("listingid", listingid);
-            TrademyVehicle trademyVehicle = new TrademyVehicle();
-            trademyVehicle.setArguments(b);
-
-        }
+//
+//        if(!listingid.equals("")){
+//
+//            Bundle b = new Bundle();
+//            b.putString("listingid", listingid);
+//            TrademyVehicle trademyVehicle = new TrademyVehicle();
+//            trademyVehicle.setArguments(b);
+//
+//        }
+        TrademyVehicle.newInstance(listingid);
         Toast.makeText(TradeScrolling.this, listingid, Toast.LENGTH_SHORT).show();
 //
 //       scrollImage = findViewById(R.id.scrollImage);
