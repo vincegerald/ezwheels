@@ -1,12 +1,12 @@
 package vincegeralddelaccerna.ezwheels;
 
 public class Trade {
-    public String listingid, imagePath1, imagePath2,  addPrice,  shopAddPrice,  fbrand,  fmodel,  uid,  shopuid,  type, image1, model, brand, name, status, priceList;
+    public String listingid, imagePath1, imagePath2,  addPrice,  shopAddPrice,  fbrand,  fmodel,  uid,  shopuid,  type, image1, model, brand, name, status, priceList, tid;
 
     public Trade() {
     }
 
-    public Trade(String listingid, String imagePath1, String imagePath2, String addPrice, String shopAddPrice, String fbrand, String fmodel, String uid, String shopuid, String type, String image1, String model, String brand, String name, String status, String priceList) {
+    public Trade(String listingid, String imagePath1, String imagePath2, String addPrice, String shopAddPrice, String fbrand, String fmodel, String uid, String shopuid, String type, String image1, String model, String brand, String name, String status, String priceList, String tradeId) {
         this.listingid = listingid;
         this.imagePath1 = imagePath1;
         this.imagePath2 = imagePath2;
@@ -23,6 +23,15 @@ public class Trade {
         this.name = name;
         this.status = status;
         this.priceList = priceList;
+        this.tid = tradeId;
+    }
+
+    public String getTid() {
+        return tid;
+    }
+
+    public void setTid(String tid) {
+        this.tid = tid;
     }
 
     public String getPriceList() {

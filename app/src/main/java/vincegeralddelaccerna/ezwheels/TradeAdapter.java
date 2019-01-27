@@ -2,6 +2,7 @@ package vincegeralddelaccerna.ezwheels;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
@@ -80,19 +82,36 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.TradeViewHol
             holder.logoPeso.setVisibility(View.GONE);
         }
 
-        if(id.equals(uploadCurrent.getShopuid())){
+        if(uploadCurrent.getShopuid().equals(mAuth.getCurrentUser().getUid())){
+
+            holder.offer.setVisibility(View.GONE);
             holder.toffer.setVisibility(View.VISIBLE);
-            holder.offer.setVisibility(View.GONE);
-            holder.offer.setVisibility(View.GONE);
-
-            if(uploadCurrent.getType().equals("I WILL ADD")){
-
+            if(uploadCurrent.getType().equals("SWAP")){
+                holder.type.setText(uploadCurrent.getType());
+            }
+            else if(uploadCurrent.getType().equals("I WILL ADD")){
+                holder.type.setText("BUYER WILL ADD");
+                holder.add.setTextColor(Color.parseColor("#008000"));
+            }
+            else{
+                holder.type.setText("YOU WILL ADD");
+                holder.shopaad.setTextColor(Color.parseColor("#FF0000"));
             }
 
-            else if(uploadCurrent.getType().equals("SHOP WILL ADD")){
-                holder.type1.setVisibility(View.VISIBLE);
-            }
         }
+        holder.item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ScrollingActivity1.class);
+                intent.putExtra("listId", uploadCurrent.getListingid());
+                intent.putExtra("brand", uploadCurrent.getBrand());
+                intent.putExtra("model", uploadCurrent.getModel());
+//                intent.putExtra("tid", uploadCurrent.getT());
+                mContext.startActivity(intent);
+            }
+        });
+
+
 
 
 
@@ -126,7 +145,6 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.TradeViewHol
             logoPeso = itemView.findViewById(R.id.logoPeso);
             toffer = itemView.findViewById(R.id.offer);
             type1 = itemView.findViewById(R.id.finalType1);
-
 
         }
     }
