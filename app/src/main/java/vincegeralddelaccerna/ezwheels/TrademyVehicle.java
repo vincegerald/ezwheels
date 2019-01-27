@@ -149,178 +149,178 @@ public class TrademyVehicle extends Fragment {
 //        trade.setOnClickListener(this);
 //        fab.setOnClickListener(this);
 
-//        mDatabase.getReference("Car").child(listingid).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        mDatabase.getReference("Car").child(listingid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.exists()){
+
+                    mDatabaseRef2 = FirebaseDatabase.getInstance().getReference("Car").child(listingid);
+                    mDatabaseRef2.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            image1 = dataSnapshot.child("image").getValue().toString();
+                            image2 = dataSnapshot.child("imagePath1").getValue().toString();
+                            image3 = dataSnapshot.child("imagePath2").getValue().toString();
+                            image4 = dataSnapshot.child("imagePath3").getValue().toString();
+                            videoUrl = dataSnapshot.child("videoPath").getValue().toString();
+                            uriVideo = Uri.parse(videoUrl);
+                            brand = dataSnapshot.child("finalBrand").getValue().toString();
+                            model = dataSnapshot.child("finalModel").getValue().toString();
+                            year = dataSnapshot.child("finalYear").getValue().toString();
+                            color = dataSnapshot.child("finalColor").getValue().toString();
+                            transmission = dataSnapshot.child("finalTransmission").getValue().toString();
+                            pricecondition = dataSnapshot.child("finalPcondition").getValue().toString();
+                            mileage = dataSnapshot.child("finalMileage").getValue().toString();
+                            price = dataSnapshot.child("finalPrice").getValue().toString();
+                            uid = dataSnapshot.child("uid").getValue().toString();
+                            fuel = dataSnapshot.child("fuel").getValue().toString();
+                            dateData =dataSnapshot.child("date").getValue().toString();
+                            seriesData = dataSnapshot.child("series").getValue().toString();
+                            editionData = dataSnapshot.child("edition").getValue().toString();
+                            infoData = dataSnapshot.child("info").getValue().toString();
+
+                            type = "car";
+
+//                            video.setVideoURI(uriVideo);
+//                            video.start();
+                            Picasso.get().load(image1).fit().centerCrop().into(scrollImage);
+//                            Picasso.get().load(image1).fit().centerCrop().into(imageView1);
+//                            Picasso.get().load(image2).fit().centerCrop().into(imageView2);
+//                            Picasso.get().load(image3).fit().centerCrop().into(imageView3);
+//                            Picasso.get().load(image4).fit().centerCrop().into(imageView4);
+//                            vehicleName.setText(brand + " " + model);
+//                            priceView.setText(price);
+//                            priceCondition.setText(pricecondition);
+//                            date.setText(dateData);
+//                            mileageView.setText(mileage);
+//                            transmissionView.setText(transmission);
+//                            yearView.setText(year);
+//                            fuelType.setText(fuel);
+//                            seriesView.setText(seriesData);
+//                            editionView.setText(editionData);
+//                            infoView.setText(infoData);
+
+
+                            //                            mDatabaseRef = FirebaseDatabase.getInstance().getReference("Shop").child(uid);
+                            //
+                            //                            mDatabaseRef.addValueEventListener(new ValueEventListener() {
+                            //                                @Override
+                            //                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            //                                    firstname = dataSnapshot.child("firstname").getValue().toString();
+                            //                                    lastname =  dataSnapshot.child("lastname").getValue().toString();
+                            //                                    contact = dataSnapshot.child("contact").getValue().toString();
+                            //                                    description  = dataSnapshot.child("description").getValue().toString();
+                            //                                    location = dataSnapshot.child("location").getValue().toString();
+                            //                                    name = dataSnapshot.child("name").getValue().toString();
+                            //                                    sellerName.setText(firstname + " " + lastname);
+                            //                                    sellerAddress.setText(location);
+                            //                                    sellerContact.setText(contact);
+                            //
+                            //                                }
+                            //
+                            //                                @Override
+                            //                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                            //                                    Toast.makeText(TradeScrolling.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                            //                                }
+                            //                            });
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                else{
+                    Toast.makeText(getActivity(), "false", Toast.LENGTH_SHORT).show();
+
+                    mDatabaseRef2 = FirebaseDatabase.getInstance().getReference("Motor").child(listingid);
+
+                    mDatabaseRef2.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            image1 = dataSnapshot.child("image").getValue().toString();
+                            image2 = dataSnapshot.child("imagePath1").getValue().toString();
+                            image3 = dataSnapshot.child("imagePath2").getValue().toString();
+                            image4 = dataSnapshot.child("imagePath3").getValue().toString();
+                            videoUrl = dataSnapshot.child("videoPath").getValue().toString();
+                            uriVideo = Uri.parse(videoUrl);
+                            brand = dataSnapshot.child("finalBrand").getValue().toString();
+                            model = dataSnapshot.child("finalModel").getValue().toString();
+                            year = dataSnapshot.child("finalYear").getValue().toString();
+                            color = dataSnapshot.child("finalColor").getValue().toString();
+                            transmission = dataSnapshot.child("finalTransmission").getValue().toString();
+                            pricecondition = dataSnapshot.child("finalPcondition").getValue().toString();
+                            mileage = dataSnapshot.child("finalMileage").getValue().toString();
+                            price = dataSnapshot.child("finalPrice").getValue().toString();
+                            uid = dataSnapshot.child("uid").getValue().toString();
+                            fuel = dataSnapshot.child("fuel").getValue().toString();
+                            dateData =dataSnapshot.child("date").getValue().toString();
+                            seriesData = dataSnapshot.child("series").getValue().toString();
+                            editionData = dataSnapshot.child("edition").getValue().toString();
+                            infoData = dataSnapshot.child("info").getValue().toString();
+                            type = "motor";
+
+//                            video.setVideoURI(uriVideo);
+//                            video.start();
+                            Picasso.get().load(image1).fit().centerCrop().into(scrollImage);
+//                            Picasso.get().load(image1).fit().centerCrop().into(imageView1);
+//                            Picasso.get().load(image2).fit().centerCrop().into(imageView2);
+//                            Picasso.get().load(image3).fit().centerCrop().into(imageView3);
+//                            Picasso.get().load(image4).fit().centerCrop().into(imageView4);
+//                            vehicleName.setText(brand + " " + model);
+//                            priceView.setText(price);
+//                            priceCondition.setText(pricecondition);
+//                            date.setText(dateData);
+//                            mileageView.setText(mileage);
+//                            transmissionView.setText(transmission);
+//                            yearView.setText(year);
+//                            fuelType.setText(fuel);
+//                            seriesView.setText(seriesData);
+//                            editionView.setText(editionData);
+//                            infoView.setText(infoData);
+
+//                            mDatabaseRef = FirebaseDatabase.getInstance().getReference("Shop").child(uid);
 //
-//                if(dataSnapshot.exists()){
+//                            mDatabaseRef.addValueEventListener(new ValueEventListener() {
+//                                @Override
+//                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                    firstname = dataSnapshot.child("firstname").getValue().toString();
+//                                    lastname =  dataSnapshot.child("lastname").getValue().toString();
+//                                    contact = dataSnapshot.child("contact").getValue().toString();
+//                                    description  = dataSnapshot.child("description").getValue().toString();
+//                                    location = dataSnapshot.child("location").getValue().toString();
+//                                    name = dataSnapshot.child("name").getValue().toString();
+//                                    sellerName.setText(firstname + " " + lastname);
+//                                    sellerAddress.setText(location);
+//                                    sellerContact.setText(contact);
 //
-//                    mDatabaseRef2 = FirebaseDatabase.getInstance().getReference("Car").child(listingid);
-//                    mDatabaseRef2.addValueEventListener(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                }
 //
-//                            image1 = dataSnapshot.child("image").getValue().toString();
-//                            image2 = dataSnapshot.child("imagePath1").getValue().toString();
-//                            image3 = dataSnapshot.child("imagePath2").getValue().toString();
-//                            image4 = dataSnapshot.child("imagePath3").getValue().toString();
-//                            videoUrl = dataSnapshot.child("videoPath").getValue().toString();
-//                            uriVideo = Uri.parse(videoUrl);
-//                            brand = dataSnapshot.child("finalBrand").getValue().toString();
-//                            model = dataSnapshot.child("finalModel").getValue().toString();
-//                            year = dataSnapshot.child("finalYear").getValue().toString();
-//                            color = dataSnapshot.child("finalColor").getValue().toString();
-//                            transmission = dataSnapshot.child("finalTransmission").getValue().toString();
-//                            pricecondition = dataSnapshot.child("finalPcondition").getValue().toString();
-//                            mileage = dataSnapshot.child("finalMileage").getValue().toString();
-//                            price = dataSnapshot.child("finalPrice").getValue().toString();
-//                            uid = dataSnapshot.child("uid").getValue().toString();
-//                            fuel = dataSnapshot.child("fuel").getValue().toString();
-//                            dateData =dataSnapshot.child("date").getValue().toString();
-//                            seriesData = dataSnapshot.child("series").getValue().toString();
-//                            editionData = dataSnapshot.child("edition").getValue().toString();
-//                            infoData = dataSnapshot.child("info").getValue().toString();
-//
-//                            type = "car";
-//
-////                            video.setVideoURI(uriVideo);
-////                            video.start();
-//                            Picasso.get().load(image1).fit().centerCrop().into(scrollImage);
-////                            Picasso.get().load(image1).fit().centerCrop().into(imageView1);
-////                            Picasso.get().load(image2).fit().centerCrop().into(imageView2);
-////                            Picasso.get().load(image3).fit().centerCrop().into(imageView3);
-////                            Picasso.get().load(image4).fit().centerCrop().into(imageView4);
-////                            vehicleName.setText(brand + " " + model);
-////                            priceView.setText(price);
-////                            priceCondition.setText(pricecondition);
-////                            date.setText(dateData);
-////                            mileageView.setText(mileage);
-////                            transmissionView.setText(transmission);
-////                            yearView.setText(year);
-////                            fuelType.setText(fuel);
-////                            seriesView.setText(seriesData);
-////                            editionView.setText(editionData);
-////                            infoView.setText(infoData);
-//
-//
-//                            //                            mDatabaseRef = FirebaseDatabase.getInstance().getReference("Shop").child(uid);
-//                            //
-//                            //                            mDatabaseRef.addValueEventListener(new ValueEventListener() {
-//                            //                                @Override
-//                            //                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                            //                                    firstname = dataSnapshot.child("firstname").getValue().toString();
-//                            //                                    lastname =  dataSnapshot.child("lastname").getValue().toString();
-//                            //                                    contact = dataSnapshot.child("contact").getValue().toString();
-//                            //                                    description  = dataSnapshot.child("description").getValue().toString();
-//                            //                                    location = dataSnapshot.child("location").getValue().toString();
-//                            //                                    name = dataSnapshot.child("name").getValue().toString();
-//                            //                                    sellerName.setText(firstname + " " + lastname);
-//                            //                                    sellerAddress.setText(location);
-//                            //                                    sellerContact.setText(contact);
-//                            //
-//                            //                                }
-//                            //
-//                            //                                @Override
-//                            //                                public void onCancelled(@NonNull DatabaseError databaseError) {
-//                            //                                    Toast.makeText(TradeScrolling.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-//                            //                                }
-//                            //                            });
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError databaseError) {
-//                            Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                }
-//                else{
-//                    Toast.makeText(getActivity(), "false", Toast.LENGTH_SHORT).show();
-//
-//                    mDatabaseRef2 = FirebaseDatabase.getInstance().getReference("Motor").child(listingid);
-//
-//                    mDatabaseRef2.addValueEventListener(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                            image1 = dataSnapshot.child("image").getValue().toString();
-//                            image2 = dataSnapshot.child("imagePath1").getValue().toString();
-//                            image3 = dataSnapshot.child("imagePath2").getValue().toString();
-//                            image4 = dataSnapshot.child("imagePath3").getValue().toString();
-//                            videoUrl = dataSnapshot.child("videoPath").getValue().toString();
-//                            uriVideo = Uri.parse(videoUrl);
-//                            brand = dataSnapshot.child("finalBrand").getValue().toString();
-//                            model = dataSnapshot.child("finalModel").getValue().toString();
-//                            year = dataSnapshot.child("finalYear").getValue().toString();
-//                            color = dataSnapshot.child("finalColor").getValue().toString();
-//                            transmission = dataSnapshot.child("finalTransmission").getValue().toString();
-//                            pricecondition = dataSnapshot.child("finalPcondition").getValue().toString();
-//                            mileage = dataSnapshot.child("finalMileage").getValue().toString();
-//                            price = dataSnapshot.child("finalPrice").getValue().toString();
-//                            uid = dataSnapshot.child("uid").getValue().toString();
-//                            fuel = dataSnapshot.child("fuel").getValue().toString();
-//                            dateData =dataSnapshot.child("date").getValue().toString();
-//                            seriesData = dataSnapshot.child("series").getValue().toString();
-//                            editionData = dataSnapshot.child("edition").getValue().toString();
-//                            infoData = dataSnapshot.child("info").getValue().toString();
-//                            type = "motor";
-//
-////                            video.setVideoURI(uriVideo);
-////                            video.start();
-//                            Picasso.get().load(image1).fit().centerCrop().into(scrollImage);
-////                            Picasso.get().load(image1).fit().centerCrop().into(imageView1);
-////                            Picasso.get().load(image2).fit().centerCrop().into(imageView2);
-////                            Picasso.get().load(image3).fit().centerCrop().into(imageView3);
-////                            Picasso.get().load(image4).fit().centerCrop().into(imageView4);
-////                            vehicleName.setText(brand + " " + model);
-////                            priceView.setText(price);
-////                            priceCondition.setText(pricecondition);
-////                            date.setText(dateData);
-////                            mileageView.setText(mileage);
-////                            transmissionView.setText(transmission);
-////                            yearView.setText(year);
-////                            fuelType.setText(fuel);
-////                            seriesView.setText(seriesData);
-////                            editionView.setText(editionData);
-////                            infoView.setText(infoData);
-//
-////                            mDatabaseRef = FirebaseDatabase.getInstance().getReference("Shop").child(uid);
-////
-////                            mDatabaseRef.addValueEventListener(new ValueEventListener() {
-////                                @Override
-////                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-////                                    firstname = dataSnapshot.child("firstname").getValue().toString();
-////                                    lastname =  dataSnapshot.child("lastname").getValue().toString();
-////                                    contact = dataSnapshot.child("contact").getValue().toString();
-////                                    description  = dataSnapshot.child("description").getValue().toString();
-////                                    location = dataSnapshot.child("location").getValue().toString();
-////                                    name = dataSnapshot.child("name").getValue().toString();
-////                                    sellerName.setText(firstname + " " + lastname);
-////                                    sellerAddress.setText(location);
-////                                    sellerContact.setText(contact);
-////
-////                                }
-////
-////                                @Override
-////                                public void onCancelled(@NonNull DatabaseError databaseError) {
-////                                    Toast.makeText(TradeScrolling.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-////                                }
-////                            });
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError databaseError) {
-//                            Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
+//                                @Override
+//                                public void onCancelled(@NonNull DatabaseError databaseError) {
+//                                    Toast.makeText(TradeScrolling.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+//                                }
+//                            });
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
 
