@@ -34,7 +34,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
 
     ImageView scrollImage;
     TextView shopName, vehicleName, priceView, priceCondition, date, transmissionView, mileageView, yearView,sellerName, sellerAddress, sellerContact, fuelType, seriesView, editionView, infoView,
-    textView13, textView14;
+            textView13, textView14;
     Button call, message, reserve,trade;
     FloatingActionButton fab;
     VideoView video;
@@ -160,15 +160,15 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                 firstname = dataSnapshot.child("firstname").getValue().toString();
-                 lastname =  dataSnapshot.child("lastname").getValue().toString();
-                 contact = dataSnapshot.child("contact").getValue().toString();
-                 description  = dataSnapshot.child("description").getValue().toString();
-                 location = dataSnapshot.child("location").getValue().toString();
-                 name = dataSnapshot.child("name").getValue().toString();
-                 sellerName.setText(firstname + " " + lastname);
-                 sellerAddress.setText(location);
-                 sellerContact.setText(contact);
+                firstname = dataSnapshot.child("firstname").getValue().toString();
+                lastname =  dataSnapshot.child("lastname").getValue().toString();
+                contact = dataSnapshot.child("contact").getValue().toString();
+                description  = dataSnapshot.child("description").getValue().toString();
+                location = dataSnapshot.child("location").getValue().toString();
+                name = dataSnapshot.child("name").getValue().toString();
+                sellerName.setText(firstname + " " + lastname);
+                sellerAddress.setText(location);
+                sellerContact.setText(contact);
 
             }
 
@@ -179,24 +179,24 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         });
 
         //set the datas
-                video.setVideoURI(uriVideo);
-                video.start();
-                Picasso.get().load(image1).fit().centerCrop().into(scrollImage);
-                Picasso.get().load(image1).fit().centerCrop().into(imageView1);
-                Picasso.get().load(image2).fit().centerCrop().into(imageView2);
-                Picasso.get().load(image3).fit().centerCrop().into(imageView3);
-                Picasso.get().load(image4).fit().centerCrop().into(imageView4);
-                vehicleName.setText(brand + " " + model);
-                priceView.setText(price);
-                priceCondition.setText(pricecondition);
-                date.setText(dateData);
-                mileageView.setText(mileage);
-                transmissionView.setText(transmission);
-                yearView.setText(year);
-                fuelType.setText(fuel);
-                seriesView.setText(seriesData);
-                editionView.setText(editionData);
-                infoView.setText(infoData);
+        video.setVideoURI(uriVideo);
+        video.start();
+        Picasso.get().load(image1).fit().centerCrop().into(scrollImage);
+        Picasso.get().load(image1).fit().centerCrop().into(imageView1);
+        Picasso.get().load(image2).fit().centerCrop().into(imageView2);
+        Picasso.get().load(image3).fit().centerCrop().into(imageView3);
+        Picasso.get().load(image4).fit().centerCrop().into(imageView4);
+        vehicleName.setText(brand + " " + model);
+        priceView.setText(price);
+        priceCondition.setText(pricecondition);
+        date.setText(dateData);
+        mileageView.setText(mileage);
+        transmissionView.setText(transmission);
+        yearView.setText(year);
+        fuelType.setText(fuel);
+        seriesView.setText(seriesData);
+        editionView.setText(editionData);
+        infoView.setText(infoData);
 
 
 

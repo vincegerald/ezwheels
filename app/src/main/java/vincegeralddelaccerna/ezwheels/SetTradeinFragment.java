@@ -214,6 +214,7 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
             final String listing = getIntent().getStringExtra("listingid");
             final String seller = getIntent().getStringExtra("shopuid");
             final String price = getIntent().getStringExtra("price");
+            Toast.makeText(this, imagePath1, Toast.LENGTH_SHORT).show();
             addTrade(imagePath1, imagePath2, finalPrice, finalPrice1, finalBrand, finalModel, typeText, model, brand, name, image1, listing, seller, price);
         }
     }

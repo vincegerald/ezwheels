@@ -19,6 +19,7 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
 
     private Context mContext;
     private List<Upload> mUploads;
+    private List<Shop> shop;
 
     public DashboardCarAdapter(Context context, List<Upload> uploads) {
         mContext = context;
@@ -38,6 +39,7 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
     public void onBindViewHolder(@NonNull DashboardCarViewHolder holder, int position) {
 
         final Upload uploadCurrent = mUploads.get(position);
+//        final Shop pos = shop.get(position);
         holder.brand.setText(uploadCurrent.getFinalBrand() + " "+ uploadCurrent.getFinalModel());
         holder.price.setText(uploadCurrent.getFinalPrice());
         holder.d3.setText(uploadCurrent.getFinalColor());

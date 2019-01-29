@@ -70,7 +70,7 @@ public class ShopmyTrades extends Fragment {
 
                 if(dataSnapshot.exists()){
                     for(DataSnapshot snapshot :dataSnapshot.getChildren()){
-
+                        mUploads.clear();
                         Trade trade = snapshot.getValue(Trade.class);
                         mUploads.add(trade);
                     }

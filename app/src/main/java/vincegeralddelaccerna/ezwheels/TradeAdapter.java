@@ -55,11 +55,11 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.TradeViewHol
         if(uploadCurrent.getStatus().equals("PENDING")){
             holder.status.setTextColor(Color.parseColor("#ffa500"));
         }
-        else if(uploadCurrent.getStatus().equals("ACCEPTED")){
+        else if(uploadCurrent.getStatus().equals("APPROVED")){
             holder.status.setTextColor(Color.parseColor("#008000"));
         }
         else{
-            holder.status.setTextColor(Color.parseColor("#FF0000"));
+            holder.status.setTextColor(Color.parseColor("#ff0000"));
         }
         mAuth = FirebaseAuth.getInstance();
         String id = mAuth.getUid().toString();
@@ -106,7 +106,10 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.TradeViewHol
                 intent.putExtra("listId", uploadCurrent.getListingid());
                 intent.putExtra("brand", uploadCurrent.getBrand());
                 intent.putExtra("model", uploadCurrent.getModel());
-//                intent.putExtra("tid", uploadCurrent.getT());
+                intent.putExtra("tid", uploadCurrent.getTid());
+                intent.putExtra("image1", uploadCurrent.getImage1());
+                intent.putExtra("price", uploadCurrent.getPriceList());
+                intent.putExtra("uid", uploadCurrent.getUid());
                 mContext.startActivity(intent);
             }
         });
