@@ -51,7 +51,7 @@ public class ShopreceivedTrades extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_shop_received_reservations, container, false);
+        View v = inflater.inflate(R.layout.fragment_shopreceived_trades, container, false);
 
         recyclerView = v.findViewById(R.id.recyclerRequest);
         mProgressbar = v.findViewById(R.id.progress);
@@ -70,7 +70,7 @@ public class ShopreceivedTrades extends Fragment {
 
                 if(dataSnapshot.exists()){
                     for(DataSnapshot snapshot :dataSnapshot.getChildren()){
-
+                        mUploads.clear();
                         Trade trade = snapshot.getValue(Trade.class);
                         mUploads.add(trade);
                     }

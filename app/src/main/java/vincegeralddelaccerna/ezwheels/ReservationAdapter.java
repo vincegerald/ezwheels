@@ -63,6 +63,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
                 intent.putExtra("resId", uploadCurrent.getShopuid());
                 intent.putExtra("listingId", uploadCurrent.getListid());
                 intent.putExtra("shopId", uploadCurrent.getShopuid());
+                intent.putExtra("uid", uploadCurrent.getUid());
                 mContext.startActivity(intent);
 
             }

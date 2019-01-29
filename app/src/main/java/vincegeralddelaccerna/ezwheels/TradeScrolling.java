@@ -68,7 +68,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
     private static String offeredModel;
     private static String contactnumber, firstname, lastname, address, status;
     private DatabaseReference shopRef;
-    private String UserUId;
+    private static String UserUId;
 
 
     @Override
@@ -236,12 +236,9 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                 imagePath1  = dataSnapshot.child("imagePath1").getValue().toString();
                 imagePath2 = dataSnapshot.child("imagePath2").getValue().toString();
                 status = dataSnapshot.child("status").getValue().toString();
-                userId = uid;
+                decline.setVisibility(View.GONE);
+                approve.setVisibility(View.GONE);
 
-                if(status.equals("DECLINED") || status.equals("APPROVED")){
-                    decline.setVisibility(View.GONE);
-                    approve.setVisibility(View.GONE);
-                }
                 if(type.equals("SWAP")){
                     typeView.setTextColor(Color.parseColor("#FFA500"));
                     typeView.setText(type);
@@ -290,7 +287,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
 
 
 
-        mDatabaseRef1 = FirebaseDatabase.getInstance().getReference("Shop").child(userId);
+        mDatabaseRef1 = FirebaseDatabase.getInstance().getReference("Buyers").child(userId);
 
         mDatabaseRef1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -302,6 +299,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                             firstname = dataSnapshot.child("firstname").getValue().toString();
                             lastname = dataSnapshot.child("lastname").getValue().toString();
                             contactnumber = dataSnapshot.child("contact").getValue().toString();
+                            status = dataSnapshot.child("status").getValue().toString();
                             Toast.makeText(TradeScrolling.this, firstname, Toast.LENGTH_SHORT).show();
                             Log.d("number" ,contactnumber);
                             Log.d("fname" ,firstname);
@@ -309,6 +307,10 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                             sellerAddress.setVisibility(View.GONE);
                             sellerName.setText(firstname + " " +lastname);
                             sellerContact.setText(contactnumber);
+                            if(status.equals("DECLINED") || status.equals("APPROVED")){
+                                decline.setVisibility(View.GONE);
+                                approve.setVisibility(View.GONE);
+                            }
 
                         }
 
@@ -316,6 +318,8 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                         public void onCancelled(@NonNull DatabaseError databaseError) {
                             Toast.makeText(TradeScrolling.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                         }
+
+
                     });
                 }
 
@@ -324,13 +328,16 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                     shopRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            firstname = dataSnapshot.child("firstname").getValue().toString();
-                            lastname = dataSnapshot.child("lastname").getValue().toString();
-                            address = dataSnapshot.child("address").getValue().toString();
-                            contactnumber = dataSnapshot.child("contactnumber").getValue().toString();
-                            sellerName.setText(firstname + " " +lastname);
-                            sellerContact.setText(contactnumber);
-                            sellerAddress.setText(address);
+
+                                firstname = dataSnapshot.child("firstname").getValue().toString();
+                                lastname = dataSnapshot.child("lastname").getValue().toString();
+                                address = dataSnapshot.child("location").getValue().toString();
+                                contactnumber = dataSnapshot.child("contact").getValue().toString();
+                                sellerName.setText(firstname + " " +lastname);
+                                sellerContact.setText(contactnumber);
+                                sellerAddress.setText(address);
+                                fab.setVisibility(View.GONE);
+
                         }
 
                         @Override
@@ -419,6 +426,15 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
 
                 }
             });
+        }
+
+        if(id == R.id.fab){
+            DatabaseReference tradedelete = FirebaseDatabase.getInstance().getReference("Trade").child(tid);
+            tradedelete.removeValue();
+            Toast.makeText(TradeScrolling.this, "Trade Deleted", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(TradeScrolling.this, ShopDashboard.class);
+            startActivity(intent
+            );
         }
 
 
