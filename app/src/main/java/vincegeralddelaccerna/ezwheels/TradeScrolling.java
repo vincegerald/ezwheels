@@ -312,6 +312,8 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                                 approve.setVisibility(View.GONE);
                             }
 
+                            fab.setVisibility(View.VISIBLE);
+
                         }
 
                         @Override
@@ -336,7 +338,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                                 sellerName.setText(firstname + " " +lastname);
                                 sellerContact.setText(contactnumber);
                                 sellerAddress.setText(address);
-                                fab.setVisibility(View.GONE);
+                                fab.setVisibility(View.VISIBLE);
 
                         }
 

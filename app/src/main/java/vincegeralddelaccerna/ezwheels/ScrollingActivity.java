@@ -118,26 +118,26 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-//        image1 = getIntent().getStringExtra("image_url1");
-//        String image2 = getIntent().getStringExtra("image_url2");
-//        String image3 = getIntent().getStringExtra("image_url3");
-//        String image4 = getIntent().getStringExtra("image_url4");
-//        String videoUrl = getIntent().getStringExtra("videoUrl");
-//        Uri uriVideo = Uri.parse(videoUrl);
-//        brand = getIntent().getStringExtra("brand");
-//        model = getIntent().getStringExtra("model");
-//        year = getIntent().getStringExtra("year");
-//        color = getIntent().getStringExtra("color");
-//        String transmission = getIntent().getStringExtra("transmission");
-//        String pricecondition = getIntent().getStringExtra("pricecondition");
-//        String mileage = getIntent().getStringExtra("mileage");
-//        price = getIntent().getStringExtra("price");
+        image1 = getIntent().getStringExtra("image_url1");
+        String image2 = getIntent().getStringExtra("image_url2");
+        String image3 = getIntent().getStringExtra("image_url3");
+        String image4 = getIntent().getStringExtra("image_url4");
+        String videoUrl = getIntent().getStringExtra("videoUrl");
+        Uri uriVideo = Uri.parse(videoUrl);
+        brand = getIntent().getStringExtra("brand");
+        model = getIntent().getStringExtra("model");
+        year = getIntent().getStringExtra("year");
+        color = getIntent().getStringExtra("color");
+        String transmission = getIntent().getStringExtra("transmission");
+        String pricecondition = getIntent().getStringExtra("pricecondition");
+        String mileage = getIntent().getStringExtra("mileage");
+        price = getIntent().getStringExtra("price");
         uid = getIntent().getStringExtra("uid");
-//        String fuel = getIntent().getStringExtra("fuel");
-//        String dateData = getIntent().getStringExtra("date");
-//        String seriesData = getIntent().getStringExtra("series");
-//        String editionData = getIntent().getStringExtra("edition");
-//        String infoData = getIntent().getStringExtra("info");
+        String fuel = getIntent().getStringExtra("fuel");
+        String dateData = getIntent().getStringExtra("date");
+        String seriesData = getIntent().getStringExtra("series");
+        String editionData = getIntent().getStringExtra("edition");
+        String infoData = getIntent().getStringExtra("info");
         listingid = getIntent().getStringExtra("listingid");
 
 
@@ -179,24 +179,24 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         });
 
         //set the datas
-       // video.setVideoURI(uriVideo);
-//        video.start();
-//        Picasso.get().load(image1).fit().centerCrop().into(scrollImage);
-//        Picasso.get().load(image1).fit().centerCrop().into(imageView1);
-//        Picasso.get().load(image2).fit().centerCrop().into(imageView2);
-//        Picasso.get().load(image3).fit().centerCrop().into(imageView3);
-//        Picasso.get().load(image4).fit().centerCrop().into(imageView4);
-//        vehicleName.setText(brand + " " + model);
-//        priceView.setText(price);
-//        priceCondition.setText(pricecondition);
-//        date.setText(dateData);
-//        mileageView.setText(mileage);
-//        transmissionView.setText(transmission);
-//        yearView.setText(year);
-//        fuelType.setText(fuel);
-//        seriesView.setText(seriesData);
-//        editionView.setText(editionData);
-//        infoView.setText(infoData);
+        video.setVideoURI(uriVideo);
+        video.start();
+        Picasso.get().load(image1).fit().centerCrop().into(scrollImage);
+        Picasso.get().load(image1).fit().centerCrop().into(imageView1);
+        Picasso.get().load(image2).fit().centerCrop().into(imageView2);
+        Picasso.get().load(image3).fit().centerCrop().into(imageView3);
+        Picasso.get().load(image4).fit().centerCrop().into(imageView4);
+        vehicleName.setText(brand + " " + model);
+        priceView.setText(price);
+        priceCondition.setText(pricecondition);
+        date.setText(dateData);
+        mileageView.setText(mileage);
+        transmissionView.setText(transmission);
+        yearView.setText(year);
+        fuelType.setText(fuel);
+        seriesView.setText(seriesData);
+        editionView.setText(editionData);
+        infoView.setText(infoData);
 
 
 
