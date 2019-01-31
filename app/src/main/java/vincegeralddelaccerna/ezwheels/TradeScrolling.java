@@ -38,7 +38,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
 
     ImageView scrollImage;
     TextView shopName, vehicleName, priceView, priceCondition, date, transmissionView, mileageView, yearView,sellerName, sellerAddress, sellerContact, fuelType, seriesView, editionView, infoView,
-            textView13, textView14, typeView;
+            textView13, textView14, typeView, statusView;
     Button call, message, approve, decline;
     FloatingActionButton fab;
     VideoView video;
@@ -66,7 +66,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
     private String type, addPrice, shopAddPrice, userId, imagePath1, imagePath2;
     private static String offeredBrand;
     private static String offeredModel;
-    private static String contactnumber, firstname, lastname, address, status;
+    private static String contactnumber, firstname, lastname, address, status, shopUid;
     private DatabaseReference shopRef;
     private static String UserUId;
 
@@ -99,6 +99,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
         textView13 = findViewById(R.id.textView13);
         textView14 = findViewById(R.id.textView14);
         imageView14 = findViewById(R.id.imageView14);
+        statusView = findViewById(R.id.status);
 
         approveRef = FirebaseDatabase.getInstance().getReference();
 
@@ -162,9 +163,9 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
 
 
         //card
-        cardSeller = findViewById(R.id.cardSeller);
-        cardReservation = findViewById(R.id.cardReservation);
-        cardTrade = findViewById(R.id.cardTrade);
+//        cardSeller = findViewById(R.id.cardSeller);
+//        cardReservation = findViewById(R.id.cardReservation);
+//        cardTrade = findViewById(R.id.cardTrade);
 
 
         //buttons
@@ -212,15 +213,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
 
 
         //check if the listing is posted by current user
-        String id = mAuth.getCurrentUser().getUid();
-        if(id.equals(uid)){
-            cardSeller.setVisibility(View.GONE);
-            cardReservation.setVisibility(View.GONE);
-            cardTrade.setVisibility(View.GONE);
-            textView13.setVisibility(View.GONE);
-            textView14.setVisibility(View.GONE);
-            fab.setVisibility(View.GONE);
-        }
+
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Trade").child(tid);
 
@@ -233,11 +226,165 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                 offeredBrand = dataSnapshot.child("brand").getValue().toString();
                 offeredModel = dataSnapshot.child("model").getValue().toString();
                 UserUId = dataSnapshot.child("uid").getValue().toString();
+                shopUid = dataSnapshot.child("shopuid").getValue().toString();
                 imagePath1  = dataSnapshot.child("imagePath1").getValue().toString();
                 imagePath2 = dataSnapshot.child("imagePath2").getValue().toString();
                 status = dataSnapshot.child("status").getValue().toString();
-                decline.setVisibility(View.GONE);
-                approve.setVisibility(View.GONE);
+
+                String id = mAuth.getCurrentUser().getUid();
+
+                if(id.equals(UserUId)){
+                    approve.setVisibility(View.GONE);
+                    decline.setVisibility(View.GONE);
+                    fab.setVisibility(View.VISIBLE);
+
+                    mDatabaseRef1 = FirebaseDatabase.getInstance().getReference("Buyers").child(shopUid);
+
+                    mDatabaseRef1.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if(dataSnapshot.exists()){
+                                mDatabaseRef1.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        firstname = dataSnapshot.child("firstname").getValue().toString();
+                                        lastname = dataSnapshot.child("lastname").getValue().toString();
+                                        contactnumber = dataSnapshot.child("contact").getValue().toString();
+                                        status = dataSnapshot.child("status").getValue().toString();
+                                        Toast.makeText(TradeScrolling.this, firstname, Toast.LENGTH_SHORT).show();
+                                        Log.d("number" ,contactnumber);
+                                        Log.d("fname" ,firstname);
+                                        Log.d("lname" ,lastname);
+                                        sellerAddress.setVisibility(View.GONE);
+                                        sellerName.setText(firstname + " " +lastname);
+                                        sellerContact.setText(contactnumber);
+                                        if(status.equals("DECLINED") || status.equals("APPROVED")){
+                                            decline.setVisibility(View.GONE);
+                                            approve.setVisibility(View.GONE);
+                                        }
+
+
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        Toast.makeText(TradeScrolling.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+
+
+                                });
+                            }
+
+                            else{
+                                shopRef = FirebaseDatabase.getInstance().getReference("Shop").child(shopUid);
+                                shopRef.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                        firstname = dataSnapshot.child("firstname").getValue().toString();
+                                        lastname = dataSnapshot.child("lastname").getValue().toString();
+                                        address = dataSnapshot.child("location").getValue().toString();
+                                        contactnumber = dataSnapshot.child("contact").getValue().toString();
+                                        textView13.setText("Seller Details");
+                                         sellerName.setText(firstname + " " +lastname);
+                                         sellerContact.setText(contactnumber);
+                                         sellerAddress.setText(address);
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        Toast.makeText(TradeScrolling.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Toast.makeText(TradeScrolling.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }
+
+
+                if(shopUid.equals(id)){
+                    fab.setVisibility(View.GONE);
+                    {
+                        mDatabaseRef1 = FirebaseDatabase.getInstance().getReference("Buyers").child(userId);
+
+                        mDatabaseRef1.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists()){
+                                    mDatabaseRef1.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            firstname = dataSnapshot.child("firstname").getValue().toString();
+                                            lastname = dataSnapshot.child("lastname").getValue().toString();
+                                            contactnumber = dataSnapshot.child("contact").getValue().toString();
+                                            status = dataSnapshot.child("status").getValue().toString();
+                                            Toast.makeText(TradeScrolling.this, firstname, Toast.LENGTH_SHORT).show();
+                                            Log.d("number" ,contactnumber);
+                                            Log.d("fname" ,firstname);
+                                            Log.d("lname" ,lastname);
+                                            sellerAddress.setVisibility(View.GONE);
+                                            sellerName.setText(firstname + " " +lastname);
+                                            sellerContact.setText(contactnumber);
+                                            if(status.equals("DECLINED") || status.equals("APPROVED")){
+                                                decline.setVisibility(View.GONE);
+                                                approve.setVisibility(View.GONE);
+                                            }
+
+
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                            Toast.makeText(TradeScrolling.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+
+
+                                    });
+                                }
+
+                                else{
+                                    shopRef = FirebaseDatabase.getInstance().getReference("Shop").child(userId);
+                                    shopRef.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                            firstname = dataSnapshot.child("firstname").getValue().toString();
+                                            lastname = dataSnapshot.child("lastname").getValue().toString();
+                                            address = dataSnapshot.child("location").getValue().toString();
+                                            contactnumber = dataSnapshot.child("contact").getValue().toString();
+                                            textView13.setText("Seller Details");
+                                            sellerName.setText(firstname + " " +lastname);
+                                            sellerContact.setText(contactnumber);
+                                            sellerAddress.setText(address);
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                            Toast.makeText(TradeScrolling.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Toast.makeText(TradeScrolling.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                }
+
 
                 if(type.equals("SWAP")){
                     typeView.setTextColor(Color.parseColor("#FFA500"));
@@ -253,6 +400,20 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                 else{
                     typeView.setTextColor(Color.parseColor("#004c00"));
                     typeView.setText(type);
+                }
+
+                if(status.equals("PENDING")){
+                    statusView.setTextColor(Color.parseColor("#FFA500"));
+                    statusView.setText("("+status+")");
+                }
+
+                else if(status.equals("APPROVED")){
+                    statusView.setTextColor(Color.parseColor("#FF0000"));
+                    statusView.setText("("+status+")");
+                }
+                else{
+                    statusView.setTextColor(Color.parseColor("#004c00"));
+                    statusView.setText("("+status+")");
                 }
 
                 transmissionView.setText(offeredBrand + " " +offeredModel);
@@ -287,74 +448,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
 
 
 
-        mDatabaseRef1 = FirebaseDatabase.getInstance().getReference("Buyers").child(userId);
 
-        mDatabaseRef1.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    mDatabaseRef1.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            firstname = dataSnapshot.child("firstname").getValue().toString();
-                            lastname = dataSnapshot.child("lastname").getValue().toString();
-                            contactnumber = dataSnapshot.child("contact").getValue().toString();
-                            status = dataSnapshot.child("status").getValue().toString();
-                            Toast.makeText(TradeScrolling.this, firstname, Toast.LENGTH_SHORT).show();
-                            Log.d("number" ,contactnumber);
-                            Log.d("fname" ,firstname);
-                            Log.d("lname" ,lastname);
-                            sellerAddress.setVisibility(View.GONE);
-                            sellerName.setText(firstname + " " +lastname);
-                            sellerContact.setText(contactnumber);
-                            if(status.equals("DECLINED") || status.equals("APPROVED")){
-                                decline.setVisibility(View.GONE);
-                                approve.setVisibility(View.GONE);
-                            }
-
-                            fab.setVisibility(View.VISIBLE);
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                            Toast.makeText(TradeScrolling.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-
-
-                    });
-                }
-
-                else{
-                    shopRef = FirebaseDatabase.getInstance().getReference("Shop").child(userId);
-                    shopRef.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                firstname = dataSnapshot.child("firstname").getValue().toString();
-                                lastname = dataSnapshot.child("lastname").getValue().toString();
-                                address = dataSnapshot.child("location").getValue().toString();
-                                contactnumber = dataSnapshot.child("contact").getValue().toString();
-                                sellerName.setText(firstname + " " +lastname);
-                                sellerContact.setText(contactnumber);
-                                sellerAddress.setText(address);
-                                fab.setVisibility(View.VISIBLE);
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                            Toast.makeText(TradeScrolling.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(TradeScrolling.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
 
         Picasso.get().load(imageCar).fit().centerCrop().into(scrollImage);
         priceView.setText(price);
@@ -379,6 +473,8 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
         int id = view.getId();
 
         if(id == R.id.message){
+
+
 
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_VIEW);
@@ -435,8 +531,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
             tradedelete.removeValue();
             Toast.makeText(TradeScrolling.this, "Trade Deleted", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(TradeScrolling.this, ShopDashboard.class);
-            startActivity(intent
-            );
+            startActivity(intent);
         }
 
 

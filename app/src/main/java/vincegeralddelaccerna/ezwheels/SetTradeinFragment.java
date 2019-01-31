@@ -139,7 +139,7 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
                         input.setVisibility(View.GONE);
                         price1.setVisibility(View.GONE);
                         input1.setVisibility(View.GONE);
-                        typeText = "swap";
+                        typeText = "SWAP";
 //                        typeText = "car1";
 //                        Toast.makeText(SetTradeinFragment.this, typeText, Toast.LENGTH_SHORT).show();
                         break;
