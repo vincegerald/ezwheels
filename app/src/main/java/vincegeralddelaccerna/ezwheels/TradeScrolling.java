@@ -45,7 +45,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
     CardView cardSeller, cardTrade, cardReservation;
 
     //imageview
-    ImageView imageView1, imageView2, imageView3, imageView4, imageView14;
+    ImageView imageView1, imageView2, imageView3, imageView4, imageView14, edit;
 
     //spinner
     Spinner action;
@@ -66,7 +66,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
     private String type, addPrice, shopAddPrice, userId, imagePath1, imagePath2;
     private static String offeredBrand;
     private static String offeredModel;
-    private static String contactnumber, firstname, lastname, address, status, shopUid;
+    private static String contactnumber, firstname, lastname, address, status, shopUid, fyear, yearr, oYear;
     private DatabaseReference shopRef;
     private static String UserUId;
 
@@ -99,6 +99,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
         textView13 = findViewById(R.id.textView13);
         textView14 = findViewById(R.id.textView14);
         imageView14 = findViewById(R.id.imageView14);
+        edit = findViewById(R.id.edit);
         statusView = findViewById(R.id.status);
 
         approveRef = FirebaseDatabase.getInstance().getReference();
@@ -188,6 +189,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
         fab.setOnClickListener(this);
         approve.setOnClickListener(this);
         decline.setOnClickListener(this);
+        edit.setOnClickListener(this);
         //firebase
 
         mAuth = FirebaseAuth.getInstance();
@@ -206,6 +208,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
         price = getIntent().getStringExtra("price");
         tid = getIntent().getStringExtra("tid");
         userId = getIntent().getStringExtra("uid");
+        oYear = getIntent().getStringExtra("year");
         finalImageCar = Uri.parse(imageCar);
 
 
@@ -223,10 +226,12 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                 type = dataSnapshot.child("type").getValue().toString();
                 addPrice =  dataSnapshot.child("addPrice").getValue().toString();
                 shopAddPrice = dataSnapshot.child("shopAddPrice").getValue().toString();
-                offeredBrand = dataSnapshot.child("brand").getValue().toString();
-                offeredModel = dataSnapshot.child("model").getValue().toString();
+                offeredBrand = dataSnapshot.child("fbrand").getValue().toString();
+                offeredModel = dataSnapshot.child("fmodel").getValue().toString();
                 UserUId = dataSnapshot.child("uid").getValue().toString();
                 shopUid = dataSnapshot.child("shopuid").getValue().toString();
+                fyear = dataSnapshot.child("fyear").getValue().toString();
+                yearr = dataSnapshot.child("year").getValue().toString();
                 imagePath1  = dataSnapshot.child("imagePath1").getValue().toString();
                 imagePath2 = dataSnapshot.child("imagePath2").getValue().toString();
                 status = dataSnapshot.child("status").getValue().toString();
@@ -258,10 +263,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                                         sellerAddress.setVisibility(View.GONE);
                                         sellerName.setText(firstname + " " +lastname);
                                         sellerContact.setText(contactnumber);
-                                        if(status.equals("DECLINED") || status.equals("APPROVED")){
-                                            decline.setVisibility(View.GONE);
-                                            approve.setVisibility(View.GONE);
-                                        }
+
 
 
 
@@ -290,6 +292,10 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                                          sellerName.setText(firstname + " " +lastname);
                                          sellerContact.setText(contactnumber);
                                          sellerAddress.setText(address);
+                                        if(status.equals("DECLINED") || status.equals("APPROVED")){
+                                            decline.setVisibility(View.GONE);
+                                            approve.setVisibility(View.GONE);
+                                        }
 
                                     }
 
@@ -299,6 +305,28 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                                     }
                                 });
                             }
+
+                            if(type.equals("SWAP")){
+                                typeView.setTextColor(Color.parseColor("#FFA500"));
+                                typeView.setText(type);
+                                fuelType.setVisibility(View.GONE);
+                                imageView14.setVisibility(View.GONE);
+
+                            }
+                            else if(type.equals("SHOP WILL ADD")){
+                                typeView.setTextColor(Color.parseColor("#004c00"));
+                                typeView.setText(type  + " (" + shopAddPrice +")");
+                                fuelType.setTextColor(Color.parseColor("#004c00"));
+                                fuelType.setVisibility(View.VISIBLE);
+                                fuelType.setText(type + " (" + shopAddPrice +")");
+                            }
+                            else{
+                                typeView.setTextColor(Color.parseColor("#FF0000"));
+                                typeView.setText(type + " (" + addPrice +")");
+                                fuelType.setTextColor(Color.parseColor("#FF0000"));
+                                fuelType.setVisibility(View.VISIBLE);
+                                fuelType.setText(type + " (" + addPrice +")");
+                            }
                         }
 
                         @Override
@@ -307,13 +335,14 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                         }
                     });
 
+
                 }
 
 
                 if(shopUid.equals(id)){
                     fab.setVisibility(View.GONE);
                     {
-                        mDatabaseRef1 = FirebaseDatabase.getInstance().getReference("Buyers").child(userId);
+                        mDatabaseRef1 = FirebaseDatabase.getInstance().getReference("Buyers").child(shopUid);
 
                         mDatabaseRef1.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -331,6 +360,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                                             Log.d("fname" ,firstname);
                                             Log.d("lname" ,lastname);
                                             sellerAddress.setVisibility(View.GONE);
+                                            textView13.setText("Buyer Details");
                                             sellerName.setText(firstname + " " +lastname);
                                             sellerContact.setText(contactnumber);
                                             if(status.equals("DECLINED") || status.equals("APPROVED")){
@@ -352,7 +382,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                                 }
 
                                 else{
-                                    shopRef = FirebaseDatabase.getInstance().getReference("Shop").child(userId);
+                                    shopRef = FirebaseDatabase.getInstance().getReference("Shop").child(shopUid);
                                     shopRef.addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -361,7 +391,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                                             lastname = dataSnapshot.child("lastname").getValue().toString();
                                             address = dataSnapshot.child("location").getValue().toString();
                                             contactnumber = dataSnapshot.child("contact").getValue().toString();
-                                            textView13.setText("Seller Details");
+                                            textView13.setText("Buyer Details");
                                             sellerName.setText(firstname + " " +lastname);
                                             sellerContact.setText(contactnumber);
                                             sellerAddress.setText(address);
@@ -373,6 +403,30 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                                             Toast.makeText(TradeScrolling.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                                         }
                                     });
+
+                                    if(type.equals("SWAP")){
+                                        typeView.setTextColor(Color.parseColor("#FFA500"));
+                                        typeView.setText(type);
+                                        fuelType.setVisibility(View.GONE);
+                                        imageView14.setVisibility(View.GONE);
+
+                                    }
+                                    else if(type.equals("SHOP WILL ADD")){
+                                        typeView.setTextColor(Color.parseColor("#FF0000"));
+                                        typeView.setText("YOU WILL ADD"  + " (" + shopAddPrice +")");
+                                        fuelType.setTextColor(Color.parseColor("#FF0000"));
+                                        fuelType.setVisibility(View.VISIBLE);
+                                        fuelType.setText("YOU WILL ADD" + " (" + shopAddPrice +")");
+                                    }
+                                    else{
+                                        typeView.setTextColor(Color.parseColor("#004c00"));
+                                        typeView.setText("BUYER WILL ADD" + " (" + addPrice +")");
+                                        fuelType.setTextColor(Color.parseColor("#004c00"));
+                                        fuelType.setVisibility(View.VISIBLE);
+                                        fuelType.setText("BUYER WILL ADD" + " (" + addPrice +")");
+                                    }
+
+                                    edit.setVisibility(View.GONE);
                                 }
                             }
 
@@ -383,24 +437,26 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                         });
                     }
 
+                    if(type.equals("SWAP")){
+                        typeView.setTextColor(Color.parseColor("#FFA500"));
+                        typeView.setText(type);
+                        fuelType.setVisibility(View.GONE);
+                        imageView14.setVisibility(View.GONE);
+
+                    }
+                    else if(type.equals("SHOP WILL ADD")){
+                        typeView.setTextColor(Color.parseColor("#FF0000"));
+                        typeView.setText(type);
+                    }
+                    else{
+                        typeView.setTextColor(Color.parseColor("#004c00"));
+                        typeView.setText(type);
+                    }
+
                 }
 
 
-                if(type.equals("SWAP")){
-                    typeView.setTextColor(Color.parseColor("#FFA500"));
-                    typeView.setText(type);
-                    fuelType.setVisibility(View.GONE);
-                    imageView14.setVisibility(View.GONE);
 
-                }
-                else if(type.equals("SHOP WILL ADD")){
-                    typeView.setTextColor(Color.parseColor("#FF0000"));
-                    typeView.setText(type);
-                }
-                else{
-                    typeView.setTextColor(Color.parseColor("#004c00"));
-                    typeView.setText(type);
-                }
 
                 if(status.equals("PENDING")){
                     statusView.setTextColor(Color.parseColor("#FFA500"));
@@ -408,15 +464,19 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                 }
 
                 else if(status.equals("APPROVED")){
-                    statusView.setTextColor(Color.parseColor("#FF0000"));
-                    statusView.setText("("+status+")");
-                }
-                else{
+                    decline.setVisibility(View.GONE);
+                    approve.setVisibility(View.GONE);
                     statusView.setTextColor(Color.parseColor("#004c00"));
                     statusView.setText("("+status+")");
                 }
+                else{
+                    statusView.setTextColor(Color.parseColor("#FF0000"));
+                    decline.setVisibility(View.GONE);
+                    approve.setVisibility(View.GONE);
+                    statusView.setText("("+status+")");
+                }
 
-                transmissionView.setText(offeredBrand + " " +offeredModel);
+                transmissionView.setText(offeredBrand + " " +offeredModel + "(" + fyear + ")");
 
                 if(addPrice.equals("") || shopAddPrice.equals("")){
                     fuelType.setVisibility(View.GONE);
@@ -452,7 +512,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
 
         Picasso.get().load(imageCar).fit().centerCrop().into(scrollImage);
         priceView.setText(price);
-        vehicleName.setText(brand + " " + model);
+        vehicleName.setText(brand + " " + model + "(" + oYear + ")");
       //  Toast.makeText(this, firstname, Toast.LENGTH_SHORT).show();
 //        typeView.setText("bogo");
 
@@ -527,11 +587,17 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
         }
 
         if(id == R.id.fab){
+
             DatabaseReference tradedelete = FirebaseDatabase.getInstance().getReference("Trade").child(tid);
             tradedelete.removeValue();
             Toast.makeText(TradeScrolling.this, "Trade Deleted", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(TradeScrolling.this, ShopDashboard.class);
-            startActivity(intent);
+//            Intent intent = new Intent(TradeScrolling.this, ShopDashboard.class);
+//            startActivity(intent);
+        }
+
+        if(id == R.id.edit){
+            Intent editIntent = new Intent(TradeScrolling.this, EditTrade.class);
+            editIntent.putExtra("tid", tid);
         }
 
 

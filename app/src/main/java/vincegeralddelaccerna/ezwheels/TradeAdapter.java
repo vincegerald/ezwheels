@@ -44,8 +44,8 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.TradeViewHol
     @Override
     public void onBindViewHolder(@NonNull TradeAdapter.TradeViewHolder holder, int position) {
         final Trade uploadCurrent = mUploads.get(position);
-        holder.list.setText(uploadCurrent.getBrand() + " " + uploadCurrent.getModel());
-        holder.shop.setText(uploadCurrent.getFbrand() + " " + uploadCurrent.getFmodel());
+        holder.list.setText(uploadCurrent.getBrand() + " " + uploadCurrent.getModel() + "(" + uploadCurrent.getYear() + ")");
+        holder.shop.setText(uploadCurrent.getFbrand() + " " + uploadCurrent.getFmodel() + "("  +uploadCurrent.getFyear() + ")");
         holder.date.setText(uploadCurrent.getName());
         holder.type.setText(uploadCurrent.getType());
         Picasso.get().load(uploadCurrent.getImage1()).fit().centerCrop().into(holder.image);
@@ -110,6 +110,7 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.TradeViewHol
                 intent.putExtra("image1", uploadCurrent.getImage1());
                 intent.putExtra("price", uploadCurrent.getPriceList());
                 intent.putExtra("uid", uploadCurrent.getUid());
+                intent.putExtra("year", uploadCurrent.getYear());
                 mContext.startActivity(intent);
             }
         });

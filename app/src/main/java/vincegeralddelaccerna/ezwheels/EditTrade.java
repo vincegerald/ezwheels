@@ -29,8 +29,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
@@ -41,13 +44,15 @@ import com.squareup.picasso.Picasso;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SetTradeinFragment extends AppCompatActivity implements View.OnClickListener {
+public class EditTrade extends AppCompatActivity implements View.OnClickListener {
 
 
     //requests
 
     private static final int IMAGE_REQUEST_1 = 1;
     private static final int IMAGE_REQUEST_2 = 2;
+
+
 
     //strings
     private static final String [] brands = new String[]{
@@ -78,6 +83,7 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
     EditText price, price1;
     ImageView image1, image2;
     Button tradeBtn;
+    private static String tid;
 
 //    public SetTradeinFragment() {
 //        // Required empty public constructor
@@ -119,6 +125,9 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
         tradeBtn = findViewById(R.id.tradeBtn);
 
         //toolbar
+
+        tid = getIntent().getStringExtra("tid");
+
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -178,6 +187,20 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
 
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Trade").child(tid);
+
+        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     @Override
@@ -207,7 +230,7 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
             intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(intent, IMAGE_REQUEST_2);
         }
-        
+
         if(id == R.id.tradeBtn){
 
             final String finalPrice = price.getText().toString();
@@ -239,8 +262,8 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(SetTradeinFragment.this, "saved", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(SetTradeinFragment.this, ShopDashboard.class);
+                    Toast.makeText(EditTrade.this, "saved", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(EditTrade.this, ShopDashboard.class);
                     startActivity(intent);
                 }
             }
@@ -265,7 +288,7 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
                     mStorageRef.child("Images/"+path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            Toast.makeText(SetTradeinFragment.this, "Image 1 added", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditTrade.this, "Image 1 added", Toast.LENGTH_SHORT).show();
                             imagePath1 = uri.toString();
                         }
                     });
@@ -286,7 +309,7 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
                     mStorageRef.child("Images/"+path1).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            Toast.makeText(SetTradeinFragment.this, "Image 2 added", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditTrade.this, "Image 2 added", Toast.LENGTH_SHORT).show();
                             imagePath2 = uri.toString();
                         }
                     });

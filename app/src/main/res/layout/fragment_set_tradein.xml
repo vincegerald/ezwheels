@@ -132,16 +132,48 @@
             android:layout_marginTop="10dp"/>
 
         <TextView
+            android:layout_below="@id/modelText"
+            android:id="@+id/textYear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Year"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <AutoCompleteTextView
+            android:layout_below="@id/textYear"
+            android:id="@+id/yearText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/blackborder"
+            android:completionHint="Enter Year"
+            android:completionThreshold="1"
+            android:cursorVisible="true"
+            android:hint="Enter year"
+            android:padding="10dp"
+            android:textColor="#000000"
+            android:textColorHint="#000000"
+            android:textCursorDrawable="@drawable/cursor"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
             android:visibility="gone"
             android:id="@+id/input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Enter the amount you will add"
             android:textStyle="italic"
-            android:layout_below="@+id/modelText"
+            android:layout_below="@+id/yearText"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"/>
+
         <EditText
             android:visibility="gone"
             android:id="@+id/address"
@@ -164,7 +196,7 @@
             android:layout_height="wrap_content"
             android:text="Enter the amount they will add"
             android:textStyle="italic"
-            android:layout_below="@+id/modelText"
+            android:layout_below="@+id/yearText"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"/>
