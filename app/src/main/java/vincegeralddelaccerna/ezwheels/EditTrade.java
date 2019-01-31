@@ -192,7 +192,11 @@ public class EditTrade extends AppCompatActivity implements View.OnClickListener
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                final String finalPrice = dataSnapshot.child("addPrice").getValue().toString();
+                final String finalPrice1 = dataSnapshot.child("shopAddPrice").getValue().toString();
+                final String fBrand = dataSnapshot.child("fBrand").getValue().toString();
+                final String fModel = dataSnapshot.child("fModel").getValue().toString();
+                final String type = dataSnapshot.child("type").getValue().toString();
             }
 
             @Override
