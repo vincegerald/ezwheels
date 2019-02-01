@@ -67,6 +67,7 @@ public class EditTrade extends AppCompatActivity implements View.OnClickListener
     };
 
     private String typeText = "SWAP";
+    private static String typeTrade;
     private String status = "PENDING";
     private static String imagePath1;
     private static  String imagePath2;
@@ -78,12 +79,13 @@ public class EditTrade extends AppCompatActivity implements View.OnClickListener
 
     RadioGroup type;
     RadioButton type1, type2, type3;
-    AutoCompleteTextView brand, model, year;
+    AutoCompleteTextView brandText, modelText, yearText;
     TextView input, input1;
     EditText price, price1;
-    ImageView image1, image2;
+    ImageView imageCont1, imageCont2;
     Button tradeBtn;
-    private static String tid;
+    private static String tid, ty;
+    private static String brand, image1, listingid, model, name, priceList,shopuid, statusFinal, tidFinal, uid, year;
 
 //    public SetTradeinFragment() {
 //        // Required empty public constructor
@@ -93,6 +95,7 @@ public class EditTrade extends AppCompatActivity implements View.OnClickListener
 
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
+    private DatabaseReference mDatabaseRef1;
     private FirebaseAuth mAuth;
     private StorageTask mUploadTask;
 
@@ -106,22 +109,22 @@ public class EditTrade extends AppCompatActivity implements View.OnClickListener
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.parseColor("#fefefe"));
-        toolbar.setTitle("Trade");
+        toolbar.setTitle("Edit Trade");
         setSupportActionBar(toolbar);
 
         price = findViewById(R.id.address);
         price1 = findViewById(R.id.address1);
         input = findViewById(R.id.input);
         input1 = findViewById(R.id.input1);
-        brand = findViewById(R.id.brandText);
-        model = findViewById(R.id.modelText);
-        year = findViewById(R.id.yearText);
+        brandText = findViewById(R.id.brandText);
+        modelText = findViewById(R.id.modelText);
+        yearText = findViewById(R.id.yearText);
         type = findViewById(R.id.type);
         type1 = findViewById(R.id.radioButton);
         type2 = findViewById(R.id.radioButton2);
         type3 = findViewById(R.id.radioButton3);
-        image1 = findViewById(R.id.image1);
-        image2 = findViewById(R.id.image2);
+        imageCont1 = findViewById(R.id.image1);
+        imageCont2 = findViewById(R.id.image2);
         tradeBtn = findViewById(R.id.tradeBtn);
 
         //toolbar
@@ -133,17 +136,16 @@ public class EditTrade extends AppCompatActivity implements View.OnClickListener
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //listeners
-        image1.setOnClickListener(this);
-        image2.setOnClickListener(this);
+        imageCont1.setOnClickListener(this);
+        imageCont2.setOnClickListener(this);
         tradeBtn.setOnClickListener(this);
 
         ArrayAdapter<String> brandAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, brands);
-        brand.setAdapter(brandAdapter);
+        brandText.setAdapter(brandAdapter);
         ArrayAdapter<String> modelAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, models);
-        model.setAdapter(modelAdapter);
+        modelText.setAdapter(modelAdapter);
         ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, years);
-        year.setAdapter(yearAdapter);
-
+        yearText.setAdapter(yearAdapter);
 
         type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -155,24 +157,28 @@ public class EditTrade extends AppCompatActivity implements View.OnClickListener
                         input.setVisibility(View.GONE);
                         price1.setVisibility(View.GONE);
                         input1.setVisibility(View.GONE);
-                        typeText = "SWAP";
+                        price.setText("");
+                        price1.setText("");
+                        typeTrade = "SWAP";
 //                        typeText = "car1";
 //                        Toast.makeText(SetTradeinFragment.this, typeText, Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.radioButton2:
-                        typeText = "I WILL ADD";
+                        typeTrade = "I WILL ADD";
                         price.setVisibility(View.VISIBLE);
                         input.setVisibility(View.VISIBLE);
                         price1.setVisibility(View.GONE);
+                        price1.setText("");
                         input1.setVisibility(View.GONE);
 //                        typeText = "motor";
 //                        Toast.makeText(SetTradeinFragment.this, typeText, Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.radioButton3:
-                        typeText = "SHOP WILL ADD";
+                        typeTrade = "SHOP WILL ADD";
                         price.setVisibility(View.GONE);
+                        price.setText("");
                         input.setVisibility(View.GONE);
                         price1.setVisibility(View.VISIBLE);
                         input1.setVisibility(View.VISIBLE);
@@ -186,17 +192,56 @@ public class EditTrade extends AppCompatActivity implements View.OnClickListener
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+        mDatabaseRef1 = FirebaseDatabase.getInstance().getReference();
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Trade").child(tid);
 
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final String finalPrice = dataSnapshot.child("addPrice").getValue().toString();
-                final String finalPrice1 = dataSnapshot.child("shopAddPrice").getValue().toString();
-                final String fBrand = dataSnapshot.child("fBrand").getValue().toString();
-                final String fModel = dataSnapshot.child("fModel").getValue().toString();
-                final String type = dataSnapshot.child("type").getValue().toString();
+
+                final String addPrice = dataSnapshot.child("addPrice").getValue().toString();
+                brand = dataSnapshot.child("brand").getValue().toString();
+                final String fbrand = dataSnapshot.child("fbrand").getValue().toString();
+                final String fmodel = dataSnapshot.child("fmodel").getValue().toString();
+                final String fyear = dataSnapshot.child("fyear").getValue().toString();
+                image1 = dataSnapshot.child("image1").getValue().toString();
+                imagePath1 = dataSnapshot.child("imagePath1").getValue().toString();
+                imagePath2 = dataSnapshot.child("imagePath2").getValue().toString();
+                listingid = dataSnapshot.child("listingid").getValue().toString();
+                model = dataSnapshot.child("model").getValue().toString();
+                name = dataSnapshot.child("name").getValue().toString();
+                priceList = dataSnapshot.child("priceList").getValue().toString();
+                final String shopAddPrice = dataSnapshot.child("shopAddPrice").getValue().toString();
+                shopuid = dataSnapshot.child("shopuid").getValue().toString();
+                statusFinal = dataSnapshot.child("status").getValue().toString();
+                tidFinal = dataSnapshot.child("tid").getValue().toString();
+                typeTrade = dataSnapshot.child("type").getValue().toString();
+                uid = dataSnapshot.child("uid").getValue().toString();
+                year = dataSnapshot.child("year").getValue().toString();
+
+                Picasso.get().load(imagePath1).fit().centerCrop().into(imageCont1);
+                Picasso.get().load(imagePath2).fit().centerCrop().into(imageCont2);
+                brandText.setText(fbrand);
+                modelText.setText(fmodel);
+                yearText.setText(fyear);
+
+                if(typeTrade.equals("SWAP")){
+                    type1.setChecked(true);
+                    Toast.makeText(EditTrade.this, typeTrade, Toast.LENGTH_SHORT).show();
+                }
+                else if(typeTrade.equals("I WILL ADD")){
+                    type2.setChecked(true);
+                    price.setText(addPrice);
+                    Toast.makeText(EditTrade.this, typeTrade, Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    type3.setChecked(true);
+                    price1.setText(shopAddPrice);
+                    Toast.makeText(EditTrade.this, typeTrade, Toast.LENGTH_SHORT).show();
+                }
+
+
             }
 
             @Override
@@ -236,37 +281,27 @@ public class EditTrade extends AppCompatActivity implements View.OnClickListener
         }
 
         if(id == R.id.tradeBtn){
-
             final String finalPrice = price.getText().toString();
             final String finalPrice1 = price1.getText().toString();
-            final String finalBrand = brand.getText().toString();
-            final String finalModel = model.getText().toString();
-            final String finalYear = year.getText().toString();
-            final String model = getIntent().getStringExtra("model").toString();
-            final String brand = getIntent().getStringExtra("brand").toString();
-            final String name = getIntent().getStringExtra("name").toString();
-            final String image1 = getIntent().getStringExtra("image1").toString();
-            final String listing = getIntent().getStringExtra("listingid");
-            final String seller = getIntent().getStringExtra("shopuid");
-            final String price = getIntent().getStringExtra("price");
-            final String yearr = getIntent().getStringExtra("year");
-            Toast.makeText(this, imagePath1, Toast.LENGTH_SHORT).show();
-            addTrade(imagePath1, imagePath2, finalPrice, finalPrice1, finalBrand, finalModel, finalYear, typeText, model, brand, yearr, name, image1, listing, seller, price);
+            final String finalBrand = brandText.getText().toString();
+            final String finalModel = modelText.getText().toString();
+            final String finalYear = yearText.getText().toString();
+
+            Toast.makeText(this, finalBrand, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, tidFinal, Toast.LENGTH_SHORT).show();
+            updateTrade(finalPrice, finalPrice1, finalBrand, finalModel, finalYear);
         }
     }
 
-    private void addTrade(final String imagePath1, String imagePath2, String price, String price1, String finalbrand, String finalmodel, String finalYear, String type, String model, String brand, String yearr, String name, String image1, String listing, String seller, String priceList) {
+    private void updateTrade(final String finalPrice,final String finalPrice1,final String finalBrand,final String finalModel,final String finalYear) {
 
-        String uid = mAuth.getCurrentUser().getUid();
-        String shopuid =  getIntent().getStringExtra("shopuid");
-        String listid = getIntent().getStringExtra("listingid");
-        String id = mDatabaseRef.push().getKey();
-        Trade trade = new Trade(listid, imagePath1, imagePath2, price, price1, finalbrand, finalmodel,finalYear, uid, shopuid, type, image1, model, brand, yearr, name, status, priceList, id);
-        mDatabaseRef.child("Trade").child(id).setValue(trade).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+        Trade trade = new Trade(listingid, imagePath1, imagePath2, finalPrice, finalPrice1, finalBrand, finalModel,finalYear, uid, shopuid, typeTrade, image1, model, brand, year, name, statusFinal, priceList, tidFinal);
+        mDatabaseRef1.child("Trade").child(tid).setValue(trade).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(EditTrade.this, "saved", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditTrade.this, "Trade Edited", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(EditTrade.this, ShopDashboard.class);
                     startActivity(intent);
                 }
@@ -281,7 +316,7 @@ public class EditTrade extends AppCompatActivity implements View.OnClickListener
 
         if(requestCode == IMAGE_REQUEST_1 && resultCode == RESULT_OK){
             imageUri1 = data.getData();
-            Picasso.get().load(imageUri1).fit().centerCrop().into(image1);
+            Picasso.get().load(imageUri1).fit().centerCrop().into(imageCont1);
 
             final String path = System.currentTimeMillis() + "." + getFileExtension(imageUri1);
 
@@ -302,7 +337,7 @@ public class EditTrade extends AppCompatActivity implements View.OnClickListener
 
         if(requestCode == IMAGE_REQUEST_2 && resultCode == RESULT_OK){
             imageUri2 = data.getData();
-            Picasso.get().load(imageUri2).fit().centerCrop().into(image2);
+            Picasso.get().load(imageUri2).fit().centerCrop().into(imageCont2);
 
             final String path1 = System.currentTimeMillis() + "." + getFileExtension(imageUri2);
 

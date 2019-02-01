@@ -1,5 +1,6 @@
 package vincegeralddelaccerna.ezwheels;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -62,11 +64,10 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
     private String price, year, color;
     private String imageCar;
     private Uri finalImageCar;
-    private String tid;
     private String type, addPrice, shopAddPrice, userId, imagePath1, imagePath2;
     private static String offeredBrand;
     private static String offeredModel;
-    private static String contactnumber, firstname, lastname, address, status, shopUid, fyear, yearr, oYear;
+    private static String contactnumber, firstname, lastname, address, status, shopUid, fyear, yearr, oYear, tid;
     private DatabaseReference shopRef;
     private static String UserUId;
 
@@ -557,7 +558,13 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
         }
 
         if(id == R.id.approve){
-            approveRef = FirebaseDatabase.getInstance().getReference("Trade").child(tid);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(TradeScrolling.this);
+            builder.setMessage("Approve Trading Request?").setCancelable(false)
+                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            approveRef = FirebaseDatabase.getInstance().getReference("Trade").child(tid);
                             approveRef.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -569,35 +576,86 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
 
                                 }
                             });
+                        }
+                    }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setTitle("Approve Trade");
+            alertDialog.show();
+
         }
 
         if(id == R.id.decline){
-            approveRef = FirebaseDatabase.getInstance().getReference("Trade").child(tid);
-            approveRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    approveRef.child("status").setValue("DECLINED");
-                }
+            AlertDialog.Builder builder = new AlertDialog.Builder(TradeScrolling.this);
+            builder.setMessage("Decline Trading Request?").setCancelable(false)
+                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            approveRef = FirebaseDatabase.getInstance().getReference("Trade").child(tid);
+                            approveRef.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    approveRef.child("status").setValue("DECLINED");
+                                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                                }
+                            });
+                        }
+                    }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
                 }
             });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setTitle("Decline Trade");
+            alertDialog.show();
+
         }
 
         if(id == R.id.fab){
 
-            DatabaseReference tradedelete = FirebaseDatabase.getInstance().getReference("Trade").child(tid);
-            tradedelete.removeValue();
-            Toast.makeText(TradeScrolling.this, "Trade Deleted", Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(TradeScrolling.this, ShopDashboard.class);
-//            startActivity(intent);
-        }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(TradeScrolling.this);
+            builder.setMessage("Delete Trade Request?").setCancelable(false)
+                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            DatabaseReference tradedelete = FirebaseDatabase.getInstance().getReference("Trade").child(tid);
+                            tradedelete.removeValue();
+                            finish();
+//                            Intent intent = new Intent(TradeScrolling.this, ShopDashboard.class);
+//                            startActivity(intent);
+//                            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//                            TradeinFragment tradeinFragment = new TradeinFragment();
+//                            fragmentTransaction.replace(R.id.screen_area1, tradeinFragment);
+//                            fragmentTransaction.commit();
+                        }
+                    }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setTitle("Delete Trade Request");
+            alertDialog.show();
+    }
 
         if(id == R.id.edit){
             Intent editIntent = new Intent(TradeScrolling.this, EditTrade.class);
             editIntent.putExtra("tid", tid);
+            startActivity(editIntent);
         }
 
 

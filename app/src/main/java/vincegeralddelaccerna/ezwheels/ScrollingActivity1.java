@@ -395,8 +395,7 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
                 favDelete.removeValue();
                 Toast.makeText(ScrollingActivity1.this, "Favorite Deleted", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(ScrollingActivity1.this, ShopDashboard.class);
-                startActivity(intent
-                );
+                startActivity(intent);
 
         }
     }

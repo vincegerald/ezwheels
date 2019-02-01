@@ -107,59 +107,6 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
         //spinner
         action = findViewById(R.id.action);
 
-        //adapter
-//        ArrayAdapter<String> actionAdapter = new ArrayAdapter<String>(TradeScrolling.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.action));
-//        actionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        action.setAdapter(actionAdapter);
-//        action.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                if(adapterView.getItemAtPosition(i).equals("SELECT ACTION")){
-//
-//                }
-//                else {
-//                    String item = adapterView.getItemAtPosition(i).toString();
-//
-//                    switch (item){
-//                        case "APPROVE":
-//                            Toast.makeText(TradeScrolling.this, "1", Toast.LENGTH_SHORT).show();
-//                            approveRef = FirebaseDatabase.getInstance().getReference("Trade").child(tid);
-//                            approveRef.addValueEventListener(new ValueEventListener() {
-//                                @Override
-//                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                    approveRef.child("status").setValue("APPROVED");
-//                                }
-//
-//                                @Override
-//                                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                                }
-//                            });
-//                            break;
-//                        case "NEGOTIATE":
-//                            approveRef = FirebaseDatabase.getInstance().getReference("Trade").child(tid);
-//                            approveRef.addValueEventListener(new ValueEventListener() {
-//                                @Override
-//                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                    approveRef.child("status").setValue("NEGOTIATE");
-//                                }
-//
-//                                @Override
-//                                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                                }
-//                            });
-//                            Toast.makeText(TradeScrolling.this, "2", Toast.LENGTH_SHORT).show();
-//                            break;
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
 
 
         //card
@@ -207,99 +154,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
 
 
 
-        //getSupportActionBar().setTitle(brand + " " + model);
 
-
-        //check if the listing is posted by current user
-//        String id = mAuth.getCurrentUser().getUid();
-//        if(id.equals(uid)){
-//            cardSeller.setVisibility(View.GONE);
-//            cardReservation.setVisibility(View.GONE);
-//            cardTrade.setVisibility(View.GONE);
-//            textView13.setVisibility(View.GONE);
-//            textView14.setVisibility(View.GONE);
-//            fab.setVisibility(View.GONE);
-//        }
-
-//        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Trade").child(tid);
-//
-//        mDatabaseRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                type = dataSnapshot.child("type").getValue().toString();
-//                addPrice =  dataSnapshot.child("addPrice").getValue().toString();
-//                shopAddPrice = dataSnapshot.child("shopAddPrice").getValue().toString();
-//                offeredBrand = dataSnapshot.child("brand").getValue().toString();
-//                offeredModel = dataSnapshot.child("model").getValue().toString();
-//                UserUId = dataSnapshot.child("uid").getValue().toString();
-//                imagePath1  = dataSnapshot.child("imagePath1").getValue().toString();
-//                imagePath2 = dataSnapshot.child("imagePath2").getValue().toString();
-//                status = dataSnapshot.child("status").getValue().toString();
-//                decline.setVisibility(View.GONE);
-//                approve.setVisibility(View.GONE);
-//
-//                if(type.equals("SWAP")){
-//                    typeView.setTextColor(Color.parseColor("#FFA500"));
-//                    typeView.setText(type);
-//                    fuelType.setVisibility(View.GONE);
-//                    imageView14.setVisibility(View.GONE);
-//
-//                }
-//                else if(type.equals("SHOP WILL ADD")){
-//                    typeView.setTextColor(Color.parseColor("#FF0000"));
-//                    typeView.setText(type);
-//                }
-//                else{
-//                    typeView.setTextColor(Color.parseColor("#004c00"));
-//                    typeView.setText(type);
-//                }
-//
-//                if(status.equals("PENDING")){
-//                    statusView.setTextColor(Color.parseColor("#FFA500"));
-//                    statusView.setText("("+status+")");
-//                }
-//
-//                else if(status.equals("APPROVED")){
-//                    statusView.setTextColor(Color.parseColor("#FF0000"));
-//                    statusView.setText("("+status+")");
-//                }
-//                else{
-//                    statusView.setTextColor(Color.parseColor("#004c00"));
-//                    statusView.setText("("+status+")");
-//                }
-//
-//                transmissionView.setText(offeredBrand + " " +offeredModel);
-//
-//                if(addPrice.equals("") || shopAddPrice.equals("")){
-//                    fuelType.setVisibility(View.GONE);
-//                    imageView14.setVisibility(View.GONE);
-//
-//                }
-//                else if(!addPrice.equals("")){
-//                    fuelType.setTextColor(Color.parseColor("#004c00"));
-//                    fuelType.setText(addPrice);
-//                }
-//                else if(!shopAddPrice.equals("")){
-//                    fuelType.setTextColor(Color.parseColor("#FFA500"));
-//                    fuelType.setText(shopAddPrice);
-//                }
-//
-//                Picasso.get().load(imagePath1).fit().centerCrop().into(imageView2);
-//                Picasso.get().load(imagePath2).fit().centerCrop().into(imageView3);
-//
-//
-//
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                Toast.makeText(ReservationScrolling.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//
-//
         mDatabaseRef1 = FirebaseDatabase.getInstance().getReference("Buyers").child(uid);
 
         mDatabaseRef1.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -317,14 +172,6 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                             Log.d("number" ,contactnumber);
                             Log.d("fname" ,firstname);
                             Log.d("lname" ,lastname);
-    //                            sellerAddress.setVisibility(View.GONE);
-    //                            sellerName.setText(firstname + " " +lastname);
-    //                            sellerContact.setText(contactnumber);
-    //                            if(status.equals("DECLINED") || status.equals("APPROVED")){
-    //                                decline.setVisibility(View.GONE);
-    //                                approve.setVisibility(View.GONE);
-    //                            }
-
                             fab.setVisibility(View.VISIBLE);
 
                         }
