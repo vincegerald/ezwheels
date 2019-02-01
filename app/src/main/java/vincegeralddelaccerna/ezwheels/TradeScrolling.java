@@ -164,18 +164,20 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                type = dataSnapshot.child("type").getValue().toString();
-                addPrice =  dataSnapshot.child("addPrice").getValue().toString();
-                shopAddPrice = dataSnapshot.child("shopAddPrice").getValue().toString();
-                offeredBrand = dataSnapshot.child("fbrand").getValue().toString();
-                offeredModel = dataSnapshot.child("fmodel").getValue().toString();
-                UserUId = dataSnapshot.child("uid").getValue().toString();
-                shopUid = dataSnapshot.child("shopuid").getValue().toString();
-                fyear = dataSnapshot.child("fyear").getValue().toString();
-                yearr = dataSnapshot.child("year").getValue().toString();
-                imagePath1  = dataSnapshot.child("imagePath1").getValue().toString();
-                imagePath2 = dataSnapshot.child("imagePath2").getValue().toString();
-                status = dataSnapshot.child("status").getValue().toString();
+                if(dataSnapshot.exists()){
+                    type = dataSnapshot.child("type").getValue().toString();
+                    addPrice =  dataSnapshot.child("addPrice").getValue().toString();
+                    shopAddPrice = dataSnapshot.child("shopAddPrice").getValue().toString();
+                    offeredBrand = dataSnapshot.child("fbrand").getValue().toString();
+                    offeredModel = dataSnapshot.child("fmodel").getValue().toString();
+                    UserUId = dataSnapshot.child("uid").getValue().toString();
+                    shopUid = dataSnapshot.child("shopuid").getValue().toString();
+                    fyear = dataSnapshot.child("fyear").getValue().toString();
+                    yearr = dataSnapshot.child("year").getValue().toString();
+                    imagePath1  = dataSnapshot.child("imagePath1").getValue().toString();
+                    imagePath2 = dataSnapshot.child("imagePath2").getValue().toString();
+                    status = dataSnapshot.child("status").getValue().toString();
+                }
 
                 String id = mAuth.getCurrentUser().getUid();
 

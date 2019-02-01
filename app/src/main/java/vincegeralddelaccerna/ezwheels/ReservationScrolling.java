@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +56,9 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseRef;
     private DatabaseReference mDatabaseRef1, mDatabaseRef2, approveRef, motorRef;
+
+    LinearLayout loc, rem;
+    TextView datee, time, locationn, remindertext;
 
 
     private static String  contact, description, location, name, uid;
@@ -105,6 +109,16 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
         edit = findViewById(R.id.edit);
         statusView = findViewById(R.id.status);
         offerView = findViewById(R.id.offer);
+
+        datee = findViewById(R.id.date);
+        time = findViewById(R.id.time);
+
+        locationn = findViewById(R.id.location);
+        remindertext = findViewById(R.id.reminder);
+        loc = findViewById(R.id.loc);
+        rem = findViewById(R.id.rem);
+
+
 
         approveRef = FirebaseDatabase.getInstance().getReference();
 
@@ -277,15 +291,28 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                addressText = dataSnapshot.child("addressText").getValue().toString();
-                currentDate =  dataSnapshot.child("currentDate").getValue().toString();
-                currentTime = dataSnapshot.child("currentTime").getValue().toString();
-                listid = dataSnapshot.child("listid").getValue().toString();
-                reminderText = dataSnapshot.child("reminderText").getValue().toString();
-                UserUId = dataSnapshot.child("uid").getValue().toString();
-                shopUid = dataSnapshot.child("shopuid").getValue().toString();
-                resType = dataSnapshot.child("type").getValue().toString();
-                status = dataSnapshot.child("status").getValue().toString();
+                if(dataSnapshot.exists()){
+                    addressText = dataSnapshot.child("addressText").getValue().toString();
+                    currentDate =  dataSnapshot.child("currentDate").getValue().toString();
+                    currentTime = dataSnapshot.child("currentTime").getValue().toString();
+                    listid = dataSnapshot.child("listid").getValue().toString();
+                    reminderText = dataSnapshot.child("reminderText").getValue().toString();
+                    UserUId = dataSnapshot.child("uid").getValue().toString();
+                    shopUid = dataSnapshot.child("shopuid").getValue().toString();
+                    resType = dataSnapshot.child("type").getValue().toString();
+                    status = dataSnapshot.child("status").getValue().toString();
+                }
+                datee.setText(currentDate);
+                time.setText(currentTime);
+
+                if(resType.equals("At Shop")){
+                    loc.setVisibility(View.GONE);
+                    rem.setVisibility(View.GONE);
+                }
+                else{
+                    locationn.setText(addressText);
+                    remindertext.setText(reminderText);
+                }
 
                 offerView.setText(resType);
 
@@ -609,7 +636,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                     .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            approveRef = FirebaseDatabase.getInstance().getReference("Trade").child(tid);
+                            approveRef = FirebaseDatabase.getInstance().getReference("Reservation").child(resId);
                             approveRef.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -641,7 +668,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                     .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            approveRef = FirebaseDatabase.getInstance().getReference("Trade").child(tid);
+                            approveRef = FirebaseDatabase.getInstance().getReference("Reservation").child(resId);
                             approveRef.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -668,8 +695,6 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
         }
 
         if(id == R.id.fab){
-
-
             AlertDialog.Builder builder = new AlertDialog.Builder(ReservationScrolling.this);
             builder.setMessage("Delete Reservation?").setCancelable(false)
                     .setPositiveButton("YES", new DialogInterface.OnClickListener() {

@@ -38,7 +38,7 @@ public class EditReservation extends AppCompatActivity implements DatePickerDial
 
     private static String resId;
 
-    private DatabaseReference mDatabaseRef;
+    private DatabaseReference mDatabaseRef, mDatabaseRef1;
     private FirebaseAuth mAuth;
 
     RadioGroup type;
@@ -46,7 +46,7 @@ public class EditReservation extends AppCompatActivity implements DatePickerDial
     EditText address, reminder;
     TextView dateText, timeText, input;
     Button timebtn, datebtn, reservebtn;
-    private String resType = "Shop";
+    private String resType = "At Shop";
     private String currentTime;
     private String currentDate;
     LinearLayout loc, rem;
@@ -100,6 +100,7 @@ public class EditReservation extends AppCompatActivity implements DatePickerDial
 
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Reservation").child(resId);
+        mDatabaseRef1 = FirebaseDatabase.getInstance().getReference();
 
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -107,7 +108,7 @@ public class EditReservation extends AppCompatActivity implements DatePickerDial
                 addressText = dataSnapshot.child("addressText").getValue().toString();
                 brand = dataSnapshot.child("brand").getValue().toString();
                 currDate = dataSnapshot.child("currentDate").getValue().toString();
-                currTime = dataSnapshot.child("currTime").getValue().toString();
+                currTime = dataSnapshot.child("currentTime").getValue().toString();
                 image1 = dataSnapshot.child("image1").getValue().toString();
                 listid = dataSnapshot.child("listid").getValue().toString();
                 model = dataSnapshot.child("model").getValue().toString();
@@ -115,22 +116,26 @@ public class EditReservation extends AppCompatActivity implements DatePickerDial
                 price = dataSnapshot.child("price").getValue().toString();
                 reminderText = dataSnapshot.child("reminderText").getValue().toString();
                 shopuid = dataSnapshot.child("shopuid").getValue().toString();
-                status = dataSnapshot.child("currentDate").getValue().toString();
+                status = dataSnapshot.child("status").getValue().toString();
                 restype = dataSnapshot.child("type").getValue().toString();
                 uid = dataSnapshot.child("uid").getValue().toString();
                 resid = dataSnapshot.child("resId").getValue().toString();
 
-                date.setText(currDate);
-                time.setText(currTime);
-                if(resType.equals("Shop")){
+
+
+                if(restype.equals("At Shop")){
                     type1.setChecked(true);
-                    loc.setVisibility(View.GONE);
-                    rem.setVisibility(View.GONE);
+                    dateText.setText(currDate);
+                    timeText.setText(currTime);
+
                 }
                 else{
                     type2.setChecked(true);
-                    location.setText(addressText);
+                    address.setText(addressText);
                     remindertext.setText(reminderText);
+                    dateText.setText(currDate);
+                    timeText.setText(currTime);
+
                 }
 
             }
@@ -146,15 +151,17 @@ public class EditReservation extends AppCompatActivity implements DatePickerDial
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         switch (i){
             case R.id.radioButton:
-                resType = "Shop";
+                resType = "At Shop";
                 input.setVisibility(View.GONE);
                 address.setVisibility(View.GONE);
                 reminder.setVisibility(View.GONE);
+                address.setText("");
+                reminder.setText("");
                 Toast.makeText(EditReservation.this, resType, Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.radioButton2:
-                resType = "Home";
+                resType = "At Home";
                 input.setVisibility(View.VISIBLE);
                 address.setVisibility(View.VISIBLE);
                 reminder.setVisibility(View.VISIBLE);
@@ -190,37 +197,27 @@ public class EditReservation extends AppCompatActivity implements DatePickerDial
         }
 
         if(id == R.id.reservebtn){
-            final String addressText = address.getText().toString().trim();
-            final String reminderText = reminder.getText().toString().trim();
-            final String shopuid = getIntent().getStringExtra("shopuid");
-            final String image1 = getIntent().getStringExtra("image1");
-            final String uid = mAuth.getCurrentUser().getUid();
-            final String name = getIntent().getStringExtra("name");
-            final String model = getIntent().getStringExtra("model");
-            final String brand = getIntent().getStringExtra("brand");
-            final String price = getIntent().getStringExtra("price");
-            reservation(model, brand,name, image1, addressText, reminderText, shopuid, currentDate, currentTime, uid, price);
+
+            final String addresstext = address.getText().toString();
+            final String remindertext = reminder.getText().toString();
+            final String cDate = timeText.getText().toString();
+            final String cTime = dateText.getText().toString();
+            reservation(model, brand, name, image1, addresstext, remindertext, shopuid, cDate, cTime, uid, price);
 
         }
     }
 
     private void reservation(String model, String brand, String name, String image1, String addressText, String reminderText, String shopuid, String currentDate, String currentTime, String uid, String price) {
-        String listingid = getIntent().getStringExtra("listingid");
-        String status = "PENDING";
 
-        mDatabaseRef = mDatabaseRef.child("Reservation");
-        String resId = mDatabaseRef.push().getKey();
-        Reservation reservation = new Reservation(model, brand, name, image1, addressText, reminderText, shopuid, currentDate, currentTime, uid, listingid, resType, resId, price, status);
-        mDatabaseRef.child(resId).setValue(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+        Reservation reservation = new Reservation(model, brand, name, image1, addressText, reminderText, shopuid, currentDate, currentTime, uid, listid, resType, resid, price, status);
+        mDatabaseRef1.child("Reservation").child(resid).setValue(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(EditReservation.this, "Saved", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditReservation.this, "Reservation Edited", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(EditReservation.this, ShopDashboard.class);
                     startActivity(intent);
-                }
-                else{
-                    Toast.makeText(EditReservation.this, "Error", Toast.LENGTH_SHORT).show();
                 }
             }
         });
