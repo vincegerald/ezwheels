@@ -60,10 +60,12 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, ReservationScrolling.class);
-                intent.putExtra("resId", uploadCurrent.getShopuid());
+                intent.putExtra("resId", uploadCurrent.getResId());
                 intent.putExtra("listingId", uploadCurrent.getListid());
                 intent.putExtra("shopId", uploadCurrent.getShopuid());
                 intent.putExtra("uid", uploadCurrent.getUid());
+                intent.putExtra("brand", uploadCurrent.getBrand());
+                intent.putExtra("model", uploadCurrent.getModel());
                 mContext.startActivity(intent);
 
             }

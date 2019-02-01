@@ -107,67 +107,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
 
 
         //spinner
-        action = findViewById(R.id.action);
 
-        //adapter
-//        ArrayAdapter<String> actionAdapter = new ArrayAdapter<String>(TradeScrolling.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.action));
-//        actionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        action.setAdapter(actionAdapter);
-//        action.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                if(adapterView.getItemAtPosition(i).equals("SELECT ACTION")){
-//
-//                }
-//                else {
-//                    String item = adapterView.getItemAtPosition(i).toString();
-//
-//                    switch (item){
-//                        case "APPROVE":
-//                            Toast.makeText(TradeScrolling.this, "1", Toast.LENGTH_SHORT).show();
-//                            approveRef = FirebaseDatabase.getInstance().getReference("Trade").child(tid);
-//                            approveRef.addValueEventListener(new ValueEventListener() {
-//                                @Override
-//                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                    approveRef.child("status").setValue("APPROVED");
-//                                }
-//
-//                                @Override
-//                                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                                }
-//                            });
-//                            break;
-//                        case "NEGOTIATE":
-//                            approveRef = FirebaseDatabase.getInstance().getReference("Trade").child(tid);
-//                            approveRef.addValueEventListener(new ValueEventListener() {
-//                                @Override
-//                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                    approveRef.child("status").setValue("NEGOTIATE");
-//                                }
-//
-//                                @Override
-//                                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                                }
-//                            });
-//                            Toast.makeText(TradeScrolling.this, "2", Toast.LENGTH_SHORT).show();
-//                            break;
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
-
-
-        //card
-//        cardSeller = findViewById(R.id.cardSeller);
-//        cardReservation = findViewById(R.id.cardReservation);
-//        cardTrade = findViewById(R.id.cardTrade);
 
 
         //buttons

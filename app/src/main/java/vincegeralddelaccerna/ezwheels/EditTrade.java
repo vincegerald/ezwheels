@@ -20,6 +20,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -83,6 +84,8 @@ public class EditTrade extends AppCompatActivity implements View.OnClickListener
     TextView input, input1;
     EditText price, price1;
     ImageView imageCont1, imageCont2;
+
+
     Button tradeBtn;
     private static String tid, ty;
     private static String brand, image1, listingid, model, name, priceList,shopuid, statusFinal, tidFinal, uid, year;

@@ -378,7 +378,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
             formattedDate = df.format(c);
 
             final String shop = "";
-            final String status = "pending";
+            final String status = "AVAILABLE";
             final String uid = mAuth.getCurrentUser().getUid();
 
             if(TextUtils.isEmpty(finalBrand) || TextUtils.isEmpty(finalModel) || TextUtils.isEmpty(finalYear) || TextUtils.isEmpty(finalColor) || TextUtils.isEmpty(finalTransmission) || TextUtils.isEmpty(finalPcondition) || TextUtils.isEmpty(finalMileage) || TextUtils.isEmpty(finalPrice)){

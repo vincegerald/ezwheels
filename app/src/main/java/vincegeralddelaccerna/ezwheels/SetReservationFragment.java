@@ -46,7 +46,7 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
     EditText address, reminder;
     TextView dateText, timeText, input;
     Button timebtn, datebtn, reservebtn;
-    private String resType = "Shop";
+    private String resType = "At Shop";
     private String currentTime;
     private String currentDate;
 
@@ -194,7 +194,7 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         switch (i){
             case R.id.radioButton:
-                resType = "Shop";
+                resType = "At Shop";
                 input.setVisibility(View.GONE);
                 address.setVisibility(View.GONE);
                 reminder.setVisibility(View.GONE);
@@ -202,7 +202,7 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
                 break;
 
             case R.id.radioButton2:
-                resType = "Home";
+                resType = "At Home";
                 input.setVisibility(View.VISIBLE);
                 address.setVisibility(View.VISIBLE);
                 reminder.setVisibility(View.VISIBLE);
