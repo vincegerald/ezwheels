@@ -78,7 +78,8 @@ public class ShopmyReservation extends Fragment {
         FirebaseUser currentUser =  mAuth.getCurrentUser();
         uid = currentUser.getUid();
         if(currentUser != null){
-            databaseReference = FirebaseDatabase.getInstance().getReference("Reservation").addListenerForSingleValueEvent(new ValueEventListener() {
+            databaseReference = FirebaseDatabase.getInstance().getReference("Reservation");
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists()){
