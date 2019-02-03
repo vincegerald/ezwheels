@@ -41,8 +41,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     //Textviews
 
-    TextView name, shopname, contacts, email, location;
-    EditText nametext, shopnametext, contacttext, emailtext, locationtext, lnametext;
+    TextView name, shopname, contacts, email, location, l;
+    EditText nametext, shopnametext, contacttext, emailtext, locationtext, lnametext, descriptiontext;
     Button logoutBtn;
     ImageView editProfile, saveProfile;
     RatingBar ratingBar;
@@ -55,6 +55,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private String shopName;
     private float rating;
     private String emaill;
+    private String description;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -82,6 +83,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         editProfile = v.findViewById(R.id.editProfile);
         saveProfile = v.findViewById(R.id.saveProfile);
         lnametext = v.findViewById(R.id.lnametext);
+        descriptiontext = v.findViewById(R.id.descriptiontext);
         saveProfile.setOnClickListener(this);
         logoutBtn.setOnClickListener(this);
         editProfile.setOnClickListener(this);
@@ -102,13 +104,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         buyerProf = FirebaseDatabase.getInstance().getReference();
         shopProf = FirebaseDatabase.getInstance().getReference();
 
-        //listeners
-////        btnLogout.setOnClickListener(this);
-//        this.firstname = firstname;
-//        this.lastname = lastname;
-//        this.username = username;
-//        this.contactnumber = contactnumber;
-//        this.purl = purl;
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -125,6 +121,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     location.setVisibility(View.GONE);
                     shopnametext.setVisibility(View.GONE);
                     locationtext.setVisibility(View.GONE);
+                    descriptiontext.setVisibility(View.GONE);
                     ratingBar.setVisibility(View.GONE);
 
                 }
@@ -140,6 +137,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                 locations = dataSnapshot.child("location").getValue().toString();
                                 shopName = dataSnapshot.child("name").getValue().toString();
                                 emaill = dataSnapshot.child("email").getValue().toString();
+                                description = dataSnapshot.child("description").getValue().toString();
                                     //rating = (float) dataSnapshot.child("rating").getValue();
                                 ratingBar.setRating(5);
                                 nametext.setText(firstname);
@@ -148,6 +146,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                 shopnametext.setText(shopName);
                                 emailtext.setText(emaill);
                                 locationtext.setText(locations);
+                                descriptiontext.setText(description);
                             }
                         }
 
@@ -201,6 +200,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             locationtext.setFocusableInTouchMode(true);
             locationtext.setTextColor(Color.parseColor("#000000"));
             locationtext.setFocusable(true);
+            descriptiontext.setFocusableInTouchMode(true);
+            descriptiontext.setTextColor(Color.parseColor("#000000"));
+            descriptiontext.setFocusable(true);
             editProfile.setVisibility(View.GONE);
             saveProfile.setVisibility(View.VISIBLE);
         }
@@ -212,6 +214,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             final String emailText = emailtext.getText().toString();
             final String locationText = locationtext.getText().toString();
             final String lnameText = lnametext.getText().toString();
+            final String descText = descriptiontext.getText().toString();
 
 
             final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -225,16 +228,89 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if(dataSnapshot.exists()){
-                                        Buyer buyer = new Buyer();
+                                        buyerProf.child("contactnumber").setValue(contact);
+                                        buyerProf.child("firstname").setValue(name);
+                                        buyerProf.child("lastname").setValue(lnameText);
+                                        buyerProf.child("email").setValue(emailText);
+                                        Toast.makeText(getActivity(), "Profile Updated", Toast.LENGTH_SHORT).show();
+                                        nametext.setFocusableInTouchMode(false);
+                                        nametext.setTextColor(Color.parseColor("#606060"));
+                                        nametext.setFocusable(false);
+                                        lnametext.setFocusableInTouchMode(false);
+                                        lnametext.setTextColor(Color.parseColor("#606060"));
+                                        lnametext.setFocusable(false);
+                                        contacttext.setFocusableInTouchMode(false);
+                                        contacttext.setTextColor(Color.parseColor("#606060"));
+                                        contacttext.setFocusable(false);
+                                        shopnametext.setFocusableInTouchMode(false);
+                                        shopnametext.setTextColor(Color.parseColor("#606060"));
+                                        shopnametext.setFocusable(false);
+                                        emailtext.setFocusableInTouchMode(false);
+                                        emailtext.setTextColor(Color.parseColor("#606060"));
+                                        emailtext.setFocusable(false);
+                                        locationtext.setFocusableInTouchMode(false);
+                                        locationtext.setTextColor(Color.parseColor("#606060"));
+                                        locationtext.setFocusable(false);
+                                        descriptiontext.setFocusableInTouchMode(false);
+                                        descriptiontext.setTextColor(Color.parseColor("#606060"));
+                                        descriptiontext.setFocusable(false);
+                                        editProfile.setVisibility(View.VISIBLE);
+                                        saveProfile.setVisibility(View.GONE);
+
                                     }
+
                                     else{
                                         shopProf = FirebaseDatabase.getInstance().getReference("Shop").child(uid);
+                                        shopProf.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                if(dataSnapshot.exists()){
+                                                    shopProf.child("contactnumber").setValue(contact);
+                                                    shopProf.child("firstname").setValue(name);
+                                                    shopProf.child("lastname").setValue(lnameText);
+                                                    shopProf.child("email").setValue(emailText);
+                                                    shopProf.child("description").setValue(descText);
+                                                    shopProf.child("name").setValue(shopnameText);
+                                                    shopProf.child("location").setValue(locationText);
+                                                    Toast.makeText(getActivity(), "Profile Updated", Toast.LENGTH_SHORT).show();
+                                                    nametext.setFocusableInTouchMode(false);
+                                                    nametext.setTextColor(Color.parseColor("#606060"));
+                                                    nametext.setFocusable(false);
+                                                    lnametext.setFocusableInTouchMode(false);
+                                                    lnametext.setTextColor(Color.parseColor("#606060"));
+                                                    lnametext.setFocusable(false);
+                                                    contacttext.setFocusableInTouchMode(false);
+                                                    contacttext.setTextColor(Color.parseColor("#606060"));
+                                                    contacttext.setFocusable(false);
+                                                    shopnametext.setFocusableInTouchMode(false);
+                                                    shopnametext.setTextColor(Color.parseColor("#606060"));
+                                                    shopnametext.setFocusable(false);
+                                                    emailtext.setFocusableInTouchMode(false);
+                                                    emailtext.setTextColor(Color.parseColor("#606060"));
+                                                    emailtext.setFocusable(false);
+                                                    locationtext.setFocusableInTouchMode(false);
+                                                    locationtext.setTextColor(Color.parseColor("#606060"));
+                                                    locationtext.setFocusable(false);
+                                                    descriptiontext.setFocusableInTouchMode(false);
+                                                    descriptiontext.setTextColor(Color.parseColor("#606060"));
+                                                    descriptiontext.setFocusable(false);
+                                                    editProfile.setVisibility(View.VISIBLE);
+                                                    saveProfile.setVisibility(View.GONE);
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
                                     }
                                 }
 
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                                    Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -259,8 +335,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     locationtext.setFocusableInTouchMode(false);
                     locationtext.setTextColor(Color.parseColor("#606060"));
                     locationtext.setFocusable(false);
-                    editProfile.setVisibility(View.GONE);
-                    saveProfile.setVisibility(View.VISIBLE);
+                    descriptiontext.setFocusableInTouchMode(false);
+                    descriptiontext.setTextColor(Color.parseColor("#606060"));
+                    descriptiontext.setFocusable(false);
+                    editProfile.setVisibility(View.VISIBLE);
+                    saveProfile.setVisibility(View.GONE);
+
                 }
             });
 
