@@ -2,18 +2,29 @@ package vincegeralddelaccerna.ezwheels;
 
 public class Buyer {
 
-    public String firstname, lastname, username, contactnumber, purl, longitude, latitude ;
+    public String firstname, lastname, username, contactnumber, purl, longitude, latitude, email;
 
     public Buyer(){
 
     }
 
-    public Buyer(String firstname, String lastname, String username, String contactnumber, String purl) {
+    public Buyer(String firstname, String lastname, String username, String contactnumber, String purl, String email) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.username = username;
         this.contactnumber = contactnumber;
         this.purl = purl;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstname() {

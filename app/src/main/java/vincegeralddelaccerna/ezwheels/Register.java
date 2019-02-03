@@ -218,7 +218,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
                                             finalLastname,
                                             finalUsername,
                                             finalContact,
-                                            purl
+                                            purl,
+                                            finalEmail
                                     );
                                     FirebaseDatabase.getInstance().getReference("Buyers")
                                                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())

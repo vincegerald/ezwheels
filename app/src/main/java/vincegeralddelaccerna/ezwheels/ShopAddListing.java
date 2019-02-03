@@ -452,7 +452,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                 videoView.start();
 
                 final String videoPath1 = System.currentTimeMillis() + "." + getFileExtension(videoUri);
-
+                progressBar.setVisibility(View.VISIBLE);
                 StorageReference storageReference = mStorageRef.child("Videos").child(videoPath1);
                 storageReference.putFile(videoUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -461,6 +461,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                             @Override
                             public void onSuccess(Uri uri) {
                                 videoPath = uri.toString();
+                                progressBar.setVisibility(View.GONE);
                             }
                         });
                     }

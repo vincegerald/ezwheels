@@ -11,13 +11,14 @@ public class Shop {
     public String purl;
     public double lon;
     public double lat;
-    public double rating;
+    public float rating;
+    public String email;
 
     public Shop(){
 
     }
 
-    public Shop(String firstname, String lastname, String contact, String name, String location, String description, String purl, double lon, double lat, double rating) {
+    public Shop(String firstname, String lastname, String contact, String name, String location, String description, String purl, double lon, double lat, float rating, String email) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.contact = contact;
@@ -28,6 +29,15 @@ public class Shop {
         this.lon = lon;
         this.lat = lat;
         this.rating = rating;
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPurl() {
@@ -58,7 +68,7 @@ public class Shop {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 

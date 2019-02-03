@@ -44,7 +44,7 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
     Button btnNext, btnBack, btnFinish, btnHome;
     private static double lon, lat;
     private static String purl;
-    private static double rating = 5;
+    private static float rating = 5                                                            ;
     LinearLayout step1, step2;
     EditText shopFirstname, shopLastname, shopUsername, shopEmail, shopContact, shopPassword, shopName, shopLocation, shopDescription;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -283,7 +283,8 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
                                         purl,
                                         lon,
                                         lat,
-                                        rating
+                                        rating,
+                                        sEmail
                                 );
                                 FirebaseDatabase.getInstance().getReference("Shop")
                                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid())

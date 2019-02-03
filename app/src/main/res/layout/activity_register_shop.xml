@@ -27,7 +27,7 @@
 
     <ScrollView
         android:id="@+id/scroll1"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -37,7 +37,7 @@
             android:layout_height="match_parent"
             android:alwaysDrawnWithCache="true"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <EditText
                 android:id="@+id/regshopFirstname"
@@ -189,7 +189,7 @@
 
     <ScrollView
         android:id="@+id/scroll2"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -241,14 +241,14 @@
                 style="?android:attr/progressBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <EditText
                 android:id="@+id/regShopdescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginRight="15dp"
                 android:autofillHints=""
                 android:background="@drawable/border"
@@ -265,7 +265,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
 
                 <Button
                     android:id="@+id/btnBack"
