@@ -88,11 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
             }
-//            else{
-//                Intent intent = new Intent(this, MainActivity.class);
-//                startActivity(intent);
-//                Toast.makeText(this, "Login", Toast.LENGTH_SHORT).show();
-//            }
+//            Toast.makeText(MainActivity.this, "Login First", Toast.LENGTH_SHORT).show();
         }
     }
 

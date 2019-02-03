@@ -48,6 +48,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
     public void onBindViewHolder(@NonNull FavoritesAdapter.FavoritesViewHolder holder, int position) {
         final Favorites uploadCurrent = mUploads.get(position);
         id = uploadCurrent.getUid();
+        holder.stat.setVisibility(View.GONE);
         holder.brand.setText(uploadCurrent.getBrand() + " "+ uploadCurrent.getModel());
         holder.price.setText(uploadCurrent.getPrice());
         holder.d3.setText(uploadCurrent.getColor());
@@ -104,7 +105,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
     public class FavoritesViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView brand, model, price, d1, d2, d3, d4, date;
+        public TextView brand, model, price, d1, d2, d3, d4, date, stat;
         public ImageView image;
         public CardView item;
 
@@ -119,6 +120,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
             date = itemView.findViewById(R.id.finalDate);
             image = itemView.findViewById(R.id.finalImage);
             item = itemView.findViewById(R.id.finalCard);
+            stat = itemView.findViewById(R.id.status);
 
 
         }

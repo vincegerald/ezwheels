@@ -57,6 +57,26 @@ public class ShopmyReservation extends Fragment {
 
     private List<Reservation> mUploads;
 
+    public void PushNotification(String title, String content) {
+        NotificationManager nm = (NotificationManager)getActivity().getSystemService(NOTIFICATION_SERVICE);
+        Notification.Builder builder = new Notification.Builder(getActivity());
+        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
+
+        //set
+        builder.setContentIntent(contentIntent);
+        builder.setSmallIcon(R.drawable.logo);
+        builder.setContentText(content);
+        builder.setContentTitle(title);
+        builder.setAutoCancel(true);
+        builder.setDefaults(Notification.DEFAULT_ALL);
+
+        Notification notification = builder.build();
+        nm.notify((int)System.currentTimeMillis(),notification);
+    }
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,7 +109,10 @@ public class ShopmyReservation extends Fragment {
                             String brand = dataSnapshot.child("brand").getValue().toString();
                             String status = dataSnapshot.child("status").getValue().toString();
                             if(status.equals("APPROVED")){
-
+                                PushNotification("Reservation Approved","Your reservation for " + brand + " " + model + " has been approved by the shop");
+                            }
+                            else{
+                                PushNotification("Reservation Declined","Your reservation for " + brand + " " + model + " has been declined by the shop. For more details contact the shop");
                             }
                         }
                     }
@@ -173,23 +196,6 @@ public class ShopmyReservation extends Fragment {
 
         return v;
     }
-
-    public void PushNotification(String title, String content) {
-        NotificationManager nm = (NotificationManager)getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification.Builder builder = new Notification.Builder(getContext());
-        Intent notificationIntent = new Intent(getContext(), ShopDashboard.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(getContext(),0,notificationIntent,0);
-
-        //set
-        builder.setContentIntent(contentIntent);
-        builder.setSmallIcon(R.drawable.ic_mode_edit_black_24dp);
-        builder.setContentText(content);
-        builder.setContentTitle(title);
-        builder.setAutoCancel(true);
-        builder.setDefaults(Notification.DEFAULT_ALL);
-
-        Notification notification = builder.build();
-        nm.notify((int)System.currentTimeMillis(),notification);
-    }
-
 }
+
+

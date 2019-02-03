@@ -218,8 +218,7 @@ public class EditReservation extends AppCompatActivity implements DatePickerDial
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(EditReservation.this, "Reservation Edited", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(EditReservation.this, ShopDashboard.class);
-                    startActivity(intent);
+                    finish();
                 }
             }
         });

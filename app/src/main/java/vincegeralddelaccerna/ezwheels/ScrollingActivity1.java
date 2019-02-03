@@ -394,8 +394,7 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
                 DatabaseReference favDelete = FirebaseDatabase.getInstance().getReference("Favorites").child(getIntent().getStringExtra("fid"));
                 favDelete.removeValue();
                 Toast.makeText(ScrollingActivity1.this, "Favorite Deleted", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(ScrollingActivity1.this, ShopDashboard.class);
-                startActivity(intent);
+                finish();
 
         }
     }

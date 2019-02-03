@@ -127,6 +127,8 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
     private DatabaseReference mDatabaseRef1;
+    private DatabaseReference forCar;
+    private DatabaseReference forMotor;
     private FirebaseAuth mAuth;
     private StorageTask mUploadTask;
 
@@ -140,7 +142,8 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
     private static  String listingid;
 
     private static String date, editionn, finalBrand, finalColor, finalMileage, finalModel, finalPcondition, finalPrice, finalTransmission, finalYear, fuell, imageP1, imageP2, imageP3, imageP4, info,
-            listid,seriess,status,uid,videoP;
+            listid,seriess,status,uid,videoP, originalType, typee;
+    private String origType;
 
 
     @Override
@@ -159,7 +162,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
         //get the intent listing id
 
         listingid = getIntent().getStringExtra("listingid");
-        Toast.makeText(this, listingid, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, listingid, Toast.LENGTH_SHORT).show();
 
         progressBar = findViewById(R.id.progressBar5);
         editText5 = findViewById(R.id.editText5);
@@ -248,7 +251,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
         addImageSside.setOnClickListener(this);
         buttonFside.setOnClickListener(this);
         buttonVideo.setOnClickListener(this);
-
+        vehicleType.setVisibility(View.GONE);
         vehicleType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -266,10 +269,13 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
         });
 
 
+
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         mDatabaseRef1 = FirebaseDatabase.getInstance().getReference();
+        forCar = FirebaseDatabase.getInstance().getReference();
+        forMotor = FirebaseDatabase.getInstance().getReference();
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Car").child(listingid);
 
@@ -319,15 +325,15 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                         videoView.setVideoPath(videoP);
                         car.setChecked(true);
                         motor.setChecked(false);
-                        type = "car";
-                        Toast.makeText(EditListing.this, type, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditListing.this, imagePath1, Toast.LENGTH_SHORT).show();
+
                 }
                 else{
                     mDatabaseRef1 = FirebaseDatabase.getInstance().getReference("Motor").child(listingid);
                     mDatabaseRef1.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(dataSnapshot.exists()){
+                            if(dataSnapshot .exists()){
                                 date = dataSnapshot.child("date").getValue().toString();
                                 editionn = dataSnapshot.child("edition").getValue().toString();
                                 finalBrand = dataSnapshot.child("finalBrand").getValue().toString();
@@ -369,7 +375,8 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                                 videoView.setVideoPath(videoP);
                                 motor.setChecked(true);
                                 car.setChecked(false);
-                                type = "motor";
+//                                Toast.makeText(EditListing.this, typee, Toast.LENGTH_SHORT).show();
+
                             }
                         }
 
@@ -382,6 +389,8 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
             }
 
 
+
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(EditListing.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
@@ -390,8 +399,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
         });
 
 
-
-
+        Toast.makeText(this, typee, Toast.LENGTH_SHORT).show();
 //        adapter = new ListViewAdapter(Shop, getActivity());
 //        listViewshop.setAdapter(adapter);
 
@@ -516,7 +524,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
             final String finalSeries = series.getText().toString();
             Date c = Calendar.getInstance().getTime();
             System.out.println("Current time => " + c);
-            final String finalInfo = editText5.getText().toString();
+                final String finalInfo = editText5.getText().toString();
 
             SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
             formattedDate = df.format(c);
@@ -621,6 +629,24 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
 
             imageUri1 = data.getData();
             Picasso.get().load(imageUri1).fit().centerCrop().into(image1);
+
+            final String path4 = System.currentTimeMillis() + "." + getFileExtension(imageUri1);
+            StorageReference storageReference = mStorageRef.child("Images").child(path4);
+            storageReference.putFile(imageUri1).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    mStorageRef.child("Images/"+path4).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            imagePath4 = uri.toString();
+                            Toast.makeText(EditListing.this, "Image 1 added", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+
+
+
         }
 
         else if(requestCode == IMAGE_REQUEST_2 && resultCode == RESULT_OK){
@@ -639,6 +665,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                         @Override
                         public void onSuccess(Uri uri) {
                             imagePath1 = uri.toString();
+                            Toast.makeText(EditListing.this, "Image 2 added", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -657,6 +684,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                         @Override
                         public void onSuccess(Uri uri) {
                             imagePath2 = uri.toString();
+                            Toast.makeText(EditListing.this, "Image 3 added", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -676,6 +704,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                         @Override
                         public void onSuccess(Uri uri) {
                             imagePath3 = uri.toString();
+                            Toast.makeText(EditListing.this, "Image 4 added", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -699,79 +728,56 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
             final String imageUrl = uriImage.toString();
             //Toast.makeText(getActivity(), imageUrl, Toast.LENGTH_SHORT).show();
             progressBar.setVisibility(View.VISIBLE);
-            final String path = System.currentTimeMillis() + "." + getFileExtension(uriImage);
-            StorageReference storageReference = mStorageRef.child("Images").child(path);
-            storageReference.putFile(uriImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+//                                mDatabaseRef = mDatabaseRef.child("Car");
+                                final String listid = mDatabaseRef.push().getKey();
+                                forCar = FirebaseDatabase.getInstance().getReference("Car").child(listingid);
+                                final Upload upload = new Upload(listid, edition, series, info, uid, formattedDate, fuel, imagePath4, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
 
-                @Override
-                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                    if(task.isSuccessful()){
-                        Toast.makeText(EditListing.this, "storage", Toast.LENGTH_SHORT).show();
-                        Toast.makeText(EditListing.this, "Images/"+System.currentTimeMillis() + "." + getFileExtension(uriImage), Toast.LENGTH_SHORT ).show();
-                        mStorageRef.child("Images/"+path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                Toast.makeText(EditListing.this, "Added", Toast.LENGTH_SHORT).show();
-//                                Toast.makeText(getActivity(), imagePath1, Toast.LENGTH_SHORT).show();
-//                                Toast.makeText(getActivity(), imagePath2, Toast.LENGTH_SHORT).show();
-//                                Toast.makeText(getActivity(), videoPath, Toast.LENGTH_SHORT).show();
-                                mDatabaseRef = mDatabaseRef.child("Car");
-                                String listid = mDatabaseRef.push().getKey();
-                                imagePath4 = uri.toString();
-                                Upload upload = new Upload(listid, edition, series, info, uid, formattedDate, fuel, imagePath4, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
-                                if(type.equals("car")){
-                                    Toast.makeText(EditListing.this, type, Toast.LENGTH_SHORT).show();
-                                    mDatabaseRef.child(listid).setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
-                                                Toast.makeText(EditListing.this, "saved", Toast.LENGTH_SHORT).show();
-                                                progressBar.setVisibility(View.GONE);
-                                                Intent intent = new Intent(EditListing.this, ShopDashboard.class);
-                                                startActivity(intent);
-                                            }
-                                            else{
-                                                Toast.makeText(EditListing.this, "error", Toast.LENGTH_SHORT).show();
-                                            }
+                                forCar.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        if(dataSnapshot.exists()){
+                                            forCar.child(listingid).setValue(listingid).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if(task.isSuccessful()){
+                                                        Toast.makeText(EditListing.this, "Updated Listing", Toast.LENGTH_SHORT).show();
+                                                        finish();
+                                                    }
+                                                }
+                                            });
                                         }
-                                    });
-                                }
-                                else{
-                                    mDatabaseRef1 = mDatabaseRef1.child("Motor");
-                                    String listid1 = mDatabaseRef1.push().getKey();
-                                    mDatabaseRef1.child(listid1).setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
-                                                Toast.makeText(EditListing.this, "saved", Toast.LENGTH_SHORT).show();
-                                                progressBar.setVisibility(View.GONE);
-                                                Intent intent = new Intent(EditListing.this, ShopDashboard.class);
-                                                startActivity(intent);
-                                            }
-                                            else{
-                                                Toast.makeText(EditListing.this, "error", Toast.LENGTH_SHORT).show();
-                                            }
+                                        else{
+                                            forMotor = FirebaseDatabase.getInstance().getReference("Motor").child(listingid);
+                                            forMotor.addValueEventListener(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                    if(dataSnapshot.exists()){
+                                                        forMotor.child(listingid).setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if(task.isSuccessful()){
+                                                                    Toast.makeText(EditListing.this, "Updated Listing", Toast.LENGTH_SHORT).show();
+                                                                    finish();
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                    Toast.makeText(EditListing.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
                                         }
-                                    });
-                                }
+                                    }
 
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(EditListing.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-
-                    }
-                    else{
-                        Toast.makeText(EditListing.this, "Error", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-
+                                    }
+                                });
         }
     }
 

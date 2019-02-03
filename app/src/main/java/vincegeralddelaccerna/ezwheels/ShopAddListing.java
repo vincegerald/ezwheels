@@ -125,6 +125,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
     private static String imagePath1 = "";
     private static  String imagePath2 = "";
     private static  String imagePath3 = "";
+    private static  String imagePath4 = "";
     private static String videoPath = "";
     private static String type = "car";
     private static String formattedDate;
@@ -476,13 +477,28 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
         else if(requestCode == IMAGE_REQUEST_1 && resultCode == RESULT_OK){
 
             imageUri1 = data.getData();
-            Picasso.get().load(imageUri1).into(image1);
+            Picasso.get().load(imageUri1).fit().centerCrop().into(image1);
+
+            final String path4 = System.currentTimeMillis() + "." + getFileExtension(imageUri1);
+            StorageReference storageReference = mStorageRef.child("Images").child(path4);
+            storageReference.putFile(imageUri1).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    mStorageRef.child("Images/"+path4).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            imagePath4 = uri.toString();
+                            Toast.makeText(getActivity(), "Image 1 added", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
         }
 
         else if(requestCode == IMAGE_REQUEST_2 && resultCode == RESULT_OK){
 
             imageUri2 = data.getData();
-            Picasso.get().load(imageUri2).into(image2);
+            Picasso.get().load(imageUri2).fit().centerCrop().into(image2);
 
             final String path = System.currentTimeMillis() + "." + getFileExtension(imageUri2);
 
@@ -501,7 +517,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
         }
         else if(requestCode == IMAGE_REQUEST_3 && resultCode == RESULT_OK){
             imageUri3 = data.getData();
-            Picasso.get().load(imageUri3).into(image3);
+            Picasso.get().load(imageUri3).fit().centerCrop().into(image3);
 
             final String path1 = System.currentTimeMillis() + "." + getFileExtension(imageUri3);
             StorageReference storageReference = mStorageRef.child("Images").child(path1);
@@ -520,7 +536,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
         else if(requestCode == IMAGE_REQUEST_4 && resultCode == RESULT_OK){
 
             imageUri4 = data.getData();
-            Picasso.get().load(imageUri4).into(image4);
+            Picasso.get().load(imageUri4).fit().centerCrop().into(image4);
 
             final String path2 = System.currentTimeMillis() + "." + getFileExtension(imageUri4);
             StorageReference storageReference = mStorageRef.child("Images").child(path2);
@@ -554,79 +570,44 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
             final String imageUrl = uriImage.toString();
             //Toast.makeText(getActivity(), imageUrl, Toast.LENGTH_SHORT).show();
             progressBar.setVisibility(View.VISIBLE);
-            final String path = System.currentTimeMillis() + "." + getFileExtension(uriImage);
-            StorageReference storageReference = mStorageRef.child("Images").child(path);
-            storageReference.putFile(uriImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-
-                @Override
-                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                    if(task.isSuccessful()){
-                        Toast.makeText(getActivity(), "storage", Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getActivity(), "Images/"+System.currentTimeMillis() + "." + getFileExtension(uriImage), Toast.LENGTH_SHORT ).show();
-                        mStorageRef.child("Images/"+path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                Toast.makeText(getActivity(), "Added", Toast.LENGTH_SHORT).show();
-                                Toast.makeText(getActivity(), imagePath1, Toast.LENGTH_SHORT).show();
-                                Toast.makeText(getActivity(), imagePath2, Toast.LENGTH_SHORT).show();
-                                Toast.makeText(getActivity(), videoPath, Toast.LENGTH_SHORT).show();
-                                mDatabaseRef = mDatabaseRef.child("Car");
-                                String listid = mDatabaseRef.push().getKey();
-                                String image = uri.toString();
-                                Upload upload = new Upload(listid, edition, series, info, uid, formattedDate, fuel, image, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
-                              if(type.equals("car")){
-                                Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
-                                    mDatabaseRef.child(listid).setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
-                                                Toast.makeText(getActivity(), "saved", Toast.LENGTH_SHORT).show();
-                                                progressBar.setVisibility(View.GONE);
-                                                Intent intent = new Intent(getActivity(), ShopDashboard.class);
-                                                startActivity(intent);
-                                            }
-                                            else{
-                                                Toast.makeText(getActivity(), "error", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
-                                }
-                                else{
-                                  mDatabaseRef1 = mDatabaseRef1.child("Motor");
-                                  String listid1 = mDatabaseRef1.push().getKey();
-                                    mDatabaseRef1.child(listid1).setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
-                                                Toast.makeText(getActivity(), "saved", Toast.LENGTH_SHORT).show();
-                                                progressBar.setVisibility(View.GONE);
-                                                Intent intent = new Intent(getActivity(), ShopDashboard.class);
-                                                startActivity(intent);
-                                            }
-                                            else{
-                                                Toast.makeText(getActivity(), "error", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
-                                }
-
-
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-
+            mDatabaseRef = mDatabaseRef.child("Car");
+            String listid = mDatabaseRef.push().getKey();
+            Upload upload = new Upload(listid, edition, series, info, uid, formattedDate, fuel, imagePath4, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
+            if(type.equals("car")){
+                Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
+                mDatabaseRef.child(listid).setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(getActivity(), "saved", Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
+                            Intent intent = new Intent(getActivity(), ShopDashboard.class);
+                            startActivity(intent);
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "error", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    else{
-                        Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+                });
+            }
+            else{
+                mDatabaseRef1 = mDatabaseRef1.child("Motor");
+                String listid1 = mDatabaseRef1.push().getKey();
+                mDatabaseRef1.child(listid1).setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(getActivity(), "saved", Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
+                            Intent intent = new Intent(getActivity(), ShopDashboard.class);
+                            startActivity(intent);
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "error", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
-            });
-
+                });
+            }
         }
     }
 

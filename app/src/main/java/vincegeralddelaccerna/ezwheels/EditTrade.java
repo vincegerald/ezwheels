@@ -304,8 +304,7 @@ public class EditTrade extends AppCompatActivity implements View.OnClickListener
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(EditTrade.this, "Trade Edited", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(EditTrade.this, ShopDashboard.class);
-                    startActivity(intent);
+                    finish();
                 }
             }
         });

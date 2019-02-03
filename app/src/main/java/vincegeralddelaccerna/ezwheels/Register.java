@@ -2,9 +2,17 @@ package vincegeralddelaccerna.ezwheels;
 
 
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,11 +22,19 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.location.LocationServices;
 
 import org.w3c.dom.Text;
 
@@ -26,7 +42,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class Register extends AppCompatActivity implements View.OnClickListener {
+public class Register extends AppCompatActivity implements View.OnClickListener, LocationListener {
+
+    LocationManager locationManager;
+
 
     EditText name;
     EditText username;
@@ -41,6 +60,9 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     ProgressBar mProgress;
 
     private FirebaseAuth mAuth;
+    private static String purl;
+//    private GoogleApiClient googleApiClient;
+//    private FusedLocationProviderClient fusedLocationProviderClient;
 
 
     @Override
@@ -61,8 +83,45 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         btnRegisterCancel.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+
+
+            return;
+        }
+
+        Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
+
+        onLocationChanged(location);
 
     }
+    @Override
+    public void onLocationChanged(Location location) {
+        double lon = location.getLongitude();
+        double lat = location.getLatitude();
+        String slon;
+        Toast.makeText(Register.this, String.valueOf(lon), Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
+
+
 
 
     @Override
@@ -74,7 +133,11 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             startActivity(dashhboardintent);
 
         }
+
     }
+
+
+
 
     @Override
     public void onClick(View view) {
@@ -154,7 +217,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                                             finalFirstname,
                                             finalLastname,
                                             finalUsername,
-                                            finalContact
+                                            finalContact,
+                                            purl
                                     );
                                     FirebaseDatabase.getInstance().getReference("Buyers")
                                                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -181,7 +245,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
 
 
-
-    }
+}
 
 

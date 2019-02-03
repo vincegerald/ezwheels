@@ -73,9 +73,9 @@ public class FavoriteFragment extends Fragment {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                mUploads.clear();
                 if(dataSnapshot.exists()){
-                    mUploads.clear();
+
                     for(DataSnapshot snapshot : dataSnapshot.getChildren()){
 
                         Favorites favorites = snapshot.getValue(Favorites.class);
