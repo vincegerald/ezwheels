@@ -47,7 +47,7 @@ public class EditReservation extends AppCompatActivity implements DatePickerDial
     TextView dateText, timeText, input;
     Button timebtn, datebtn, reservebtn;
     private String resType = "At Shop";
-    private String currentTime;
+    private static String currentTime;
     private String currentDate;
     LinearLayout loc, rem;
     TextView date, time, location, remindertext;
@@ -105,21 +105,23 @@ public class EditReservation extends AppCompatActivity implements DatePickerDial
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                addressText = dataSnapshot.child("addressText").getValue().toString();
-                brand = dataSnapshot.child("brand").getValue().toString();
-                currDate = dataSnapshot.child("currentDate").getValue().toString();
-                currTime = dataSnapshot.child("currentTime").getValue().toString();
-                image1 = dataSnapshot.child("image1").getValue().toString();
-                listid = dataSnapshot.child("listid").getValue().toString();
-                model = dataSnapshot.child("model").getValue().toString();
-                name = dataSnapshot.child("name").getValue().toString();
-                price = dataSnapshot.child("price").getValue().toString();
-                reminderText = dataSnapshot.child("reminderText").getValue().toString();
-                shopuid = dataSnapshot.child("shopuid").getValue().toString();
-                status = dataSnapshot.child("status").getValue().toString();
-                restype = dataSnapshot.child("type").getValue().toString();
-                uid = dataSnapshot.child("uid").getValue().toString();
-                resid = dataSnapshot.child("resId").getValue().toString();
+                if(dataSnapshot.exists()){
+                    addressText = dataSnapshot.child("addressText").getValue().toString();
+                    brand = dataSnapshot.child("brand").getValue().toString();
+                    currDate = dataSnapshot.child("currentDate").getValue().toString();
+                    currTime = dataSnapshot.child("currentTime").getValue().toString();
+                    image1 = dataSnapshot.child("image1").getValue().toString();
+                    listid = dataSnapshot.child("listid").getValue().toString();
+                    model = dataSnapshot.child("model").getValue().toString();
+                    name = dataSnapshot.child("name").getValue().toString();
+                    price = dataSnapshot.child("price").getValue().toString();
+                    reminderText = dataSnapshot.child("reminderText").getValue().toString();
+                    shopuid = dataSnapshot.child("shopuid").getValue().toString();
+                    status = dataSnapshot.child("status").getValue().toString();
+                    restype = dataSnapshot.child("type").getValue().toString();
+                    uid = dataSnapshot.child("uid").getValue().toString();
+                    resid = dataSnapshot.child("resId").getValue().toString();
+                }
 
 
 
@@ -200,14 +202,14 @@ public class EditReservation extends AppCompatActivity implements DatePickerDial
 
             final String addresstext = address.getText().toString();
             final String remindertext = reminder.getText().toString();
-            final String cDate = timeText.getText().toString();
-            final String cTime = dateText.getText().toString();
+            final String cDate = dateText.getText().toString();
+            final String cTime = timeText.getText().toString();
             reservation(model, brand, name, image1, addresstext, remindertext, shopuid, cDate, cTime, uid, price);
 
         }
     }
 
-    private void reservation(String model, String brand, String name, String image1, String addressText, String reminderText, String shopuid, String currentDate, String currentTime, String uid, String price) {
+    private void reservation(String model, String brand, String name, String image1, String addressText, String reminderText, String shopuid, String currentDate, String ctime, String uid, String price) {
 
 
         Reservation reservation = new Reservation(model, brand, name, image1, addressText, reminderText, shopuid, currentDate, currentTime, uid, listid, resType, resid, price, status);
@@ -239,7 +241,7 @@ public class EditReservation extends AppCompatActivity implements DatePickerDial
 
         }
 
-        timeText.setText("Hour: " + i + " Minute: " + i1);
+        timeText.setText(currentTime);
     }
 
     @Override

@@ -67,10 +67,9 @@ public class ShopmyReservation extends Fragment {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                mUploads.clear();
                 if(dataSnapshot.exists()){
                     for(DataSnapshot snapshot :dataSnapshot.getChildren()){
-
                         Reservation reservation = snapshot.getValue(Reservation.class);
                         mUploads.add(reservation);
                     }

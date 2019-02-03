@@ -203,48 +203,47 @@ public class EditTrade extends AppCompatActivity implements View.OnClickListener
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                final String addPrice = dataSnapshot.child("addPrice").getValue().toString();
-                brand = dataSnapshot.child("brand").getValue().toString();
-                final String fbrand = dataSnapshot.child("fbrand").getValue().toString();
-                final String fmodel = dataSnapshot.child("fmodel").getValue().toString();
-                final String fyear = dataSnapshot.child("fyear").getValue().toString();
-                image1 = dataSnapshot.child("image1").getValue().toString();
-                imagePath1 = dataSnapshot.child("imagePath1").getValue().toString();
-                imagePath2 = dataSnapshot.child("imagePath2").getValue().toString();
-                listingid = dataSnapshot.child("listingid").getValue().toString();
-                model = dataSnapshot.child("model").getValue().toString();
-                name = dataSnapshot.child("name").getValue().toString();
-                priceList = dataSnapshot.child("priceList").getValue().toString();
-                final String shopAddPrice = dataSnapshot.child("shopAddPrice").getValue().toString();
-                shopuid = dataSnapshot.child("shopuid").getValue().toString();
-                statusFinal = dataSnapshot.child("status").getValue().toString();
-                tidFinal = dataSnapshot.child("tid").getValue().toString();
-                typeTrade = dataSnapshot.child("type").getValue().toString();
-                uid = dataSnapshot.child("uid").getValue().toString();
-                year = dataSnapshot.child("year").getValue().toString();
+                if(dataSnapshot.exists()){
+                    final String addPrice = dataSnapshot.child("addPrice").getValue().toString();
+                    brand = dataSnapshot.child("brand").getValue().toString();
+                    final String fbrand = dataSnapshot.child("fbrand").getValue().toString();
+                    final String fmodel = dataSnapshot.child("fmodel").getValue().toString();
+                    final String fyear = dataSnapshot.child("fyear").getValue().toString();
+                    image1 = dataSnapshot.child("image1").getValue().toString();
+                    imagePath1 = dataSnapshot.child("imagePath1").getValue().toString();
+                    imagePath2 = dataSnapshot.child("imagePath2").getValue().toString();
+                    listingid = dataSnapshot.child("listingid").getValue().toString();
+                    model = dataSnapshot.child("model").getValue().toString();
+                    name = dataSnapshot.child("name").getValue().toString();
+                    priceList = dataSnapshot.child("priceList").getValue().toString();
+                    final String shopAddPrice = dataSnapshot.child("shopAddPrice").getValue().toString();
+                    shopuid = dataSnapshot.child("shopuid").getValue().toString();
+                    statusFinal = dataSnapshot.child("status").getValue().toString();
+                    tidFinal = dataSnapshot.child("tid").getValue().toString();
+                    typeTrade = dataSnapshot.child("type").getValue().toString();
+                    uid = dataSnapshot.child("uid").getValue().toString();
+                    year = dataSnapshot.child("year").getValue().toString();
+                    Picasso.get().load(imagePath1).fit().centerCrop().into(imageCont1);
+                    Picasso.get().load(imagePath2).fit().centerCrop().into(imageCont2);
+                    brandText.setText(fbrand);
+                    modelText.setText(fmodel);
+                    yearText.setText(fyear);
 
-                Picasso.get().load(imagePath1).fit().centerCrop().into(imageCont1);
-                Picasso.get().load(imagePath2).fit().centerCrop().into(imageCont2);
-                brandText.setText(fbrand);
-                modelText.setText(fmodel);
-                yearText.setText(fyear);
-
-                if(typeTrade.equals("SWAP")){
-                    type1.setChecked(true);
-                    Toast.makeText(EditTrade.this, typeTrade, Toast.LENGTH_SHORT).show();
+                    if(typeTrade.equals("SWAP")){
+                        type1.setChecked(true);
+                        Toast.makeText(EditTrade.this, typeTrade, Toast.LENGTH_SHORT).show();
+                    }
+                    else if(typeTrade.equals("I WILL ADD")){
+                        type2.setChecked(true);
+                        price.setText(addPrice);
+                        Toast.makeText(EditTrade.this, typeTrade, Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        type3.setChecked(true);
+                        price1.setText(shopAddPrice);
+                        Toast.makeText(EditTrade.this, typeTrade, Toast.LENGTH_SHORT).show();
+                    }
                 }
-                else if(typeTrade.equals("I WILL ADD")){
-                    type2.setChecked(true);
-                    price.setText(addPrice);
-                    Toast.makeText(EditTrade.this, typeTrade, Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    type3.setChecked(true);
-                    price1.setText(shopAddPrice);
-                    Toast.makeText(EditTrade.this, typeTrade, Toast.LENGTH_SHORT).show();
-                }
-
-
             }
 
             @Override

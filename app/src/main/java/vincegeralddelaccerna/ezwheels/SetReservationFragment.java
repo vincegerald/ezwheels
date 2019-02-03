@@ -177,7 +177,7 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
 
         }
 
-        timeText.setText("Hour: " + i + " Minute: " + i1);
+        timeText.setText(currentTime);
     }
 
     @Override

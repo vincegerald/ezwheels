@@ -42,7 +42,7 @@ public class MotorListFragment extends Fragment {
 
     private ProgressBar mProgressbar;
 
-    DashboardCarAdapter mAdapter;
+    MyDashboardCarAdapter mAdapter;
 
     private List<Upload> mUploads;
 
@@ -75,7 +75,7 @@ public class MotorListFragment extends Fragment {
                         mUploads.add(upload);
                     }
 
-                    mAdapter = new DashboardCarAdapter(getActivity(), mUploads);
+                    mAdapter = new MyDashboardCarAdapter(getActivity(), mUploads);
                     recyclerView.setAdapter(mAdapter);
                     mProgressbar.setVisibility(View.INVISIBLE);
                 }

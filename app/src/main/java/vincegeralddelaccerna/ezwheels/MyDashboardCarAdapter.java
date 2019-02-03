@@ -2,6 +2,7 @@ package vincegeralddelaccerna.ezwheels;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -15,13 +16,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapter.DashboardCarViewHolder> {
+public class MyDashboardCarAdapter extends RecyclerView.Adapter<MyDashboardCarAdapter.DashboardCarViewHolder> {
 
     private Context mContext;
     private List<Upload> mUploads;
     private List<Shop> shop;
 
-    public DashboardCarAdapter(Context context, List<Upload> uploads) {
+    public MyDashboardCarAdapter(Context context, List<Upload> uploads) {
         mContext = context;
         mUploads = uploads;
     }
@@ -39,7 +40,6 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
     public void onBindViewHolder(@NonNull DashboardCarViewHolder holder, int position) {
 
         final Upload uploadCurrent = mUploads.get(position);
-        holder.stat.setVisibility(View.GONE);
 //        final Shop pos = shop.get(position);
         holder.brand.setText(uploadCurrent.getFinalBrand() + " "+ uploadCurrent.getFinalModel());
         holder.price.setText(uploadCurrent.getFinalPrice());
@@ -48,6 +48,14 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
         holder.price.setText(uploadCurrent.getFinalPrice());
         Picasso.get().load(uploadCurrent.getImagePath1()).fit().centerCrop().into(holder.image);
         holder.date.setText(uploadCurrent.getDate());
+        if(uploadCurrent.getStatus().equals("AVAILABLE")){
+            holder.stat.setTextColor(Color.parseColor("#006600"));
+            holder.stat.setText(uploadCurrent.getStatus());
+        }
+        else{
+            holder.stat.setTextColor(Color.parseColor("#FF0000"));
+            holder.stat.setText(uploadCurrent.getStatus());
+        }
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,7 +88,7 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
 
     @Override
     public int getItemCount() {
-         return mUploads.size();
+        return mUploads.size();
     }
 
     public class DashboardCarViewHolder extends RecyclerView.ViewHolder{

@@ -195,14 +195,16 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                                 mDatabaseRef1.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        firstname = dataSnapshot.child("firstname").getValue().toString();
-                                        lastname = dataSnapshot.child("lastname").getValue().toString();
-                                        contactnumber = dataSnapshot.child("contact").getValue().toString();
-                                        status = dataSnapshot.child("status").getValue().toString();
-                                        Toast.makeText(TradeScrolling.this, firstname, Toast.LENGTH_SHORT).show();
-                                        Log.d("number" ,contactnumber);
-                                        Log.d("fname" ,firstname);
-                                        Log.d("lname" ,lastname);
+                                        if(dataSnapshot.exists()){
+                                            firstname = dataSnapshot.child("firstname").getValue().toString();
+                                            lastname = dataSnapshot.child("lastname").getValue().toString();
+                                            contactnumber = dataSnapshot.child("contact").getValue().toString();
+                                            status = dataSnapshot.child("status").getValue().toString();
+                                            Toast.makeText(TradeScrolling.this, firstname, Toast.LENGTH_SHORT).show();
+                                            Log.d("number" ,contactnumber);
+                                            Log.d("fname" ,firstname);
+                                            Log.d("lname" ,lastname);
+                                        }
                                         sellerAddress.setVisibility(View.GONE);
                                         sellerName.setText(firstname + " " +lastname);
                                         sellerContact.setText(contactnumber);
@@ -227,17 +229,19 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                        firstname = dataSnapshot.child("firstname").getValue().toString();
-                                        lastname = dataSnapshot.child("lastname").getValue().toString();
-                                        address = dataSnapshot.child("location").getValue().toString();
-                                        contactnumber = dataSnapshot.child("contact").getValue().toString();
-                                        textView13.setText("Seller Details");
-                                         sellerName.setText(firstname + " " +lastname);
-                                         sellerContact.setText(contactnumber);
-                                         sellerAddress.setText(address);
-                                        if(status.equals("DECLINED") || status.equals("APPROVED")){
-                                            decline.setVisibility(View.GONE);
-                                            approve.setVisibility(View.GONE);
+                                        if(dataSnapshot.exists()){
+                                            firstname = dataSnapshot.child("firstname").getValue().toString();
+                                            lastname = dataSnapshot.child("lastname").getValue().toString();
+                                            address = dataSnapshot.child("location").getValue().toString();
+                                            contactnumber = dataSnapshot.child("contact").getValue().toString();
+                                            textView13.setText("Seller Details");
+                                            sellerName.setText(firstname + " " +lastname);
+                                            sellerContact.setText(contactnumber);
+                                            sellerAddress.setText(address);
+                                            if(status.equals("DECLINED") || status.equals("APPROVED")){
+                                                decline.setVisibility(View.GONE);
+                                                approve.setVisibility(View.GONE);
+                                            }
                                         }
 
                                     }
@@ -294,21 +298,23 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                                     mDatabaseRef1.addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            firstname = dataSnapshot.child("firstname").getValue().toString();
-                                            lastname = dataSnapshot.child("lastname").getValue().toString();
-                                            contactnumber = dataSnapshot.child("contact").getValue().toString();
-                                            status = dataSnapshot.child("status").getValue().toString();
-                                            Toast.makeText(TradeScrolling.this, firstname, Toast.LENGTH_SHORT).show();
-                                            Log.d("number" ,contactnumber);
-                                            Log.d("fname" ,firstname);
-                                            Log.d("lname" ,lastname);
-                                            sellerAddress.setVisibility(View.GONE);
-                                            textView13.setText("Buyer Details");
-                                            sellerName.setText(firstname + " " +lastname);
-                                            sellerContact.setText(contactnumber);
-                                            if(status.equals("DECLINED") || status.equals("APPROVED")){
-                                                decline.setVisibility(View.GONE);
-                                                approve.setVisibility(View.GONE);
+                                            if(dataSnapshot.exists()){
+                                                firstname = dataSnapshot.child("firstname").getValue().toString();
+                                                lastname = dataSnapshot.child("lastname").getValue().toString();
+                                                contactnumber = dataSnapshot.child("contact").getValue().toString();
+                                                status = dataSnapshot.child("status").getValue().toString();
+                                                Toast.makeText(TradeScrolling.this, firstname, Toast.LENGTH_SHORT).show();
+                                                Log.d("number" ,contactnumber);
+                                                Log.d("fname" ,firstname);
+                                                Log.d("lname" ,lastname);
+                                                sellerAddress.setVisibility(View.GONE);
+                                                textView13.setText("Buyer Details");
+                                                sellerName.setText(firstname + " " +lastname);
+                                                sellerContact.setText(contactnumber);
+                                                if(status.equals("DECLINED") || status.equals("APPROVED")){
+                                                    decline.setVisibility(View.GONE);
+                                                    approve.setVisibility(View.GONE);
+                                                }
                                             }
 
 
@@ -330,14 +336,16 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                            firstname = dataSnapshot.child("firstname").getValue().toString();
-                                            lastname = dataSnapshot.child("lastname").getValue().toString();
-                                            address = dataSnapshot.child("location").getValue().toString();
-                                            contactnumber = dataSnapshot.child("contact").getValue().toString();
-                                            textView13.setText("Buyer Details");
-                                            sellerName.setText(firstname + " " +lastname);
-                                            sellerContact.setText(contactnumber);
-                                            sellerAddress.setText(address);
+                                            if(dataSnapshot.exists()){
+                                                firstname = dataSnapshot.child("firstname").getValue().toString();
+                                                lastname = dataSnapshot.child("lastname").getValue().toString();
+                                                address = dataSnapshot.child("location").getValue().toString();
+                                                contactnumber = dataSnapshot.child("contact").getValue().toString();
+                                                textView13.setText("Buyer Details");
+                                                sellerName.setText(firstname + " " +lastname);
+                                                sellerContact.setText(contactnumber);
+                                                sellerAddress.setText(address);
+                                            }
 
                                         }
 
@@ -476,9 +484,6 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
         int id = view.getId();
 
         if(id == R.id.message){
-
-
-
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_VIEW);
             sendIntent.setData(Uri.parse("smsto:" + contactnumber));  // This ensures only SMS apps respond

@@ -67,10 +67,9 @@ public class ShopmyTrades extends Fragment {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                mUploads.clear();
                 if(dataSnapshot.exists()){
                     for(DataSnapshot snapshot :dataSnapshot.getChildren()){
-                        mUploads.clear();
                         Trade trade = snapshot.getValue(Trade.class);
                         mUploads.add(trade);
                     }

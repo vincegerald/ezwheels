@@ -58,9 +58,10 @@ public class car_fragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         String uid = mAuth.getCurrentUser().getUid().toString();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Car");
+        Query query = FirebaseDatabase.getInstance().getReference("Car")
+                .orderByChild("status").equalTo("AVAILABLE");
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 

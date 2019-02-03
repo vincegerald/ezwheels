@@ -41,7 +41,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     CardView cardSeller, cardTrade, cardReservation;
 
     //imageview
-    ImageView imageView1, imageView2, imageView3, imageView4;
+    ImageView imageView1, imageView2, imageView3, imageView4, edit;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseRef;
@@ -98,6 +98,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         imageView2 = findViewById(R.id.image2);
         imageView3 = findViewById(R.id.image3);
         imageView4 = findViewById(R.id.image4);
+         edit = findViewById(R.id.edit);
 
         //listeners
 
@@ -106,6 +107,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         reserve.setOnClickListener(this);
         trade.setOnClickListener(this);
         fab.setOnClickListener(this);
+        edit.setOnClickListener(this);
 
         //firebase
 
@@ -153,6 +155,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             textView13.setVisibility(View.GONE);
             textView14.setVisibility(View.GONE);
             fab.setVisibility(View.GONE);
+            edit.setVisibility(View.VISIBLE);
         }
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Shop").child(uid);
@@ -280,6 +283,12 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             });
 
 
+        }
+
+        if(id == R.id.edit){
+            Intent intent = new Intent(ScrollingActivity.this, EditListing.class);
+            intent.putExtra("listingid", listingid);
+            startActivity(intent);
         }
     }
 
