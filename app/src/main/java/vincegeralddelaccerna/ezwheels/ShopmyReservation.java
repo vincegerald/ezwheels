@@ -97,49 +97,49 @@ public class ShopmyReservation extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser =  mAuth.getCurrentUser();
         uid = currentUser.getUid();
-        if(currentUser != null){
-            databaseReference = FirebaseDatabase.getInstance().getReference("Reservation");
-            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.exists()){
-                        String id = dataSnapshot.child("uid").getValue().toString();
-                        if(id.equals(uid)){
-                            String model = dataSnapshot.child("model").getValue().toString();
-                            String brand = dataSnapshot.child("brand").getValue().toString();
-                            String status = dataSnapshot.child("status").getValue().toString();
-                            if(status.equals("APPROVED")){
-                                PushNotification("Reservation Approved","Your reservation for " + brand + " " + model + " has been approved by the shop");
-                            }
-                            else{
-                                PushNotification("Reservation Declined","Your reservation for " + brand + " " + model + " has been declined by the shop. For more details contact the shop");
-                            }
-                        }
-                    }
-                    else{
-                        databaseReference1 = FirebaseDatabase.getInstance().getReference("Buyers").child(uid);
-                        databaseReference1.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                if(dataSnapshot.exists()){
-
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                                Toast.makeText(getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Toast.makeText(getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
+//        if(currentUser != null){
+//            databaseReference = FirebaseDatabase.getInstance().getReference("Reservation");
+//            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                    if(dataSnapshot.exists()){
+//                        String id = dataSnapshot.child("uid").getValue().toString();
+//                        if(id.equals(uid)){
+//                            String model = dataSnapshot.child("model").getValue().toString();
+//                            String brand = dataSnapshot.child("brand").getValue().toString();
+//                            String status = dataSnapshot.child("status").getValue().toString();
+//                            if(status.equals("APPROVED")){
+//                                PushNotification("Reservation Approved","Your reservation for " + brand + " " + model + " has been approved by the shop");
+//                            }
+//                            else{
+//                                PushNotification("Reservation Declined","Your reservation for " + brand + " " + model + " has been declined by the shop. For more details contact the shop");
+//                            }
+//                        }
+//                    }
+//                    else{
+//                        databaseReference1 = FirebaseDatabase.getInstance().getReference("Buyers").child(uid);
+//                        databaseReference1.addValueEventListener(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                if(dataSnapshot.exists()){
+//
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                                Toast.makeText(getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError databaseError) {
+//                    Toast.makeText(getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//        }
 
 
 //        query.addChildEventListener(new ChildEventListener() {

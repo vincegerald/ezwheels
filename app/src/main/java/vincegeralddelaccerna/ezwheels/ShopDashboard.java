@@ -43,6 +43,7 @@ public class ShopDashboard extends AppCompatActivity {
         final SearchFragment searchFragment = new SearchFragment();
         final ShopothersFragment shopothersFragment = new ShopothersFragment();
         final ShopmyListings shopmyListings = new ShopmyListings();
+        final ProfileFragment profileFragment = new ProfileFragment();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -72,7 +73,7 @@ public class ShopDashboard extends AppCompatActivity {
                 }
 //
                 if(id == R.id.profile){
-                    //setFragment(profileFragment);
+                    setFragment(profileFragment);
                     return  true;
                 }
 

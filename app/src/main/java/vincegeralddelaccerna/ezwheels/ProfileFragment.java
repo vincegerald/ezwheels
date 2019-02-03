@@ -24,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
  *
  *
  */
-public class ProfileFragment extends Fragment implements View.OnClickListener {
+public class ProfileFragment extends Fragment  {
 
     DatabaseReference databaseReference;
     private FirebaseAuth mAuth;
@@ -53,9 +53,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         //textviews and buttons
 
-        btnLogout = v.findViewById(R.id.btnLogout);
-        userName = v.findViewById(R.id.userName);
-        userContact = v.findViewById(R.id.userContact);
+
 
         //firebase
 
@@ -65,37 +63,23 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
 
         //listeners
-        btnLogout.setOnClickListener(this);
+//        btnLogout.setOnClickListener(this);
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                firstname = dataSnapshot.child("firstname").getValue().toString();
-                lastname = dataSnapshot.child("lastname").getValue().toString();
-                contact = dataSnapshot.child("contactnumber").getValue().toString();
-                userName.setText(firstname + " " + lastname);
-                userContact.setText(contact);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        databaseReference.addValueEventListener()
 
 
 
         return v;
     }
 
-    @Override
-    public void onClick(View view) {
-
-        int id = view.getId();
-
-        if(id == R.id.btnLogout){
-            mAuth.signOut();
-        }
-
-    }
+//    @Override
+//    public void onClick(View view) {
+//
+//        int id = view.getId();
+//
+//        if(id == R.id.btnLogout){
+//            mAuth.signOut();
+//        }
+//
+//    }
 }

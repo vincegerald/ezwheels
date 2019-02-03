@@ -262,6 +262,7 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
                         @Override
                         public void onSuccess(Uri uri) {
                             purl = uri.toString();
+                            Toast.makeText(RegisterShop.this, "Wait for a moment", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

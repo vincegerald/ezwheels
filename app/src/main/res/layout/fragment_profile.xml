@@ -7,69 +7,191 @@
     tools:context=".ProfileFragment">
 
    <android.support.v7.widget.CardView
+       android:id="@+id/image"
        android:layout_width="match_parent"
-       android:layout_height="320dp"
+       android:layout_height="230dp"
        android:backgroundTint="@color/colorPrimary">
 
-       <ImageView
+       <com.mikhaellopez.circularimageview.CircularImageView
            android:id="@+id/imageView10"
+           android:layout_width="120dp"
+           android:layout_height="120dp"
+           android:layout_gravity="center"
+           android:src="@drawable/man" />
+
+       <RatingBar
+           android:layout_below="@id/image"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:layout_gravity="center_horizontal"
-           android:layout_marginTop="20dp"
-           tools:src="@tools:sample/avatars[0]" />
-
-           <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginTop="160dp"
-           android:gravity="center_horizontal"
-           android:orientation="horizontal">
-           <TextView
-               android:id="@+id/userName"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="Name"
-               android:textSize="20sp"/>
-       </LinearLayout>
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginTop="190dp"
-           android:gravity="center_horizontal"
-           android:orientation="horizontal"/>
-
-           <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginTop="200dp"
-           android:gravity="center_horizontal"
-           android:orientation="horizontal">
-           <TextView
-               android:id="@+id/userContact"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="Contact Number"
-               android:textSize="20sp"/>
-       </LinearLayout>
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginTop="260dp"
-           android:gravity="center_horizontal"
-           android:orientation="horizontal">
-           <Button
-               android:id="@+id/btnLogout"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="Logout"
-               android:textAllCaps="false"
-               android:padding="10dp"
-               android:background="#fefefe"
-               android:textSize="20sp"/>
-       </LinearLayout>
-
+           android:layout_gravity="bottom|center"/>
 
    </android.support.v7.widget.CardView>
+    <ScrollView
+        android:layout_below="@id/image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_below="@+id/image"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:focusable="false"
+                android:id="@+id/textView13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Name"
+                android:textColor="#606060"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:focusable="false"
+                android:id="@+id/brandText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/blackborder"
+                android:completionHint="Enter Brand"
+                android:completionThreshold="1"
+                android:cursorVisible="true"
+                android:hint="Enter brand"
+                android:padding="10dp"
+                android:textColor="#606060"
+                android:textColorHint="#606060"
+                android:textCursorDrawable="@drawable/cursor"
+                android:textSize="16sp" />
+            <TextView
+                android:focusable="false"
+                android:id="@+id/shopname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Shop Name"
+                android:textColor="#606060"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:focusable="false"
+                android:id="@+id/shopnametext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/blackborder"
+                android:completionHint="Enter Brand"
+                android:completionThreshold="1"
+                android:cursorVisible="true"
+                android:hint="Enter brand"
+                android:padding="10dp"
+                android:textColor="#606060"
+                android:textColorHint="#606060"
+                android:textCursorDrawable="@drawable/cursor"
+                android:textSize="16sp" />
+
+            <TextView
+                android:focusable="false"
+                android:id="@+id/contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Phone Number"
+                android:textColor="#606060"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:focusable="false"
+                android:id="@+id/contacttext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/blackborder"
+                android:completionHint="Enter Brand"
+                android:completionThreshold="1"
+                android:cursorVisible="true"
+                android:hint="Enter brand"
+                android:padding="10dp"
+                android:textColor="#606060"
+                android:textColorHint="#606060"
+                android:textCursorDrawable="@drawable/cursor"
+                android:textSize="16sp" />
+            <TextView
+                android:focusable="false"
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Email Address"
+                android:textColor="#606060"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:focusable="false"
+                android:id="@+id/emailText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/blackborder"
+                android:completionHint="Enter Brand"
+                android:completionThreshold="1"
+                android:cursorVisible="true"
+                android:hint="Enter brand"
+                android:padding="10dp"
+                android:textColor="#606060"
+                android:textColorHint="#606060"
+                android:textCursorDrawable="@drawable/cursor"
+                android:textSize="16sp" />
+            <TextView
+                android:focusable="false"
+                android:id="@+id/location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Location"
+                android:textColor="#606060"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:focusable="false"
+                android:id="@+id/locationtext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/blackborder"
+                android:completionHint="Enter Brand"
+                android:completionThreshold="1"
+                android:cursorVisible="true"
+                android:hint="Enter brand"
+                android:padding="10dp"
+                android:textColor="#606060"
+                android:textColorHint="#606060"
+                android:textCursorDrawable="@drawable/cursor"
+                android:textSize="16sp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/logoutBtn"
+                android:text="LOG OUT"
+                android:backgroundTint="#E6E6E6"
+                android:textColor="#7b0000"
+                android:padding="10dp"
+                android:layout_margin="10dp"/>
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>
