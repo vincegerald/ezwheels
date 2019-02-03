@@ -1,8 +1,14 @@
 package vincegeralddelaccerna.ezwheels;
 
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +20,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,6 +31,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 
 /**
@@ -37,12 +47,13 @@ public class ShopmyReservation extends Fragment {
 
     RecyclerView recyclerView;
     FloatingActionButton add;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference, databaseReference1;
     FirebaseAuth mAuth;
 
     private ProgressBar mProgressbar;
 
     ReservationAdapter mAdapter;
+    private static String uid;
 
     private List<Reservation> mUploads;
 
@@ -63,6 +74,78 @@ public class ShopmyReservation extends Fragment {
         String id = mAuth.getCurrentUser().getUid();
         Query query = FirebaseDatabase.getInstance().getReference("Reservation")
                 .orderByChild("uid").equalTo(id);
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser =  mAuth.getCurrentUser();
+        uid = currentUser.getUid();
+        if(currentUser != null){
+            databaseReference = FirebaseDatabase.getInstance().getReference("Reservation").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()){
+                        String id = dataSnapshot.child("uid").getValue().toString();
+                        if(id.equals(uid)){
+                            String model = dataSnapshot.child("model").getValue().toString();
+                            String brand = dataSnapshot.child("brand").getValue().toString();
+                            String status = dataSnapshot.child("status").getValue().toString();
+                            if(status.equals("APPROVED")){
+
+                            }
+                        }
+                    }
+                    else{
+                        databaseReference1 = FirebaseDatabase.getInstance().getReference("Buyers").child(uid);
+                        databaseReference1.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists()){
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Toast.makeText(getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+
+//        query.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//                if(dataSnapshot.exists()){
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                Toast.makeText(getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -88,6 +171,24 @@ public class ShopmyReservation extends Fragment {
         });
 
         return v;
+    }
+
+    public void PushNotification(String title, String content) {
+        NotificationManager nm = (NotificationManager)getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification.Builder builder = new Notification.Builder(getContext());
+        Intent notificationIntent = new Intent(getContext(), ShopDashboard.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(getContext(),0,notificationIntent,0);
+
+        //set
+        builder.setContentIntent(contentIntent);
+        builder.setSmallIcon(R.drawable.ic_mode_edit_black_24dp);
+        builder.setContentText(content);
+        builder.setContentTitle(title);
+        builder.setAutoCancel(true);
+        builder.setDefaults(Notification.DEFAULT_ALL);
+
+        Notification notification = builder.build();
+        nm.notify((int)System.currentTimeMillis(),notification);
     }
 
 }

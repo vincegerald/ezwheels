@@ -64,16 +64,18 @@ public class car_fragment extends Fragment {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mUploads.clear();
+                    if(dataSnapshot.exists()){
+                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()){
 
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()){
+                            Upload upload = postSnapshot.getValue(Upload.class);
+                            mUploads.add(upload);
+                        }
 
-                    Upload upload = postSnapshot.getValue(Upload.class);
-                    mUploads.add(upload);
-                }
-
-                mAdapter = new DashboardCarAdapter(getActivity(), mUploads);
-                recyclerView.setAdapter(mAdapter);
-                mProgressbar.setVisibility(View.INVISIBLE);
+                        mAdapter = new DashboardCarAdapter(getActivity(), mUploads);
+                        recyclerView.setAdapter(mAdapter);
+                        mProgressbar.setVisibility(View.INVISIBLE);
+                    }
 
             }
 

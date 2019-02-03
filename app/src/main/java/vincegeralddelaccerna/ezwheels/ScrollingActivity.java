@@ -1,5 +1,6 @@
 package vincegeralddelaccerna.ezwheels;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -35,7 +37,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     ImageView scrollImage;
     TextView shopName, vehicleName, priceView, priceCondition, date, transmissionView, mileageView, yearView,sellerName, sellerAddress, sellerContact, fuelType, seriesView, editionView, infoView,
             textView13, textView14;
-    Button call, message, reserve,trade;
+    Button call, message, reserve,trade, approve;
     FloatingActionButton fab;
     VideoView video;
     CardView cardSeller, cardTrade, cardReservation;
@@ -47,7 +49,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     private DatabaseReference mDatabaseRef;
     private DatabaseReference mDatabaseRef1;
 
-    private  String firstname, lastname, contact, description, location, name, uid;
+    private  String firstname, lastname, contact, description, location, name, uid, status;
     private String brand, model;
     private String listingid;
     private String image1;
@@ -79,6 +81,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         video = findViewById(R.id.video);
         textView13 = findViewById(R.id.textView13);
         textView14 = findViewById(R.id.textView14);
+        approve = findViewById(R.id.approve);
 
         //card
         cardSeller = findViewById(R.id.cardSeller);
@@ -108,6 +111,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         trade.setOnClickListener(this);
         fab.setOnClickListener(this);
         edit.setOnClickListener(this);
+        approve.setOnClickListener(this);
 
         //firebase
 
@@ -141,6 +145,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         String editionData = getIntent().getStringExtra("edition");
         String infoData = getIntent().getStringExtra("info");
         listingid = getIntent().getStringExtra("listingid");
+        status = getIntent().getStringExtra("status");
 
 
         getSupportActionBar().setTitle(brand + " " + model);
@@ -156,7 +161,13 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             textView14.setVisibility(View.GONE);
             fab.setVisibility(View.GONE);
             edit.setVisibility(View.VISIBLE);
+            approve.setVisibility(View.VISIBLE);
         }
+
+        if(status.equals("SOLD")){
+            approve.setVisibility(View.GONE);
+        }
+
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Shop").child(uid);
 
@@ -289,6 +300,57 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             Intent intent = new Intent(ScrollingActivity.this, EditListing.class);
             intent.putExtra("listingid", listingid);
             startActivity(intent);
+        }
+
+        if(id == R.id.approve){
+            AlertDialog.Builder builder = new AlertDialog.Builder(ScrollingActivity.this);
+            builder.setMessage("Mark as sold?").setCancelable(false)
+                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            final DatabaseReference carSold = FirebaseDatabase.getInstance().getReference("Car").child(listingid);
+                            carSold.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists()){
+                                        carSold.child("status").setValue("SOLD");
+                                        finish();
+                                    }
+                                    else{
+                                        final DatabaseReference motorSold = FirebaseDatabase.getInstance().getReference("Motor").child(listingid);
+                                        motorSold.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                motorSold.child("status").setValue("sold");
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                Toast.makeText(ScrollingActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+                            finish();
+
+                        }
+                    }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setTitle("Mark " + brand + " " + model + " as sold?");
+            alertDialog.show();
         }
     }
 

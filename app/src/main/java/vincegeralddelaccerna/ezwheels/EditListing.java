@@ -133,6 +133,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
     private static String imagePath1 = "";
     private static  String imagePath2 = "";
     private static  String imagePath3 = "";
+    private static  String imagePath4 = "";
     private static String videoPath = "";
     private static String type = "car";
     private static String formattedDate;
@@ -287,10 +288,10 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                         finalTransmission = dataSnapshot.child("finalTransmission").getValue().toString();
                         finalYear = dataSnapshot.child("finalYear").getValue().toString();
                         fuell = dataSnapshot.child("fuel").getValue().toString();
-                        imageP1 = dataSnapshot.child("image").getValue().toString();
-                        imageP2 = dataSnapshot.child("imagePath1").getValue().toString();
-                        imageP3 = dataSnapshot.child("imagePath2").getValue().toString();
-                        imageP4 = dataSnapshot.child("imagePath3").getValue().toString();
+                        imagePath1 = dataSnapshot.child("image").getValue().toString();
+                        imagePath2 = dataSnapshot.child("imagePath1").getValue().toString();
+                        imagePath3 = dataSnapshot.child("imagePath2").getValue().toString();
+                        imagePath4 = dataSnapshot.child("imagePath3").getValue().toString();
                         info = dataSnapshot.child("info").getValue().toString();
                         listid = dataSnapshot.child("listid").getValue().toString();
                         seriess = dataSnapshot.child("series").getValue().toString();
@@ -310,12 +311,16 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                         edition.setText(editionn);
                         series.setText(seriess);
                         editText5.setText(info);
-                        Picasso.get().load(imageP1).fit().centerCrop().into(image1);
-                        Picasso.get().load(imageP2).fit().centerCrop().into(image2);
-                        Picasso.get().load(imageP3).fit().centerCrop().into(image3);
-                        Picasso.get().load(imageP4).fit().centerCrop().into(image4);
+                        Picasso.get().load(imagePath1).fit().centerCrop().into(image1);
+                        Picasso.get().load(imagePath2).fit().centerCrop().into(image2);
+                        Picasso.get().load(imagePath3).fit().centerCrop().into(image3);
+                        Picasso.get().load(imagePath4).fit().centerCrop().into(image4);
                         Uri uri = Uri.parse(videoP);
                         videoView.setVideoPath(videoP);
+                        car.setChecked(true);
+                        motor.setChecked(false);
+                        type = "car";
+                        Toast.makeText(EditListing.this, type, Toast.LENGTH_SHORT).show();
                 }
                 else{
                     mDatabaseRef1 = FirebaseDatabase.getInstance().getReference("Motor").child(listingid);
@@ -334,10 +339,10 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                                 finalTransmission = dataSnapshot.child("finalTransmission").getValue().toString();
                                 finalYear = dataSnapshot.child("finalYear").getValue().toString();
                                 fuell = dataSnapshot.child("fuel").getValue().toString();
-                                imageP1 = dataSnapshot.child("image").getValue().toString();
-                                imageP2 = dataSnapshot.child("imagePath1").getValue().toString();
-                                imageP3 = dataSnapshot.child("imagePath2").getValue().toString();
-                                imageP4 = dataSnapshot.child("imagePath3").getValue().toString();
+                                imagePath1 = dataSnapshot.child("image").getValue().toString();
+                                imagePath2 = dataSnapshot.child("imagePath1").getValue().toString();
+                                imagePath3 = dataSnapshot.child("imagePath2").getValue().toString();
+                                imagePath4 = dataSnapshot.child("imagePath3").getValue().toString();
                                 info = dataSnapshot.child("info").getValue().toString();
                                 listid = dataSnapshot.child("listid").getValue().toString();
                                 seriess = dataSnapshot.child("series").getValue().toString();
@@ -357,11 +362,14 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                                 edition.setText(editionn);
                                 series.setText(seriess);
                                 editText5.setText(info);
-                                Picasso.get().load(imageP1).fit().centerCrop().into(image1);
-                                Picasso.get().load(imageP2).fit().centerCrop().into(image2);
-                                Picasso.get().load(imageP3).fit().centerCrop().into(image3);
-                                Picasso.get().load(imageP4).fit().centerCrop().into(image4);
+                                Picasso.get().load(imagePath1).fit().centerCrop().into(image1);
+                                Picasso.get().load(imagePath2).fit().centerCrop().into(image2);
+                                Picasso.get().load(imagePath3).fit().centerCrop().into(image3);
+                                Picasso.get().load(imagePath4).fit().centerCrop().into(image4);
                                 videoView.setVideoPath(videoP);
+                                motor.setChecked(true);
+                                car.setChecked(false);
+                                type = "motor";
                             }
                         }
 
@@ -709,8 +717,8 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
 //                                Toast.makeText(getActivity(), videoPath, Toast.LENGTH_SHORT).show();
                                 mDatabaseRef = mDatabaseRef.child("Car");
                                 String listid = mDatabaseRef.push().getKey();
-                                String image = uri.toString();
-                                Upload upload = new Upload(listid, edition, series, info, uid, formattedDate, fuel, image, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
+                                imagePath4 = uri.toString();
+                                Upload upload = new Upload(listid, edition, series, info, uid, formattedDate, fuel, imagePath4, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
                                 if(type.equals("car")){
                                     Toast.makeText(EditListing.this, type, Toast.LENGTH_SHORT).show();
                                     mDatabaseRef.child(listid).setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
