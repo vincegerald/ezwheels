@@ -1,9 +1,11 @@
 package vincegeralddelaccerna.ezwheels;
 
 
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -11,20 +13,30 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -35,6 +47,7 @@ import com.squareup.picasso.Picasso;
 public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     DatabaseReference databaseReference, databaseReference1, buyerProf, shopProf;
+    private static final int IMAGE_REQUEST_1 = 1;
     private FirebaseAuth mAuth;
 
     //buttons
@@ -47,6 +60,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     Button logoutBtn;
     ImageView editProfile, saveProfile, profImg;
     RatingBar ratingBar;
+    ProgressBar bar;
+    private StorageReference mStorageRef;
 
     //strings
 
@@ -58,6 +73,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private String emaill;
     private String description;
     private String purl;
+    private Uri imageUri;
+    private String profUrl;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -80,14 +97,17 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         contacttext = v.findViewById(R.id.contacttext);
         locationtext = v.findViewById(R.id.locationtext);
         ratingBar = v.findViewById(R.id.ratingBar);
+        profImg = v.findViewById(R.id.profImg);
         editProfile = v.findViewById(R.id.editProfile);
         saveProfile = v.findViewById(R.id.saveProfile);
         lnametext = v.findViewById(R.id.lnametext);
         descriptiontext = v.findViewById(R.id.descriptiontext);
         profImg.setOnClickListener(this);
+        bar = v.findViewById(R.id.bar);
         saveProfile.setOnClickListener(this);
         logoutBtn.setOnClickListener(this);
         editProfile.setOnClickListener(this);
+        profImg.setClickable(false);
 
 
 
@@ -99,6 +119,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         //firebase
 
         mAuth = FirebaseAuth.getInstance();
+        mStorageRef = FirebaseStorage.getInstance().getReference();
         final String uid = mAuth.getCurrentUser().getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference("Buyers").child(uid);
         databaseReference1 = FirebaseDatabase.getInstance().getReference();
@@ -109,7 +130,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 if(dataSnapshot.exists()){
+                    bar.setVisibility(View.VISIBLE);
                     firstname = dataSnapshot.child("firstname").getValue().toString();
                     lastname = dataSnapshot.child("lastname").getValue().toString();
                     contactnumber = dataSnapshot.child("contactnumber").getValue().toString();
@@ -125,9 +148,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     descriptiontext.setVisibility(View.GONE);
                     ratingBar.setVisibility(View.GONE);
                     Picasso.get().load(purl).fit().centerCrop().into(profImg);
+                    bar.setVisibility(View.GONE);
 
                 }
                 else{
+                    bar.setVisibility(View.VISIBLE);
                     databaseReference1 = FirebaseDatabase.getInstance().getReference("Shop").child(uid);
                     databaseReference1.addValueEventListener(new ValueEventListener() {
                         @Override
@@ -150,6 +175,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                 locationtext.setText(locations);
                                 descriptiontext.setText(description);
                                 Picasso.get().load(purl).fit().centerCrop().into(profImg);
+                                bar.setVisibility(View.GONE);
                             }
                         }
 
@@ -175,6 +201,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         int id = view.getId();
+
+        if(id == R.id.profImg){
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(intent, IMAGE_REQUEST_1);
+        }
 
         if(id == R.id.logoutBtn){
             FirebaseAuth.getInstance().signOut();
@@ -203,16 +236,16 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             descriptiontext.setFocusableInTouchMode(true);
             descriptiontext.setTextColor(Color.parseColor("#000000"));
             descriptiontext.setFocusable(true);
-            profImg.setFocusable(true);
+            profImg.setClickable(true);
             editProfile.setVisibility(View.GONE);
             saveProfile.setVisibility(View.VISIBLE);
+            logoutBtn.setVisibility(View.GONE);
         }
 
         if(id == R.id.saveProfile){
             final String name = nametext.getText().toString();
             final String contact = contacttext.getText().toString();
             final String shopnameText = shopnametext.getText().toString();
-            final String emailText = emailtext.getText().toString();
             final String locationText = locationtext.getText().toString();
             final String lnameText = lnametext.getText().toString();
             final String descText = descriptiontext.getText().toString();
@@ -232,7 +265,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                         buyerProf.child("contactnumber").setValue(contact);
                                         buyerProf.child("firstname").setValue(name);
                                         buyerProf.child("lastname").setValue(lnameText);
-                                        buyerProf.child("email").setValue(emailText);
+                                        buyerProf.child("purl").setValue(purl);
                                         Toast.makeText(getActivity(), "Profile Updated", Toast.LENGTH_SHORT).show();
                                         nametext.setFocusableInTouchMode(false);
                                         nametext.setTextColor(Color.parseColor("#606060"));
@@ -252,9 +285,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                         descriptiontext.setFocusableInTouchMode(false);
                                         descriptiontext.setTextColor(Color.parseColor("#606060"));
                                         descriptiontext.setFocusable(false);
-                                        profImg.setFocusable(false);
+                                        profImg.setClickable(false);
                                         editProfile.setVisibility(View.VISIBLE);
                                         saveProfile.setVisibility(View.GONE);
+                                        logoutBtn.setVisibility(View.VISIBLE);
 
                                     }
 
@@ -267,10 +301,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                                     shopProf.child("contactnumber").setValue(contact);
                                                     shopProf.child("firstname").setValue(name);
                                                     shopProf.child("lastname").setValue(lnameText);
-                                                    shopProf.child("email").setValue(emailText);
                                                     shopProf.child("description").setValue(descText);
                                                     shopProf.child("name").setValue(shopnameText);
                                                     shopProf.child("location").setValue(locationText);
+                                                    shopProf.child("purl").setValue(purl);
                                                     Toast.makeText(getActivity(), "Profile Updated", Toast.LENGTH_SHORT).show();
                                                     nametext.setFocusableInTouchMode(false);
                                                     nametext.setTextColor(Color.parseColor("#606060"));
@@ -292,6 +326,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                                     descriptiontext.setFocusable(false);
                                                     editProfile.setVisibility(View.VISIBLE);
                                                     saveProfile.setVisibility(View.GONE);
+                                                    logoutBtn.setVisibility(View.VISIBLE);
                                                 }
                                             }
 
@@ -331,7 +366,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     descriptiontext.setFocusableInTouchMode(false);
                     descriptiontext.setTextColor(Color.parseColor("#606060"));
                     descriptiontext.setFocusable(false);
-                    profImg.setFocusable(false);
+                    profImg.setClickable(false);
                     editProfile.setVisibility(View.VISIBLE);
                     saveProfile.setVisibility(View.GONE);
 
@@ -344,6 +379,38 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == IMAGE_REQUEST_1 && resultCode == RESULT_OK){
+            imageUri = data.getData();
+            Picasso.get().load(imageUri).fit().centerCrop().into(profImg);
+
+            final String path = System.currentTimeMillis() + "." + getFileExtension(imageUri);
+            bar.setVisibility(View.VISIBLE);
+            StorageReference storageReference = mStorageRef.child("Images").child(path);
+            storageReference.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    mStorageRef.child("Images/"+path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            purl = uri.toString();
+                            bar.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+            });
+
+        }
+    }
+
+    private String getFileExtension(Uri uri) {
+        ContentResolver cR = getActivity().getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
 //    @Override
 //    public void onClick(View view) {
 //
