@@ -23,6 +23,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
     private Context mContext;
     private List<Favorites> mUploads;
+    DatabaseReference databaseReference;
 
     //firebase
     private FirebaseAuth mAuth;

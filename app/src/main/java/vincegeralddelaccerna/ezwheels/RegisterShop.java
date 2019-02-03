@@ -280,7 +280,7 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
                                         sName,
                                         sLocation,
                                         sDescription,
-                                        purl,
+                                        image,
                                         lon,
                                         lat,
                                         rating,

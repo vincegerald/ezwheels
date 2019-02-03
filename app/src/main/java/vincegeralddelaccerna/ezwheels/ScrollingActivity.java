@@ -174,15 +174,17 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                firstname = dataSnapshot.child("firstname").getValue().toString();
-                lastname =  dataSnapshot.child("lastname").getValue().toString();
-                contact = dataSnapshot.child("contact").getValue().toString();
-                description  = dataSnapshot.child("description").getValue().toString();
-                location = dataSnapshot.child("location").getValue().toString();
-                name = dataSnapshot.child("name").getValue().toString();
-                sellerName.setText(firstname + " " + lastname);
-                sellerAddress.setText(location);
-                sellerContact.setText(contact);
+                if(dataSnapshot.exists()){
+                    firstname = dataSnapshot.child("firstname").getValue().toString();
+                    lastname =  dataSnapshot.child("lastname").getValue().toString();
+                    contact = dataSnapshot.child("contact").getValue().toString();
+                    description  = dataSnapshot.child("description").getValue().toString();
+                    location = dataSnapshot.child("location").getValue().toString();
+                    name = dataSnapshot.child("name").getValue().toString();
+                    sellerName.setText(firstname + " " + lastname);
+                    sellerAddress.setText(location);
+                    sellerContact.setText(contact);
+                }
 
             }
 

@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 
 /**
@@ -44,7 +45,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     TextView name, shopname, contacts, email, location, l;
     EditText nametext, shopnametext, contacttext, emailtext, locationtext, lnametext, descriptiontext;
     Button logoutBtn;
-    ImageView editProfile, saveProfile;
+    ImageView editProfile, saveProfile, profImg;
     RatingBar ratingBar;
 
     //strings
@@ -56,6 +57,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private float rating;
     private String emaill;
     private String description;
+    private String purl;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -72,18 +74,17 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         name = v.findViewById(R.id.name);
         shopname = v.findViewById(R.id.shopname);
         contacts = v.findViewById(R.id.contact);
-        email = v.findViewById(R.id.email);
         location = v.findViewById(R.id.location);
         nametext = v.findViewById(R.id.nametext);
         shopnametext = v.findViewById(R.id.shopnametext);
         contacttext = v.findViewById(R.id.contacttext);
-        emailtext = v.findViewById(R.id.emailtext);
         locationtext = v.findViewById(R.id.locationtext);
         ratingBar = v.findViewById(R.id.ratingBar);
         editProfile = v.findViewById(R.id.editProfile);
         saveProfile = v.findViewById(R.id.saveProfile);
         lnametext = v.findViewById(R.id.lnametext);
         descriptiontext = v.findViewById(R.id.descriptiontext);
+        profImg.setOnClickListener(this);
         saveProfile.setOnClickListener(this);
         logoutBtn.setOnClickListener(this);
         editProfile.setOnClickListener(this);
@@ -113,16 +114,17 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     lastname = dataSnapshot.child("lastname").getValue().toString();
                     contactnumber = dataSnapshot.child("contactnumber").getValue().toString();
                     emaill = dataSnapshot.child("email").getValue().toString();
+                    purl = dataSnapshot.child("purl").getValue().toString();
                     nametext.setText(firstname);
                     lnametext.setText(lastname);
                     contacttext.setText(contactnumber);
-                    emailtext.setText(emaill);
                     shopname.setVisibility(View.GONE);
                     location.setVisibility(View.GONE);
                     shopnametext.setVisibility(View.GONE);
                     locationtext.setVisibility(View.GONE);
                     descriptiontext.setVisibility(View.GONE);
                     ratingBar.setVisibility(View.GONE);
+                    Picasso.get().load(purl).fit().centerCrop().into(profImg);
 
                 }
                 else{
@@ -138,15 +140,16 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                 shopName = dataSnapshot.child("name").getValue().toString();
                                 emaill = dataSnapshot.child("email").getValue().toString();
                                 description = dataSnapshot.child("description").getValue().toString();
+                                purl = dataSnapshot.child("purl").getValue().toString();
                                     //rating = (float) dataSnapshot.child("rating").getValue();
                                 ratingBar.setRating(5);
                                 nametext.setText(firstname);
                                 lnametext.setText(lastname);
                                 contacttext.setText(contactnumber);
                                 shopnametext.setText(shopName);
-                                emailtext.setText(emaill);
                                 locationtext.setText(locations);
                                 descriptiontext.setText(description);
+                                Picasso.get().load(purl).fit().centerCrop().into(profImg);
                             }
                         }
 
@@ -194,15 +197,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             shopnametext.setFocusableInTouchMode(true);
             shopnametext.setTextColor(Color.parseColor("#000000"));
             shopnametext.setFocusable(true);
-            emailtext.setFocusableInTouchMode(true);
-            emailtext.setTextColor(Color.parseColor("#000000"));
-            emailtext.setFocusable(true);
             locationtext.setFocusableInTouchMode(true);
             locationtext.setTextColor(Color.parseColor("#000000"));
             locationtext.setFocusable(true);
             descriptiontext.setFocusableInTouchMode(true);
             descriptiontext.setTextColor(Color.parseColor("#000000"));
             descriptiontext.setFocusable(true);
+            profImg.setFocusable(true);
             editProfile.setVisibility(View.GONE);
             saveProfile.setVisibility(View.VISIBLE);
         }
@@ -245,15 +246,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                         shopnametext.setFocusableInTouchMode(false);
                                         shopnametext.setTextColor(Color.parseColor("#606060"));
                                         shopnametext.setFocusable(false);
-                                        emailtext.setFocusableInTouchMode(false);
-                                        emailtext.setTextColor(Color.parseColor("#606060"));
-                                        emailtext.setFocusable(false);
                                         locationtext.setFocusableInTouchMode(false);
                                         locationtext.setTextColor(Color.parseColor("#606060"));
                                         locationtext.setFocusable(false);
                                         descriptiontext.setFocusableInTouchMode(false);
                                         descriptiontext.setTextColor(Color.parseColor("#606060"));
                                         descriptiontext.setFocusable(false);
+                                        profImg.setFocusable(false);
                                         editProfile.setVisibility(View.VISIBLE);
                                         saveProfile.setVisibility(View.GONE);
 
@@ -285,9 +284,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                                     shopnametext.setFocusableInTouchMode(false);
                                                     shopnametext.setTextColor(Color.parseColor("#606060"));
                                                     shopnametext.setFocusable(false);
-                                                    emailtext.setFocusableInTouchMode(false);
-                                                    emailtext.setTextColor(Color.parseColor("#606060"));
-                                                    emailtext.setFocusable(false);
                                                     locationtext.setFocusableInTouchMode(false);
                                                     locationtext.setTextColor(Color.parseColor("#606060"));
                                                     locationtext.setFocusable(false);
@@ -329,15 +325,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     shopnametext.setFocusableInTouchMode(false);
                     shopnametext.setTextColor(Color.parseColor("#606060"));
                     shopnametext.setFocusable(false);
-                    emailtext.setFocusableInTouchMode(false);
-                    emailtext.setTextColor(Color.parseColor("#606060"));
-                    emailtext.setFocusable(false);
                     locationtext.setFocusableInTouchMode(false);
                     locationtext.setTextColor(Color.parseColor("#606060"));
                     locationtext.setFocusable(false);
                     descriptiontext.setFocusableInTouchMode(false);
                     descriptiontext.setTextColor(Color.parseColor("#606060"));
                     descriptiontext.setFocusable(false);
+                    profImg.setFocusable(false);
                     editProfile.setVisibility(View.VISIBLE);
                     saveProfile.setVisibility(View.GONE);
 

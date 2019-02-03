@@ -10,7 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -20,6 +26,8 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
     private Context mContext;
     private List<Upload> mUploads;
     private List<Shop> shop;
+    DatabaseReference databaseReference;
+    private String name;
 
     public DashboardCarAdapter(Context context, List<Upload> uploads) {
         mContext = context;
@@ -36,18 +44,34 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DashboardCarViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final DashboardCarViewHolder holder, int position) {
 
         final Upload uploadCurrent = mUploads.get(position);
         holder.stat.setVisibility(View.GONE);
 //        final Shop pos = shop.get(position);
+
         holder.brand.setText(uploadCurrent.getFinalBrand() + " "+ uploadCurrent.getFinalModel());
-        holder.price.setText(uploadCurrent.getFinalPrice());
+
         holder.d3.setText(uploadCurrent.getFinalColor());
         holder.d4.setText(uploadCurrent.getFinalYear());
-        holder.price.setText(uploadCurrent.getFinalPrice());
+
         Picasso.get().load(uploadCurrent.getImagePath1()).fit().centerCrop().into(holder.image);
-        holder.date.setText(uploadCurrent.getDate());
+        holder.price.setText(uploadCurrent.getFinalPrice());
+        databaseReference = FirebaseDatabase.getInstance().getReference("Shop").child(uploadCurrent.getUid());
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    name = dataSnapshot.child("name").getValue().toString();
+                    holder.date.setText(name);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(mContext, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
