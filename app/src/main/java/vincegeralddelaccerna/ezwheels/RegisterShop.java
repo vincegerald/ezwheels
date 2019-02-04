@@ -25,6 +25,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -39,12 +40,13 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-public class RegisterShop extends AppCompatActivity implements View.OnClickListener, LocationListener {
+public class RegisterShop extends AppCompatActivity implements View.OnClickListener {
 
     Button btnNext, btnBack, btnFinish, btnHome;
     private static double lon, lat;
     private static String purl;
-    private static float rating = 5                                                            ;
+    private float rating = 5.0f;
+    ;
     LinearLayout step1, step2;
     EditText shopFirstname, shopLastname, shopUsername, shopEmail, shopContact, shopPassword, shopName, shopLocation, shopDescription;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -56,6 +58,8 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
     TextView textView;
     private FirebaseDatabase mDatabase;
     private StorageReference mStorageRef;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private double longitude, latitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +73,6 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
         step1 = findViewById(R.id.registerStep1);
         step2 = findViewById(R.id.registerStep2);
         textView = findViewById(R.id.textView3);
-
-
 
 
         shopFirstname = findViewById(R.id.regshopFirstname);
@@ -91,66 +93,28 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
 
         mAuth = FirebaseAuth.getInstance();
 
-        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-
-
-            return;
-        }
-
-
-        Location location = lm.getLastKnownLocation(lm.GPS_PROVIDER);
-        onLocationChanged(location);
 
     }
-
-    @Override
-    public void onLocationChanged(Location location) {
-
-        double longitude  = location.getLongitude();
-        double latitude = location.getLatitude();
-
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
-    }
-
 
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        if(!networkConnection()){
+        if (!networkConnection()) {
             Toast.makeText(this, "No Internet Connection. Please check internet connection", Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else {
             FirebaseUser currentUser = mAuth.getCurrentUser();
 
-            if(currentUser != null){
+            if (currentUser != null) {
                 mDatabase.getReference("Shop").child(currentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.exists()){
+                        if (dataSnapshot.exists()) {
                             Intent intent = new Intent(RegisterShop.this, ShopDashboard.class);
                             startActivity(intent);
                             Toast.makeText(RegisterShop.this, "Shop", Toast.LENGTH_SHORT).show();
-                        }
-                        else{
+                        } else {
                             Intent intent = new Intent(RegisterShop.this, DashBoard.class);
                             startActivity(intent);
                             Toast.makeText(RegisterShop.this, "Buyer", Toast.LENGTH_SHORT).show();
@@ -175,7 +139,7 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.btnNext) {
+        if (view.getId() == R.id.btnNext) {
             step1.setVisibility(View.GONE);
             step2.setVisibility(View.VISIBLE);
             scroll1.setVisibility(View.GONE);
@@ -183,19 +147,19 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
 
         }
 
-        if(view.getId() == R.id.btnBack){
+        if (view.getId() == R.id.btnBack) {
             step1.setVisibility(View.VISIBLE);
             step2.setVisibility(View.GONE);
             scroll1.setVisibility(View.VISIBLE);
             scroll2.setVisibility(View.GONE);
         }
 
-        if(view.getId() == R.id.btnHome){
+        if (view.getId() == R.id.btnHome) {
             Intent loginShop = new Intent(this, LoginShop.class);
             startActivity(loginShop);
         }
 
-        if(view.getId() == R.id.btnFinish){
+        if (view.getId() == R.id.btnFinish) {
             final String sFirstname = shopFirstname.getText().toString();
             final String sLastname = shopLastname.getText().toString();
             final String sEmail = shopEmail.getText().toString();
@@ -205,54 +169,74 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
             final String sLocation = shopLocation.getText().toString();
             final String sDescription = shopDescription.getText().toString();
 
-            if(TextUtils.isEmpty(sFirstname)){
+            if (TextUtils.isEmpty(sFirstname)) {
                 Toast.makeText(getApplicationContext(), "Enter firstname", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(TextUtils.isEmpty(sLastname)){
+            if (TextUtils.isEmpty(sLastname)) {
                 Toast.makeText(getApplicationContext(), "Enter lastname", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(TextUtils.isEmpty(sEmail)){
+            if (TextUtils.isEmpty(sEmail)) {
                 Toast.makeText(getApplicationContext(), "Enter email", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(TextUtils.isEmpty(sContact)){
+            if (TextUtils.isEmpty(sContact)) {
                 Toast.makeText(getApplicationContext(), "Enter contactnumber", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(TextUtils.isEmpty(sPassword)){
+            if (TextUtils.isEmpty(sPassword)) {
                 Toast.makeText(getApplicationContext(), "Enter password", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(TextUtils.isEmpty(sName)){
+            if (TextUtils.isEmpty(sName)) {
                 Toast.makeText(getApplicationContext(), "Enter shopname", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(TextUtils.isEmpty(sLocation)){
+            if (TextUtils.isEmpty(sLocation)) {
                 Toast.makeText(getApplicationContext(), "Enter shop location", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(TextUtils.isEmpty(sDescription)){
+            if (TextUtils.isEmpty(sDescription)) {
                 Toast.makeText(getApplicationContext(), "Enter shop description", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(sPassword.length() < 6){
+            if (sPassword.length() < 6) {
                 Toast.makeText(getApplicationContext(), "Enter at least 6 characters", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(!sEmail.matches(emailPattern)){
+            if (!sEmail.matches(emailPattern)) {
                 Toast.makeText(getApplicationContext(), "Invalid email", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(!sContact.matches(mobilePattern)){
+            if (!sContact.matches(mobilePattern)) {
                 Toast.makeText(getApplicationContext(), "Invalid number", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             mProgress.setVisibility(View.VISIBLE);
 
-            final String image = "https://firebasestorage.googleapis.com/v0/b/ezwheels-7396e.appspot.com/o/Images%2Fman.png?alt=media&token=5e39d4d8-8251-4cfe-b369-3eb038f99050";
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    if(location != null){
+                        longitude = location.getLongitude();
+                        latitude = location.getLatitude();
+                    }
+                }
+            });
+            Toast.makeText(this, String.valueOf(longitude), Toast.LENGTH_SHORT).show();
+            final String image = "https://firebasestorage.googleapis.com/v0/b/ezwheels-7396e.appspot.com/o/Images%2FImages%2Fman.png?alt=media&token=a88be360-d5cc-461c-a217-92b9adbd0f2f";
             Uri uri  = Uri.parse(image);
             StorageReference storageReference = mStorageRef.child("Images").child(image);
             storageReference.putFile(uri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
@@ -281,8 +265,8 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
                                         sLocation,
                                         sDescription,
                                         image,
-                                        lon,
-                                        lat,
+                                        longitude,
+                                        latitude,
                                         rating,
                                         sEmail
                                 );
@@ -293,7 +277,7 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
                                             mProgress.setVisibility(View.GONE);
-                                            Toast.makeText(RegisterShop.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(RegisterShop.this, "Registration Successful" + longitude, Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(RegisterShop.this, ShopDashboard.class);
                                             startActivity(intent);
                                         }

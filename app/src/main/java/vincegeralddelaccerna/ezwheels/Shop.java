@@ -11,7 +11,7 @@ public class Shop {
     public String purl;
     public double lon;
     public double lat;
-    public float rating;
+    public float rating = 0.2f;
     public String email;
 
     public Shop(){

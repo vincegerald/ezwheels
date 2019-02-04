@@ -166,8 +166,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                 emaill = dataSnapshot.child("email").getValue().toString();
                                 description = dataSnapshot.child("description").getValue().toString();
                                 purl = dataSnapshot.child("purl").getValue().toString();
+//                                float rating = dataSnapshot.child("rating").getValue();
                                     //rating = (float) dataSnapshot.child("rating").getValue();
                                 ratingBar.setRating(5);
+                                Toast.makeText(getActivity(), purl, Toast.LENGTH_SHORT).show();
                                 nametext.setText(firstname);
                                 lnametext.setText(lastname);
                                 contacttext.setText(contactnumber);
