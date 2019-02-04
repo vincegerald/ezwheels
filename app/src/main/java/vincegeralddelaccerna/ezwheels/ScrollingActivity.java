@@ -321,42 +321,32 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             final EditText input = new EditText(this);
             input.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
             input.setLines(5);
+            input.setPadding(50,50,10,10);
             builder.setView(input);
             builder.setMessage("Report User")
                     .setCancelable(false)
                     .setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            final DatabaseReference carSold = FirebaseDatabase.getInstance().getReference("Shop").child(uid);
-                            carSold.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    if(dataSnapshot.exists()){
+                        public void onClick(final DialogInterface dialogInterface, int i) {
+                            final String reportText = input.getText().toString();
 
+                            final DatabaseReference reportUser = FirebaseDatabase.getInstance().getReference("Reports");
+                            String id = reportUser.push().getKey();
+                            Report report = new Report(uid, reportText, mAuth.getCurrentUser().getUid());
+                            reportUser.child(id).setValue(report).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Toast.makeText(ScrollingActivity.this, "Report Addded. Thank you for making ezwheels improve", Toast.LENGTH_SHORT).show();
+                                        dialogInterface.dismiss();
                                     }
                                     else{
-                                        final DatabaseReference motorSold = FirebaseDatabase.getInstance().getReference("Motor").child(listingid);
-                                        motorSold.addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                motorSold.child("status").setValue("sold");
-                                            }
-
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                                                Toast.makeText(ScrollingActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
+                                        Toast.makeText(ScrollingActivity.this, "Error Adding Report", Toast.LENGTH_SHORT).show();
                                     }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-                                    Toast.makeText(ScrollingActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
 
-                            finish();
+                            dialogInterface.dismiss();
 
                         }
                     }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -376,14 +366,14 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             builder.setMessage("Mark as sold?").setCancelable(false)
                     .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
+                        public void onClick(final DialogInterface dialogInterface, int i) {
                             final DatabaseReference carSold = FirebaseDatabase.getInstance().getReference("Car").child(listingid);
                             carSold.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if(dataSnapshot.exists()){
                                         carSold.child("status").setValue("SOLD");
-                                        finish();
+                                        dialogInterface.dismiss();
                                     }
                                     else{
                                         final DatabaseReference motorSold = FirebaseDatabase.getInstance().getReference("Motor").child(listingid);
@@ -391,6 +381,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 motorSold.child("status").setValue("sold");
+                                                dialogInterface.dismiss();
                                             }
 
                                             @Override
@@ -407,7 +398,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                                 }
                             });
 
-                            finish();
+                            dialogInterface.dismiss();
 
                         }
                     }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {

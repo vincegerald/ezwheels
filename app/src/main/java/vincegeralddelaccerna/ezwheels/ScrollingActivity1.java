@@ -1,6 +1,7 @@
 package vincegeralddelaccerna.ezwheels;
 
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -9,13 +10,17 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -39,6 +44,8 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
     FloatingActionButton fab;
     VideoView video;
     CardView cardSeller, cardTrade, cardReservation;
+    RatingBar ratingbar;
+    TextView reportUser;
 
     //imageview
     ImageView imageView1, imageView2, imageView3, imageView4;
@@ -88,6 +95,9 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
         video = findViewById(R.id.video);
         textView13 = findViewById(R.id.textView13);
         textView14 = findViewById(R.id.textView14);
+        reportUser = findViewById(R.id.reportUser);
+        ratingbar = findViewById(R.id.ratingBar);
+        reportUser.setOnClickListener(this);
 
         //card
         cardSeller = findViewById(R.id.cardSeller);
@@ -160,47 +170,49 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            image1 = dataSnapshot.child("image").getValue().toString();
-                            image2 = dataSnapshot.child("imagePath1").getValue().toString();
-                            image3 = dataSnapshot.child("imagePath2").getValue().toString();
-                            image4 = dataSnapshot.child("imagePath3").getValue().toString();
-                            videoUrl = dataSnapshot.child("videoPath").getValue().toString();
-                            uriVideo = Uri.parse(videoUrl);
-                            brand = dataSnapshot.child("finalBrand").getValue().toString();
-                            model = dataSnapshot.child("finalModel").getValue().toString();
-                            year = dataSnapshot.child("finalYear").getValue().toString();
-                            color = dataSnapshot.child("finalColor").getValue().toString();
-                            transmission = dataSnapshot.child("finalTransmission").getValue().toString();
-                            pricecondition = dataSnapshot.child("finalPcondition").getValue().toString();
-                            mileage = dataSnapshot.child("finalMileage").getValue().toString();
-                            price = dataSnapshot.child("finalPrice").getValue().toString();
-                            uid = dataSnapshot.child("uid").getValue().toString();
-                            fuel = dataSnapshot.child("fuel").getValue().toString();
-                            dateData =dataSnapshot.child("date").getValue().toString();
-                            seriesData = dataSnapshot.child("series").getValue().toString();
-                            editionData = dataSnapshot.child("edition").getValue().toString();
-                            infoData = dataSnapshot.child("info").getValue().toString();
+                            if(dataSnapshot.exists()){
+                                image1 = dataSnapshot.child("image").getValue().toString();
+                                image2 = dataSnapshot.child("imagePath1").getValue().toString();
+                                image3 = dataSnapshot.child("imagePath2").getValue().toString();
+                                image4 = dataSnapshot.child("imagePath3").getValue().toString();
+                                videoUrl = dataSnapshot.child("videoPath").getValue().toString();
+                                uriVideo = Uri.parse(videoUrl);
+                                brand = dataSnapshot.child("finalBrand").getValue().toString();
+                                model = dataSnapshot.child("finalModel").getValue().toString();
+                                year = dataSnapshot.child("finalYear").getValue().toString();
+                                color = dataSnapshot.child("finalColor").getValue().toString();
+                                transmission = dataSnapshot.child("finalTransmission").getValue().toString();
+                                pricecondition = dataSnapshot.child("finalPcondition").getValue().toString();
+                                mileage = dataSnapshot.child("finalMileage").getValue().toString();
+                                price = dataSnapshot.child("finalPrice").getValue().toString();
+                                uid = dataSnapshot.child("uid").getValue().toString();
+                                fuel = dataSnapshot.child("fuel").getValue().toString();
+                                dateData =dataSnapshot.child("date").getValue().toString();
+                                seriesData = dataSnapshot.child("series").getValue().toString();
+                                editionData = dataSnapshot.child("edition").getValue().toString();
+                                infoData = dataSnapshot.child("info").getValue().toString();
 
-                            type = "car";
+                                type = "car";
 
-                            video.setVideoURI(uriVideo);
-                            video.start();
-                            Picasso.get().load(image1).fit().centerCrop().into(scrollImage);
-                            Picasso.get().load(image1).fit().centerCrop().into(imageView1);
-                            Picasso.get().load(image2).fit().centerCrop().into(imageView2);
-                            Picasso.get().load(image3).fit().centerCrop().into(imageView3);
-                            Picasso.get().load(image4).fit().centerCrop().into(imageView4);
-                            vehicleName.setText(brand + " " + model);
-                            priceView.setText(price);
-                            priceCondition.setText(pricecondition);
-                            date.setText(dateData);
-                            mileageView.setText(mileage);
-                            transmissionView.setText(transmission);
-                            yearView.setText(year);
-                            fuelType.setText(fuel);
-                            seriesView.setText(seriesData);
-                            editionView.setText(editionData);
-                            infoView.setText(infoData);
+                                video.setVideoURI(uriVideo);
+                                video.start();
+                                Picasso.get().load(image1).fit().centerCrop().into(scrollImage);
+                                Picasso.get().load(image1).fit().centerCrop().into(imageView1);
+                                Picasso.get().load(image2).fit().centerCrop().into(imageView2);
+                                Picasso.get().load(image3).fit().centerCrop().into(imageView3);
+                                Picasso.get().load(image4).fit().centerCrop().into(imageView4);
+                                vehicleName.setText(brand + " " + model);
+                                priceView.setText(price);
+                                priceCondition.setText(pricecondition);
+                                date.setText(dateData);
+                                mileageView.setText(mileage);
+                                transmissionView.setText(transmission);
+                                yearView.setText(year);
+                                fuelType.setText(fuel);
+                                seriesView.setText(seriesData);
+                                editionView.setText(editionData);
+                                infoView.setText(infoData);
+                            }
 
 
                             mDatabaseRef = FirebaseDatabase.getInstance().getReference("Shop").child(uid);
@@ -208,15 +220,17 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
                             mDatabaseRef.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    firstname = dataSnapshot.child("firstname").getValue().toString();
-                                    lastname =  dataSnapshot.child("lastname").getValue().toString();
-                                    contact = dataSnapshot.child("contact").getValue().toString();
-                                    description  = dataSnapshot.child("description").getValue().toString();
-                                    location = dataSnapshot.child("location").getValue().toString();
-                                    name = dataSnapshot.child("name").getValue().toString();
-                                    sellerName.setText(firstname + " " + lastname);
-                                    sellerAddress.setText(location);
-                                    sellerContact.setText(contact);
+                                   if(dataSnapshot.exists()){
+                                       firstname = dataSnapshot.child("firstname").getValue().toString();
+                                       lastname =  dataSnapshot.child("lastname").getValue().toString();
+                                       contact = dataSnapshot.child("contact").getValue().toString();
+                                       description  = dataSnapshot.child("description").getValue().toString();
+                                       location = dataSnapshot.child("location").getValue().toString();
+                                       name = dataSnapshot.child("name").getValue().toString();
+                                       sellerName.setText(firstname + " " + lastname);
+                                       sellerAddress.setText(location);
+                                       sellerContact.setText(contact);
+                                   }
 
                                 }
 
@@ -242,61 +256,65 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            image1 = dataSnapshot.child("image").getValue().toString();
-                            image2 = dataSnapshot.child("imagePath1").getValue().toString();
-                            image3 = dataSnapshot.child("imagePath2").getValue().toString();
-                            image4 = dataSnapshot.child("imagePath3").getValue().toString();
-                            videoUrl = dataSnapshot.child("videoPath").getValue().toString();
-                            uriVideo = Uri.parse(videoUrl);
-                            brand = dataSnapshot.child("finalBrand").getValue().toString();
-                            model = dataSnapshot.child("finalModel").getValue().toString();
-                            year = dataSnapshot.child("finalYear").getValue().toString();
-                            color = dataSnapshot.child("finalColor").getValue().toString();
-                            transmission = dataSnapshot.child("finalTransmission").getValue().toString();
-                            pricecondition = dataSnapshot.child("finalPcondition").getValue().toString();
-                            mileage = dataSnapshot.child("finalMileage").getValue().toString();
-                            price = dataSnapshot.child("finalPrice").getValue().toString();
-                            uid = dataSnapshot.child("uid").getValue().toString();
-                            fuel = dataSnapshot.child("fuel").getValue().toString();
-                            dateData =dataSnapshot.child("date").getValue().toString();
-                            seriesData = dataSnapshot.child("series").getValue().toString();
-                            editionData = dataSnapshot.child("edition").getValue().toString();
-                            infoData = dataSnapshot.child("info").getValue().toString();
-                            type = "motor";
+                            if(dataSnapshot.exists()){
+                                image1 = dataSnapshot.child("image").getValue().toString();
+                                image2 = dataSnapshot.child("imagePath1").getValue().toString();
+                                image3 = dataSnapshot.child("imagePath2").getValue().toString();
+                                image4 = dataSnapshot.child("imagePath3").getValue().toString();
+                                videoUrl = dataSnapshot.child("videoPath").getValue().toString();
+                                uriVideo = Uri.parse(videoUrl);
+                                brand = dataSnapshot.child("finalBrand").getValue().toString();
+                                model = dataSnapshot.child("finalModel").getValue().toString();
+                                year = dataSnapshot.child("finalYear").getValue().toString();
+                                color = dataSnapshot.child("finalColor").getValue().toString();
+                                transmission = dataSnapshot.child("finalTransmission").getValue().toString();
+                                pricecondition = dataSnapshot.child("finalPcondition").getValue().toString();
+                                mileage = dataSnapshot.child("finalMileage").getValue().toString();
+                                price = dataSnapshot.child("finalPrice").getValue().toString();
+                                uid = dataSnapshot.child("uid").getValue().toString();
+                                fuel = dataSnapshot.child("fuel").getValue().toString();
+                                dateData =dataSnapshot.child("date").getValue().toString();
+                                seriesData = dataSnapshot.child("series").getValue().toString();
+                                editionData = dataSnapshot.child("edition").getValue().toString();
+                                infoData = dataSnapshot.child("info").getValue().toString();
+                                type = "motor";
 
-                            video.setVideoURI(uriVideo);
-                            video.start();
-                            Picasso.get().load(image1).fit().centerCrop().into(scrollImage);
-                            Picasso.get().load(image1).fit().centerCrop().into(imageView1);
-                            Picasso.get().load(image2).fit().centerCrop().into(imageView2);
-                            Picasso.get().load(image3).fit().centerCrop().into(imageView3);
-                            Picasso.get().load(image4).fit().centerCrop().into(imageView4);
-                            vehicleName.setText(brand + " " + model);
-                            priceView.setText(price);
-                            priceCondition.setText(pricecondition);
-                            date.setText(dateData);
-                            mileageView.setText(mileage);
-                            transmissionView.setText(transmission);
-                            yearView.setText(year);
-                            fuelType.setText(fuel);
-                            seriesView.setText(seriesData);
-                            editionView.setText(editionData);
-                            infoView.setText(infoData);
+                                video.setVideoURI(uriVideo);
+                                video.start();
+                                Picasso.get().load(image1).fit().centerCrop().into(scrollImage);
+                                Picasso.get().load(image1).fit().centerCrop().into(imageView1);
+                                Picasso.get().load(image2).fit().centerCrop().into(imageView2);
+                                Picasso.get().load(image3).fit().centerCrop().into(imageView3);
+                                Picasso.get().load(image4).fit().centerCrop().into(imageView4);
+                                vehicleName.setText(brand + " " + model);
+                                priceView.setText(price);
+                                priceCondition.setText(pricecondition);
+                                date.setText(dateData);
+                                mileageView.setText(mileage);
+                                transmissionView.setText(transmission);
+                                yearView.setText(year);
+                                fuelType.setText(fuel);
+                                seriesView.setText(seriesData);
+                                editionView.setText(editionData);
+                                infoView.setText(infoData);
+                            }
 
                             mDatabaseRef = FirebaseDatabase.getInstance().getReference("Shop").child(uid);
 
                             mDatabaseRef.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    firstname = dataSnapshot.child("firstname").getValue().toString();
-                                    lastname =  dataSnapshot.child("lastname").getValue().toString();
-                                    contact = dataSnapshot.child("contact").getValue().toString();
-                                    description  = dataSnapshot.child("description").getValue().toString();
-                                    location = dataSnapshot.child("location").getValue().toString();
-                                    name = dataSnapshot.child("name").getValue().toString();
-                                    sellerName.setText(firstname + " " + lastname);
-                                    sellerAddress.setText(location);
-                                    sellerContact.setText(contact);
+                                    if(dataSnapshot.exists()){
+                                        firstname = dataSnapshot.child("firstname").getValue().toString();
+                                        lastname =  dataSnapshot.child("lastname").getValue().toString();
+                                        contact = dataSnapshot.child("contact").getValue().toString();
+                                        description  = dataSnapshot.child("description").getValue().toString();
+                                        location = dataSnapshot.child("location").getValue().toString();
+                                        name = dataSnapshot.child("name").getValue().toString();
+                                        sellerName.setText(firstname + " " + lastname);
+                                        sellerAddress.setText(location);
+                                        sellerContact.setText(contact);
+                                    }
 
                                 }
 
@@ -391,11 +409,105 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
 
         if(id == R.id.fab){
 
-                DatabaseReference favDelete = FirebaseDatabase.getInstance().getReference("Favorites").child(getIntent().getStringExtra("fid"));
-                favDelete.removeValue();
-                Toast.makeText(ScrollingActivity1.this, "Favorite Deleted", Toast.LENGTH_SHORT).show();
-                finish();
 
+            final AlertDialog.Builder builder = new AlertDialog.Builder(ScrollingActivity1.this);
+            builder.setMessage("Remove from Favorites?").setCancelable(false)
+                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(final DialogInterface dialogInterface, int i) {
+                            final DatabaseReference favDelete = FirebaseDatabase.getInstance().getReference("Favorites").child(getIntent().getStringExtra("fid"));
+                            favDelete.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists()){
+                                        favDelete.removeValue();
+                                        dialogInterface.dismiss();
+                                    }
+                                    else{
+                                        final DatabaseReference motorSold = FirebaseDatabase.getInstance().getReference("Motor").child(listingid);
+                                        motorSold.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                motorSold.child("status").setValue("sold");
+                                                dialogInterface.dismiss();
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                Toast.makeText(ScrollingActivity1.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+                            dialogInterface.dismiss();
+
+                        }
+                    }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setTitle("Mark " + brand + " " + model + " as sold?");
+            alertDialog.show();
+
+//
+
+        }
+
+        if(id == R.id.reportUser){
+            final AlertDialog.Builder builder = new AlertDialog.Builder(ScrollingActivity1.this);
+
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+            input.setLines(5);
+            input.setPadding(50,50,10,10);
+            builder.setView(input);
+            builder.setMessage("Report User")
+                    .setCancelable(false)
+                    .setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(final DialogInterface dialogInterface, int i) {
+                            final String reportText = input.getText().toString();
+
+                            final DatabaseReference reportUser = FirebaseDatabase.getInstance().getReference("Reports");
+                            String id = reportUser.push().getKey();
+                            Report report = new Report(uid, reportText, mAuth.getCurrentUser().getUid());
+                            reportUser.child(id).setValue(report).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Toast.makeText(ScrollingActivity1.this, "Report Addded. Thank you for making ezwheels improve", Toast.LENGTH_SHORT).show();
+                                        dialogInterface.dismiss();
+                                    }
+                                    else{
+                                        Toast.makeText(ScrollingActivity1.this, "Error Adding Report", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+                            dialogInterface.dismiss();
+
+                        }
+                    }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setTitle(name);
+            alertDialog.show();
         }
     }
 
