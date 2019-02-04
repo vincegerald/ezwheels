@@ -487,7 +487,7 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
                                         Toast.makeText(ScrollingActivity1.this, "Report Addded. Thank you for making ezwheels improve", Toast.LENGTH_SHORT).show();
-                                        dialogInterface.dismiss();
+                                        finish();
                                     }
                                     else{
                                         Toast.makeText(ScrollingActivity1.this, "Error Adding Report", Toast.LENGTH_SHORT).show();

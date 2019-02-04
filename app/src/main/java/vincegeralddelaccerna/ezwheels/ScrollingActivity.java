@@ -373,7 +373,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if(dataSnapshot.exists()){
                                         carSold.child("status").setValue("SOLD");
-                                        dialogInterface.dismiss();
+                                        finish();
                                     }
                                     else{
                                         final DatabaseReference motorSold = FirebaseDatabase.getInstance().getReference("Motor").child(listingid);
@@ -381,7 +381,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 motorSold.child("status").setValue("sold");
-                                                dialogInterface.dismiss();
+                                                finish();
                                             }
 
                                             @Override
