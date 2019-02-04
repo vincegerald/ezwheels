@@ -22,12 +22,14 @@
         android:orientation="vertical"
         android:gravity="center">
         <ImageView
+            android:visibility="gone"
             android:id="@+id/brokencar"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             app:srcCompat="@drawable/breakdown"
             />
         <TextView
+            android:visibility="gone"
             android:id="@+id/nolisting"
             android:layout_below="@+id/brokencar"
             android:layout_width="match_parent"
