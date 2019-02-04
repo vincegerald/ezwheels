@@ -108,6 +108,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         logoutBtn.setOnClickListener(this);
         editProfile.setOnClickListener(this);
         profImg.setClickable(false);
+        ratingBar.setFocusable(false);
 
 
 
@@ -166,10 +167,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                 emaill = dataSnapshot.child("email").getValue().toString();
                                 description = dataSnapshot.child("description").getValue().toString();
                                 purl = dataSnapshot.child("purl").getValue().toString();
-//                                float rating = dataSnapshot.child("rating").getValue();
-                                    //rating = (float) dataSnapshot.child("rating").getValue();
-                                ratingBar.setRating(5);
-                                Toast.makeText(getActivity(), purl, Toast.LENGTH_SHORT).show();
+                                rating = Float.parseFloat(dataSnapshot.child("rating").getValue().toString());
+                                ratingBar.setRating(rating);
+                                ratingBar.setRating(rating);
+//                                Toast.makeText(getActivity(), purl, Toast.LENGTH_SHORT).show();
                                 nametext.setText(firstname);
                                 lnametext.setText(lastname);
                                 contacttext.setText(contactnumber);
@@ -260,7 +261,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             buyerProf = FirebaseDatabase.getInstance().getReference("Buyers").child(uid);
-                            buyerProf.addValueEventListener(new ValueEventListener() {
+                            buyerProf.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if(dataSnapshot.exists()){
@@ -296,7 +297,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
                                     else{
                                         shopProf = FirebaseDatabase.getInstance().getReference("Shop").child(uid);
-                                        shopProf.addValueEventListener(new ValueEventListener() {
+                                        shopProf.addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 if(dataSnapshot.exists()){
@@ -329,6 +330,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                                     editProfile.setVisibility(View.VISIBLE);
                                                     saveProfile.setVisibility(View.GONE);
                                                     logoutBtn.setVisibility(View.VISIBLE);
+//                                                    Intent intent = new Intent(getActivity(), ShopDashboard.class);
+//                                                    startActivity(intent);
+
+
                                                 }
                                             }
 
@@ -399,7 +404,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                         @Override
                         public void onSuccess(Uri uri) {
                             purl = uri.toString();
-                            bar.setVisibility(View.VISIBLE);
+                            bar.setVisibility(View.GONE);
                         }
                     });
                 }

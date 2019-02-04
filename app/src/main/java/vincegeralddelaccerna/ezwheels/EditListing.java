@@ -749,7 +749,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                                         }
                                         else{
                                             forMotor = FirebaseDatabase.getInstance().getReference("Motor").child(listingid);
-                                            forMotor.addValueEventListener(new ValueEventListener() {
+                                            forMotor.addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                     if(dataSnapshot.exists()){

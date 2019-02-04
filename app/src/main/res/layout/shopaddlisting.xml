@@ -22,8 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#fefefe"
-            android:orientation="vertical"
-            android:visibility="visible">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView11"
@@ -273,7 +272,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="gone"
             android:layout_marginBottom="10dp">
 
             <TextView
@@ -612,6 +610,13 @@
             android:gravity="center"
             android:orientation="horizontal">
 
+            <ProgressBar
+                android:id="@+id/barimage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
             <ImageView
                 android:id="@+id/image1"
                 android:layout_width="match_parent"
@@ -717,6 +722,12 @@
             android:gravity="center"
             android:orientation="horizontal">
 
+            <ProgressBar
+                android:id="@+id/barimage1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
             <ImageView
                 android:id="@+id/image2"
                 android:layout_width="match_parent"
@@ -820,6 +831,13 @@
             android:layout_height="300dp"
             android:gravity="center"
             android:orientation="horizontal">
+
+            <ProgressBar
+                android:id="@+id/barimage2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/image3"
@@ -925,6 +943,15 @@
             android:gravity="center"
             android:orientation="horizontal">
 
+            <ProgressBar
+                android:id="@+id/barimage3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+
+
             <ImageView
                 android:id="@+id/image4"
                 android:layout_width="match_parent"
@@ -1011,6 +1038,13 @@
                 android:layout_height="100dp"
                 android:background="@drawable/video" />
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/barimage4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
 
         <VideoView
             android:id="@+id/videoView"

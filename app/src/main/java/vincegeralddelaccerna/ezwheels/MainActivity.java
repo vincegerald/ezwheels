@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private FirebaseAuth mAuth;
     private DatabaseReference databaseReference1,databaseReference2;
-    private FirebaseDatabase mDatabase;
+    private FirebaseDatabase mDatabase, userDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
+        userDatabase = FirebaseDatabase.getInstance();
     }
 
     @Override
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "No Internet Connection. Please check internet connection", Toast.LENGTH_SHORT).show();
         }
         else{
-            FirebaseUser currentUser = mAuth.getCurrentUser();
+            final FirebaseUser currentUser = mAuth.getCurrentUser();
 
             if(currentUser != null){
                 mDatabase.getReference("Shop").child(currentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -73,12 +74,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if(dataSnapshot.exists()){
                             Intent intent = new Intent(MainActivity.this, ShopDashboard.class);
                             startActivity(intent);
-                            Toast.makeText(MainActivity.this, "Shop", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Welcome Shop Trader!", Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            Intent intent = new Intent(MainActivity.this, DashBoard.class);
-                            startActivity(intent);
-                            Toast.makeText(MainActivity.this, "Buyer", Toast.LENGTH_SHORT).show();
+                            userDatabase.getReference("Buyers").child(currentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists()){
+                                        Intent intent = new Intent(MainActivity.this, DashBoard.class);
+                                        startActivity(intent);
+                                        Toast.makeText(MainActivity.this, "Welcome Buyer!", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else{
+
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
                         }
                     }
 

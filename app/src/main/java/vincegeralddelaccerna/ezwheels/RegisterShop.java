@@ -3,6 +3,7 @@ package vincegeralddelaccerna.ezwheels;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -12,9 +13,12 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -26,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -42,6 +47,7 @@ import com.google.firebase.storage.UploadTask;
 
 public class RegisterShop extends AppCompatActivity implements View.OnClickListener {
 
+    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1 ;
     Button btnNext, btnBack, btnFinish, btnHome;
     private static double lon, lat;
     private static String purl;
@@ -59,7 +65,7 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
     private FirebaseDatabase mDatabase;
     private StorageReference mStorageRef;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    private double longitude, latitude;
+    private static Double longitude, latitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +98,7 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
         mAuth = FirebaseAuth.getInstance();
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
 
     }
@@ -216,27 +223,10 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
 
             mProgress.setVisibility(View.VISIBLE);
 
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
-            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    if(location != null){
-                        longitude = location.getLongitude();
-                        latitude = location.getLatitude();
-                    }
-                }
-            });
+            getLocation();
+
             Toast.makeText(this, String.valueOf(longitude), Toast.LENGTH_SHORT).show();
-            final String image = "https://firebasestorage.googleapis.com/v0/b/ezwheels-7396e.appspot.com/o/Images%2FImages%2Fman.png?alt=media&token=a88be360-d5cc-461c-a217-92b9adbd0f2f";
+            final String image = "https://firebasestorage.googleapis.com/v0/b/ezwheels-7396e.appspot.com/o/man.png?alt=media&token=ee7b4f1f-3212-4435-80b7-753ae164ebf2";
             Uri uri  = Uri.parse(image);
             StorageReference storageReference = mStorageRef.child("Images").child(image);
             storageReference.putFile(uri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
@@ -292,11 +282,72 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
 
         }
     }
+
+    private void getLocation() {
+
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(RegisterShop.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(RegisterShop.this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                new AlertDialog.Builder(this)
+                        .setTitle("Requires Permission")
+                        .setMessage("Ezwheels requires you to give permission to get your shop location")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                ActivityCompat.requestPermissions(RegisterShop.this,
+                                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+                            }
+                        }).create().show();
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(RegisterShop.this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            // Permission has already been granted
+            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    if(location != null){
+                        longitude = location.getLongitude();
+                        latitude = location.getLatitude();
+                    }
+                }
+            });
+        }
+    }
+
     private String getFileExtension(Uri uri) {
         ContentResolver cR = getApplication().getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == MY_PERMISSIONS_REQUEST_READ_CONTACTS){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+            }
+            else{
+
+            }
+        }
+    }
 }
 

@@ -549,6 +549,24 @@
             android:text="Seller Details"
             android:textColor="#000000"
             android:textSize="20sp" />
+        <TextView
+            android:id="@+id/reportUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Report User"
+            android:textColor="#7b0000"
+            android:textStyle="italic"
+            android:textSize="20sp" />
+
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stepSize=".5"
+            android:numStars="5" />
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardSeller"

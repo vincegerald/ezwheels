@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,11 +31,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationServices;
+import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
@@ -42,10 +47,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class Register extends AppCompatActivity implements View.OnClickListener, LocationListener {
+public class Register extends AppCompatActivity implements View.OnClickListener {
 
     LocationManager locationManager;
-
+    private FirebaseDatabase mDatabase, userDatabase;
 
     EditText name;
     EditText username;
@@ -83,57 +88,69 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
         btnRegisterCancel.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+        mDatabase = FirebaseDatabase.getInstance();
 
 
-            return;
-        }
-
-        Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
-
-        onLocationChanged(location);
-
-    }
-    @Override
-    public void onLocationChanged(Location location) {
-        double lon = location.getLongitude();
-        double lat = location.getLatitude();
-        String slon;
-        Toast.makeText(Register.this, String.valueOf(lon), Toast.LENGTH_SHORT).show();
-
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
 
     }
 
 
 
+    private boolean networkConnection() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null;
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        if(mAuth.getCurrentUser() != null){
-            Intent dashhboardintent = new Intent(this, DashBoard.class);
-            startActivity(dashhboardintent);
-
+        if(!networkConnection()){
+            Toast.makeText(this, "No Internet Connection. Please check internet connection", Toast.LENGTH_SHORT).show();
         }
+        else{
+            final FirebaseUser currentUser = mAuth.getCurrentUser();
 
+            if(currentUser != null){
+                mDatabase.getReference("Shop").child(currentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists()){
+                            Intent intent = new Intent(Register.this, ShopDashboard.class);
+                            startActivity(intent);
+                            Toast.makeText(Register.this, "Welcome Shop Trader!", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            userDatabase.getReference("Buyers").child(currentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists()){
+                                        Intent intent = new Intent(Register.this, DashBoard.class);
+                                        startActivity(intent);
+                                        Toast.makeText(Register.this, "Welcome Buyer!", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else{
+
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+//            Toast.makeText(MainActivity.this, "Login First", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -193,7 +210,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
                     Toast.makeText(getApplicationContext(), "Please input a valid email", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                final String image = "https://firebasestorage.googleapis.com/v0/b/ezwheels-7396e.appspot.com/o/man.png?alt=media&token=ee7b4f1f-3212-4435-80b7-753ae164ebf2";
                 firstname.setVisibility(View.INVISIBLE);
                 lastname.setVisibility(View.INVISIBLE);
                 username.setVisibility(View.INVISIBLE);
@@ -218,7 +235,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
                                             finalLastname,
                                             finalUsername,
                                             finalContact,
-                                            purl,
+                                            image,
                                             finalEmail
                                     );
                                     FirebaseDatabase.getInstance().getReference("Buyers")

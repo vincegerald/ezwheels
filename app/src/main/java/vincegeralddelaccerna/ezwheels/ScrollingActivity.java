@@ -14,10 +14,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -41,6 +44,8 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     FloatingActionButton fab;
     VideoView video;
     CardView cardSeller, cardTrade, cardReservation;
+    RatingBar ratingbar;
+    TextView reportUser;
 
     //imageview
     ImageView imageView1, imageView2, imageView3, imageView4, edit;
@@ -82,6 +87,9 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         textView13 = findViewById(R.id.textView13);
         textView14 = findViewById(R.id.textView14);
         approve = findViewById(R.id.approve);
+        reportUser = findViewById(R.id.reportUser);
+        ratingbar = findViewById(R.id.ratingBar);
+        reportUser.setOnClickListener(this);
 
         //card
         cardSeller = findViewById(R.id.cardSeller);
@@ -304,8 +312,63 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             startActivity(intent);
         }
 
+        if(id == R.id.reportUser){
+            final AlertDialog.Builder builder = new AlertDialog.Builder(ScrollingActivity.this);
+
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+            builder.setView(input);
+            builder.setMessage("Report User")
+                    .setCancelable(false)
+                    .setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            final DatabaseReference carSold = FirebaseDatabase.getInstance().getReference("Shop").child(uid);
+                            carSold.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists()){
+
+                                    }
+                                    else{
+                                        final DatabaseReference motorSold = FirebaseDatabase.getInstance().getReference("Motor").child(listingid);
+                                        motorSold.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                motorSold.child("status").setValue("sold");
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                Toast.makeText(ScrollingActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Toast.makeText(ScrollingActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                            finish();
+
+                        }
+                    }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setTitle(name);
+            alertDialog.show();
+        }
+
         if(id == R.id.approve){
-            AlertDialog.Builder builder = new AlertDialog.Builder(ScrollingActivity.this);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(ScrollingActivity.this);
             builder.setMessage("Mark as sold?").setCancelable(false)
                     .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                         @Override
@@ -320,7 +383,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                                     }
                                     else{
                                         final DatabaseReference motorSold = FirebaseDatabase.getInstance().getReference("Motor").child(listingid);
-                                        motorSold.addValueEventListener(new ValueEventListener() {
+                                        motorSold.addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 motorSold.child("status").setValue("sold");
@@ -346,7 +409,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                     }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    finish();
+                    dialogInterface.dismiss();
                 }
             });
 

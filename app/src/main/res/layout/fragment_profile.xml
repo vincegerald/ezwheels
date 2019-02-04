@@ -48,6 +48,8 @@
            android:numStars="5"
            android:stepSize=".5"
            android:focusable="false"
+           android:clickable="false"
+           android:isIndicator="true"
            android:backgroundTint="#fefefe"/>
 
    </android.support.v7.widget.CardView>

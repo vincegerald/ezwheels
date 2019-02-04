@@ -12,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,6 +40,8 @@ public class car_fragment extends Fragment {
     FloatingActionButton add;
     DatabaseReference databaseReference;
     FirebaseAuth mAuth;
+    ImageView brokencar;
+    TextView nolisting;
 
     private ProgressBar mProgressbar;
 
@@ -51,6 +55,8 @@ public class car_fragment extends Fragment {
         View v = inflater.inflate(R.layout.car_fragment, container, false);
         recyclerView = v.findViewById(R.id.recyclerRequest);
         mProgressbar = v.findViewById(R.id.progress);
+        brokencar = v.findViewById(R.id.brokencar);
+        nolisting = v.findViewById(R.id.nolisting);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mUploads = new ArrayList<>();
@@ -61,12 +67,15 @@ public class car_fragment extends Fragment {
         Query query = FirebaseDatabase.getInstance().getReference("Car")
                 .orderByChild("status").equalTo("AVAILABLE");
 
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mUploads.clear();
-                    if(dataSnapshot.exists()){
-                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()){
+
+
+
+            query.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    mUploads.clear();
+                    if (dataSnapshot.exists()) {
+                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
                             Upload upload = postSnapshot.getValue(Upload.class);
                             mUploads.add(upload);
@@ -74,17 +83,25 @@ public class car_fragment extends Fragment {
 
                         mAdapter = new DashboardCarAdapter(getActivity(), mUploads);
                         recyclerView.setAdapter(mAdapter);
-                        mProgressbar.setVisibility(View.INVISIBLE);
+                        mProgressbar.setVisibility(View.GONE);
+                        nolisting.setVisibility(View.GONE);
+                        brokencar.setVisibility(View.GONE);
+                    }
+                    else{
+                        nolisting.setVisibility(View.VISIBLE);
+                        brokencar.setVisibility(View.VISIBLE);
                     }
 
-            }
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                mProgressbar.setVisibility(View.INVISIBLE);
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                    mProgressbar.setVisibility(View.GONE);
+                }
+            });
+
+
         return v;
     }
 

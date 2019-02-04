@@ -129,6 +129,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
     private static String videoPath = "";
     private static String type = "car";
     private static String formattedDate;
+    ProgressBar p, p1, p2, p3,p4;
 
 
 
@@ -225,6 +226,14 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
         addImageSside.setOnClickListener(this);
         buttonFside.setOnClickListener(this);
         buttonVideo.setOnClickListener(this);
+
+        //progressbars
+
+        p = v.findViewById(R.id.barimage);
+        p1 = v.findViewById(R.id.barimage1);
+        p2 = v.findViewById(R.id.barimage2);
+        p3 = v.findViewById(R.id.barimage3);
+        p4 = v.findViewById(R.id.barimage4);
 
         vehicleType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -452,7 +461,8 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                 videoView.start();
 
                 final String videoPath1 = System.currentTimeMillis() + "." + getFileExtension(videoUri);
-                progressBar.setVisibility(View.VISIBLE);
+
+                p4.setVisibility(View.VISIBLE);
                 StorageReference storageReference = mStorageRef.child("Videos").child(videoPath1);
                 storageReference.putFile(videoUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -461,7 +471,10 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                             @Override
                             public void onSuccess(Uri uri) {
                                 videoPath = uri.toString();
-                                progressBar.setVisibility(View.GONE);
+                                p4.setVisibility(View.GONE);
+                                Toast.makeText(getActivity(), "Added Video", Toast.LENGTH_SHORT).show();
+
+
                             }
                         });
                     }
@@ -481,6 +494,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
             Picasso.get().load(imageUri1).fit().centerCrop().into(image1);
 
             final String path4 = System.currentTimeMillis() + "." + getFileExtension(imageUri1);
+            p.setVisibility(View.VISIBLE);
             StorageReference storageReference = mStorageRef.child("Images").child(path4);
             storageReference.putFile(imageUri1).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -489,7 +503,8 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                         @Override
                         public void onSuccess(Uri uri) {
                             imagePath4 = uri.toString();
-                            Toast.makeText(getActivity(), "Image 1 added", Toast.LENGTH_SHORT).show();
+                            p.setVisibility(View.GONE);
+                            Toast.makeText(getActivity(), "Added FrontView Image", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -502,7 +517,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
             Picasso.get().load(imageUri2).fit().centerCrop().into(image2);
 
             final String path = System.currentTimeMillis() + "." + getFileExtension(imageUri2);
-
+            p2.setVisibility(View.VISIBLE);
             StorageReference storageReference = mStorageRef.child("Images").child(path);
             storageReference.putFile(imageUri2).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -511,6 +526,8 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                         @Override
                         public void onSuccess(Uri uri) {
                             imagePath1 = uri.toString();
+                            p1.setVisibility(View.GONE);
+                            Toast.makeText(getActivity(), "Added BackView Image", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -521,6 +538,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
             Picasso.get().load(imageUri3).fit().centerCrop().into(image3);
 
             final String path1 = System.currentTimeMillis() + "." + getFileExtension(imageUri3);
+            p3.setVisibility(View.VISIBLE);
             StorageReference storageReference = mStorageRef.child("Images").child(path1);
             storageReference.putFile(imageUri3).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -529,6 +547,8 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                         @Override
                         public void onSuccess(Uri uri) {
                             imagePath2 = uri.toString();
+                            p2.setVisibility(View.GONE);
+                            Toast.makeText(getActivity(), "Added Side View Image", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -540,6 +560,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
             Picasso.get().load(imageUri4).fit().centerCrop().into(image4);
 
             final String path2 = System.currentTimeMillis() + "." + getFileExtension(imageUri4);
+            p3.setVisibility(View.VISIBLE);
             StorageReference storageReference = mStorageRef.child("Images").child(path2);
             storageReference.putFile(imageUri4).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -548,6 +569,8 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                         @Override
                         public void onSuccess(Uri uri) {
                             imagePath3 = uri.toString();
+                            p3.setVisibility(View.GONE);
+                            Toast.makeText(getActivity(), "Added Side/Inside View Image", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

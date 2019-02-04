@@ -9,8 +9,8 @@ public class Shop {
     public String location;
     public String description;
     public String purl;
-    public double lon;
-    public double lat;
+    public Double lon;
+    public Double lat;
     public float rating = 0.2f;
     public String email;
 
@@ -18,7 +18,7 @@ public class Shop {
 
     }
 
-    public Shop(String firstname, String lastname, String contact, String name, String location, String description, String purl, double lon, double lat, float rating, String email) {
+    public Shop(String firstname, String lastname, String contact, String name, String location, String description, String purl, Double lon, Double lat, float rating, String email) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.contact = contact;
@@ -48,19 +48,19 @@ public class Shop {
         this.purl = purl;
     }
 
-    public double getLon() {
+    public Double getLon() {
         return lon;
     }
 
-    public void setLon(double lon) {
+    public void setLon(Double lon) {
         this.lon = lon;
     }
 
-    public double getLat() {
+    public Double getLat() {
         return lat;
     }
 
-    public void setLat(double lat) {
+    public void setLat(Double lat) {
         this.lat = lat;
     }
 

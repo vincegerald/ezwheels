@@ -1,16 +1,20 @@
 package vincegeralddelaccerna.ezwheels;
 
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
+
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.support.v4.app.Fragment;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,11 +30,18 @@ import java.util.List;
 
 public class motor_fragment extends Fragment {
 
+
+
+    public motor_fragment(){
+
+    }
+
     RecyclerView recyclerView;
     FloatingActionButton add;
-
     DatabaseReference databaseReference;
     FirebaseAuth mAuth;
+    ImageView brokencar;
+    TextView nolisting;
 
     private ProgressBar mProgressbar;
 
@@ -38,70 +49,78 @@ public class motor_fragment extends Fragment {
 
     private List<Upload> mUploads;
 
-    public motor_fragment(){
-
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.motor_fragment, container, false);
         recyclerView = v.findViewById(R.id.recyclerRequest);
         mProgressbar = v.findViewById(R.id.progress);
+        brokencar = v.findViewById(R.id.brokencar);
+        nolisting = v.findViewById(R.id.nolisting);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mUploads = new ArrayList<>();
 
 
         mAuth = FirebaseAuth.getInstance();
-        String uid = mAuth.getCurrentUser().getUid();
-
-        //databaseReference = FirebaseDatabase.getInstance();
-
-
-
+        String uid = mAuth.getCurrentUser().getUid().toString();
         Query query = FirebaseDatabase.getInstance().getReference("Motor")
                 .orderByChild("status").equalTo("AVAILABLE");
 
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    mUploads.clear();
-                        if(dataSnapshot.exists()){
-                            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()){
 
-                                Upload upload = postSnapshot.getValue(Upload.class);
-                                mUploads.add(upload);
-                            }
+        if(mUploads.size() > 0) {
+
+            query.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    mUploads.clear();
+                    if (dataSnapshot.exists()) {
+                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                            Upload upload = postSnapshot.getValue(Upload.class);
+                            mUploads.add(upload);
                         }
 
-                mAdapter = new DashboardCarAdapter(getActivity(), mUploads);
-                recyclerView.setAdapter(mAdapter);
-                mProgressbar.setVisibility(View.INVISIBLE);
-
-            }
-
-            private void addShopDetails(String shopId) {
-                FirebaseDatabase.getInstance().getReference("Shop").child(shopId).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String shopName = dataSnapshot.child("name").getValue().toString();
-                        Toast.makeText(getActivity(), shopName, Toast.LENGTH_SHORT).show();
+                        mAdapter = new DashboardCarAdapter(getActivity(), mUploads);
+                        recyclerView.setAdapter(mAdapter);
+                        mProgressbar.setVisibility(View.GONE);
+                        nolisting.setVisibility(View.GONE);
+                        brokencar.setVisibility(View.GONE);
                     }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
 
-                    }
-                });
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                mProgressbar.setVisibility(View.INVISIBLE);
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                    mProgressbar.setVisibility(View.GONE);
+                    nolisting.setVisibility(View.GONE);
+                    brokencar.setVisibility(View.GONE);
+                }
+            });
+        }
+        else{
+            mProgressbar.setVisibility(View.GONE);
+        }
         return v;
     }
+
+//    private void search(String s){
+//
+//        Query query = databaseReference.orderByChild("brand")
+//                .startAt(s)
+//                .endAt(s + "\uf8ff");
+//
+//        query.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
 }
