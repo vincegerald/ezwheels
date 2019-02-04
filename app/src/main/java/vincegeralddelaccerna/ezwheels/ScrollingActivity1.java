@@ -457,7 +457,7 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
             });
 
             AlertDialog alertDialog = builder.create();
-            alertDialog.setTitle(brand + " " + model +);
+            alertDialog.setTitle(brand + " " + model);
             alertDialog.show();
 
 //
