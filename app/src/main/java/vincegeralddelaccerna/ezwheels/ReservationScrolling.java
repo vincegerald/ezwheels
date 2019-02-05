@@ -512,14 +512,14 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                         });
                     }
 
-                    if(type.equals("SWAP")){
+                    if(resType.equals("SWAP")){
                         typeView.setTextColor(Color.parseColor("#FFA500"));
                         typeView.setText(type);
                         fuelType.setVisibility(View.GONE);
                         imageView14.setVisibility(View.GONE);
 
                     }
-                    else if(type.equals("SHOP WILL ADD")){
+                    else if(resType.equals("SHOP WILL ADD")){
                         typeView.setTextColor(Color.parseColor("#FF0000"));
                         typeView.setText(type);
                     }

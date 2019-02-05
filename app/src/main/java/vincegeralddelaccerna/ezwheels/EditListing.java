@@ -123,6 +123,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
     EditText editText5;
     ProgressBar progressBar;
     Toolbar toolbar;
+    ProgressBar p, p1, p2, p3,p4;
 
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
@@ -140,6 +141,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
     private static String type = "car";
     private static String formattedDate;
     private static  String listingid;
+
 
     private static String date, editionn, finalBrand, finalColor, finalMileage, finalModel, finalPcondition, finalPrice, finalTransmission, finalYear, fuell, imageP1, imageP2, imageP3, imageP4, info,
             listid,seriess,status,uid,videoP, originalType, typee;
@@ -162,7 +164,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
         //get the intent listing id
 
         listingid = getIntent().getStringExtra("listingid");
-//        Toast.makeText(this, listingid, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, listingid, Toast.LENGTH_SHORT).show();
 
         progressBar = findViewById(R.id.progressBar5);
         editText5 = findViewById(R.id.editText5);
@@ -268,6 +270,11 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
             }
         });
 
+        p = findViewById(R.id.barimage);
+        p1 = findViewById(R.id.barimage1);
+        p2 = findViewById(R.id.barimage2);
+        p3 = findViewById(R.id.barimage3);
+        p4 = findViewById(R.id.barimage4);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -311,8 +318,8 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                         colorText.setText(finalColor);
                         transmissionText.setText(finalTransmission);
                         priceConditionText.setText(finalPcondition);
-                        mileage.setText(finalBrand);
-                        price.setText(finalMileage);
+                        mileage.setText(finalMileage);
+                        price.setText(finalPrice);
                         fuel.setText(fuell);
                         edition.setText(editionn);
                         series.setText(seriess);
@@ -322,7 +329,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                         Picasso.get().load(imagePath3).fit().centerCrop().into(image3);
                         Picasso.get().load(imagePath4).fit().centerCrop().into(image4);
                         Uri uri = Uri.parse(videoP);
-                        videoView.setVideoPath(videoP);
+                        videoView.setVideoURI(uri);
                         car.setChecked(true);
                         motor.setChecked(false);
                     Toast.makeText(EditListing.this, imagePath1, Toast.LENGTH_SHORT).show();
@@ -362,8 +369,8 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                                 colorText.setText(finalColor);
                                 transmissionText.setText(finalTransmission);
                                 priceConditionText.setText(finalPcondition);
-                                mileage.setText(finalBrand);
-                                price.setText(finalMileage);
+                                mileage.setText(finalMileage);
+                                price.setText(finalPrice);
                                 fuel.setText(fuell);
                                 edition.setText(editionn);
                                 series.setText(seriess);
@@ -372,7 +379,8 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                                 Picasso.get().load(imagePath2).fit().centerCrop().into(image2);
                                 Picasso.get().load(imagePath3).fit().centerCrop().into(image3);
                                 Picasso.get().load(imagePath4).fit().centerCrop().into(image4);
-                                videoView.setVideoPath(videoP);
+                                Uri uri = Uri.parse(videoP);
+                                videoView.setVideoURI(uri);
                                 motor.setChecked(true);
                                 car.setChecked(false);
 //                                Toast.makeText(EditListing.this, typee, Toast.LENGTH_SHORT).show();
@@ -603,7 +611,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                 videoView.start();
 
                 final String videoPath1 = System.currentTimeMillis() + "." + getFileExtension(videoUri);
-
+                p4.setVisibility(View.VISIBLE);
                 StorageReference storageReference = mStorageRef.child("Videos").child(videoPath1);
                 storageReference.putFile(videoUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -611,7 +619,9 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                         mStorageRef.child("Videos/"+videoPath1).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                videoPath = uri.toString();
+                                videoP = uri.toString();
+                                p4.setVisibility(View.GONE);
+                                Toast.makeText(EditListing.this, "Video Added", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -629,7 +639,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
 
             imageUri1 = data.getData();
             Picasso.get().load(imageUri1).fit().centerCrop().into(image1);
-
+            p.setVisibility(View.VISIBLE);
             final String path4 = System.currentTimeMillis() + "." + getFileExtension(imageUri1);
             StorageReference storageReference = mStorageRef.child("Images").child(path4);
             storageReference.putFile(imageUri1).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
@@ -640,6 +650,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                         public void onSuccess(Uri uri) {
                             imagePath4 = uri.toString();
                             Toast.makeText(EditListing.this, "Image 1 added", Toast.LENGTH_SHORT).show();
+                            p.setVisibility(View.GONE);
                         }
                     });
                 }
@@ -656,7 +667,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
 
 
             final String path = System.currentTimeMillis() + "." + getFileExtension(imageUri2);
-
+            p1.setVisibility(View.VISIBLE);
             StorageReference storageReference = mStorageRef.child("Images").child(path);
             storageReference.putFile(imageUri2).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -666,6 +677,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                         public void onSuccess(Uri uri) {
                             imagePath1 = uri.toString();
                             Toast.makeText(EditListing.this, "Image 2 added", Toast.LENGTH_SHORT).show();
+                            p1.setVisibility(View.GONE);
                         }
                     });
                 }
@@ -674,7 +686,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
         else if(requestCode == IMAGE_REQUEST_3 && resultCode == RESULT_OK){
             imageUri3 = data.getData();
             Picasso.get().load(imageUri3).fit().centerCrop().into(image3);
-
+            p2.setVisibility(View.VISIBLE);
             final String path1 = System.currentTimeMillis() + "." + getFileExtension(imageUri3);
             StorageReference storageReference = mStorageRef.child("Images").child(path1);
             storageReference.putFile(imageUri3).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
@@ -685,6 +697,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                         public void onSuccess(Uri uri) {
                             imagePath2 = uri.toString();
                             Toast.makeText(EditListing.this, "Image 3 added", Toast.LENGTH_SHORT).show();
+                            p2.setVisibility(View.GONE);
                         }
                     });
                 }
@@ -694,7 +707,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
 
             imageUri4 = data.getData();
             Picasso.get().load(imageUri4).fit().centerCrop().into(image4);
-
+            p3.setVisibility(View.VISIBLE);
             final String path2 = System.currentTimeMillis() + "." + getFileExtension(imageUri4);
             StorageReference storageReference = mStorageRef.child("Images").child(path2);
             storageReference.putFile(imageUri4).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
@@ -705,6 +718,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                         public void onSuccess(Uri uri) {
                             imagePath3 = uri.toString();
                             Toast.makeText(EditListing.this, "Image 4 added", Toast.LENGTH_SHORT).show();
+                            p3.setVisibility(View.GONE);
                         }
                     });
                 }
@@ -722,33 +736,34 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
 
     private void uploadFile(final String edition, final String series, final String info, final String fuel, final String formattedData, final String uid, Uri videoUri, final Uri uriImage, final Uri uriImage1, final Uri uriImage2, final Uri uriImage3, final String finalBrand, final String finalModel, final String finalYear, final String finalColor, final String finalTransmission, final String finalPcondition, final String finalMileage, final String finalPrice, final String shop, final String status){
 
-        if(uriImage != null){
 
 
-            final String imageUrl = uriImage.toString();
+
+
             //Toast.makeText(getActivity(), imageUrl, Toast.LENGTH_SHORT).show();
             progressBar.setVisibility(View.VISIBLE);
 //                                mDatabaseRef = mDatabaseRef.child("Car");
                                 final String listid = mDatabaseRef.push().getKey();
-                                forCar = FirebaseDatabase.getInstance().getReference("Car").child(listingid);
-                                final Upload upload = new Upload(listid, edition, series, info, uid, formattedDate, fuel, imagePath4, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
+                                forCar = FirebaseDatabase.getInstance().getReference("Car");
+                                final Upload upload = new Upload(listingid, edition, series, info, uid, formattedDate, fuel, imagePath4, imagePath1, imagePath2, imagePath3, videoP, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
 
                                 forCar.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         if(dataSnapshot.exists()){
-                                            forCar.child(listingid).setValue(listingid).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            forCar.child(listingid).setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if(task.isSuccessful()){
                                                         Toast.makeText(EditListing.this, "Updated Listing", Toast.LENGTH_SHORT).show();
-                                                        finish();
+                                                        Intent intent = new Intent(EditListing.this, ShopDashboard.class);
+                                                        startActivity(intent);
                                                     }
                                                 }
                                             });
                                         }
                                         else{
-                                            forMotor = FirebaseDatabase.getInstance().getReference("Motor").child(listingid);
+                                            forMotor = FirebaseDatabase.getInstance().getReference("Motor");
                                             forMotor.addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -758,7 +773,8 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 if(task.isSuccessful()){
                                                                     Toast.makeText(EditListing.this, "Updated Listing", Toast.LENGTH_SHORT).show();
-                                                                    finish();
+                                                                    Intent intent = new Intent(EditListing.this, ShopDashboard.class);
+                                                                    startActivity(intent);
                                                                 }
                                                             }
                                                         });
@@ -778,7 +794,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
 
                                     }
                                 });
-        }
+
     }
 
 

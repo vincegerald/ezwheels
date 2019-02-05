@@ -16,6 +16,8 @@
         app:popupTheme="@style/AppTheme.PopupOverlay"
         android:background="@color/colorPrimary"/>
 
+
+
     <ScrollView
         android:id="@+id/addList1"
         android:layout_width="match_parent"
@@ -28,8 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#fefefe"
-            android:orientation="vertical"
-            android:visibility="visible">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView11"
@@ -279,7 +280,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="visible"
             android:layout_marginBottom="10dp">
 
             <TextView
@@ -327,13 +327,14 @@
 
                     <EditText
                         android:id="@+id/editText3"
-                        android:layout_width="150dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/blackborder"
                         android:ems="10"
                         android:hint="Input series"
                         android:inputType="textPersonName"
+                        android:layout_marginRight="10dp"
                         android:textColor="#000000"
                         android:textColorHighlight="#000000"
                         android:textColorHint="#000000"
@@ -360,7 +361,7 @@
 
                     <EditText
                         android:id="@+id/editText4"
-                        android:layout_width="150dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/blackborder"
@@ -369,6 +370,7 @@
                         android:inputType="textPersonName"
                         android:padding="10dp"
                         android:textColor="#000000"
+                        android:layout_marginRight="10dp"
                         android:textColorHighlight="#000000"
                         android:textColorHint="#000000"
                         android:textColorLink="#000000"
@@ -525,8 +527,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="15dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginRight="15dp"
                 android:orientation="horizontal">
 
                 <Button
@@ -615,6 +617,13 @@
             android:layout_height="300dp"
             android:gravity="center"
             android:orientation="horizontal">
+
+            <ProgressBar
+                android:id="@+id/barimage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/image1"
@@ -721,6 +730,12 @@
             android:gravity="center"
             android:orientation="horizontal">
 
+            <ProgressBar
+                android:id="@+id/barimage1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
             <ImageView
                 android:id="@+id/image2"
                 android:layout_width="match_parent"
@@ -824,6 +839,13 @@
             android:layout_height="300dp"
             android:gravity="center"
             android:orientation="horizontal">
+
+            <ProgressBar
+                android:id="@+id/barimage2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/image3"
@@ -929,6 +951,15 @@
             android:gravity="center"
             android:orientation="horizontal">
 
+            <ProgressBar
+                android:id="@+id/barimage3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+
+
             <ImageView
                 android:id="@+id/image4"
                 android:layout_width="match_parent"
@@ -1015,6 +1046,13 @@
                 android:layout_height="100dp"
                 android:background="@drawable/video" />
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/barimage4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
 
         <VideoView
             android:id="@+id/videoView"

@@ -172,10 +172,13 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             fab.setVisibility(View.GONE);
             edit.setVisibility(View.VISIBLE);
             approve.setVisibility(View.VISIBLE);
+            ratingbar.setVisibility(View.GONE);
+            reportUser.setVisibility(View.GONE);
         }
 
         if(status.equals("SOLD")){
             approve.setVisibility(View.GONE);
+            edit.setVisibility(View.GONE);
         }
 
 

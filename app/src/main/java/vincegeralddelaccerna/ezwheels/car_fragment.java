@@ -88,8 +88,8 @@ public class car_fragment extends Fragment {
                         brokencar.setVisibility(View.GONE);
                     }
                     else{
-                        nolisting.setVisibility(View.GONE);
-                        brokencar.setVisibility(View.GONE);
+                        nolisting.setVisibility(View.VISIBLE);
+                        brokencar.setVisibility(View.VISIBLE);
                     }
 
                 }

@@ -111,12 +111,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         ratingBar.setFocusable(false);
 
 
-
-
-        //textviews and buttons
-
-
-
         //firebase
 
         mAuth = FirebaseAuth.getInstance();

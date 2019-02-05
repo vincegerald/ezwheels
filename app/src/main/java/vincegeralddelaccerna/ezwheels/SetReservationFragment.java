@@ -168,14 +168,16 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR, i);
         c.set(Calendar.MINUTE, i1);
-        if (i >= 12){
+        if (i > 12){
             i = i - 12;
-            currentTime = i + " : " + i1 + "0" + " PM";
+            currentTime = i + " : " + i1   + " PM";
         }
         else{
-            currentTime = i + " : " + i1 + "0" + " AM";
+            currentTime = i + " : " + i1  +  " AM";
 
         }
+
+
 
         timeText.setText(currentTime);
     }

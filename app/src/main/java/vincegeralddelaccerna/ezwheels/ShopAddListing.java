@@ -492,7 +492,6 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
 
             imageUri1 = data.getData();
             Picasso.get().load(imageUri1).fit().centerCrop().into(image1);
-
             final String path4 = System.currentTimeMillis() + "." + getFileExtension(imageUri1);
             p.setVisibility(View.VISIBLE);
             StorageReference storageReference = mStorageRef.child("Images").child(path4);
@@ -517,7 +516,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
             Picasso.get().load(imageUri2).fit().centerCrop().into(image2);
 
             final String path = System.currentTimeMillis() + "." + getFileExtension(imageUri2);
-            p2.setVisibility(View.VISIBLE);
+            p1.setVisibility(View.VISIBLE);
             StorageReference storageReference = mStorageRef.child("Images").child(path);
             storageReference.putFile(imageUri2).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -538,7 +537,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
             Picasso.get().load(imageUri3).fit().centerCrop().into(image3);
 
             final String path1 = System.currentTimeMillis() + "." + getFileExtension(imageUri3);
-            p3.setVisibility(View.VISIBLE);
+            p2.setVisibility(View.VISIBLE);
             StorageReference storageReference = mStorageRef.child("Images").child(path1);
             storageReference.putFile(imageUri3).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
