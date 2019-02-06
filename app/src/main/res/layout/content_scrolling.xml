@@ -583,8 +583,22 @@
             android:id="@+id/ratingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:numStars="5"
             android:stepSize=".5"
-            android:numStars="5" />
+            android:focusable="false"
+            android:clickable="false"
+            android:isIndicator="true"/>
+
+        <TextView
+            android:id="@+id/rateUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Rate User"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textSize="18sp" />
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardSeller"

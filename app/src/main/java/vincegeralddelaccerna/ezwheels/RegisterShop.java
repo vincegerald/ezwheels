@@ -258,7 +258,8 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
                                         longitude,
                                         latitude,
                                         rating,
-                                        sEmail
+                                        sEmail,
+                                        FirebaseAuth.getInstance().getCurrentUser().getUid()
                                 );
                                 FirebaseDatabase.getInstance().getReference("Shop")
                                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid())

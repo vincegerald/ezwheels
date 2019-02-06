@@ -2,6 +2,7 @@ package vincegeralddelaccerna.ezwheels;
 
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -11,12 +12,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
+import static vincegeralddelaccerna.ezwheels.App.myReservations;
 
 
 /**
@@ -46,6 +52,8 @@ public class ShopmyReservation extends Fragment {
     }
 
     RecyclerView recyclerView;
+    ImageView brokencar;
+    TextView nolisting;
     FloatingActionButton add;
     DatabaseReference databaseReference, databaseReference1;
     FirebaseAuth mAuth;
@@ -55,24 +63,45 @@ public class ShopmyReservation extends Fragment {
     ReservationAdapter mAdapter;
     private static String uid;
 
+    NotificationManagerCompat notificationManagerCompat;
     private List<Reservation> mUploads;
 
     public void PushNotification(String title, String content) {
-        NotificationManager nm = (NotificationManager)getActivity().getSystemService(NOTIFICATION_SERVICE);
-        Notification.Builder builder = new Notification.Builder(getActivity());
         Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
         PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
+        Notification notification = new NotificationCompat.Builder(getContext(), myReservations)
+                .setSmallIcon(R.drawable.logo)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setContentIntent(contentIntent)
+                .build();
 
-        //set
-        builder.setContentIntent(contentIntent);
-        builder.setSmallIcon(R.drawable.logo);
-        builder.setContentText(content);
-        builder.setContentTitle(title);
-        builder.setAutoCancel(true);
-        builder.setDefaults(Notification.DEFAULT_ALL);
+        notificationManagerCompat.notify(1, notification);
 
-        Notification notification = builder.build();
-        nm.notify((int)System.currentTimeMillis(),notification);
+
+
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder()
+//
+//
+//        //set
+//        builder.setContentIntent(contentIntent);
+//        builder.setSmallIcon(R.drawable.logo);
+//        builder.setContentText(content);
+//        builder.setContentTitle(title);
+//        builder.setAutoCancel(true);
+//        builder.setDefaults(Notification.PRIORITY_MAX);
+//
+//
+//
+//        Notification notification = builder.build();
+//        nm.notify((int)System.currentTimeMillis(),notification);
+//        NotificationManager nm = (NotificationManager)getActivity().getSystemService(NOTIFICATION_SERVICE);
+//        Notification.Builder builder = new Notification.Builder(getActivity());
+//        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
+//        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
+
     }
 
 
@@ -87,7 +116,10 @@ public class ShopmyReservation extends Fragment {
         recyclerView = v.findViewById(R.id.recyclerRequest);
         mProgressbar = v.findViewById(R.id.progress);
         recyclerView.setHasFixedSize(true);
+        notificationManagerCompat = NotificationManagerCompat.from(getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        brokencar = v.findViewById(R.id.brokencar);
+        nolisting = v.findViewById(R.id.nolisting);
         mUploads = new ArrayList<>();
 
         mAuth = FirebaseAuth.getInstance();
@@ -178,12 +210,25 @@ public class ShopmyReservation extends Fragment {
                 if(dataSnapshot.exists()){
                     for(DataSnapshot snapshot :dataSnapshot.getChildren()){
                         Reservation reservation = snapshot.getValue(Reservation.class);
+                        String status = reservation.getStatus();
+                        if(status.equals("APPROVED")){
+                            PushNotification("Reservation Approved","Your reservation for " + reservation.getBrand() + " " + reservation.getModel() + " has been approved by the shop... Contact the shop for further details");
+                        }
+                        else if(status.equals("DECLINED")){
+                            PushNotification("Reservation Declined","Your reservation for " + reservation.getBrand() + " " + reservation.getModel() + " has been declined by the shop... Contact the shop for further details");
+                        }
                         mUploads.add(reservation);
                     }
 
                     mAdapter = new ReservationAdapter(getActivity(), mUploads);
                     recyclerView.setAdapter(mAdapter);
                     mProgressbar.setVisibility(View.INVISIBLE);
+                    nolisting.setVisibility(View.GONE);
+                    brokencar.setVisibility(View.GONE);
+                }
+                else{
+                    nolisting.setVisibility(View.VISIBLE);
+                    brokencar.setVisibility(View.VISIBLE);
                 }
 
             }

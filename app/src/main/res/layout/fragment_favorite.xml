@@ -38,7 +38,8 @@
             android:text="NO FAVORITES :( ADD NOW"
             android:gravity="center"
             android:textColor="#505050"
-            android:textSize="28sp"
+            android:textSize="26sp"
+            android:layout_marginTop="10dp"
             android:textStyle="bold"/>
     </LinearLayout>
 

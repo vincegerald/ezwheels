@@ -13,12 +13,13 @@ public class Shop {
     public Double lat;
     public float rating = 0.2f;
     public String email;
+    public  String uid;
 
     public Shop(){
 
     }
 
-    public Shop(String firstname, String lastname, String contact, String name, String location, String description, String purl, Double lon, Double lat, float rating, String email) {
+    public Shop(String firstname, String lastname, String contact, String name, String location, String description, String purl, Double lon, Double lat, float rating, String email, String uid) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.contact = contact;
@@ -30,6 +31,15 @@ public class Shop {
         this.lat = lat;
         this.rating = rating;
         this.email = email;
+        this.uid = uid;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getEmail() {

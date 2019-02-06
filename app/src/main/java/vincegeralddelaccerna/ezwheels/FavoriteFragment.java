@@ -93,8 +93,8 @@ public class FavoriteFragment extends Fragment {
                     mProgressbar.setVisibility(View.INVISIBLE);
                 }
                 else{
-                    nolisting.setVisibility(View.GONE);
-                    brokencar.setVisibility(View.GONE);
+                    nolisting.setVisibility(View.VISIBLE);
+                    brokencar.setVisibility(View.VISIBLE);
                 }
             }
 

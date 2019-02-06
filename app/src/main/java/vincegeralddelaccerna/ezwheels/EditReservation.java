@@ -53,6 +53,7 @@ public class EditReservation extends AppCompatActivity implements DatePickerDial
     TextView date, time, location, remindertext;
 
     private static String addressText, brand, currDate, currTime, image1    , listid, model, name, price, reminderText, resid, shopuid, status, restype, uid;
+    private static String seen;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -121,6 +122,7 @@ public class EditReservation extends AppCompatActivity implements DatePickerDial
                     restype = dataSnapshot.child("type").getValue().toString();
                     uid = dataSnapshot.child("uid").getValue().toString();
                     resid = dataSnapshot.child("resId").getValue().toString();
+                    seen = dataSnapshot.child("seen").getValue().toString();
                 }
 
 
@@ -212,7 +214,7 @@ public class EditReservation extends AppCompatActivity implements DatePickerDial
     private void reservation(String model, String brand, String name, String image1, String addressText, String reminderText, String shopuid, String currentDate, String ctime, String uid, String price) {
 
 
-        Reservation reservation = new Reservation(model, brand, name, image1, addressText, reminderText, shopuid, currentDate, currentTime, uid, listid, resType, resid, price, status);
+        Reservation reservation = new Reservation(model, brand, name, image1, addressText, reminderText, shopuid, currentDate, currentTime, uid, listid, resType, resid, price, status, seen);
         mDatabaseRef1.child("Reservation").child(resid).setValue(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

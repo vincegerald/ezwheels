@@ -145,7 +145,8 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
 
         mDatabaseRef = mDatabaseRef.child("Reservation");
         String resId = mDatabaseRef.push().getKey();
-        Reservation reservation = new Reservation(model, brand, name, image1, addressText, reminderText, shopuid, currentDate, currentTime, uid, listingid, resType, resId, price, status);
+        String seen = "false";
+        Reservation reservation = new Reservation(model, brand, name, image1, addressText, reminderText, shopuid, currentDate, currentTime, uid, listingid, resType, resId, price, status, seen);
         mDatabaseRef.child(resId).setValue(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

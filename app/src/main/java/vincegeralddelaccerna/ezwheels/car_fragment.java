@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,8 @@ public class car_fragment extends Fragment {
     FirebaseAuth mAuth;
     ImageView brokencar;
     TextView nolisting;
+    SearchView searchView;
+    Query query;
 
     private ProgressBar mProgressbar;
 
@@ -57,6 +60,7 @@ public class car_fragment extends Fragment {
         mProgressbar = v.findViewById(R.id.progress);
         brokencar = v.findViewById(R.id.brokencar);
         nolisting = v.findViewById(R.id.nolisting);
+        searchView = v.findViewById(R.id.search);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mUploads = new ArrayList<>();
@@ -64,8 +68,25 @@ public class car_fragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         String uid = mAuth.getCurrentUser().getUid().toString();
-        Query query = FirebaseDatabase.getInstance().getReference("Car")
+        query = FirebaseDatabase.getInstance().getReference("Car")
                 .orderByChild("status").equalTo("AVAILABLE");
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                 query = FirebaseDatabase.getInstance().getReference("Car")
+                        .orderByChild("finalModel").equalTo(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                query = FirebaseDatabase.getInstance().getReference("Car")
+                        .orderByChild("finalModel").equalTo(s);
+                Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
 
 
 

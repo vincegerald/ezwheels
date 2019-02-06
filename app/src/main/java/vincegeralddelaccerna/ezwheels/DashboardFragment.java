@@ -41,7 +41,7 @@ public class DashboardFragment extends Fragment {
         tabLayout = v.findViewById(R.id.tablayout);
         viewPager = v.findViewById(R.id.viewpager);
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
 //
         adapter.AddFragment(new car_fragment(), "CARS");
         adapter.AddFragment(new motor_fragment(), "MOTORCYCLES");

@@ -1,16 +1,23 @@
 package vincegeralddelaccerna.ezwheels;
 
 
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,6 +30,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
+import static vincegeralddelaccerna.ezwheels.App.reservationReceived;
 
 
 /**
@@ -39,12 +49,53 @@ public class ShopReceivedReservations extends Fragment {
     FloatingActionButton add;
     DatabaseReference databaseReference;
     FirebaseAuth mAuth;
+    ImageView brokencar;
+    TextView nolisting;
 
     private ProgressBar mProgressbar;
 
     ReservationAdapter mAdapter;
+    NotificationManagerCompat notificationManagerCompat;
 
     private List<Reservation> mUploads;
+
+    public void PushNotification(String title, String content) {
+        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
+        Notification notification = new NotificationCompat.Builder(getContext(), reservationReceived)
+                .setSmallIcon(R.drawable.logo)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setContentIntent(contentIntent)
+                .build();
+
+        notificationManagerCompat.notify(2, notification);
+
+
+
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder()
+//
+//
+//        //set
+//        builder.setContentIntent(contentIntent);
+//        builder.setSmallIcon(R.drawable.logo);
+//        builder.setContentText(content);
+//        builder.setContentTitle(title);
+//        builder.setAutoCancel(true);
+//        builder.setDefaults(Notification.PRIORITY_MAX);
+//
+//
+//
+//        Notification notification = builder.build();
+//        nm.notify((int)System.currentTimeMillis(),notification);
+//        NotificationManager nm = (NotificationManager)getActivity().getSystemService(NOTIFICATION_SERVICE);
+//        Notification.Builder builder = new Notification.Builder(getActivity());
+//        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
+//        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
+
+    }
 
 
     @Override
@@ -58,11 +109,15 @@ public class ShopReceivedReservations extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mUploads = new ArrayList<>();
+        brokencar = v.findViewById(R.id.brokencar);
+        nolisting = v.findViewById(R.id.nolisting);
+        notificationManagerCompat = NotificationManagerCompat.from(getContext());
 
         mAuth = FirebaseAuth.getInstance();
         String id = mAuth.getCurrentUser().getUid();
         Query query = FirebaseDatabase.getInstance().getReference("Reservation")
                 .orderByChild("shopuid").equalTo(id);
+        databaseReference = FirebaseDatabase.getInstance().getReference("Reservation");
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -70,14 +125,25 @@ public class ShopReceivedReservations extends Fragment {
                 mUploads.clear();
                 if(dataSnapshot.exists()){
                     for(DataSnapshot snapshot :dataSnapshot.getChildren()){
-
                         Reservation reservation = snapshot.getValue(Reservation.class);
+                        if(reservation.getStatus().equals("PENDING") && reservation.getSeen().equals("false")){
+                            PushNotification("New Reservation", "You have a new reservation.");
+                            databaseReference.child(reservation.getResId()).child("seen").setValue("true");
+                        }
+
                         mUploads.add(reservation);
                     }
+
 
                     mAdapter = new ReservationAdapter(getActivity(), mUploads);
                     recyclerView.setAdapter(mAdapter);
                     mProgressbar.setVisibility(View.INVISIBLE);
+                    nolisting.setVisibility(View.GONE);
+                    brokencar.setVisibility(View.GONE);
+                }
+                else{
+                    nolisting.setVisibility(View.VISIBLE);
+                    brokencar.setVisibility(View.VISIBLE);
                 }
 
             }

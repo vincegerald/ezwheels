@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,19 +49,23 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     CardView cardSeller, cardTrade, cardReservation;
     RatingBar ratingbar;
     TextView reportUser;
+    Float rating;
+    TextView rateUser;
 
     //imageview
     ImageView imageView1, imageView2, imageView3, imageView4, edit;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseRef;
-    private DatabaseReference mDatabaseRef1;
+    private DatabaseReference mDatabaseRef1, checkifShop;
 
     private  String firstname, lastname, contact, description, location, name, uid, status;
     private String brand, model;
     private String listingid;
     private String image1;
     private String price, year, color;
+    private String shopuid;
+    private Float newRating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +96,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         approve = findViewById(R.id.approve);
         reportUser = findViewById(R.id.reportUser);
         ratingbar = findViewById(R.id.ratingBar);
+        rateUser = findViewById(R.id.rateUser);
         reportUser.setOnClickListener(this);
 
         //card
@@ -105,13 +111,14 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         reserve = findViewById(R.id.reserveButton);
         trade = findViewById(R.id.tradeButton);
         fab = findViewById(R.id.fab);
+        rateUser.setOnClickListener(this);
 
         //imageview
         imageView1 = findViewById(R.id.image1);
         imageView2 = findViewById(R.id.image2);
         imageView3 = findViewById(R.id.image3);
         imageView4 = findViewById(R.id.image4);
-         edit = findViewById(R.id.edit);
+        edit = findViewById(R.id.edit);
 
         //listeners
 
@@ -128,6 +135,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         mAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         mDatabaseRef1 = FirebaseDatabase.getInstance().getReference();
+        checkifShop = FirebaseDatabase.getInstance().getReference("Shop");
 
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -184,7 +192,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Shop").child(uid);
 
-        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+        mDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
@@ -197,6 +205,11 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                     sellerName.setText(firstname + " " + lastname);
                     sellerAddress.setText(location);
                     sellerContact.setText(contact);
+                    rating = Float.parseFloat(dataSnapshot.child("rating").getValue().toString());
+                    ratingbar.setVisibility(View.GONE);
+                    reportUser.setVisibility(View.GONE);
+                    rateUser.setVisibility(View.GONE);
+                    shopuid = dataSnapshot.child("uid").getValue().toString();
                 }
 
             }
@@ -204,6 +217,31 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(ScrollingActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        checkifShop = FirebaseDatabase.getInstance().getReference("Shop").child(mAuth.getCurrentUser().getUid());
+        checkifShop.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    ratingbar.setVisibility(View.GONE);
+                    reportUser.setVisibility(View.GONE);
+                    rateUser.setVisibility(View.GONE);
+                }
+                else{
+                    ratingbar.setVisibility(View.VISIBLE);
+                    reportUser.setVisibility(View.VISIBLE);
+                    rateUser.setVisibility(View.VISIBLE);
+                    ratingbar.setRating(rating);
+                    ratingbar.setClickable(false);
+                    ratingbar.setFocusable(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 
@@ -364,6 +402,72 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             alertDialog.show();
         }
 
+        if(id == R.id.rateUser){
+            final RatingBar ratingBar = new RatingBar(this);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(ScrollingActivity.this);
+            LinearLayout linearLayout = new LinearLayout(this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            ratingBar.setLayoutParams(lp);
+            ratingBar.setNumStars(5);
+            ratingBar.setStepSize((float) .5);
+            ratingBar.setRating(rating);
+            linearLayout.addView(ratingBar);
+            builder.setView(linearLayout);
+
+            ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                    newRating = v;
+                }
+            });
+            builder.setMessage("Rate Shop")
+                    .setCancelable(false)
+                    .setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(final DialogInterface dialogInterface, int i) {
+
+                            final DatabaseReference rateShop = FirebaseDatabase.getInstance().getReference("Shop").child(shopuid);
+
+                            rateShop.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists()){
+                                        float finalRating = (rating + newRating) / 2;
+                                        rateShop.child("rating").setValue(finalRating);
+                                        Toast.makeText(ScrollingActivity.this, "Rating Added to Shop", Toast.LENGTH_SHORT).show();
+                                        dialogInterface.dismiss();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Toast.makeText(ScrollingActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
+
+                            dialogInterface.dismiss();
+
+                        }
+                    }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setTitle(name);
+            alertDialog.show();
+
+
+
+        }
+
         if(id == R.id.approve){
             final AlertDialog.Builder builder = new AlertDialog.Builder(ScrollingActivity.this);
             builder.setMessage("Mark as sold?").setCancelable(false)
@@ -384,7 +488,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 motorSold.child("status").setValue("sold");
-                                                finish();
+                                                dialogInterface.dismiss();
                                             }
 
                                             @Override

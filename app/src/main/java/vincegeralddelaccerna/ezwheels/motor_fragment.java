@@ -68,7 +68,6 @@ public class motor_fragment extends Fragment {
                 .orderByChild("status").equalTo("AVAILABLE");
 
 
-        if(mUploads.size() > 0) {
 
             query.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -87,6 +86,10 @@ public class motor_fragment extends Fragment {
                         nolisting.setVisibility(View.GONE);
                         brokencar.setVisibility(View.GONE);
                     }
+                    else{
+                        nolisting.setVisibility(View.VISIBLE);
+                        brokencar.setVisibility(View.VISIBLE);
+                    }
 
                 }
 
@@ -98,10 +101,7 @@ public class motor_fragment extends Fragment {
                     brokencar.setVisibility(View.GONE);
                 }
             });
-        }
-        else{
-            mProgressbar.setVisibility(View.GONE);
-        }
+
         return v;
     }
 

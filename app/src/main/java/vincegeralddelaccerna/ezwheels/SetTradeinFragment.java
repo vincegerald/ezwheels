@@ -234,7 +234,8 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
         String shopuid =  getIntent().getStringExtra("shopuid");
         String listid = getIntent().getStringExtra("listingid");
         String id = mDatabaseRef.push().getKey();
-        Trade trade = new Trade(listid, imagePath1, imagePath2, price, price1, finalbrand, finalmodel,finalYear, uid, shopuid, type, image1, model, brand, yearr, name, status, priceList, id);
+        String seen = "false";
+        Trade trade = new Trade(listid, imagePath1, imagePath2, price, price1, finalbrand, finalmodel,finalYear, uid, shopuid, type, image1, model, brand, yearr, name, status, priceList, id, seen);
         mDatabaseRef.child("Trade").child(id).setValue(trade).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

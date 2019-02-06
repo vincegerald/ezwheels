@@ -110,6 +110,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             Toast.makeText(this, "No Internet Connection. Please check internet connection", Toast.LENGTH_SHORT).show();
         }
         else{
+
             final FirebaseUser currentUser = mAuth.getCurrentUser();
 
             if(currentUser != null){
@@ -245,6 +246,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                                                     public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
                                                 Toast.makeText(Register.this, "Succesful Registration", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(Register.this, DashBoard.class);
+                                                startActivity(intent);
                                             }
                                             else{
                                                 Toast.makeText(Register.this, "Registration Unsuccessful", Toast.LENGTH_SHORT).show();

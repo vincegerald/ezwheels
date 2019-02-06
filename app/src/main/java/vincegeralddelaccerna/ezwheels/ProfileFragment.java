@@ -55,7 +55,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     //Textviews
 
-    TextView name, shopname, contacts, email, location, l;
+    TextView name, shopname, contacts, email, location, descriptionn;
     EditText nametext, shopnametext, contacttext, emailtext, locationtext, lnametext, descriptiontext;
     Button logoutBtn;
     ImageView editProfile, saveProfile, profImg;
@@ -102,6 +102,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         saveProfile = v.findViewById(R.id.saveProfile);
         lnametext = v.findViewById(R.id.lnametext);
         descriptiontext = v.findViewById(R.id.descriptiontext);
+        descriptionn = v.findViewById(R.id.description);
         profImg.setOnClickListener(this);
         bar = v.findViewById(R.id.bar);
         saveProfile.setOnClickListener(this);
@@ -144,6 +145,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     ratingBar.setVisibility(View.GONE);
                     Picasso.get().load(purl).fit().centerCrop().into(profImg);
                     bar.setVisibility(View.GONE);
+                    descriptionn.setVisibility(View.GONE);
 
                 }
                 else{

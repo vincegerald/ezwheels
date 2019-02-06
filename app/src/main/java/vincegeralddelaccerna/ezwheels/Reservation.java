@@ -4,12 +4,12 @@ import android.widget.RadioGroup;
 
 public class Reservation {
 
-    public String model, brand, name, image1, addressText, reminderText, shopuid,  currentDate,  currentTime, uid, listid, type, resId, price, status;
+    public String model, brand, name, image1, addressText, reminderText, shopuid,  currentDate,  currentTime, uid, listid, type, resId, price, status, seen;
 
     public Reservation() {
     }
 
-    public Reservation(String model, String brand, String name, String image1, String addressText, String reminderText, String shopuid, String currentDate, String currentTime, String uid, String listid, String type, String resId, String price, String status) {
+    public Reservation(String model, String brand, String name, String image1, String addressText, String reminderText, String shopuid, String currentDate, String currentTime, String uid, String listid, String type, String resId, String price, String status, String seen) {
         this.model = model;
         this.brand = brand;
         this.name = name;
@@ -25,6 +25,15 @@ public class Reservation {
         this.resId =  resId;
         this.price = price;
         this.status = status;
+        this.seen = seen;
+    }
+
+    public String getSeen() {
+        return seen;
+    }
+
+    public void setSeen(String seen) {
+        this.seen = seen;
     }
 
     public String getPrice() {
