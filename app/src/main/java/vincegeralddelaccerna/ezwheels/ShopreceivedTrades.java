@@ -114,7 +114,7 @@ public class ShopreceivedTrades extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference("Trade");
-        String id = mAuth.getCurrentUser().getUid();
+        final String id = mAuth.getCurrentUser().getUid();
         Query query = FirebaseDatabase.getInstance().getReference("Trade")
                 .orderByChild("shopuid").equalTo(id);
 
@@ -125,7 +125,7 @@ public class ShopreceivedTrades extends Fragment {
                 if(dataSnapshot.exists()){
                     for(DataSnapshot snapshot :dataSnapshot.getChildren()){
                         Trade trade = snapshot.getValue(Trade.class);
-                        if(trade.getStatus().equals("PENDING") && trade.getSeen().equals("false")){
+                        if(trade.getStatus().equals("PENDING") && trade.getSeen().equals("false") && trade.getShopuid().equals(id)){
                             PushNotification("New Trade-Offer", "You have a new trade-offer.");
                             databaseReference.child(trade.getTid()).child("seen").setValue("true");
                         }
