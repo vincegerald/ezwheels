@@ -259,10 +259,10 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
 
         if(requestCode == IMAGE_REQUEST_1 && resultCode == RESULT_OK){
             imageUri1 = data.getData();
-            Picasso.get().load(imageUri1).fit().centerCrop().into(image1);
+
 
             final String path = System.currentTimeMillis() + "." + getFileExtension(imageUri1);
-
+            p1.setVisibility(View.VISIBLE);
             StorageReference storageReference = mStorageRef.child("Images").child(path);
             storageReference.putFile(imageUri1).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -272,6 +272,8 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
                         public void onSuccess(Uri uri) {
                             Toast.makeText(SetTradeinFragment.this, "Image 1 added", Toast.LENGTH_SHORT).show();
                             imagePath1 = uri.toString();
+                            Picasso.get().load(imageUri1).fit().centerCrop().into(image1);
+                            p1.setVisibility(View.GONE);
 
                         }
                     });
@@ -281,7 +283,7 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
 
         if(requestCode == IMAGE_REQUEST_2 && resultCode == RESULT_OK){
             imageUri2 = data.getData();
-            Picasso.get().load(imageUri2).fit().centerCrop().into(image2);
+
 
             final String path1 = System.currentTimeMillis() + "." + getFileExtension(imageUri2);
             p2.setVisibility(View.VISIBLE);
@@ -294,6 +296,7 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
                         public void onSuccess(Uri uri) {
                             Toast.makeText(SetTradeinFragment.this, "Image 2 added", Toast.LENGTH_SHORT).show();
                             imagePath2 = uri.toString();
+                            Picasso.get().load(imageUri2).fit().centerCrop().into(image2);
                             p2.setVisibility(View.GONE);
                         }
                     });
