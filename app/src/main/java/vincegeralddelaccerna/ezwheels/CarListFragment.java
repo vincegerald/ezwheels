@@ -10,7 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,7 +45,8 @@ public class CarListFragment extends Fragment {
     private ProgressBar mProgressbar;
 
     MyDashboardCarAdapter mAdapter;
-
+    ImageView brokencar;
+    TextView nolisting;
     private List<Upload> mUploads;
 
 
@@ -51,10 +54,12 @@ public class CarListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_motor_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_car_list, container, false);
 
         recyclerView = v.findViewById(R.id.recyclerRequest);
         mProgressbar = v.findViewById(R.id.progress);
+        brokencar = v.findViewById(R.id.brokencar);
+        nolisting = v.findViewById(R.id.nolisting);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mUploads = new ArrayList<>();
@@ -78,6 +83,12 @@ public class CarListFragment extends Fragment {
                     mAdapter = new MyDashboardCarAdapter(getActivity(), mUploads);
                     recyclerView.setAdapter(mAdapter);
                     mProgressbar.setVisibility(View.INVISIBLE);
+                    nolisting.setVisibility(View.GONE);
+                    brokencar.setVisibility(View.GONE);
+                }
+                else{
+                    nolisting.setVisibility(View.VISIBLE);
+                    brokencar.setVisibility(View.VISIBLE);
                 }
 
             }

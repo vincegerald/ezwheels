@@ -114,7 +114,7 @@ public class ShopReceivedReservations extends Fragment {
         notificationManagerCompat = NotificationManagerCompat.from(getContext());
 
         mAuth = FirebaseAuth.getInstance();
-        String id = mAuth.getCurrentUser().getUid();
+        final String id = mAuth.getCurrentUser().getUid();
         Query query = FirebaseDatabase.getInstance().getReference("Reservation")
                 .orderByChild("shopuid").equalTo(id);
         databaseReference = FirebaseDatabase.getInstance().getReference("Reservation");
@@ -126,7 +126,7 @@ public class ShopReceivedReservations extends Fragment {
                 if(dataSnapshot.exists()){
                     for(DataSnapshot snapshot :dataSnapshot.getChildren()){
                         Reservation reservation = snapshot.getValue(Reservation.class);
-                        if(reservation.getStatus().equals("PENDING") && reservation.getSeen().equals("false")){
+                        if(reservation.getStatus().equals("PENDING") && reservation.getSeen().equals("false") && reservation.getShopuid().equals(id)){
                             PushNotification("New Reservation", "You have a new reservation.");
                             databaseReference.child(reservation.getResId()).child("seen").setValue("true");
                         }

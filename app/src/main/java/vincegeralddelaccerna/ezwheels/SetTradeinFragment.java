@@ -20,6 +20,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -65,6 +66,7 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
     private String status = "PENDING";
     private static String imagePath1;
     private static  String imagePath2;
+    ProgressBar p1, p2;
 
     //uri
     private Uri imageUri1, imageUri2;
@@ -117,6 +119,8 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
         image1 = findViewById(R.id.image1);
         image2 = findViewById(R.id.image2);
         tradeBtn = findViewById(R.id.tradeBtn);
+        p1 = findViewById(R.id.p1);
+        p2 = findViewById(R.id.p2);
 
         //toolbar
 
@@ -268,6 +272,7 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
                         public void onSuccess(Uri uri) {
                             Toast.makeText(SetTradeinFragment.this, "Image 1 added", Toast.LENGTH_SHORT).show();
                             imagePath1 = uri.toString();
+
                         }
                     });
                 }
@@ -279,7 +284,7 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
             Picasso.get().load(imageUri2).fit().centerCrop().into(image2);
 
             final String path1 = System.currentTimeMillis() + "." + getFileExtension(imageUri2);
-
+            p2.setVisibility(View.VISIBLE);
             StorageReference storageReference = mStorageRef.child("Images").child(path1);
             storageReference.putFile(imageUri2).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -289,6 +294,7 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
                         public void onSuccess(Uri uri) {
                             Toast.makeText(SetTradeinFragment.this, "Image 2 added", Toast.LENGTH_SHORT).show();
                             imagePath2 = uri.toString();
+                            p2.setVisibility(View.GONE);
                         }
                     });
                 }

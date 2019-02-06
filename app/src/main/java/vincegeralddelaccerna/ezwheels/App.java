@@ -19,6 +19,7 @@ public class App extends Application {
 
         notificationChannels();
     }
+    
 
     private void notificationChannels() {
 

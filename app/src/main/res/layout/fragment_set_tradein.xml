@@ -230,6 +230,13 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
+        <ProgressBar
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/p1"
+            android:layout_above="@+id/image1"/>
+
         <ImageView
             android:id="@id/image1"
             android:layout_below="@+id/text1"
@@ -251,6 +258,13 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
+        <ProgressBar
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/p2"
+            android:layout_above="@+id/image2"/>
+
         <ImageView
             android:id="@id/image2"
             android:layout_below="@+id/text2"
@@ -260,7 +274,6 @@
             android:background="@drawable/ic_add_to_photos_black_24dp"/>
 
         <Button
-
             android:id="@+id/tradeBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
