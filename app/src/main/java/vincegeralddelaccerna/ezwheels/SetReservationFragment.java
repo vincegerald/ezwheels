@@ -251,6 +251,7 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
+                    paymentRef = FirebaseDatabase.getInstance().getReference("Payments");
                     String id = paymentRef.push().getKey();
                     final String type = "ReservationFee";
                     Payments payments = new Payments(imagePath1, senderTxt, codeText, mAuth.getCurrentUser().getUid(), id, amount,  type, shopuid);
@@ -259,6 +260,7 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
                                 Toast.makeText(SetReservationFragment.this, "Successfully Added Reservation. The shop will contact you as soon as possible", Toast.LENGTH_SHORT).show();
+                                finish();
                             }
                             else{
                                 Toast.makeText(SetReservationFragment.this, "Error Occurred", Toast.LENGTH_SHORT).show();
