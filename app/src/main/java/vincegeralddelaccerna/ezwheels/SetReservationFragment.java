@@ -70,7 +70,7 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
     private DatabaseReference mDatabaseRef, paymentRef;
     private FirebaseAuth mAuth;
     private Uri uriImage;
-    private static double amount = 0.2f;
+    private static double amount;
     private static String imagePath1;
 //    public SetReservationFragment() {
 //        // Required empty public constructor
