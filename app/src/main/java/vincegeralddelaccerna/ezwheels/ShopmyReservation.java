@@ -80,28 +80,6 @@ public class ShopmyReservation extends Fragment {
 
         notificationManagerCompat.notify(1, notification);
 
-
-
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder()
-//
-//
-//        //set
-//        builder.setContentIntent(contentIntent);
-//        builder.setSmallIcon(R.drawable.logo);
-//        builder.setContentText(content);
-//        builder.setContentTitle(title);
-//        builder.setAutoCancel(true);
-//        builder.setDefaults(Notification.PRIORITY_MAX);
-//
-//
-//
-//        Notification notification = builder.build();
-//        nm.notify((int)System.currentTimeMillis(),notification);
-//        NotificationManager nm = (NotificationManager)getActivity().getSystemService(NOTIFICATION_SERVICE);
-//        Notification.Builder builder = new Notification.Builder(getActivity());
-//        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
-//        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
-
     }
 
 
@@ -129,79 +107,8 @@ public class ShopmyReservation extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser =  mAuth.getCurrentUser();
         uid = currentUser.getUid();
-//        if(currentUser != null){
-//            databaseReference = FirebaseDatabase.getInstance().getReference("Reservation");
-//            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    if(dataSnapshot.exists()){
-//                        String id = dataSnapshot.child("uid").getValue().toString();
-//                        if(id.equals(uid)){
-//                            String model = dataSnapshot.child("model").getValue().toString();
-//                            String brand = dataSnapshot.child("brand").getValue().toString();
-//                            String status = dataSnapshot.child("status").getValue().toString();
-//                            if(status.equals("APPROVED")){
-//                                PushNotification("Reservation Approved","Your reservation for " + brand + " " + model + " has been approved by the shop");
-//                            }
-//                            else{
-//                                PushNotification("Reservation Declined","Your reservation for " + brand + " " + model + " has been declined by the shop. For more details contact the shop");
-//                            }
-//                        }
-//                    }
-//                    else{
-//                        databaseReference1 = FirebaseDatabase.getInstance().getReference("Buyers").child(uid);
-//                        databaseReference1.addValueEventListener(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                if(dataSnapshot.exists()){
-//
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                                Toast.makeText(getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                    }
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//                    Toast.makeText(getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        }
+        databaseReference1 = FirebaseDatabase.getInstance().getReference("Reservation");
 
-
-//        query.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//                if(dataSnapshot.exists()){
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                Toast.makeText(getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -211,11 +118,13 @@ public class ShopmyReservation extends Fragment {
                     for(DataSnapshot snapshot :dataSnapshot.getChildren()){
                         Reservation reservation = snapshot.getValue(Reservation.class);
                         String status = reservation.getStatus();
-                        if(status.equals("APPROVED")){
+                        if(status.equals("APPROVED") && reservation.getFromSeen().equals("false") && reservation.getUid().equals(mAuth.getCurrentUser().getUid())){
                             PushNotification("Reservation Approved","Your reservation for " + reservation.getBrand() + " " + reservation.getModel() + " has been approved by the shop... Contact the shop for further details");
+                            databaseReference1.child(reservation.getResId()).child("fromSeen").setValue("true");
                         }
-                        else if(status.equals("DECLINED")){
+                        else if(status.equals("DECLINED") && reservation.getFromSeen().equals("false") && reservation.getUid().equals(mAuth.getCurrentUser().getUid())) {
                             PushNotification("Reservation Declined","Your reservation for " + reservation.getBrand() + " " + reservation.getModel() + " has been declined by the shop... Contact the shop for further details");
+                            databaseReference1.child(reservation.getResId()).child("fromSeen").setValue("true");
                         }
                         mUploads.add(reservation);
                     }

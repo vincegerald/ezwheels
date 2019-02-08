@@ -207,7 +207,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                     info = dataSnapshot.child("info").getValue().toString();
 
 
-                    Toast.makeText(ReservationScrolling.this, finalTransmission, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ReservationScrolling.this, finalTransmission, Toast.LENGTH_SHORT).show();
 
                     Picasso.get().load(image).fit().centerCrop().into(scrollImage);
                     vehicleName.setText(finalBrand + " " + finalModel + "(" + finalYear + ")");
@@ -370,6 +370,8 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                                         if(status.equals("DECLINED") || status.equals("APPROVED")){
                                             decline.setVisibility(View.GONE);
                                             approve.setVisibility(View.GONE);
+                                            edit.setVisibility(View.GONE);
+                                            fab.setVisibility(View.GONE);
                                         }
 
                                     }
@@ -441,6 +443,8 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                                             if(status.equals("DECLINED") || status.equals("APPROVED")){
                                                 decline.setVisibility(View.GONE);
                                                 approve.setVisibility(View.GONE);
+                                                edit.setVisibility(View.GONE);
+                                                fab.setVisibility(View.GONE);
                                             }
 
 
@@ -607,8 +611,6 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
 
         if(id == R.id.message){
 
-
-
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_VIEW);
             sendIntent.setData(Uri.parse("smsto:" + contactnumber));  // This ensures only SMS apps respond
@@ -641,6 +643,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     approveRef.child("status").setValue("APPROVED");
+                                    approveRef.child("payment").setValue("Payment Received");
                                 }
 
                                 @Override

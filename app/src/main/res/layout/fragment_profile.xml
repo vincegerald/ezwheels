@@ -50,8 +50,7 @@
            android:stepSize=".5"
            android:focusable="false"
            android:clickable="false"
-           android:isIndicator="true"
-           android:backgroundTint="#fefefe"/>
+           android:isIndicator="true"/>
 
    </android.support.v7.widget.CardView>
     <ScrollView
@@ -63,6 +62,23 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ACCOUNT"
+                android:gravity="center"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/click"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Click here to activate your account"
+                android:gravity="center"
+                android:textSize="16sp"/>
             <TextView
                 android:focusable="false"
                 android:id="@+id/name"

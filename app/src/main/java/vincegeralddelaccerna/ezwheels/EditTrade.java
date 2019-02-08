@@ -88,7 +88,7 @@ public class EditTrade extends AppCompatActivity implements View.OnClickListener
 
     Button tradeBtn;
     private static String tid, ty;
-    private static String seen, brand, image1, listingid, model, name, priceList,shopuid, statusFinal, tidFinal, uid, year;
+    private static String seen, brand, image1, listingid, model, name, priceList,shopuid, statusFinal, tidFinal, uid, year, fromSeen;
 
 //    public SetTradeinFragment() {
 //        // Required empty public constructor
@@ -224,6 +224,7 @@ public class EditTrade extends AppCompatActivity implements View.OnClickListener
                     uid = dataSnapshot.child("uid").getValue().toString();
                     year = dataSnapshot.child("year").getValue().toString();
                     seen = dataSnapshot.child("seen").getValue().toString();
+                    fromSeen = dataSnapshot.child("fromSeen").getValue().toString();
                     Picasso.get().load(imagePath1).fit().centerCrop().into(imageCont1);
                     Picasso.get().load(imagePath2).fit().centerCrop().into(imageCont2);
                     brandText.setText(fbrand);
@@ -299,7 +300,7 @@ public class EditTrade extends AppCompatActivity implements View.OnClickListener
     private void updateTrade(final String finalPrice,final String finalPrice1,final String finalBrand,final String finalModel,final String finalYear) {
 
 
-        Trade trade = new Trade(listingid, imagePath1, imagePath2, finalPrice, finalPrice1, finalBrand, finalModel,finalYear, uid, shopuid, typeTrade, image1, model, brand, year, name, statusFinal, priceList, tidFinal,seen);
+        Trade trade = new Trade(listingid, imagePath1, imagePath2, finalPrice, finalPrice1, finalBrand, finalModel,finalYear, uid, shopuid, typeTrade, image1, model, brand, year, name, statusFinal, priceList, tidFinal,seen, fromSeen);
         mDatabaseRef1.child("Trade").child(tid).setValue(trade).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

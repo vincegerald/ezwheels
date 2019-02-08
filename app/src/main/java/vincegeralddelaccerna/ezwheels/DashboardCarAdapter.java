@@ -63,7 +63,9 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
                     name = dataSnapshot.child("name").getValue().toString();
-                    holder.date.setText(name);
+                    float rating  = Float.parseFloat(dataSnapshot.child("rating").getValue().toString());
+                    String rate = String.format("%,.1f", rating);
+                    holder.date.setText(name + " " +  "("  +rate+ ")");
                 }
             }
 

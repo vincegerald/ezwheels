@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".SetReservationFragment">
+    tools:context=".ActivateAccount">
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".SetReservationFragment">
+        tools:context=".ActivateAccount">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -22,169 +23,18 @@
 
         <!-- TODO: Update blank fragment layout -->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/first"
-            android:visibility="visible">
-            <TextView
-                android:id="@+id/reservationText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="80dp"
-                android:text="Set Reservation"
-                android:textAlignment="center"
-                android:textColor="#000000"
-                android:textSize="20sp" />
-
-            <RadioGroup
-                android:layout_below="@+id/reservationText"
-                android:id="@+id/type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/radioButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:buttonTint="#000000"
-                    android:checked="true"
-                    android:text="At shop"
-                    android:textColor="#000000" />
-
-                <RadioButton
-                    android:id="@+id/radioButton2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="#000000"
-                    android:text="At home"
-                    android:textColor="#000000" />
-
-            </RadioGroup>
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Input address text box if you selected at shop"
-                android:textStyle="italic"
-                android:layout_below="@+id/type"
-                android:layout_marginRight="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"/>
-            <EditText
-                android:visibility="gone"
-                android:id="@+id/address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/borderblack"
-                android:hint="*Enter address"
-                android:textColorHint="#000000"
-                android:textStyle="italic"
-                android:layout_below="@+id/input"
-                android:padding="10dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"/>
-            <TextView
-                android:layout_marginTop="30dp"
-                android:layout_below="@+id/address"
-                android:textAlignment="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/dateText"
-                android:text="Date Here"
-                android:textColor="#000000"
-                android:textSize="20sp"/>
-            <Button
-                android:layout_below="@+id/dateText"
-                android:id="@+id/datebtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Set Date"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp"/>
-            <TextView
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/dateText"
-                android:textAlignment="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/timeText"
-                android:text="Time Here"
-                android:textColor="#000000"
-                android:textSize="20sp"/>
-            <Button
-                android:layout_below="@+id/timeText"
-                android:id="@+id/timebtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Set Time"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp"/>
-            <EditText
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lines="6"
-                android:hint="*Enter additional information/reminders"
-                android:textSize="16sp"
-                android:padding="10dp"
-                android:textStyle="italic"
-                android:id="@+id/reminder"
-                android:layout_below="@+id/timebtn"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/borderblack"/>
-
-            <TextView
-                android:id="@+id/txtReminder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/reminder"
-                android:text="*this feature apply charges"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="15dp"
-                android:textStyle="italic"/>
-
-            <Button
-
-                android:id="@+id/reservebtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtReminder"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="20dp"
-                android:background="@color/colorPrimary"
-                android:textColor="#fefefe"
-                android:padding="10dp"
-                android:text="Proceed To payment" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/second"
-            android:visibility="gone"
+            android:id="@+id/instructions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/info"
+                android:id="@+id/reminder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="100dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                android:text="This feature requires a payment of Php 199.00(At shop) and Php 299.00(At address)"
+                android:text="To activate your account and be able to access all the features of the app. You will need to pay the amount of Php 999.00 and this is a one-time payment subscription only."
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textAlignment="textStart"/>
@@ -223,7 +73,7 @@
                 android:layout_marginTop="20dp"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:text="2. Send your payment depending on your reservation type to our official representative:"
+                android:text="2. Send your payment (Php 999.00) to our official representative:"
                 />
 
             <TextView
@@ -263,6 +113,8 @@
                 android:layout_below="@+id/name"/>
 
 
+
+
             <TextView
                 android:id="@+id/step3"
                 android:layout_below="@+id/contact"
@@ -283,7 +135,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
-                android:text=" 4. The shop will receive a notification regarding your reservation and will contact you as soon as possible."
+                android:text=" 4. A confirmation email will be sent to you after two(2) working days regarding the activation of your account.
+"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
 
@@ -311,6 +164,7 @@
                     android:layout_weight="1"/>
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/payment"
             android:visibility="gone"
@@ -380,5 +234,8 @@
             </LinearLayout>
 
         </LinearLayout>
+
+
     </RelativeLayout>
+
 </ScrollView>

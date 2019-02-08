@@ -66,6 +66,7 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
     private StorageReference mStorageRef;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static Double longitude, latitude;
+    private String status = "NOT ACTIVATED";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -259,7 +260,8 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
                                         latitude,
                                         rating,
                                         sEmail,
-                                        FirebaseAuth.getInstance().getCurrentUser().getUid()
+                                        FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                                        status
                                 );
                                 FirebaseDatabase.getInstance().getReference("Shop")
                                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid())

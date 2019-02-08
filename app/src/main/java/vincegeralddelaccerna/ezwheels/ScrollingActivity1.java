@@ -67,6 +67,7 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
     private String infoData, pricecondition, mileage, fuel, dateData, seriesData, editionData ;
     private Uri uriVideo;
     private String type;
+    private float rating;
 
 
     @Override
@@ -155,7 +156,12 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
             textView13.setVisibility(View.GONE);
             textView14.setVisibility(View.GONE);
             fab.setVisibility(View.GONE);
+            ratingbar.setVisibility(View.GONE);
+            reportUser.setVisibility(View.GONE);
         }
+
+
+
 
 
 
@@ -228,8 +234,12 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
                                        location = dataSnapshot.child("location").getValue().toString();
                                        name = dataSnapshot.child("name").getValue().toString();
                                        sellerName.setText(firstname + " " + lastname);
+                                       rating = Float.parseFloat(dataSnapshot.child("rating").getValue().toString());
+                                       ratingbar.setRating(rating);
                                        sellerAddress.setText(location);
                                        sellerContact.setText(contact);
+                                       reportUser.setVisibility(View.GONE);
+                                       ratingbar.setVisibility(View.GONE);
                                    }
 
                                 }
@@ -248,7 +258,7 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
                     });
                 }
                 else{
-                    Toast.makeText(ScrollingActivity1.this, "false", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ScrollingActivity1.this, "false", Toast.LENGTH_SHORT).show();
 
                     mDatabaseRef2 = FirebaseDatabase.getInstance().getReference("Motor").child(listingid);
 
@@ -312,8 +322,12 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
                                         location = dataSnapshot.child("location").getValue().toString();
                                         name = dataSnapshot.child("name").getValue().toString();
                                         sellerName.setText(firstname + " " + lastname);
+                                        rating = Float.parseFloat(dataSnapshot.child("rating").getValue().toString());
+                                        ratingbar.setRating(rating);
                                         sellerAddress.setText(location);
                                         sellerContact.setText(contact);
+                                        reportUser.setVisibility(View.GONE);
+                                        ratingbar.setVisibility(View.GONE);
                                     }
 
                                 }
@@ -422,6 +436,7 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
                                     if(dataSnapshot.exists()){
                                         favDelete.removeValue();
                                         dialogInterface.dismiss();
+                                        finish();
                                     }
                                     else{
                                         final DatabaseReference motorSold = FirebaseDatabase.getInstance().getReference("Motor").child(listingid);

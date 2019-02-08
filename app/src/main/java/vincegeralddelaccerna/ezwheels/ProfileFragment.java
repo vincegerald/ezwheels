@@ -8,9 +8,11 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
@@ -26,10 +28,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -46,7 +50,7 @@ import static android.app.Activity.RESULT_OK;
  */
 public class ProfileFragment extends Fragment implements View.OnClickListener {
 
-    DatabaseReference databaseReference, databaseReference1, buyerProf, shopProf;
+    DatabaseReference databaseReference, databaseReference1, buyerProf, shopProf, checkIfAlreadyPaid;
     private static final int IMAGE_REQUEST_1 = 1;
     private FirebaseAuth mAuth;
 
@@ -55,7 +59,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     //Textviews
 
-    TextView name, shopname, contacts, email, location, descriptionn;
+    TextView name, shopname, contacts, email, location, descriptionn, click, account;
     EditText nametext, shopnametext, contacttext, emailtext, locationtext, lnametext, descriptiontext;
     Button logoutBtn;
     ImageView editProfile, saveProfile, profImg;
@@ -75,6 +79,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private String purl;
     private Uri imageUri;
     private String profUrl;
+    private String status;
+    private static String uid;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -103,12 +109,16 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         lnametext = v.findViewById(R.id.lnametext);
         descriptiontext = v.findViewById(R.id.descriptiontext);
         descriptionn = v.findViewById(R.id.description);
+        click = v.findViewById(R.id.click);
+        account = v.findViewById(R.id.account);
         profImg.setOnClickListener(this);
         bar = v.findViewById(R.id.bar);
+        click.setOnClickListener(this);
         saveProfile.setOnClickListener(this);
         logoutBtn.setOnClickListener(this);
         editProfile.setOnClickListener(this);
         profImg.setClickable(false);
+        profImg.setFocusable(false);
         ratingBar.setFocusable(false);
 
 
@@ -121,6 +131,41 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         databaseReference1 = FirebaseDatabase.getInstance().getReference();
         buyerProf = FirebaseDatabase.getInstance().getReference();
         shopProf = FirebaseDatabase.getInstance().getReference();
+        checkIfAlreadyPaid = FirebaseDatabase.getInstance().getReference();
+
+        checkIfAlreadyPaid = FirebaseDatabase.getInstance().getReference("Payments");
+
+        checkIfAlreadyPaid.orderByChild("type").equalTo("Subscription").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                String id = dataSnapshot.child("uid").getValue().toString();
+                if(id.equals(mAuth.getCurrentUser().getUid())){
+                    click.setText("Wait for the confirmation email from the representative from ezwheels");
+                    click.setClickable(false);
+                    click.setFocusable(false);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -146,6 +191,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     Picasso.get().load(purl).fit().centerCrop().into(profImg);
                     bar.setVisibility(View.GONE);
                     descriptionn.setVisibility(View.GONE);
+                    click.setVisibility(View.GONE);
+                    account.setVisibility(View.GONE);
 
                 }
                 else{
@@ -155,6 +202,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if(dataSnapshot.exists()){
+                                //uid = dataSnapshot.child("uid").getValue().toString();
                                 firstname = dataSnapshot.child("firstname").getValue().toString();
                                 lastname = dataSnapshot.child("lastname").getValue().toString();
                                 contactnumber = dataSnapshot.child("contact").getValue().toString();
@@ -164,6 +212,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                 description = dataSnapshot.child("description").getValue().toString();
                                 purl = dataSnapshot.child("purl").getValue().toString();
                                 rating = Float.parseFloat(dataSnapshot.child("rating").getValue().toString());
+                                status = dataSnapshot.child("status").getValue().toString();
                                 ratingBar.setRating(rating);
                                 ratingBar.setRating(rating);
 //                                Toast.makeText(getActivity(), purl, Toast.LENGTH_SHORT).show();
@@ -175,6 +224,15 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                 descriptiontext.setText(description);
                                 Picasso.get().load(purl).fit().centerCrop().into(profImg);
                                 bar.setVisibility(View.GONE);
+                                if(status.equals("ACTIVATED")){
+                                    account.setText("ACCOUNT IS " + status);
+                                    account.setTextColor(Color.parseColor("#007f00"));
+                                    click.setVisibility(View.GONE);
+                                }
+                                else{
+                                    account.setText("ACCOUNT IS " + status);
+                                    account.setTextColor(Color.parseColor("#FF0000"));
+                                }
                             }
                         }
 
@@ -197,9 +255,18 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         return v;
     }
 
+
+
     @Override
     public void onClick(View view) {
         int id = view.getId();
+
+        if(id == R.id.click){
+            Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getContext(), ActivateAccount.class);
+            intent.putExtra("uid", mAuth.getCurrentUser().getUid());
+            startActivity(intent);
+        }
 
         if(id == R.id.profImg){
             Intent intent = new Intent();
@@ -325,6 +392,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                                     descriptiontext.setFocusable(false);
                                                     editProfile.setVisibility(View.VISIBLE);
                                                     saveProfile.setVisibility(View.GONE);
+                                                    profImg.setClickable(false);
+                                                    profImg.setFocusable(false);
                                                     logoutBtn.setVisibility(View.VISIBLE);
 //                                                    Intent intent = new Intent(getActivity(), ShopDashboard.class);
 //                                                    startActivity(intent);
@@ -370,6 +439,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     descriptiontext.setTextColor(Color.parseColor("#606060"));
                     descriptiontext.setFocusable(false);
                     profImg.setClickable(false);
+                    profImg.setFocusable(false);
                     editProfile.setVisibility(View.VISIBLE);
                     saveProfile.setVisibility(View.GONE);
 

@@ -21,10 +21,17 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ShopDashboard extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private DatabaseReference checkIfActivated;
+    String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +40,37 @@ public class ShopDashboard extends AppCompatActivity {
 
         //firebase
         mAuth = FirebaseAuth.getInstance();
+        checkIfActivated = FirebaseDatabase.getInstance().getReference("Shop");
 
         final BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomnav);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+
+        checkIfActivated = FirebaseDatabase.getInstance().getReference("Shop").child(mAuth.getCurrentUser().getUid());
+        checkIfActivated.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    status = dataSnapshot.child("status").getValue().toString();
+                    if(status.equals("NOT ACTIVATED")){
+                        bottomNavigationView.getMenu().removeItem(R.id.mylisting);
+                        bottomNavigationView.getMenu().removeItem(R.id.listing);
+                    }
+
+                }
+                else{
+                    Toast.makeText(ShopDashboard.this, "Error Occured", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(ShopDashboard.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
 
         final ShopDashBoardFragment shopDashboard = new ShopDashBoardFragment();
         final ShopAddListing shopAddListing = new ShopAddListing();
@@ -44,6 +79,9 @@ public class ShopDashboard extends AppCompatActivity {
         final ShopothersFragment shopothersFragment = new ShopothersFragment();
         final ShopmyListings shopmyListings = new ShopmyListings();
         final ProfileFragment profileFragment = new ProfileFragment();
+
+        //if(status.e)
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
