@@ -15,12 +15,13 @@ public class Shop {
     public String email;
     public  String uid;
     public String status;
+    public String permit;
 
     public Shop(){
 
     }
 
-    public Shop(String firstname, String lastname, String contact, String name, String location, String description, String purl, Double lon, Double lat, float rating, String email, String uid, String status) {
+    public Shop(String firstname, String lastname, String contact, String name, String location, String description, String purl, Double lon, Double lat, float rating, String email, String permit, String uid, String status) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.contact = contact;
@@ -34,8 +35,17 @@ public class Shop {
         this.email = email;
         this.uid = uid;
         this.status = status;
+        this.permit = permit;
     }
 
+
+    public String getPermit() {
+        return permit;
+    }
+
+    public void setPermit(String permit) {
+        this.permit = permit;
+    }
 
     public String getStatus() {
         return status;

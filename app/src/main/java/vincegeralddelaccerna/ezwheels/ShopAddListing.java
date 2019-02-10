@@ -68,6 +68,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
     private static final String [] brands = new String[]{
             "Toyota","Suzuki","Mitsubishi","Kia","Chevrolet"
     };
+
     private static final String [] model = new String[]{
             "Fortuner","Wigo","LandCruiser","MonteroSport","Sportage"
     };

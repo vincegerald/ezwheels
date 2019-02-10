@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ViewAddFinanceComp">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".AddFinanceComp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:background="@color/colorPrimary"/>
+
+        <TextView
+            android:id="@+id/comp1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_below="@+id/toolbar"
+            android:text="Company 1"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <AutoCompleteTextView
+            android:id="@+id/company1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/blackborder"
+            android:completionHint="Enter Company 1"
+            android:completionThreshold="1"
+            android:cursorVisible="true"
+            android:hint="Enter Company 1"
+            android:layout_below="@+id/comp1"
+            android:padding="10dp"
+            android:textColor="#000000"
+            android:textColorHighlight="#000000"
+            android:textColorHint="#000000"
+            android:textColorLink="#000000"
+            android:textCursorDrawable="@drawable/cursor"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/comp2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_below="@+id/company1"
+            android:text="Company 2"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <AutoCompleteTextView
+            android:id="@+id/company2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/blackborder"
+            android:completionHint="Enter Company 2"
+            android:completionThreshold="1"
+            android:cursorVisible="true"
+            android:hint="Enter Company 2"
+            android:layout_below="@+id/comp2"
+            android:padding="10dp"
+            android:textColor="#000000"
+            android:textColorHighlight="#000000"
+            android:textColorHint="#000000"
+            android:textColorLink="#000000"
+            android:textCursorDrawable="@drawable/cursor"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/comp3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_below="@+id/company2"
+            android:text="Company 3"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <AutoCompleteTextView
+            android:id="@+id/company3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/blackborder"
+            android:completionHint="Enter Company 3"
+            android:completionThreshold="1"
+            android:cursorVisible="true"
+            android:hint="Enter Company 3"
+            android:layout_below="@+id/comp3"
+            android:padding="10dp"
+            android:textColor="#000000"
+            android:textColorHighlight="#000000"
+            android:textColorHint="#000000"
+            android:textColorLink="#000000"
+            android:textCursorDrawable="@drawable/cursor"
+            android:textSize="16sp" />
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/progress"
+            android:layout_below="@+id/company3"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/comp4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_below="@+id/company3"
+            android:text="Company 4"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <AutoCompleteTextView
+            android:id="@+id/company4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/blackborder"
+            android:completionHint="Enter Company 4"
+            android:completionThreshold="1"
+            android:cursorVisible="true"
+            android:hint="Enter Company 4"
+            android:layout_below="@+id/comp4"
+            android:padding="10dp"
+            android:textColor="#000000"
+            android:textColorHighlight="#000000"
+            android:textColorHint="#000000"
+            android:textColorLink="#000000"
+            android:textCursorDrawable="@drawable/cursor"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/comp5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_below="@+id/company4"
+            android:text="Company 5"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <AutoCompleteTextView
+            android:id="@+id/company5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/blackborder"
+            android:completionHint="Enter Company 5"
+            android:completionThreshold="1"
+            android:cursorVisible="true"
+            android:hint="Enter Company 5"
+            android:layout_below="@+id/comp5"
+            android:padding="10dp"
+            android:textColor="#000000"
+            android:textColorHighlight="#000000"
+            android:textColorHint="#000000"
+            android:textColorLink="#000000"
+            android:textCursorDrawable="@drawable/cursor"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_below="@+id/company5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="20dp">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:layout_marginRight="10dp"
+                android:background="@color/colorPrimary"
+                android:textColor="#fefefe"
+                android:id="@+id/cancel"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Update"
+                android:background="@color/colorPrimary"
+                android:textColor="#fefefe"
+                android:id="@+id/save"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>

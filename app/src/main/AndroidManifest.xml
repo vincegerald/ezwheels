@@ -27,7 +27,11 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivateAccount"></activity>
+        <activity android:name=".AddLoanReq"></activity>
+        <activity android:name=".ViewAddFinanceComp" />
+        <activity android:name=".AddFinanceComp" />
+        <activity android:name=".LoanRequest" />
+        <activity android:name=".ActivateAccount" />
 
         <meta-data
             android:name="com.google.android.gms.version"

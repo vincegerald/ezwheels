@@ -23,6 +23,7 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -44,6 +45,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 public class RegisterShop extends AppCompatActivity implements View.OnClickListener {
 
@@ -55,18 +57,22 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
     ;
     LinearLayout step1, step2;
     EditText shopFirstname, shopLastname, shopUsername, shopEmail, shopContact, shopPassword, shopName, shopLocation, shopDescription;
-    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    String emailPattern = "/^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$/;";
     String mobilePattern = "^(09|\\+639)\\d{9}$";
     ProgressBar mProgress;
     LocationManager locationManager;
     FirebaseAuth mAuth;
     ScrollView scroll1, scroll2;
     TextView textView;
+    ImageView permit;
+    ProgressBar progress;
     private FirebaseDatabase mDatabase;
     private StorageReference mStorageRef;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static Double longitude, latitude;
     private String status = "NOT ACTIVATED";
+    private Uri uriImage;
+    private static String imagePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +102,9 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
         btnBack.setOnClickListener(this);
         btnFinish.setOnClickListener(this);
         btnHome.setOnClickListener(this);
+        progress = findViewById(R.id.progressPermit);
+        permit = findViewById(R.id.permit);
+        permit.setOnClickListener(this);
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
         mAuth = FirebaseAuth.getInstance();
@@ -147,6 +156,15 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+
+        if(view.getId() == R.id.permit){
+
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(intent, 1);
+        }
+
         if (view.getId() == R.id.btnNext) {
             step1.setVisibility(View.GONE);
             step2.setVisibility(View.VISIBLE);
@@ -260,6 +278,7 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
                                         latitude,
                                         rating,
                                         sEmail,
+                                        imagePath,
                                         FirebaseAuth.getInstance().getCurrentUser().getUid(),
                                         status
                                 );
@@ -330,6 +349,32 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
                         longitude = location.getLongitude();
                         latitude = location.getLatitude();
                     }
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 1 && resultCode == RESULT_OK){
+            uriImage = data.getData();
+            final String path4 = System.currentTimeMillis() + "." + getFileExtension(uriImage);
+            progress.setVisibility(View.VISIBLE);
+            StorageReference storageReference = mStorageRef.child("Images").child(path4);
+            storageReference.putFile(uriImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    mStorageRef.child("Images/"+path4).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            imagePath = uri.toString();
+                            progress.setVisibility(View.GONE);
+                            Picasso.get().load(uriImage).fit().centerCrop().into(permit);
+                            Toast.makeText(RegisterShop.this, "Added Business Permit", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
         }

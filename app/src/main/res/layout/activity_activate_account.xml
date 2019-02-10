@@ -87,17 +87,18 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_below="@+id/step2"/>
+
             <TextView
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Name: Vince Gerald C. dela Cerna"
-                android:layout_marginRight="10dp"
+                android:layout_below="@+id/details"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:text="Name: Vince Gerald C. dela Cerna"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_below="@+id/details"/>
+                android:textStyle="bold" />
 
 
             <TextView

@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,6 +44,7 @@ public class ActivateAccount extends AppCompatActivity implements View.OnClickLi
     ImageView iv;
     ProgressBar progressBar;
     private Uri uriImage;
+    TextView name, contact;
 
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
@@ -63,6 +65,8 @@ public class ActivateAccount extends AppCompatActivity implements View.OnClickLi
         instructions = findViewById(R.id.instructions);
         payment = findViewById(R.id.payment);
         iv = findViewById(R.id.proof);
+        name = findViewById(R.id.name);
+        contact = findViewById(R.id.contact);
         progressBar = findViewById(R.id.progress);
         toolbar =  findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.parseColor("#fefefe"));

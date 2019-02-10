@@ -50,7 +50,7 @@ import static android.app.Activity.RESULT_OK;
  */
 public class ProfileFragment extends Fragment implements View.OnClickListener {
 
-    DatabaseReference databaseReference, databaseReference1, buyerProf, shopProf, checkIfAlreadyPaid;
+    DatabaseReference databaseReference, databaseReference1, buyerProf, shopProf, checkIfAlreadyPaid, checkIfAlreadyAdded;
     private static final int IMAGE_REQUEST_1 = 1;
     private FirebaseAuth mAuth;
 
@@ -62,7 +62,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     TextView name, shopname, contacts, email, location, descriptionn, click, account;
     EditText nametext, shopnametext, contacttext, emailtext, locationtext, lnametext, descriptiontext;
     Button logoutBtn;
-    ImageView editProfile, saveProfile, profImg;
+    ImageView editProfile, saveProfile, profImg, addComp;
+    TextView addCompany;
     RatingBar ratingBar;
     ProgressBar bar;
     private StorageReference mStorageRef;
@@ -111,6 +112,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         descriptionn = v.findViewById(R.id.description);
         click = v.findViewById(R.id.click);
         account = v.findViewById(R.id.account);
+        addComp = v.findViewById(R.id.addComp);
+        addCompany = v.findViewById(R.id.addCompany);
         profImg.setOnClickListener(this);
         bar = v.findViewById(R.id.bar);
         click.setOnClickListener(this);
@@ -120,7 +123,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         profImg.setClickable(false);
         profImg.setFocusable(false);
         ratingBar.setFocusable(false);
-
+        addComp.setOnClickListener(this);
+        addCompany.setOnClickListener(this);
 
         //firebase
 
@@ -132,6 +136,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         buyerProf = FirebaseDatabase.getInstance().getReference();
         shopProf = FirebaseDatabase.getInstance().getReference();
         checkIfAlreadyPaid = FirebaseDatabase.getInstance().getReference();
+        checkIfAlreadyAdded = FirebaseDatabase.getInstance().getReference();
 
         checkIfAlreadyPaid = FirebaseDatabase.getInstance().getReference("Payments");
 
@@ -143,6 +148,40 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     click.setText("Wait for the confirmation email from the representative from ezwheels");
                     click.setClickable(false);
                     click.setFocusable(false);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        checkIfAlreadyAdded = FirebaseDatabase.getInstance().getReference("Finance Company");
+
+        checkIfAlreadyAdded.orderByChild("shopUid").equalTo(mAuth.getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                String id = dataSnapshot.child("shopUid").getValue().toString();
+                if(id.equals(mAuth.getCurrentUser().getUid())){
+                    addCompany.setText("VIEW FINANCE COMPANIES");
+                    addCompany.setVisibility(View.VISIBLE);
+                    addComp.setVisibility(View.GONE);
                 }
             }
 
@@ -228,10 +267,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                     account.setText("ACCOUNT IS " + status);
                                     account.setTextColor(Color.parseColor("#007f00"));
                                     click.setVisibility(View.GONE);
+                                    addComp.setVisibility(View.GONE);
+                                    addCompany.setVisibility(View.VISIBLE);
                                 }
                                 else{
                                     account.setText("ACCOUNT IS " + status);
                                     account.setTextColor(Color.parseColor("#FF0000"));
+                                    addComp.setVisibility(View.GONE);
+                                    addCompany.setVisibility(View.GONE);
                                 }
                             }
                         }
@@ -261,8 +304,19 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         int id = view.getId();
 
+        if(id == R.id.addCompany){
+            Intent intent = new Intent(getContext(), ViewAddFinanceComp.class);
+            intent.putExtra("uid", mAuth.getCurrentUser().getUid());
+            startActivity(intent);
+        }
+
+        if(id == R.id.addComp){
+            Intent intent = new Intent(getContext(), AddFinanceComp.class);
+            startActivity(intent);
+        }
+
         if(id == R.id.click){
-            Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getContext(), ActivateAccount.class);
             intent.putExtra("uid", mAuth.getCurrentUser().getUid());
             startActivity(intent);

@@ -51,6 +51,7 @@ public class car_fragment extends Fragment {
     DashboardCarAdapter mAdapter;
 
     private List<Upload> mUploads;
+    ArrayList<Upload> temp = new ArrayList<Upload>(mUploads);
 
     @Nullable
     @Override
@@ -71,22 +72,25 @@ public class car_fragment extends Fragment {
         query = FirebaseDatabase.getInstance().getReference("Car")
                 .orderByChild("status").equalTo("AVAILABLE");
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                 query = FirebaseDatabase.getInstance().getReference("Car")
-                        .orderByChild("finalModel").equalTo(s);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                query = FirebaseDatabase.getInstance().getReference("Car")
-                        .orderByChild("finalModel").equalTo(s);
-                Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
+    //        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+    //            @Override
+    //            public boolean onQueryTextSubmit(String s) {
+    //                for(int i = 0; i <= mUploads.size(); i++){
+    //                    Upload upload = new Upload();
+    //                    String searchedName = mUploads.get(i).getFinalBrand().concat(mUploads.get(i).getFinalModel());
+    //                    if(searchedName.contains(s)){
+    //                        temp.add(mUploads.add(upload(i)));
+    //                    }
+    //                }
+    //                return false;
+    //            }
+    //
+    //            @Override
+    //            public boolean onQueryTextChange(String s) {
+    //
+    //                return false;
+    //            }
+    //        });
 
 
 
