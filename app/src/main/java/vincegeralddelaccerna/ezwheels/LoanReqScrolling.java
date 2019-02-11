@@ -279,7 +279,7 @@ public class LoanReqScrolling extends AppCompatActivity implements View.OnClickL
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                            Toast.makeText(LoanReqScrolling.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -309,7 +309,7 @@ public class LoanReqScrolling extends AppCompatActivity implements View.OnClickL
 
                     datee.setText("Applied Companies: " + comp1 + " " + " "  + comp2 + " "  + comp3 + " "  + comp4 + " "  + comp5);
                     time.setText(dp);
-
+                    locationn.setText("Months to pay: " + mtp);
                     offerView.setText("Months to pay: " + mtp);
                 }
 
