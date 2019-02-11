@@ -1,11 +1,13 @@
 package vincegeralddelaccerna.ezwheels;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +16,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -63,7 +67,7 @@ import co.gofynd.gravityview.GravityView;
 
 import static android.app.Activity.RESULT_OK;
 
-public class ShopAddListing extends Fragment  implements View.OnClickListener {
+public class ShopAddListing extends Activity implements View.OnClickListener {
 
     private static final String [] brands = new String[]{
             "Toyota","Suzuki","Mitsubishi","Kia","Chevrolet"
@@ -116,6 +120,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
     RadioGroup vehicleType;
     EditText editText5;
     ProgressBar progressBar;
+    Toolbar toolbar;
 
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
@@ -133,78 +138,81 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
     ProgressBar p, p1, p2, p3,p4;
 
 
-
-
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.shopaddlisting, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        progressBar = v.findViewById(R.id.progressBar5);
-        editText5 = v.findViewById(R.id.editText5);
-        vehicleType = v.findViewById(R.id.type);
-        listViewshop = v.findViewById(R.id.listviewshop);
-        mileage = v.findViewById(R.id.mileage);
-        price = v.findViewById(R.id.price);
-        series = v.findViewById(R.id.editText3);
-        edition = v.findViewById(R.id.editText4);
-        fuel = v.findViewById(R.id.fuelText);
-        brandText = v.findViewById(R.id.brandText);
-        modelText = v.findViewById(R.id.modelText);
-        yearText = v.findViewById(R.id.yearText);
-        colorText = v.findViewById(R.id.colorText);
-        transmissionText = v.findViewById(R.id.transmissionText);
-        priceConditionText = v.findViewById(R.id.PriceCondition);
-        videoView = v.findViewById(R.id.videoView);
-        mediaController = new MediaController(getActivity());
-        btn3 = v.findViewById(R.id.button3);
-        btn4 = v.findViewById(R.id.button4);
-        btn5 = v.findViewById(R.id.button5);
-        btnFront = v.findViewById(R.id.buttonFront);
-        btn6 = v.findViewById(R.id.button6);
-        btn7 = v.findViewById(R.id.button7);
-        btn8 = v.findViewById(R.id.button8);
-        btnfSide = v.findViewById(R.id.buttonfSide);
-        addFside = v.findViewById(R.id.addFside);
-        buttonBack = v.findViewById(R.id.buttonBack);
-        buttonSside = v.findViewById(R.id.buttonSside);
-        buttonVideo = v.findViewById(R.id.buttonVideo);
-        addImageSside = v.findViewById(R.id.addImageSside);
-        buttonFside = v.findViewById(R.id.buttonFside);
-        image1 = v.findViewById(R.id.image1);
-        image2 = v.findViewById(R.id.image2);
-        image3 = v.findViewById(R.id.image3);
-        image4 = v.findViewById(R.id.image4);
-        addImage = v.findViewById(R.id.addImage);
-        btnBack = v.findViewById(R.id.btnBack);
-        btnBackImage = v.findViewById(R.id.btnBackImage);
-        btnStep2 = v.findViewById(R.id.btnStep2);
-        addList1 = v.findViewById(R.id.addList1);
-        addList2 = v.findViewById(R.id.addList2);
-        addList3 = v.findViewById(R.id.addList3);
-        addList4 = v.findViewById(R.id.addList4);
-        addList5 = v.findViewById(R.id.addList5);
-        addListImage1 = v.findViewById(R.id.addListImage1);
-        addListFside = v.findViewById(R.id.addListFside);
-        addListSside = v.findViewById(R.id.addListSside);
-        btnVideo = v.findViewById(R.id.btnVideo);
+        setContentView(R.layout.shopaddlisting);
+
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(Color.parseColor("#fefefe"));
+        toolbar.setTitle("Add Listing");
+
+        progressBar = findViewById(R.id.progressBar5);
+        editText5 = findViewById(R.id.editText5);
+        vehicleType = findViewById(R.id.type);
+        listViewshop = findViewById(R.id.listviewshop);
+        mileage = findViewById(R.id.mileage);
+        price = findViewById(R.id.price);
+        series = findViewById(R.id.editText3);
+        edition = findViewById(R.id.editText4);
+        fuel = findViewById(R.id.fuelText);
+        brandText = findViewById(R.id.brandText);
+        modelText = findViewById(R.id.modelText);
+        yearText = findViewById(R.id.yearText);
+        colorText = findViewById(R.id.colorText);
+        transmissionText = findViewById(R.id.transmissionText);
+        priceConditionText = findViewById(R.id.PriceCondition);
+        videoView = findViewById(R.id.videoView);
+        mediaController = new MediaController(this);
+        btn3 = findViewById(R.id.button3);
+        btn4 = findViewById(R.id.button4);
+        btn5 = findViewById(R.id.button5);
+        btnFront = findViewById(R.id.buttonFront);
+        btn6 = findViewById(R.id.button6);
+        btn7 = findViewById(R.id.button7);
+        btn8 = findViewById(R.id.button8);
+        btnfSide = findViewById(R.id.buttonfSide);
+        addFside = findViewById(R.id.addFside);
+        buttonBack = findViewById(R.id.buttonBack);
+        buttonSside = findViewById(R.id.buttonSside);
+        buttonVideo = findViewById(R.id.buttonVideo);
+        addImageSside = findViewById(R.id.addImageSside);
+        buttonFside = findViewById(R.id.buttonFside);
+        image1 = findViewById(R.id.image1);
+        image2 = findViewById(R.id.image2);
+        image3 = findViewById(R.id.image3);
+        image4 = findViewById(R.id.image4);
+        addImage = findViewById(R.id.addImage);
+        btnBack = findViewById(R.id.btnBack);
+        btnBackImage = findViewById(R.id.btnBackImage);
+        btnStep2 = findViewById(R.id.btnStep2);
+        addList1 = findViewById(R.id.addList1);
+        addList2 = findViewById(R.id.addList2);
+        addList3 = findViewById(R.id.addList3);
+        addList4 = findViewById(R.id.addList4);
+        addList5 = findViewById(R.id.addList5);
+        addListImage1 = findViewById(R.id.addListImage1);
+        addListFside = findViewById(R.id.addListFside);
+        addListSside = findViewById(R.id.addListSside);
+        btnVideo = findViewById(R.id.btnVideo);
 //        addPanorama = v.findViewById(R.id.addPanorama);
 //        imagePanorama = v.findViewById(R.id.imageView15);
-        car = v.findViewById(R.id.radioButton);
-        motor = v.findViewById(R.id.radioButton2);
-        ArrayAdapter<String> brandAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, brands);
+        car = findViewById(R.id.radioButton);
+        motor = findViewById(R.id.radioButton2);
+        ArrayAdapter<String> brandAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, brands);
         brandText.setAdapter(brandAdapter);
-        ArrayAdapter<String> modelAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, model);
+        ArrayAdapter<String> modelAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, model);
         modelText.setAdapter(modelAdapter);
-        ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, year);
+        ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, year);
         yearText.setAdapter(yearAdapter);
-        ArrayAdapter<String> transmissionAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, transmission);
+        ArrayAdapter<String> transmissionAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, transmission);
         transmissionText.setAdapter(transmissionAdapter);
-        ArrayAdapter<String> colorAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, color);
+        ArrayAdapter<String> colorAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, color);
         colorText.setAdapter(colorAdapter);
-        ArrayAdapter<String> condtionAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, priceCondition);
+        ArrayAdapter<String> condtionAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, priceCondition);
         priceConditionText.setAdapter(condtionAdapter);
-        ArrayAdapter<String> fuelAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, fuels);
+        ArrayAdapter<String> fuelAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fuels);
         fuel.setAdapter(fuelAdapter);
         btn3.setOnClickListener(this);
         btn4.setOnClickListener(this);
@@ -230,11 +238,11 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
 
         //progressbars
 
-        p = v.findViewById(R.id.barimage);
-        p1 = v.findViewById(R.id.barimage1);
-        p2 = v.findViewById(R.id.barimage2);
-        p3 = v.findViewById(R.id.barimage3);
-        p4 = v.findViewById(R.id.barimage4);
+        p = findViewById(R.id.barimage);
+        p1 = findViewById(R.id.barimage1);
+        p2 = findViewById(R.id.barimage2);
+        p3 = findViewById(R.id.barimage3);
+        p4 = findViewById(R.id.barimage4);
 
         vehicleType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -242,12 +250,12 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                 switch (i){
                     case R.id.radioButton:
                         type = "car";
-                        Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.radioButton2:
                         type = "motor";
-                        Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, type, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -257,7 +265,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         mDatabaseRef1 = FirebaseDatabase.getInstance().getReference();
-        gravityView = GravityView.getInstance(getActivity());
+        gravityView = GravityView.getInstance(this);
 
 //        adapter = new ListViewAdapter(Shop, getActivity());
 //        listViewshop.setAdapter(adapter);
@@ -279,16 +287,8 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
 
 
 
-        return v;
+
     }
-
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle("Add Listing");
-    }
-
 
     @Override
     public void onClick(View view) {
@@ -299,6 +299,10 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
 //                    .replace(R.id.screen_area, listing, listing.getTag())
 //                    .commit();
 //        }
+
+        if(view.getId() == R.id.button3){
+            finish();
+        }
         if(view.getId() == R.id.button4){
             addList1.setVisibility(View.GONE);
             addList2.setVisibility(View.VISIBLE);
@@ -393,7 +397,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
             final String uid = mAuth.getCurrentUser().getUid();
 
             if(TextUtils.isEmpty(finalBrand) || TextUtils.isEmpty(finalModel) || TextUtils.isEmpty(finalYear) || TextUtils.isEmpty(finalColor) || TextUtils.isEmpty(finalTransmission) || TextUtils.isEmpty(finalPcondition) || TextUtils.isEmpty(finalMileage) || TextUtils.isEmpty(finalPrice)){
-                Toast.makeText(getActivity(), "Input all fields", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Input all fields", Toast.LENGTH_SHORT).show();
             }
 
             else{
@@ -473,7 +477,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                             public void onSuccess(Uri uri) {
                                 videoPath = uri.toString();
                                 p4.setVisibility(View.GONE);
-                                Toast.makeText(getActivity(), "Added Video", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ShopAddListing.this, "Added Video", Toast.LENGTH_SHORT).show();
 
 
                             }
@@ -504,7 +508,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                         public void onSuccess(Uri uri) {
                             imagePath4 = uri.toString();
                             p.setVisibility(View.GONE);
-                            Toast.makeText(getActivity(), "Added FrontView Image", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ShopAddListing.this, "Added FrontView Image", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -527,7 +531,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                         public void onSuccess(Uri uri) {
                             imagePath1 = uri.toString();
                             p1.setVisibility(View.GONE);
-                            Toast.makeText(getActivity(), "Added BackView Image", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ShopAddListing.this, "Added BackView Image", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -548,7 +552,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                         public void onSuccess(Uri uri) {
                             imagePath2 = uri.toString();
                             p2.setVisibility(View.GONE);
-                            Toast.makeText(getActivity(), "Added Side View Image", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ShopAddListing.this, "Added Side View Image", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -570,7 +574,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                         public void onSuccess(Uri uri) {
                             imagePath3 = uri.toString();
                             p3.setVisibility(View.GONE);
-                            Toast.makeText(getActivity(), "Added Side/Inside View Image", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ShopAddListing.this, "Added Side/Inside View Image", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -581,7 +585,7 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
     }
 
     private String getFileExtension(Uri uri) {
-        ContentResolver cR = getActivity().getContentResolver();
+        ContentResolver cR = ShopAddListing.this.getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
@@ -598,18 +602,18 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
             String listid = mDatabaseRef.push().getKey();
             Upload upload = new Upload(listid, edition, series, info, uid, formattedDate, fuel, imagePath4, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
             if(type.equals("car")){
-                Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ShopAddListing.this, type, Toast.LENGTH_SHORT).show();
                 mDatabaseRef.child(listid).setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(getActivity(), "saved", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ShopAddListing.this, "saved", Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
-                            Intent intent = new Intent(getActivity(), ShopDashboard.class);
-                            startActivity(intent);
+                            finish();
                         }
                         else{
-                            Toast.makeText(getActivity(), "error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ShopAddListing.this, "error", Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     }
                 });
@@ -621,13 +625,13 @@ public class ShopAddListing extends Fragment  implements View.OnClickListener {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(getActivity(), "saved", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ShopAddListing.this, "saved", Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
-                            Intent intent = new Intent(getActivity(), ShopDashboard.class);
+                            Intent intent = new Intent(ShopAddListing.this, ShopDashboard.class);
                             startActivity(intent);
                         }
                         else{
-                            Toast.makeText(getActivity(), "error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ShopAddListing.this, "error", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

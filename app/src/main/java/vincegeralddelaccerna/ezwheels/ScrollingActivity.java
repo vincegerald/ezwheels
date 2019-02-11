@@ -51,6 +51,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     TextView reportUser;
     Float rating;
     TextView rateUser;
+    Button apply;
 
     //imageview
     ImageView imageView1, imageView2, imageView3, imageView4, edit;
@@ -97,7 +98,9 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         reportUser = findViewById(R.id.reportUser);
         ratingbar = findViewById(R.id.ratingBar);
         rateUser = findViewById(R.id.rateUser);
+        apply = findViewById(R.id.apply);
         reportUser.setOnClickListener(this);
+        apply.setOnClickListener(this);
 
         //card
         cardSeller = findViewById(R.id.cardSeller);
@@ -182,6 +185,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             approve.setVisibility(View.VISIBLE);
             ratingbar.setVisibility(View.GONE);
             reportUser.setVisibility(View.GONE);
+            apply.setVisibility(View.GONE   );
         }
 
         if(status.equals("SOLD")){
@@ -281,6 +285,13 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View view) {
         int id = view.getId();
+
+        if(id == R.id.apply){
+            Intent reqIntent = new Intent(this, AddLoanReq.class);
+            reqIntent.putExtra("shopUid", uid);
+            reqIntent.putExtra("listid", listingid);
+            startActivity(reqIntent);
+        }
 
         if(id == R.id.message){
 

@@ -171,6 +171,15 @@
         <item>MOTORCYCLE</item>
     </string-array>
 
+    <string-array name="months">
+        <item>Months to pay</item>
+        <item>12 months</item>
+        <item>18 months</item>
+        <item>24 months</item>
+        <item>36 months</item>
+        <item>48 months</item>
+    </string-array>
+
     <string-array name="action">
         <item>SELECT ACTION</item>
         <item>APPROVE</item>

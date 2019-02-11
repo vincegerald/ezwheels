@@ -80,7 +80,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCn5Caz2H3SqFIIrOSLMJCWYm7n21Oy3VI" />
 
-        <activity android:name=".AddListing" />
+        <activity android:name=".ShopAddListing" />
         <activity android:name=".Detailed_Listing" />
         <activity android:name=".SetReservationFragment" />
         <activity android:name=".SetTradeinFragment" />

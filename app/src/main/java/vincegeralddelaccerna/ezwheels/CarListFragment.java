@@ -1,10 +1,12 @@
 package vincegeralddelaccerna.ezwheels;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,7 +32,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CarListFragment extends Fragment {
+public class CarListFragment extends Fragment implements View.OnClickListener {
 
 
     public CarListFragment() {
@@ -43,6 +45,7 @@ public class CarListFragment extends Fragment {
     FirebaseAuth mAuth;
 
     private ProgressBar mProgressbar;
+    FloatingActionButton fab;
 
     MyDashboardCarAdapter mAdapter;
     ImageView brokencar;
@@ -60,6 +63,8 @@ public class CarListFragment extends Fragment {
         mProgressbar = v.findViewById(R.id.progress);
         brokencar = v.findViewById(R.id.brokencar);
         nolisting = v.findViewById(R.id.nolisting);
+        fab = v.findViewById(R.id.fab);
+        fab.setOnClickListener(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mUploads = new ArrayList<>();
@@ -102,4 +107,19 @@ public class CarListFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+
+        if(id == R.id.fab){
+            Intent intent = new Intent(getActivity(), ShopAddListing.class);
+            startActivity(intent);
+        }
+    }
+
+    private void setFragment(Fragment fragment){
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.screen_area, fragment);
+        fragmentTransaction.commit();
+    }
 }

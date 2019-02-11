@@ -182,6 +182,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     addCompany.setText("VIEW FINANCE COMPANIES");
                     addCompany.setVisibility(View.VISIBLE);
                     addComp.setVisibility(View.GONE);
+                    addComp.setClickable(false);
+                    addComp.setFocusable(false);
                 }
             }
 
@@ -267,7 +269,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                     account.setText("ACCOUNT IS " + status);
                                     account.setTextColor(Color.parseColor("#007f00"));
                                     click.setVisibility(View.GONE);
-                                    addComp.setVisibility(View.GONE);
+                                    addComp.setVisibility(View.VISIBLE);
                                     addCompany.setVisibility(View.VISIBLE);
                                 }
                                 else{
@@ -506,6 +508,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -532,6 +536,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         }
     }
+
 
     private String getFileExtension(Uri uri) {
         ContentResolver cR = getActivity().getContentResolver();

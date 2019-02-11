@@ -29,11 +29,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class car_fragment extends Fragment {
+public class MyLoanReq extends Fragment {
 
 
 
-    public car_fragment(){
+    public MyLoanReq(){
 
     }
 
@@ -43,25 +43,25 @@ public class car_fragment extends Fragment {
     FirebaseAuth mAuth;
     ImageView brokencar;
     TextView nolisting;
-    SearchView searchView;
+    //SearchView searchView;
     Query query;
 
     private ProgressBar mProgressbar;
 
-    DashboardCarAdapter mAdapter;
+    LoanReqAdapter mAdapter;
 
-    private List<Upload> mUploads;
+    private List<LoanReq> mUploads;
     //ArrayList<Upload> temp = new ArrayList<Upload>(mUploads);
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.car_fragment, container, false);
+        View v = inflater.inflate(R.layout.fragment_my_loan_req, container, false);
         recyclerView = v.findViewById(R.id.recyclerRequest);
         mProgressbar = v.findViewById(R.id.progress);
         brokencar = v.findViewById(R.id.brokencar);
         nolisting = v.findViewById(R.id.nolisting);
-        searchView = v.findViewById(R.id.search);
+       // searchView = v.findViewById(R.id.search);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mUploads = new ArrayList<>();
@@ -69,62 +69,62 @@ public class car_fragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         String uid = mAuth.getCurrentUser().getUid().toString();
-        query = FirebaseDatabase.getInstance().getReference("Car")
-                .orderByChild("status").equalTo("AVAILABLE");
+        query = FirebaseDatabase.getInstance().getReference("Loan Requests")
+                .orderByChild("uid").equalTo(mAuth.getCurrentUser().getUid());
 
-    //        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-    //            @Override
-    //            public boolean onQueryTextSubmit(String s) {
-    //                for(int i = 0; i <= mUploads.size(); i++){
-    //                    Upload upload = new Upload();
-    //                    String searchedName = mUploads.get(i).getFinalBrand().concat(mUploads.get(i).getFinalModel());
-    //                    if(searchedName.contains(s)){
-    //                        temp.add(mUploads.add(upload(i)));
-    //                    }
-    //                }
-    //                return false;
-    //            }
-    //
-    //            @Override
-    //            public boolean onQueryTextChange(String s) {
-    //
-    //                return false;
-    //            }
-    //        });
-
-
+        //        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        //            @Override
+        //            public boolean onQueryTextSubmit(String s) {
+        //                for(int i = 0; i <= mUploads.size(); i++){
+        //                    Upload upload = new Upload();
+        //                    String searchedName = mUploads.get(i).getFinalBrand().concat(mUploads.get(i).getFinalModel());
+        //                    if(searchedName.contains(s)){
+        //                        temp.add(mUploads.add(upload(i)));
+        //                    }
+        //                }
+        //                return false;
+        //            }
+        //
+        //            @Override
+        //            public boolean onQueryTextChange(String s) {
+        //
+        //                return false;
+        //            }
+        //        });
 
 
-            query.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    mUploads.clear();
-                    if (dataSnapshot.exists()) {
-                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
-                            Upload upload = postSnapshot.getValue(Upload.class);
-                            mUploads.add(upload);
-                        }
 
-                        mAdapter = new DashboardCarAdapter(getActivity(), mUploads);
-                        recyclerView.setAdapter(mAdapter);
-                        mProgressbar.setVisibility(View.GONE);
-                        nolisting.setVisibility(View.GONE);
-                        brokencar.setVisibility(View.GONE);
-                    }
-                    else{
-                        nolisting.setVisibility(View.VISIBLE);
-                        brokencar.setVisibility(View.VISIBLE);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mUploads.clear();
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                        LoanReq loanReq = postSnapshot.getValue(LoanReq.class);
+                        mUploads.add(loanReq);
                     }
 
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                    mAdapter = new LoanReqAdapter(getActivity(), mUploads);
+                    recyclerView.setAdapter(mAdapter);
                     mProgressbar.setVisibility(View.GONE);
+                    nolisting.setVisibility(View.GONE);
+                    brokencar.setVisibility(View.GONE);
                 }
-            });
+                else{
+                    nolisting.setVisibility(View.VISIBLE);
+                    brokencar.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                mProgressbar.setVisibility(View.GONE);
+            }
+        });
 
 
         return v;

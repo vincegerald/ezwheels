@@ -53,7 +53,6 @@ public class ShopDashboard extends AppCompatActivity {
                     status = dataSnapshot.child("status").getValue().toString();
                     if(status.equals("NOT ACTIVATED")){
                         bottomNavigationView.getMenu().removeItem(R.id.mylisting);
-                        bottomNavigationView.getMenu().removeItem(R.id.listing);
                     }
 
                 }
@@ -78,6 +77,7 @@ public class ShopDashboard extends AppCompatActivity {
         final SearchFragment searchFragment = new SearchFragment();
         final ShopothersFragment shopothersFragment = new ShopothersFragment();
         final ShopmyListings shopmyListings = new ShopmyListings();
+        final loanreqq loanreqq = new loanreqq();
         final ProfileFragment profileFragment = new ProfileFragment();
 
         //if(status.e)
@@ -94,8 +94,8 @@ public class ShopDashboard extends AppCompatActivity {
                     return true;
                 }
 
-                if(id == R.id.listing){
-                    setFragment(shopAddListing);
+                if(id == R.id.loan){
+                    setFragment(loanreqq);
                     return  true;
                 }
 //

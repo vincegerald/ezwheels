@@ -41,6 +41,7 @@ public class MyDashboardCarAdapter extends RecyclerView.Adapter<MyDashboardCarAd
 
         final Upload uploadCurrent = mUploads.get(position);
 //        final Shop pos = shop.get(position);
+        holder.star.setVisibility(View.GONE);
         holder.brand.setText(uploadCurrent.getFinalBrand() + " "+ uploadCurrent.getFinalModel());
         holder.price.setText(uploadCurrent.getFinalPrice());
         holder.d3.setText(uploadCurrent.getFinalColor());
@@ -95,7 +96,7 @@ public class MyDashboardCarAdapter extends RecyclerView.Adapter<MyDashboardCarAd
     public class DashboardCarViewHolder extends RecyclerView.ViewHolder{
 
         public TextView brand, model, price, d1, d2, d3, d4, date, stat;
-        public ImageView image;
+        public ImageView image, star;
         public CardView item;
 
         public DashboardCarViewHolder(View itemView) {
@@ -109,6 +110,7 @@ public class MyDashboardCarAdapter extends RecyclerView.Adapter<MyDashboardCarAd
             image = itemView.findViewById(R.id.finalImage);
             item = itemView.findViewById(R.id.finalCard);
             stat = itemView.findViewById(R.id.status);
+            star = itemView.findViewById(R.id.star);
 
 
         }
