@@ -228,4 +228,5 @@
         completions."
     </string>
     <string name="title_activity_reservation_scrolling">ReservationScrolling</string>
+    <string name="title_activity_loan_req_scrolling">LoanReqScrolling</string>
 </resources>

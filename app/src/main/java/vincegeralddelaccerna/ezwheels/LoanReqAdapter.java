@@ -30,6 +30,7 @@ public class LoanReqAdapter extends RecyclerView.Adapter<LoanReqAdapter.LoanReqA
     private Context mContext;
     private List<LoanReq> mUploads;
     DatabaseReference getListing, getMotor;
+    private static String brand, model;
 
     public LoanReqAdapter(Context context, List<LoanReq> uploads) {
         mContext = context;
@@ -55,8 +56,8 @@ public class LoanReqAdapter extends RecyclerView.Adapter<LoanReqAdapter.LoanReqA
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if(dataSnapshot.exists()){
                     String image = dataSnapshot.child("image").getValue().toString();
-                    String brand = dataSnapshot.child("finalBrand").getValue().toString();
-                    String model = dataSnapshot.child("finalModel").getValue().toString();
+                    brand = dataSnapshot.child("finalBrand").getValue().toString();
+                    model = dataSnapshot.child("finalModel").getValue().toString();
                     String price = dataSnapshot.child("finalPrice").getValue().toString();
                     Picasso.get().load(image).fit().centerCrop().into(holder.image);
                     holder.list.setText(brand + " " + model);
@@ -115,11 +116,22 @@ public class LoanReqAdapter extends RecyclerView.Adapter<LoanReqAdapter.LoanReqA
                 Toast.makeText(mContext, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        holder.shop.setText("Applied Loan Company : " + uploadCurrent.getComp1() + " " + uploadCurrent.getComp2() + " " +  uploadCurrent.getComp3() + " " +  uploadCurrent.getComp4() + " " +  uploadCurrent.getComp5() );
+        holder.shop.setText("Applied Loan Company : " + uploadCurrent.getComp1() + " " + uploadCurrent.getComp2() + " " +  uploadCurrent.getComp3() + " " +  uploadCurrent.getComp4() + " " +  uploadCurrent.getComp5());
         holder.logoPeso.setVisibility(View.GONE);
-        holder.type.setText("Months to pay: " + uploadCurrent.getMonth() + "Downpayment: " +  uploadCurrent.getDp());
+        holder.type.setText("Months to pay: " + uploadCurrent.getMonth() + " Downpayment: " +  uploadCurrent.getDp());
         holder.date.setVisibility(View.GONE);
-        holder.status.setText(uploadCurrent.getStatus());
+        if(uploadCurrent.getStatus().equals("PENDING")){
+            holder.status.setText(uploadCurrent.getStatus());
+            holder.status.setTextColor(Color.parseColor("#ffa500"));
+          }
+        else if(uploadCurrent.getStatus().equals("APPROVED")){
+            holder.status.setText(uploadCurrent.getStatus());
+            holder.status.setTextColor(Color.parseColor("#008000"));
+        }
+        else{
+            holder.status.setText(uploadCurrent.getStatus());
+            holder.status.setTextColor(Color.parseColor("#FF0000"));
+        }
 
         //        holder.list.setText(uploadCurrent.getBrand() + " " + uploadCurrent.getModel());
 //        holder.shop.setText(uploadCurrent.getName());
@@ -129,25 +141,16 @@ public class LoanReqAdapter extends RecyclerView.Adapter<LoanReqAdapter.LoanReqA
 //        holder.price.setText(uploadCurrent.getPrice());
 //        holder.status.setText(uploadCurrent.getStatus());
 //        holder.logoPeso.setVisibility(View.GONE);
-//        if(uploadCurrent.getStatus().equals("PENDING")){
-//            holder.status.setTextColor(Color.parseColor("#ffa500"));
-//          }
-//        else if(uploadCurrent.getStatus().equals("APPROVED")){
-//            holder.status.setTextColor(Color.parseColor("#008000"));
-//        }
-//        else{
-//            holder.status.setTextColor(Color.parseColor("#FF0000"));
-//        }
+//
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, ReservationScrolling.class);
-//                intent.putExtra("resId", uploadCurrent.getResId());
-//                intent.putExtra("listingId", uploadCurrent.getListid());
-//                intent.putExtra("shopId", uploadCurrent.getShopuid());
-//                intent.putExtra("uid", uploadCurrent.getUid());
-//                intent.putExtra("brand", uploadCurrent.getBrand());
-//                intent.putExtra("model", uploadCurrent.getModel());
+                Intent intent = new Intent(mContext, LoanReqScrolling.class);
+                intent.putExtra("aid", uploadCurrent.getAid());
+                intent.putExtra("listid", uploadCurrent.getListId());
+                intent.putExtra("shopid", uploadCurrent.getShopUid());
+                intent.putExtra("brand", brand);
+                intent.putExtra("model", model);
                 mContext.startActivity(intent);
 
             }
