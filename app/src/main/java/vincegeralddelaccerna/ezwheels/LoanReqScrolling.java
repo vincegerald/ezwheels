@@ -178,7 +178,7 @@ public class LoanReqScrolling extends AppCompatActivity implements View.OnClickL
         aid = getIntent().getStringExtra("aid");
         listingId = getIntent().getStringExtra("listid");
         shopUid = getIntent().getStringExtra("shopid");
-
+        Toast.makeText(this, shopUidd, Toast.LENGTH_SHORT).show();
         getSupportActionBar().setTitle(brand + " " + model);
 //
 
