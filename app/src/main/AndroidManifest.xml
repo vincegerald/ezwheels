@@ -27,10 +27,11 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ReservationPayment"></activity>
         <activity
             android:name=".LoanReqScrolling"
             android:label="@string/title_activity_loan_req_scrolling"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AddLoanReq" />
         <activity android:name=".ViewAddFinanceComp" />
         <activity android:name=".AddFinanceComp" />

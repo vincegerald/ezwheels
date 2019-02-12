@@ -35,6 +35,7 @@ public class ShopothersFragment extends Fragment {
         final ReservationFragment reservationFragment = new ReservationFragment();
         final TradeinFragment tradeinFragment = new TradeinFragment();
         final FavoriteFragment favoriteFragment = new FavoriteFragment();
+        final loanreqq loanreqq = new loanreqq();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -42,8 +43,8 @@ public class ShopothersFragment extends Fragment {
 
                 int id = item.getItemId();
 
-                if(id == R.id.favorites){
-                    setFragment(favoriteFragment);
+                if(id == R.id.loan){
+                    setFragment(loanreqq);
                     return true;
                 }
 

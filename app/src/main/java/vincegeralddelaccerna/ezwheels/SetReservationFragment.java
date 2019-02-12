@@ -216,15 +216,15 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
             DialogFragment timePicker = new TimePickerFragment();
             timePicker.show(getSupportFragmentManager(), "time picker");
         }
+//
+//        if(id == R.id.reservebtn){
+//            first.setVisibility(View.GONE);
+//            second.setVisibility(View.VISIBLE);
+//        }
 
         if(id == R.id.reservebtn){
-            first.setVisibility(View.GONE);
-            second.setVisibility(View.VISIBLE);
-        }
-
-        if(id == R.id.pay){
             final String senderText = sender.getText().toString().trim();
-            final String codeText = sender.getText().toString().trim();
+            final String codeText = code.getText().toString().trim();
             final String addressText = address.getText().toString().trim();
             final String reminderText = reminder.getText().toString().trim();
             final String shopuid = getIntent().getStringExtra("shopuid");
@@ -246,27 +246,14 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
         String resId = mDatabaseRef.push().getKey();
         String seen = "false";
         String fromSeen = "false";
-        Reservation reservation = new Reservation(model, brand, name, image1, addressText, reminderText, shopuid, currentDate, currentTime, uid, listingid, resType, resId, price, status, seen, fromSeen, payment);
+        String reserved = "false";
+        Reservation reservation = new Reservation(reserved, model, brand, name, image1, addressText, reminderText, shopuid, currentDate, currentTime, uid, listingid, resType, resId, price, status, seen, fromSeen, payment);
         mDatabaseRef.child(resId).setValue(reservation).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    paymentRef = FirebaseDatabase.getInstance().getReference("Payments");
-                    String id = paymentRef.push().getKey();
-                    final String type = "ReservationFee";
-                    Payments payments = new Payments(imagePath1, senderTxt, codeText, mAuth.getCurrentUser().getUid(), id, amount,  type, shopuid);
-                    paymentRef.child(id).setValue(payments).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(SetReservationFragment.this, "Successfully Added Reservation. The shop will contact you as soon as possible", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-                            else{
-                                Toast.makeText(SetReservationFragment.this, "Error Occurred", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+                    Toast.makeText(SetReservationFragment.this, "Added Reservation... Wait for the shop to contact you and confirm", Toast.LENGTH_SHORT).show();
+                    finish();
 
                 }
                 else{

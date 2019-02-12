@@ -53,8 +53,11 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
         else if(uploadCurrent.getStatus().equals("APPROVED")){
             holder.status.setTextColor(Color.parseColor("#008000"));
         }
-        else{
+        else if(uploadCurrent.getStatus().equals("DECLINED")){
             holder.status.setTextColor(Color.parseColor("#FF0000"));
+        }
+        else{
+            holder.status.setTextColor(Color.parseColor("#528aed"));
         }
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override

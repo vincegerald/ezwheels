@@ -15,9 +15,9 @@
     </item>
 
     <item
-        android:id="@+id/loan"
-        android:icon="@drawable/ic_find_in_page_black_24dp"
-        android:title="Loan Requests">
+        android:id="@+id/favorites"
+        android:icon="@drawable/ic_favorite_black_24dp"
+        android:title="Favorites">
     </item>
 
     <item

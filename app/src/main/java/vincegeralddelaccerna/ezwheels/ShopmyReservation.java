@@ -119,7 +119,7 @@ public class ShopmyReservation extends Fragment {
                         Reservation reservation = snapshot.getValue(Reservation.class);
                         String status = reservation.getStatus();
                         if(status.equals("APPROVED") && reservation.getFromSeen().equals("false") && reservation.getUid().equals(mAuth.getCurrentUser().getUid())){
-                            PushNotification("Reservation Approved","Your reservation for " + reservation.getBrand() + " " + reservation.getModel() + " has been approved by the shop... Contact the shop for further details");
+                            PushNotification("Reservation Approved","Pay the reservation fee to complete the transaction");
                             databaseReference1.child(reservation.getResId()).child("fromSeen").setValue("true");
                         }
                         else if(status.equals("DECLINED") && reservation.getFromSeen().equals("false") && reservation.getUid().equals(mAuth.getCurrentUser().getUid())) {

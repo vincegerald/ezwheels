@@ -42,9 +42,10 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
     ImageView scrollImage;
     TextView shopName, vehicleName, priceView, priceCondition, date, transmissionView, mileageView, yearView,sellerName, sellerAddress, sellerContact, fuelType, seriesView, editionView, infoView,
             textView13, textView14, typeView, statusView, offerView;
-    Button call, message, approve, decline;
+    Button call, message, approve, decline, done;
     FloatingActionButton fab;
     VideoView video;
+    Button pay;
     CardView cardSeller, cardTrade, cardReservation;
 
     //imageview
@@ -55,7 +56,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseRef;
-    private DatabaseReference mDatabaseRef1, mDatabaseRef2, approveRef, motorRef;
+    private DatabaseReference mDatabaseRef1, mDatabaseRef2, approveRef, motorRef, doneRef;
 
     LinearLayout loc, rem;
     TextView datee, time, locationn, remindertext;
@@ -71,11 +72,11 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
     private String type, addPrice, shopAddPrice, userId;
     private static String offeredBrand;
     private static String offeredModel;
-    private static String contactnumber, firstname, lastname, address, status, shopUid, fyear, yearr, oYear, tid, resId, listingId;
+    private static String reserved, contactnumber, firstname, lastname, address, status, shopUid, fyear, yearr, oYear, tid, resId, listingId;
     private static String addressText, currentDate, currentTime, listid, reminderText, resType;
     private DatabaseReference shopRef;
     private static String UserUId;
-    private static String listdate, listedition, finalBrand, finalColor, info, finalMileage, finalModel, finalPcondition, finalPrice, finalTransmission, finalYear, fuel, image, imagePath1, imagePath2, imagePath3, series, liststatus, videoPath;
+    private static String payment, listdate, listedition, finalBrand, finalColor, info, finalMileage, finalModel, finalPcondition, finalPrice, finalTransmission, finalYear, fuel, image, imagePath1, imagePath2, imagePath3, series, liststatus, videoPath;
 
 
     @Override
@@ -86,6 +87,9 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
         toolbar.setTitleTextColor(Color.parseColor("#000000"));
         setSupportActionBar(toolbar);
 
+
+        pay = findViewById(R.id.pay);
+        done = findViewById(R.id.done);
         typeView = findViewById(R.id.textView10);
         scrollImage = findViewById(R.id.scrollImage);
         vehicleName = findViewById(R.id.textView22);
@@ -113,10 +117,12 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
         datee = findViewById(R.id.date);
         time = findViewById(R.id.time);
 
+        pay.setOnClickListener(this);
         locationn = findViewById(R.id.location);
         remindertext = findViewById(R.id.reminder);
         loc = findViewById(R.id.loc);
         rem = findViewById(R.id.rem);
+        done.setOnClickListener(this);
 
 
 
@@ -301,7 +307,22 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                     shopUid = dataSnapshot.child("shopuid").getValue().toString();
                     resType = dataSnapshot.child("type").getValue().toString();
                     status = dataSnapshot.child("status").getValue().toString();
+                    payment = dataSnapshot.child("payment").getValue().toString();
+                    reserved = dataSnapshot.child("reserved").getValue().toString();
                 }
+
+                if(status.equals("APPROVED") && reserved.equals("false")){
+                    pay.setVisibility(View.VISIBLE);
+                }
+
+                if(reserved.equals("TRUE")){
+                    pay.setVisibility(View.GONE);
+                }
+
+                if(status.equals("DONE")){
+                    pay.setVisibility(View.GONE);
+                }
+
                 datee.setText(currentDate);
                 time.setText(currentTime);
 
@@ -319,7 +340,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                 String id = mAuth.getCurrentUser().getUid();
 
                 if(id.equals(UserUId)){
-
+                    done.setVisibility(View.GONE);
                     approve.setVisibility(View.GONE);
                     decline.setVisibility(View.GONE);
                     fab.setVisibility(View.VISIBLE);
@@ -530,10 +551,17 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                     statusView.setTextColor(Color.parseColor("#004c00"));
                     statusView.setText("("+status+")");
                 }
-                else{
+                else if(status.equals("DECLINED")){
                     statusView.setTextColor(Color.parseColor("#FF0000"));
                     decline.setVisibility(View.GONE);
                     approve.setVisibility(View.GONE);
+                    statusView.setText("("+status+")");
+                }
+                else{
+                    statusView.setTextColor(Color.parseColor("#528aed"));
+                    decline.setVisibility(View.GONE);
+                    approve.setVisibility(View.GONE);
+                    done.setVisibility(View.GONE);
                     statusView.setText("("+status+")");
                 }
 
@@ -590,6 +618,47 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View view) {
         int id = view.getId();
+
+
+        if(id == R.id.done){
+            AlertDialog.Builder builder = new AlertDialog.Builder(ReservationScrolling.this);
+            builder.setMessage("Mark Reservation as Done?").setCancelable(false)
+                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            doneRef = FirebaseDatabase.getInstance().getReference("Reservation").child(resId);
+                            doneRef.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    doneRef.child("status").setValue("DONE");
+                                    Toast.makeText(ReservationScrolling.this, "Marked as done", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    finish();
+                                }
+                            });
+                        }
+                    }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setTitle("Done Reservation");
+            alertDialog.show();
+        }
+
+        if(id == R.id.pay){
+            Intent intent = new Intent(ReservationScrolling.this, ReservationPayment.class);
+            intent.putExtra("shopuid", shopUid);
+            intent.putExtra("resid", resId);
+            startActivity(intent);
+        }
 
         if(id == R.id.message){
 

@@ -79,6 +79,7 @@ public class ShopDashboard extends AppCompatActivity {
         final ShopmyListings shopmyListings = new ShopmyListings();
         final loanreqq loanreqq = new loanreqq();
         final ProfileFragment profileFragment = new ProfileFragment();
+        final FavoriteFragment favoriteFragment = new FavoriteFragment();
 
         //if(status.e)
 
@@ -94,8 +95,8 @@ public class ShopDashboard extends AppCompatActivity {
                     return true;
                 }
 
-                if(id == R.id.loan){
-                    setFragment(loanreqq);
+                if(id == R.id.favorites){
+                    setFragment(favoriteFragment);
                     return  true;
                 }
 //
