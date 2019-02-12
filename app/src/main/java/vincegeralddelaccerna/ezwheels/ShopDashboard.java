@@ -95,8 +95,8 @@ public class ShopDashboard extends AppCompatActivity {
                     return true;
                 }
 
-                if(id == R.id.favorites){
-                    setFragment(favoriteFragment);
+                if(id == R.id.loan){
+                    setFragment(loanreqq);
                     return  true;
                 }
 //

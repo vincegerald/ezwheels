@@ -33,6 +33,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.util.Calendar;
+
 public class ReservationPayment extends AppCompatActivity implements View.OnClickListener {
 
     Toolbar toolbar;
@@ -152,16 +155,20 @@ public class ReservationPayment extends AppCompatActivity implements View.OnClic
             String pid = res.push().getKey();
             String amount = "999.00";
             String type = "Reservation Fee";
+            Calendar calendar = Calendar.getInstance();
+            String date = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
             //String image, String name, String code, String uid, String id, String amount, String type, String shopuid
-            Payments payments = new Payments(imagePath1, senderText, codeText, mAuth.getCurrentUser().getUid(), pid,  amount, type, shopuid, resid);
+            Payments payments = new Payments(imagePath1, senderText, codeText, mAuth.getCurrentUser().getUid(), pid,  amount, type, shopuid, resid, date);
             res.child(pid).setValue(payments).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){
                         changeReserved.child(resid).child("reserved").setValue("true");
+                        finish();
                     }
                     else{
                         Toast.makeText(ReservationPayment.this, "Error", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 }
             });
@@ -184,8 +191,8 @@ public class ReservationPayment extends AppCompatActivity implements View.OnClic
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == 1 && resultCode == RESULT_OK){
-            
-            
+
+
             imageUri = data.getData();
 
 

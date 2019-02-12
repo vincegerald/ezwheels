@@ -35,6 +35,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.util.Calendar;
+
 public class ActivateAccount extends AppCompatActivity implements View.OnClickListener {
 
     Toolbar toolbar;
@@ -150,7 +153,9 @@ public class ActivateAccount extends AppCompatActivity implements View.OnClickLi
                             final String amount = "999.00";
                             final String type = "Subscription";
                             final String shopuid = "";
-                            Payments payments = new Payments(imagePath2, sendertext, codeText, uid, payid, amount, type, shopuid, "");
+                            Calendar calendar = Calendar.getInstance();
+                            String date = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+                            Payments payments = new Payments(imagePath2, sendertext, codeText, uid, payid, amount, type, shopuid, "", date);
                             mDatabaseRef.child("Payments").child(payid).setValue(payments).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {

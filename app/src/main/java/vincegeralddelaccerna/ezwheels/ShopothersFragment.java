@@ -36,6 +36,7 @@ public class ShopothersFragment extends Fragment {
         final TradeinFragment tradeinFragment = new TradeinFragment();
         final FavoriteFragment favoriteFragment = new FavoriteFragment();
         final loanreqq loanreqq = new loanreqq();
+        final PaymentFragment paymentFragment = new PaymentFragment();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -43,8 +44,13 @@ public class ShopothersFragment extends Fragment {
 
                 int id = item.getItemId();
 
-                if(id == R.id.loan){
-                    setFragment(loanreqq);
+                if(id == R.id.payment){
+                    setFragment(paymentFragment);
+                    return true;
+                }
+
+                if(id == R.id.favorites){
+                    setFragment(favoriteFragment);
                     return true;
                 }
 
@@ -66,7 +72,7 @@ public class ShopothersFragment extends Fragment {
             }
         });
 
-                bottomNavigationView.setSelectedItemId(R.id.favorites);
+                bottomNavigationView.setSelectedItemId(R.id.reservation);
 
         return v;
     }
