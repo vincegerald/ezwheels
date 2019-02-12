@@ -109,9 +109,9 @@ public class MyLoanReq extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUploads.clear();
                 if (dataSnapshot.exists()) {
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
-                        LoanReq loanReq = postSnapshot.getValue(LoanReq.class);
+                        LoanReq loanReq = snapshot.getValue(LoanReq.class);
 
                         if(loanReq.getStatus().equals("APPROVED") && loanReq.getSeen().equals("false") && loanReq.getUid().equals(mAuth.getCurrentUser().getUid())){
                             PushNotification("Loan Request Approved","The shop will contact you for further details. Or contact the shop right away");
@@ -124,7 +124,7 @@ public class MyLoanReq extends Fragment {
                         }
 
                         mUploads.add(loanReq);
-                    }   
+                    }
 
                     mAdapter = new LoanReqAdapter(getActivity(), mUploads);
                     recyclerView.setAdapter(mAdapter);
