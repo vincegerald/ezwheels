@@ -124,7 +124,7 @@ public class MyLoanReq extends Fragment {
                         }
 
                         mUploads.add(loanReq);
-                    }
+                    }   
 
                     mAdapter = new LoanReqAdapter(getActivity(), mUploads);
                     recyclerView.setAdapter(mAdapter);
