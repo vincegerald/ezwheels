@@ -1,10 +1,15 @@
 package vincegeralddelaccerna.ezwheels;
 
 
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -29,6 +34,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import static vincegeralddelaccerna.ezwheels.App.loanreqReceived;
+import static vincegeralddelaccerna.ezwheels.App.myTrades;
+
 public class ReceivedLoanReq extends Fragment {
 
 
@@ -51,6 +59,25 @@ public class ReceivedLoanReq extends Fragment {
     LoanReqAdapter mAdapter;
 
     private List<LoanReq> mUploads;
+    NotificationManagerCompat notificationManagerCompat;
+
+    public void PushNotification(String title, String content) {
+        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
+        Notification notification = new NotificationCompat.Builder(getContext(), loanreqReceived)
+                .setSmallIcon(R.drawable.logo)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setContentIntent(contentIntent)
+                .build();
+
+        notificationManagerCompat.notify(6, notification);
+
+
+    }
+
     //ArrayList<Upload> temp = new ArrayList<Upload>(mUploads);
 
     @Nullable
@@ -61,6 +88,7 @@ public class ReceivedLoanReq extends Fragment {
         mProgressbar = v.findViewById(R.id.progress);
         brokencar = v.findViewById(R.id.brokencar);
         nolisting = v.findViewById(R.id.nolisting);
+        notificationManagerCompat = NotificationManagerCompat.from(getContext());
         //searchView = v.findViewById(R.id.search);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -72,28 +100,7 @@ public class ReceivedLoanReq extends Fragment {
         query = FirebaseDatabase.getInstance().getReference("Loan Requests")
                 .orderByChild("shopUid").equalTo(mAuth.getCurrentUser().getUid());
 
-        //        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-        //        //            @Override
-        //        //            public boolean onQueryTextSubmit(String s) {
-        //        //                for(int i = 0; i <= mUploads.size(); i++){
-        //        //                    Upload upload = new Upload();
-        //        //                    String searchedName = mUploads.get(i).getFinalBrand().concat(mUploads.get(i).getFinalModel());
-        //        //                    if(searchedName.contains(s)){
-        //        //                        temp.add(mUploads.add(upload(i)));
-        //        //                    }
-        //        //                }
-        //        //                return false;
-        //        //            }
-        //        //
-        //        //            @Override
-        //        //            public boolean onQueryTextChange(String s) {
-        //        //
-        //        //                return false;
-        //        //            }
-        //        //        });
-
-
-
+        databaseReference = FirebaseDatabase.getInstance().getReference("Loan Requests");
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -103,6 +110,10 @@ public class ReceivedLoanReq extends Fragment {
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
                         LoanReq loanReq = postSnapshot.getValue(LoanReq.class);
+                        if(loanReq.getStatus().equals("PENDING") && loanReq.getSeenShop().equals("false") && loanReq.getShopUid().equals(mAuth.getCurrentUser().getUid())){
+                            PushNotification("New Loan Request", "You have a new loan request.");
+                            databaseReference.child(loanReq.getAid()).child("seenShop").setValue("true");
+                        }
                         mUploads.add(loanReq);
                     }
 

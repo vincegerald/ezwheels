@@ -91,6 +91,7 @@
         <activity android:name=".EditTrade" />
         <activity android:name=".EditReservation" />
         <activity android:name=".EditListing" />
+        <activity android:name=".EditLoanReq" />
         <activity
             android:name=".ShopDashBoardFragment"
             android:label="@string/title_activity_shop_dash_board_fragment"

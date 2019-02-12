@@ -319,6 +319,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                 String id = mAuth.getCurrentUser().getUid();
 
                 if(id.equals(UserUId)){
+
                     approve.setVisibility(View.GONE);
                     decline.setVisibility(View.GONE);
                     fab.setVisibility(View.VISIBLE);
@@ -335,8 +336,8 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                                         firstname = dataSnapshot.child("firstname").getValue().toString();
                                         lastname = dataSnapshot.child("lastname").getValue().toString();
                                         contactnumber = dataSnapshot.child("contact").getValue().toString();
-                                        status = dataSnapshot.child("status").getValue().toString();
-                                        Toast.makeText(ReservationScrolling.this, firstname, Toast.LENGTH_SHORT).show();
+                                        //status = dataSnapshot.child("status").getValue().toString();
+                                        //      Toast.makeText(ReservationScrolling.this, firstname, Toast.LENGTH_SHORT).show();
                                         Log.d("number" ,contactnumber);
                                         Log.d("fname" ,firstname);
                                         Log.d("lname" ,lastname);
@@ -419,7 +420,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                 if(shopUid.equals(id)){
                     fab.setVisibility(View.GONE);
                     {
-                        mDatabaseRef1 = FirebaseDatabase.getInstance().getReference("Buyers").child(shopUid);
+                        mDatabaseRef1 = FirebaseDatabase.getInstance().getReference("Buyers").child(UserUId);
 
                         mDatabaseRef1.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -461,7 +462,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                                 }
 
                                 else{
-                                    shopRef = FirebaseDatabase.getInstance().getReference("Shop").child(shopUid);
+                                    shopRef = FirebaseDatabase.getInstance().getReference("Shop").child(UserUId);
                                     shopRef.addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -483,27 +484,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                                         }
                                     });
 
-//                                    if(type.equals("SWAP")){
-//                                        typeView.setTextColor(Color.parseColor("#FFA500"));
-//                                        typeView.setText(type);
-//                                        fuelType.setVisibility(View.GONE);
-//                                        imageView14.setVisibility(View.GONE);
-//
-//                                    }
-//                                    else if(type.equals("SHOP WILL ADD")){
-//                                        typeView.setTextColor(Color.parseColor("#FF0000"));
-//                                        typeView.setText("YOU WILL ADD"  + " (" + shopAddPrice +")");
-//                                        fuelType.setTextColor(Color.parseColor("#FF0000"));
-//                                        fuelType.setVisibility(View.VISIBLE);
-//                                        fuelType.setText("YOU WILL ADD" + " (" + shopAddPrice +")");
-//                                    }
-//                                    else{
-//                                        typeView.setTextColor(Color.parseColor("#004c00"));
-//                                        typeView.setText("BUYER WILL ADD" + " (" + addPrice +")");
-//                                        fuelType.setTextColor(Color.parseColor("#004c00"));
-//                                        fuelType.setVisibility(View.VISIBLE);
-//                                        fuelType.setText("BUYER WILL ADD" + " (" + addPrice +")");
-//                                    }
+
 
                                     edit.setVisibility(View.GONE);
                                 }
@@ -543,6 +524,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                 }
 
                 else if(status.equals("APPROVED")){
+                    fab.setVisibility(View.GONE);
                     decline.setVisibility(View.GONE);
                     approve.setVisibility(View.GONE);
                     statusView.setTextColor(Color.parseColor("#004c00"));

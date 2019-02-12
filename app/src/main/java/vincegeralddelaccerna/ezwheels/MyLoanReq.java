@@ -1,10 +1,15 @@
 package vincegeralddelaccerna.ezwheels;
 
 
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -29,6 +34,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import static vincegeralddelaccerna.ezwheels.App.myLoanreq;
+
 public class MyLoanReq extends Fragment {
 
 
@@ -39,7 +46,7 @@ public class MyLoanReq extends Fragment {
 
     RecyclerView recyclerView;
     FloatingActionButton add;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference1;
     FirebaseAuth mAuth;
     ImageView brokencar;
     TextView nolisting;
@@ -51,6 +58,24 @@ public class MyLoanReq extends Fragment {
     LoanReqAdapter mAdapter;
 
     private List<LoanReq> mUploads;
+    NotificationManagerCompat notificationManagerCompat;
+
+    public void PushNotification(String title, String content) {
+        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
+        Notification notification = new NotificationCompat.Builder(getContext(), myLoanreq)
+                .setSmallIcon(R.drawable.logo)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setContentIntent(contentIntent)
+                .build();
+
+        notificationManagerCompat.notify(5, notification);
+
+
+    }
     //ArrayList<Upload> temp = new ArrayList<Upload>(mUploads);
 
     @Nullable
@@ -62,9 +87,11 @@ public class MyLoanReq extends Fragment {
         brokencar = v.findViewById(R.id.brokencar);
         nolisting = v.findViewById(R.id.nolisting);
        // searchView = v.findViewById(R.id.search);
+        notificationManagerCompat = NotificationManagerCompat.from(getContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mUploads = new ArrayList<>();
+        databaseReference1 = FirebaseDatabase.getInstance().getReference("Loan Requests");
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -72,25 +99,7 @@ public class MyLoanReq extends Fragment {
         query = FirebaseDatabase.getInstance().getReference("Loan Requests")
                 .orderByChild("uid").equalTo(mAuth.getCurrentUser().getUid());
 
-        //        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-        //            @Override
-        //            public boolean onQueryTextSubmit(String s) {
-        //                for(int i = 0; i <= mUploads.size(); i++){
-        //                    Upload upload = new Upload();
-        //                    String searchedName = mUploads.get(i).getFinalBrand().concat(mUploads.get(i).getFinalModel());
-        //                    if(searchedName.contains(s)){
-        //                        temp.add(mUploads.add(upload(i)));
-        //                    }
-        //                }
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public boolean onQueryTextChange(String s) {
-        //
-        //                return false;
-        //            }
-        //        });
+
 
 
 
@@ -103,6 +112,17 @@ public class MyLoanReq extends Fragment {
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
                         LoanReq loanReq = postSnapshot.getValue(LoanReq.class);
+
+                        if(loanReq.getStatus().equals("APPROVED") && loanReq.getSeen().equals("false") && loanReq.getUid().equals(mAuth.getCurrentUser().getUid())){
+                            PushNotification("Loan Request Approved","The shop will contact you for further details. Or contact the shop right away");
+                            databaseReference1.child(loanReq.getAid()).child("seen").setValue("true");
+                        }
+
+                        else if(loanReq.getStatus().equals("DECLINED") && loanReq.getSeen().equals("false") && loanReq.getUid().equals(mAuth.getCurrentUser().getUid())){
+                            PushNotification("Loan Request Declined","Try to negotiate terms with the shop or browse for other vehicles");
+                            databaseReference1.child(loanReq.getAid()).child("seen").setValue("true");
+                        }
+
                         mUploads.add(loanReq);
                     }
 

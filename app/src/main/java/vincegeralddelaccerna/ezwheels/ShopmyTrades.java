@@ -47,7 +47,7 @@ public class ShopmyTrades extends Fragment {
 
     RecyclerView recyclerView;
     FloatingActionButton add;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference1;
     FirebaseAuth mAuth;
     ImageView brokencar;
     TextView nolisting;
@@ -74,27 +74,6 @@ public class ShopmyTrades extends Fragment {
         notificationManagerCompat.notify(3, notification);
 
 
-
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder()
-//
-//
-//        //set
-//        builder.setContentIntent(contentIntent);
-//        builder.setSmallIcon(R.drawable.logo);
-//        builder.setContentText(content);
-//        builder.setContentTitle(title);
-//        builder.setAutoCancel(true);
-//        builder.setDefaults(Notification.PRIORITY_MAX);
-//
-//
-//
-//        Notification notification = builder.build();
-//        nm.notify((int)System.currentTimeMillis(),notification);
-//        NotificationManager nm = (NotificationManager)getActivity().getSystemService(NOTIFICATION_SERVICE);
-//        Notification.Builder builder = new Notification.Builder(getActivity());
-//        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
-//        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
-
     }
 
 
@@ -113,6 +92,7 @@ public class ShopmyTrades extends Fragment {
         brokencar = v.findViewById(R.id.brokencar);
         nolisting = v.findViewById(R.id.nolisting);
 
+        databaseReference1 = FirebaseDatabase.getInstance().getReference("Reservation");
         mAuth = FirebaseAuth.getInstance();
         String id = mAuth.getCurrentUser().getUid();
         Query query = FirebaseDatabase.getInstance().getReference("Trade")
@@ -125,11 +105,13 @@ public class ShopmyTrades extends Fragment {
                 if(dataSnapshot.exists()){
                     for(DataSnapshot snapshot :dataSnapshot.getChildren()){
                         Trade trade = snapshot.getValue(Trade.class);
-                        if(trade.getStatus().equals("APPROVED")){
+                        if(trade.getStatus().equals("APPROVED") && trade.getFromSeen().equals("false") && trade.getUid().equals(mAuth.getCurrentUser().getUid())){
                             PushNotification("Trade Approved","Your trade for " + trade.getBrand() + " " + trade.getModel() + " has been approved by the shop... Contact the shop for further details");
+                            databaseReference1.child(trade.getTid()).child("fromSeen").setValue("true");
                         }
-                        else if(trade.getStatus().equals("DECLINED")){
+                        else if(trade.getStatus().equals("DECLINED") && trade.getFromSeen().equals("false") && trade.getUid().equals(mAuth.getCurrentUser().getUid())){
                             PushNotification("Trade Declined","Your trade for " + trade.getBrand() + " " + trade.getModel() + " has been declined by the shop... Contact the shop for further details");
+                            databaseReference1.child(trade.getTid()).child("fromSeen").setValue("true");
                         }
                         mUploads.add(trade);
                     }

@@ -50,7 +50,7 @@ public class LoanReqAdapter extends RecyclerView.Adapter<LoanReqAdapter.LoanReqA
     public void onBindViewHolder(@NonNull final LoanReqAdapter.LoanReqAdapterHolder holder, int position) {
         final LoanReq uploadCurrent = mUploads.get(position);
         getListing = FirebaseDatabase.getInstance().getReference("Car");
-        Toast.makeText(mContext, uploadCurrent.getListId(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(mContext, uploadCurrent.getListId(), Toast.LENGTH_SHORT).show();
         getListing.orderByChild("listid").equalTo(uploadCurrent.getListId()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {

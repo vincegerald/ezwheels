@@ -167,24 +167,16 @@ public class LoanReqScrolling extends AppCompatActivity implements View.OnClickL
 
         brand = getIntent().getStringExtra("brand");
         model = getIntent().getStringExtra("model");
-//        imageCar = getIntent().getStringExtra("image1");
-//        price = getIntent().getStringExtra("price");
- //       listingId = getIntent().getStringExtra("listingId");
- //       resId= getIntent().getStringExtra("resId");
-//        shopUid= getIntent().getStringExtra("shopId");
-//        userId = getIntent().getStringExtra("uid");
-//        oYear = getIntent().getStringExtra("year");
-//        finalImageCar = Uri.parse(imageCar);
+
         aid = getIntent().getStringExtra("aid");
         listingId = getIntent().getStringExtra("listid");
         shopUid = getIntent().getStringExtra("shopid");
-        Toast.makeText(this, shopUidd, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, shopUid, Toast.LENGTH_SHORT).show();
         getSupportActionBar().setTitle(brand + " " + model);
-//
 
 
         //check if the listing is posted by current user
-        Toast.makeText(this, listingId, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, listingId, Toast.LENGTH_SHORT).show();
         mDatabaseRef2 = FirebaseDatabase.getInstance().getReference("Car").child(listingId);
         mDatabaseRef2.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -306,6 +298,7 @@ public class LoanReqScrolling extends AppCompatActivity implements View.OnClickL
                     String dp = dataSnapshot.child("dp").getValue().toString();
                     String mtp = dataSnapshot.child("month").getValue().toString();
                     status = dataSnapshot.child("status").getValue().toString();
+                    UserUId = dataSnapshot.child("uid").getValue().toString();
 
                     datee.setText("Applied Companies: " + comp1 + " " + " "  + comp2 + " "  + comp3 + " "  + comp4 + " "  + comp5);
                     time.setText(dp);
@@ -334,7 +327,7 @@ public class LoanReqScrolling extends AppCompatActivity implements View.OnClickL
                                         lastname = dataSnapshot.child("lastname").getValue().toString();
                                         contactnumber = dataSnapshot.child("contact").getValue().toString();
                                         status = dataSnapshot.child("status").getValue().toString();
-                                        Toast.makeText(LoanReqScrolling.this, firstname, Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(LoanReqScrolling.this, firstname, Toast.LENGTH_SHORT).show();
                                         Log.d("number" ,contactnumber);
                                         Log.d("fname" ,firstname);
                                         Log.d("lname" ,lastname);
@@ -381,27 +374,7 @@ public class LoanReqScrolling extends AppCompatActivity implements View.OnClickL
                                 });
                             }
 
-//                            if(type.equals("SWAP")){
-//                                typeView.setTextColor(Color.parseColor("#FFA500"));
-//                                typeView.setText(type);
-//                                fuelType.setVisibility(View.GONE);
-//                                imageView14.setVisibility(View.GONE);
-//
-//                            }
-//                            else if(type.equals("SHOP WILL ADD")){
-//                                typeView.setTextColor(Color.parseColor("#004c00"));
-//                                typeView.setText(type  + " (" + shopAddPrice +")");
-//                                fuelType.setTextColor(Color.parseColor("#004c00"));
-//                                fuelType.setVisibility(View.VISIBLE);
-//                                fuelType.setText(type + " (" + shopAddPrice +")");
-//                            }
-//                            else{
-//                                typeView.setTextColor(Color.parseColor("#FF0000"));
-//                                typeView.setText(type + " (" + addPrice +")");
-//                                fuelType.setTextColor(Color.parseColor("#FF0000"));
-//                                fuelType.setVisibility(View.VISIBLE);
-//                                fuelType.setText(type + " (" + addPrice +")");
-//                            }
+
                         }
 
                         @Override
@@ -417,7 +390,7 @@ public class LoanReqScrolling extends AppCompatActivity implements View.OnClickL
                 if(shopUid.equals(id)){
                     fab.setVisibility(View.GONE);
                     {
-                        mDatabaseRef1 = FirebaseDatabase.getInstance().getReference("Buyers").child(shopUid);
+                        mDatabaseRef1 = FirebaseDatabase.getInstance().getReference("Buyers").child(UserUId);
 
                         mDatabaseRef1.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -459,7 +432,7 @@ public class LoanReqScrolling extends AppCompatActivity implements View.OnClickL
                                 }
 
                                 else{
-                                    shopRef = FirebaseDatabase.getInstance().getReference("Shop").child(shopUid);
+                                    shopRef = FirebaseDatabase.getInstance().getReference("Shop").child(UserUId);
                                     shopRef.addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -468,6 +441,7 @@ public class LoanReqScrolling extends AppCompatActivity implements View.OnClickL
                                             lastname = dataSnapshot.child("lastname").getValue().toString();
                                             address = dataSnapshot.child("location").getValue().toString();
                                             contactnumber = dataSnapshot.child("contact").getValue().toString();
+                                            Toast.makeText(LoanReqScrolling.this, lastname, Toast.LENGTH_SHORT).show();
                                             textView13.setText("Buyer Details");
                                             sellerName.setText(firstname + " " +lastname);
                                             sellerContact.setText(contactnumber);
@@ -541,12 +515,16 @@ public class LoanReqScrolling extends AppCompatActivity implements View.OnClickL
                 }
 
                 else if(status.equals("APPROVED")){
+                    fab.setVisibility(View.GONE);
+                    edit.setVisibility(View.GONE);
                     decline.setVisibility(View.GONE);
                     approve.setVisibility(View.GONE);
                     statusView.setTextColor(Color.parseColor("#004c00"));
                     statusView.setText("("+status+")");
                 }
                 else{
+                    edit.setVisibility(View.GONE);
+                    fab.setVisibility(View.GONE);
                     statusView.setTextColor(Color.parseColor("#FF0000"));
                     decline.setVisibility(View.GONE);
                     approve.setVisibility(View.GONE);
@@ -632,21 +610,22 @@ public class LoanReqScrolling extends AppCompatActivity implements View.OnClickL
         if(id == R.id.approve){
 
             AlertDialog.Builder builder = new AlertDialog.Builder(LoanReqScrolling.this);
-            builder.setMessage("Approve Reservation?").setCancelable(false)
+            builder.setMessage("Approve Loan Request?").setCancelable(false)
                     .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            approveRef = FirebaseDatabase.getInstance().getReference("Reservation").child(resId);
+                            approveRef = FirebaseDatabase.getInstance().getReference("Loan Requests").child(aid);
                             approveRef.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     approveRef.child("status").setValue("APPROVED");
-                                    approveRef.child("payment").setValue("Payment Received");
+                                    //approveRef.child("payment").setValue("Payment Received");
+                                    finish();
                                 }
 
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                                    Toast.makeText(LoanReqScrolling.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -658,27 +637,28 @@ public class LoanReqScrolling extends AppCompatActivity implements View.OnClickL
             });
 
             AlertDialog alertDialog = builder.create();
-            alertDialog.setTitle("Approve Reservation");
+            alertDialog.setTitle("Approve Loan Request");
             alertDialog.show();
 
         }
 
         if(id == R.id.decline){
             AlertDialog.Builder builder = new AlertDialog.Builder(LoanReqScrolling.this);
-            builder.setMessage("Decline Reservation?").setCancelable(false)
+            builder.setMessage("Decline Loan Request?").setCancelable(false)
                     .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            approveRef = FirebaseDatabase.getInstance().getReference("Reservation").child(resId);
+                            approveRef = FirebaseDatabase.getInstance().getReference("Loan Requests").child(aid);
                             approveRef.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     approveRef.child("status").setValue("DECLINED");
+                                    finish();
                                 }
 
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                                    Toast.makeText(LoanReqScrolling.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -690,18 +670,18 @@ public class LoanReqScrolling extends AppCompatActivity implements View.OnClickL
             });
 
             AlertDialog alertDialog = builder.create();
-            alertDialog.setTitle("Decline Reservation");
+            alertDialog.setTitle("Decline Loan Request");
             alertDialog.show();
 
         }
 
         if(id == R.id.fab){
             AlertDialog.Builder builder = new AlertDialog.Builder(LoanReqScrolling.this);
-            builder.setMessage("Delete Reservation?").setCancelable(false)
+            builder.setMessage("Delete Loan Request?").setCancelable(false)
                     .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            DatabaseReference tradedelete = FirebaseDatabase.getInstance().getReference("Reservation").child(resId);
+                            DatabaseReference tradedelete = FirebaseDatabase.getInstance().getReference("Loan Requests").child(aid);
                             tradedelete.removeValue();
                             finish();
 //                            Intent intent = new Intent(TradeScrolling.this, ShopDashboard.class);
@@ -719,13 +699,15 @@ public class LoanReqScrolling extends AppCompatActivity implements View.OnClickL
             });
 
             AlertDialog alertDialog = builder.create();
-            alertDialog.setTitle("Delete Reservation");
+            alertDialog.setTitle("Delete Loan Request");
             alertDialog.show();
         }
 
         if(id == R.id.edit){
-            Intent editIntent = new Intent(LoanReqScrolling.this, EditReservation.class);
-            editIntent.putExtra("resId", resId);
+            Intent editIntent = new Intent(LoanReqScrolling.this, EditLoanReq.class);
+            editIntent.putExtra("aid", aid);
+            editIntent.putExtra("shopUid",shopUid);
+            editIntent.putExtra("listid", listingId);
             startActivity(editIntent);
         }
 
