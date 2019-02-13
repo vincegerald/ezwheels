@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import static vincegeralddelaccerna.ezwheels.App.paymentReceived;
 import static vincegeralddelaccerna.ezwheels.App.reservationReceived;
 
 
@@ -62,38 +63,22 @@ public class ReceivedPayments extends Fragment {
     public void PushNotification(String title, String content) {
         Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
         PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
-        Notification notification = new NotificationCompat.Builder(getContext(), reservationReceived)
+        Notification notification = new NotificationCompat.Builder(getContext(), paymentReceived)
                 .setSmallIcon(R.drawable.logo)
                 .setContentTitle(title)
                 .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                 .bigText(content))
                 .setContentIntent(contentIntent)
                 .build();
 
-        notificationManagerCompat.notify(2, notification);
+        notificationManagerCompat.notify(8, notification);
 
 
 
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder()
-//
-//
-//        //set
-//        builder.setContentIntent(contentIntent);
-//        builder.setSmallIcon(R.drawable.logo);
-//        builder.setContentText(content);
-//        builder.setContentTitle(title);
-//        builder.setAutoCancel(true);
-//        builder.setDefaults(Notification.PRIORITY_MAX);
-//
-//
-//
-//        Notification notification = builder.build();
-//        nm.notify((int)System.currentTimeMillis(),notification);
-//        NotificationManager nm = (NotificationManager)getActivity().getSystemService(NOTIFICATION_SERVICE);
-//        Notification.Builder builder = new Notification.Builder(getActivity());
-//        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
-//        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
+
 
     }
 
@@ -117,7 +102,7 @@ public class ReceivedPayments extends Fragment {
         final String id = mAuth.getCurrentUser().getUid();
         Query query = FirebaseDatabase.getInstance().getReference("Payments")
                 .orderByChild("shopuid").equalTo(id);
-        databaseReference = FirebaseDatabase.getInstance().getReference("Reservation");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Payments");
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -126,10 +111,10 @@ public class ReceivedPayments extends Fragment {
                 if(dataSnapshot.exists()){
                     for(DataSnapshot snapshot :dataSnapshot.getChildren()){
                         Payments payments = snapshot.getValue(Payments.class);
-//                        if(reservation.getStatus().equals("PENDING") && reservation.getSeen().equals("false") && reservation.getShopuid().equals(id)){
-//                            PushNotification("New Reservation", "You have a new reservation.");
-//                            databaseReference.child(reservation.getResId()).child("seen").setValue("true");
-//                        }
+                            if(payments.getShopuid().equals(mAuth.getCurrentUser().getUid()) && payments.getSeen().equals("false")){
+                                PushNotification("You have received a payment for " + payments.getType() + payments.getAmount(), "You have received a payment for "  + payments.getType() + " (P " + payments.getAmount() + ") " + "Go check it out in the payment section");
+                                databaseReference.child(payments.getId()).child("seen").setValue("true");
+                            }
 
                         mUploads.add(payments);
                     }

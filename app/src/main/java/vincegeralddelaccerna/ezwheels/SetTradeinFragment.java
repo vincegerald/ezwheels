@@ -227,7 +227,7 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
             final String seller = getIntent().getStringExtra("shopuid");
             final String price = getIntent().getStringExtra("price");
             final String yearr = getIntent().getStringExtra("year");
-            Toast.makeText(this, imagePath1, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, imagePath1, Toast.LENGTH_SHORT).show();
             addTrade(imagePath1, imagePath2, finalPrice, finalPrice1, finalBrand, finalModel, finalYear, typeText, model, brand, yearr, name, image1, listing, seller, price);
         }
     }
@@ -245,9 +245,8 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(SetTradeinFragment.this, "saved", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(SetTradeinFragment.this, ShopDashboard.class);
-                    startActivity(intent);
+                    Toast.makeText(SetTradeinFragment.this, "Added Trade... Wait for the shop to contact you and confirm", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             }
         });

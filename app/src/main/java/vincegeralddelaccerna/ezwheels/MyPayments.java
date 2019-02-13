@@ -59,43 +59,25 @@ public class MyPayments extends Fragment {
 
     private List<Payments> mUploads;
 
-    public void PushNotification(String title, String content) {
-        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
-        Notification notification = new NotificationCompat.Builder(getContext(), reservationReceived)
-                .setSmallIcon(R.drawable.logo)
-                .setContentTitle(title)
-                .setContentText(content)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setContentIntent(contentIntent)
-                .build();
-
-        notificationManagerCompat.notify(2, notification);
-
-
-
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder()
-//
-//
-//        //set
-//        builder.setContentIntent(contentIntent);
-//        builder.setSmallIcon(R.drawable.logo);
-//        builder.setContentText(content);
-//        builder.setContentTitle(title);
-//        builder.setAutoCancel(true);
-//        builder.setDefaults(Notification.PRIORITY_MAX);
-//
-//
-//
-//        Notification notification = builder.build();
-//        nm.notify((int)System.currentTimeMillis(),notification);
-//        NotificationManager nm = (NotificationManager)getActivity().getSystemService(NOTIFICATION_SERVICE);
-//        Notification.Builder builder = new Notification.Builder(getActivity());
+//    public void PushNotification(String title, String content) {
 //        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
 //        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
-
-    }
+//        Notification notification = new NotificationCompat.Builder(getContext(), reservationReceived)
+//                .setSmallIcon(R.drawable.logo)
+//                .setContentTitle(title)
+//                .setContentText(content)
+//                .setPriority(NotificationCompat.PRIORITY_HIGH)
+//                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+//                .setStyle(new NotificationCompat.BigTextStyle()
+//                .bigText(content))
+//                .setContentIntent(contentIntent)
+//                .build();
+//
+//        notificationManagerCompat.notify(8, notification);
+//
+//
+//
+//    }
 
 
     @Override

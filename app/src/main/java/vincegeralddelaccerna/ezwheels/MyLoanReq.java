@@ -60,6 +60,8 @@ public class MyLoanReq extends Fragment {
     private List<LoanReq> mUploads;
     NotificationManagerCompat notificationManagerCompat;
 
+
+
     public void PushNotification(String title, String content) {
         Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
         PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
@@ -70,6 +72,8 @@ public class MyLoanReq extends Fragment {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setContentIntent(contentIntent)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                .bigText(content))
                 .build();
 
         notificationManagerCompat.notify(5, notification);

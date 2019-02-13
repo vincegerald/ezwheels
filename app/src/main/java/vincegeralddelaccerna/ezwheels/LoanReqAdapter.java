@@ -118,8 +118,11 @@ public class LoanReqAdapter extends RecyclerView.Adapter<LoanReqAdapter.LoanReqA
         });
         holder.shop.setText("Applied Loan Company : " + uploadCurrent.getComp1() + " " + uploadCurrent.getComp2() + " " +  uploadCurrent.getComp3() + " " +  uploadCurrent.getComp4() + " " +  uploadCurrent.getComp5());
         holder.logoPeso.setVisibility(View.GONE);
-        holder.type.setText("Months to pay: " + uploadCurrent.getMonth() + " Downpayment: " +  uploadCurrent.getDp());
+        holder.type.setText("Months to pay: " + uploadCurrent.getMonth());
         holder.date.setVisibility(View.GONE);
+        holder.dp.setVisibility(View.VISIBLE);
+        holder.dp.setText("Downpayment: " + uploadCurrent.getDp());
+        holder.imageView.setVisibility(View.GONE);
         if(uploadCurrent.getStatus().equals("PENDING")){
             holder.status.setText(uploadCurrent.getStatus());
             holder.status.setTextColor(Color.parseColor("#ffa500"));
@@ -165,8 +168,8 @@ public class LoanReqAdapter extends RecyclerView.Adapter<LoanReqAdapter.LoanReqA
 
     public class LoanReqAdapterHolder extends RecyclerView.ViewHolder{
 
-        public TextView list, shop, date, type, status, price;
-        public ImageView image, logoPeso;
+        public TextView list, shop, date, type, status, price, dp;
+        public ImageView image, logoPeso, imageView;
         public CardView item;
 
         public LoanReqAdapterHolder(View itemView) {
@@ -181,6 +184,8 @@ public class LoanReqAdapter extends RecyclerView.Adapter<LoanReqAdapter.LoanReqA
             status = itemView.findViewById(R.id.finalStatus);
             price = itemView.findViewById(R.id.finalPrice);
             logoPeso = itemView.findViewById(R.id.logoPeso);
+            dp = itemView.findViewById(R.id.dp);
+            imageView = itemView.findViewById(R.id.imageView6);
 
 
         }

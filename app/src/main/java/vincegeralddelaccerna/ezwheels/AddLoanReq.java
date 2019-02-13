@@ -51,7 +51,7 @@ public class AddLoanReq extends AppCompatActivity implements AdapterView.OnItemS
     DatabaseReference addLoanreq;
     FirebaseAuth mAuth;
     ProgressBar p2;
-    private static String company1, company2, company3, company4, company5, month, compa1, compa2, compa3, compa4, compa5;
+    private static String company1="", company2="", company3="", company4="", company5="", month, compa1, compa2, compa3, compa4, compa5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +88,7 @@ public class AddLoanReq extends AppCompatActivity implements AdapterView.OnItemS
         months.setOnItemSelectedListener(this);
 
 
-        Toast.makeText(this, getIntent().getStringExtra("shopUid"), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, getIntent().getStringExtra("shopUid"), Toast.LENGTH_SHORT).show();
 
         getCompanies = FirebaseDatabase.getInstance().getReference("Finance Company");
 
@@ -100,7 +100,7 @@ public class AddLoanReq extends AppCompatActivity implements AdapterView.OnItemS
                 compa3 = dataSnapshot.child("loanReq3").getValue().toString();
                 compa4 = dataSnapshot.child("loanReq4").getValue().toString();
                 compa5 = dataSnapshot.child("loanReq5").getValue().toString();
-                Toast.makeText(AddLoanReq.this, compa1, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(AddLoanReq.this, compa1, Toast.LENGTH_SHORT).show();
 
                 if(compa1.equals("")){
                     comp1.setVisibility(View.GONE);
@@ -160,22 +160,16 @@ public class AddLoanReq extends AppCompatActivity implements AdapterView.OnItemS
             }
         });
 
+
         comp1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(comp1.isChecked()){
-
-                    Toast.makeText(AddLoanReq.this, compa1, Toast.LENGTH_SHORT).show();
+                    company1 = compa1;
+                    Toast.makeText(AddLoanReq.this, company1, Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
-
-        comp1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(comp1.isChecked()){
-
-                    Toast.makeText(AddLoanReq.this, compa1, Toast.LENGTH_SHORT).show();
+                else{
+                    company1 = " ";
                 }
             }
         });
@@ -184,8 +178,11 @@ public class AddLoanReq extends AppCompatActivity implements AdapterView.OnItemS
             @Override
             public void onClick(View view) {
                 if(comp2.isChecked()){
-
-                    Toast.makeText(AddLoanReq.this, compa2, Toast.LENGTH_SHORT).show();
+                    company2 = compa2;
+                    Toast.makeText(AddLoanReq.this, company2, Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    company2 = " ";
                 }
             }
         });
@@ -194,8 +191,11 @@ public class AddLoanReq extends AppCompatActivity implements AdapterView.OnItemS
             @Override
             public void onClick(View view) {
                 if(comp3.isChecked()){
-
-                    Toast.makeText(AddLoanReq.this, compa3, Toast.LENGTH_SHORT).show();
+                    company3 = compa3;
+                    Toast.makeText(AddLoanReq.this, company3, Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    company3 = " ";
                 }
             }
         });
@@ -204,8 +204,11 @@ public class AddLoanReq extends AppCompatActivity implements AdapterView.OnItemS
             @Override
             public void onClick(View view) {
                 if(comp4.isChecked()){
-
-                    Toast.makeText(AddLoanReq.this, compa4, Toast.LENGTH_SHORT).show();
+                    company4 = compa4;
+                    Toast.makeText(AddLoanReq.this, company4, Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    company4 = " ";
                 }
             }
         });
@@ -214,8 +217,11 @@ public class AddLoanReq extends AppCompatActivity implements AdapterView.OnItemS
             @Override
             public void onClick(View view) {
                 if(comp5.isChecked()){
-
-                    Toast.makeText(AddLoanReq.this, compa5, Toast.LENGTH_SHORT).show();
+                    company5 = compa5;
+                    Toast.makeText(AddLoanReq.this, company5, Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    company5  = " ";
                 }
             }
         });
@@ -251,7 +257,7 @@ public class AddLoanReq extends AppCompatActivity implements AdapterView.OnItemS
 
             String aid = addLoanreq.push().getKey();
             final String dp = downpayment.getText().toString();
-            LoanReq loanReq = new LoanReq(getIntent().getStringExtra("shopUid"), compa1, compa2, compa3, compa4, compa5, mAuth.getCurrentUser().getUid(), "false", "false", aid, dp, month, getIntent().getStringExtra("listid"), "PENDING");
+            LoanReq loanReq = new LoanReq(getIntent().getStringExtra("shopUid"), company1, company2, company3, company4, company5, mAuth.getCurrentUser().getUid(), "false", "false", aid, dp, month, getIntent().getStringExtra("listid"), "PENDING");
             addLoanreq.child(aid).setValue(loanReq).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {

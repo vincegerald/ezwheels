@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,6 +32,8 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
     private List<Payments> mUploads;
     DatabaseReference getListing, getMotor;
     private static String brand, model;
+    FirebaseAuth mAuth;
+    DatabaseReference getShop, getBuyer;
 
     public PaymentAdapter(Context context, List<Payments> uploads) {
         mContext = context;
@@ -49,16 +52,80 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
     @Override
     public void onBindViewHolder(@NonNull final PaymentAdapter.PaymentHolder holder, int position) {
         final Payments uploadCurrent = mUploads.get(position);
+        mAuth = FirebaseAuth.getInstance();
+        getBuyer = FirebaseDatabase.getInstance().getReference("Buyer");
+        getShop = FirebaseDatabase.getInstance().getReference("Shop");
         holder.image.setVisibility(View.GONE);
         holder.type.setVisibility(View.GONE);
         holder.textStatus.setVisibility(View.GONE);
         holder.logoPeso.setVisibility(View.GONE);
         holder.imageView.setVisibility(View.GONE);
         holder.status.setVisibility(View.GONE);
-        holder.shop.setVisibility(View.GONE);
+        //holder.shop.setVisibility(uploadCurrent);
         holder.list.setText(uploadCurrent.getType());
         holder.price.setText(uploadCurrent.getAmount());
         holder.date.setText(uploadCurrent.getDate());
+
+        if(mAuth.getCurrentUser().getUid().equals(uploadCurrent.getShopuid())){
+            getBuyer.child(uploadCurrent.getUid()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()){
+                        String firstname = dataSnapshot.child("firstname").getValue().toString();
+                        String lastname = dataSnapshot.child("lastname").getValue().toString();
+                        holder.shop.setText("Sender: " + firstname + " " + lastname);
+                    }
+                    else{
+                        getShop.child(uploadCurrent.getUid()).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                String firstname = dataSnapshot.child("firstname").getValue().toString();
+                                String lastname = dataSnapshot.child("lastname").getValue().toString();
+                                holder.shop.setText("Sender: " + firstname + " " + lastname);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Toast.makeText(mContext, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(mContext, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        if(mAuth.getCurrentUser().getUid().equals(uploadCurrent.getUid())){
+            getShop.child(uploadCurrent.getSeen()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()){
+                        String firstname = dataSnapshot.child("firstname").getValue().toString();
+                        String lastname = dataSnapshot.child("lastname").getValue().toString();
+                        holder.shop.setText("Sender: " + firstname + " " + lastname);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(mContext, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        holder.item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, PaymentScrolling.class);
+                intent.putExtra("pid", uploadCurrent.getId());
+                intent.putExtra("uid", uploadCurrent.getUid());
+                intent.putExtra("shopuid", uploadCurrent.getShopuid());
+                mContext.startActivity(intent);
+            }
+        });
 
 
 

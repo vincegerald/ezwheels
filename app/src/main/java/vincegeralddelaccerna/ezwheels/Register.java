@@ -13,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -77,7 +78,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
         firstname = findViewById(R.id.registerFirstname);
         lastname = findViewById(R.id.registerLastname);
-        username = findViewById(R.id.registerUsername);
+        //username = findViewById(R.id.registerUsername);
         email = findViewById(R.id.registerEmail);
         contactnumber = findViewById(R.id.registerContact);
         password = findViewById(R.id.registerPassword);
@@ -158,7 +159,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
 
     @Override
-    public void onClick(View view) {
+    public void onClick(final View view) {
 
         if(view.getId() == R.id.btnRegisterCancel){
             Intent mainIntent = new Intent(this, MainActivity.class);
@@ -169,7 +170,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
             final String finalFirstname = firstname.getText().toString();
             final String finalLastname = lastname.getText().toString();
-            final String finalUsername = username.getText().toString();
+            //final String finalUsername = username.getText().toString();
             final String finalEmail = email.getText().toString();
             final String finalContact = contactnumber.getText().toString();
             final String finalPassword = password.getText().toString();
@@ -183,10 +184,10 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                     Toast.makeText(getApplicationContext(), "Enter lastname", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(TextUtils.isEmpty(finalUsername)){
-                    Toast.makeText(getApplicationContext(), "Enter username", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                if(TextUtils.isEmpty(finalUsername)){
+//                    Toast.makeText(getApplicationContext(), "Enter username", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
                 if(TextUtils.isEmpty(finalEmail)){
                     Toast.makeText(getApplicationContext(), "Enter email", Toast.LENGTH_SHORT).show();
                     return;
@@ -214,7 +215,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 final String image = "https://firebasestorage.googleapis.com/v0/b/ezwheels-7396e.appspot.com/o/man.png?alt=media&token=ee7b4f1f-3212-4435-80b7-753ae164ebf2";
                 firstname.setVisibility(View.INVISIBLE);
                 lastname.setVisibility(View.INVISIBLE);
-                username.setVisibility(View.INVISIBLE);
+                //username.setVisibility(View.INVISIBLE);
                 email.setVisibility(View.INVISIBLE);
                 contactnumber.setVisibility(View.INVISIBLE);
                 password.setVisibility(View.INVISIBLE);
@@ -226,7 +227,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                                 mProgress.setVisibility(View.GONE);
                                 firstname.setVisibility(View.VISIBLE);
                                 lastname.setVisibility(View.VISIBLE);
-                                username.setVisibility(View.VISIBLE);
+                                //username.setVisibility(View.VISIBLE);
                                 email.setVisibility(View.VISIBLE);
                                 contactnumber.setVisibility(View.VISIBLE);
                                 password.setVisibility(View.VISIBLE);
@@ -234,7 +235,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                                     Buyer buyer = new Buyer(
                                             finalFirstname,
                                             finalLastname,
-                                            finalUsername,
                                             finalContact,
                                             image,
                                             finalEmail

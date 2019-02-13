@@ -3,12 +3,12 @@ package vincegeralddelaccerna.ezwheels;
 public class Payments {
 
     public String image, name, code, uid, id, type, shopuid;
-    public String amount, resid, date;
+    public String amount, resid, date, seen;
 
     public Payments() {
     }
 
-    public Payments(String image, String name, String code, String uid, String id, String amount, String type, String shopuid, String resid, String date) {
+    public Payments(String image, String name, String code, String uid, String id, String amount, String type, String shopuid, String resid, String date, String seen) {
         this.image = image;
         this.name = name;
         this.code = code;
@@ -19,6 +19,15 @@ public class Payments {
         this.shopuid = shopuid;
         this.resid = resid;
         this.date = date;
+        this.seen = seen;
+    }
+
+    public String getSeen() {
+        return seen;
+    }
+
+    public void setSeen(String seen) {
+        this.seen = seen;
     }
 
     public String getDate() {

@@ -2,16 +2,15 @@ package vincegeralddelaccerna.ezwheels;
 
 public class Buyer {
 
-    public String firstname, lastname, username, contactnumber, purl, longitude, latitude, email;
+    public String firstname, lastname, contactnumber, purl, longitude, latitude, email;
 
     public Buyer(){
 
     }
 
-    public Buyer(String firstname, String lastname, String username, String contactnumber, String purl, String email) {
+    public Buyer(String firstname, String lastname, String contactnumber, String purl, String email) {
         this.firstname = firstname;
         this.lastname = lastname;
-        this.username = username;
         this.contactnumber = contactnumber;
         this.purl = purl;
         this.longitude = longitude;
@@ -41,14 +40,6 @@ public class Buyer {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getContactnumber() {

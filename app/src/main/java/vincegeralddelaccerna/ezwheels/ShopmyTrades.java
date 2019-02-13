@@ -69,6 +69,8 @@ public class ShopmyTrades extends Fragment {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setContentIntent(contentIntent)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                 .bigText(content))
                 .build();
 
         notificationManagerCompat.notify(3, notification);

@@ -158,7 +158,8 @@ public class ReservationPayment extends AppCompatActivity implements View.OnClic
             Calendar calendar = Calendar.getInstance();
             String date = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
             //String image, String name, String code, String uid, String id, String amount, String type, String shopuid
-            Payments payments = new Payments(imagePath1, senderText, codeText, mAuth.getCurrentUser().getUid(), pid,  amount, type, shopuid, resid, date);
+            String seen = "false";
+            Payments payments = new Payments(imagePath1, senderText, codeText, mAuth.getCurrentUser().getUid(), pid,  amount, type, shopuid, resid, date, seen);
             res.child(pid).setValue(payments).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -205,7 +206,7 @@ public class ReservationPayment extends AppCompatActivity implements View.OnClic
                     mStorageRef.child("Images/"+path).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            Toast.makeText(ReservationPayment.this, "Image 1 added", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ReservationPayment.this, "Proof Image Added", Toast.LENGTH_SHORT).show();
                             imagePath1 = uri.toString();
                             Picasso.get().load(imageUri).fit().centerCrop().into(proof);
                             p1.setVisibility(View.INVISIBLE);

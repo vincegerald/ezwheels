@@ -12,7 +12,8 @@ public class App extends Application {
     public static final String tradesReceived = "tradesReceived";
     public static final String myTrades = "myTrades";
     public static final String loanreqReceived = "loanreqReceived";
-    public static final String myLoanreq = "myLoanreq";;
+    public static final String myLoanreq = "myLoanreq";
+    public static final String paymentReceived = "paymentReceived";
 
 
     @Override
@@ -44,6 +45,9 @@ public class App extends Application {
             NotificationChannel channel5 = new NotificationChannel(myLoanreq, "Received Loan Requests", NotificationManager.IMPORTANCE_HIGH);
             channel1.setDescription("Received Loan Requests");
 
+            NotificationChannel channel6 = new NotificationChannel(paymentReceived, "Received Payment", NotificationManager.IMPORTANCE_HIGH);
+            channel1.setDescription("Received Payment");
+
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
             manager.createNotificationChannel(channel1);
@@ -51,6 +55,7 @@ public class App extends Application {
             manager.createNotificationChannel(channel3);
             manager.createNotificationChannel(channel4);
             manager.createNotificationChannel(channel5);
+            manager.createNotificationChannel(channel6);
         }
     }
 }

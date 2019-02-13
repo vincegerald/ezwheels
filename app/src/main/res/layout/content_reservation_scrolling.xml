@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="15dp"
+            android:layout_margin="10dp"
             app:contentPadding="15dp">
 
             <TextView
@@ -178,6 +179,7 @@
             app:cardBackgroundColor="#fefefe"
             app:cardCornerRadius="5dp"
             app:cardElevation="0dp"
+            android:layout_margin="10dp"
             app:cardMaxElevation="1dp"
             app:contentPadding="10dp">
 

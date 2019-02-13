@@ -195,7 +195,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             approve.setVisibility(View.GONE);
             edit.setVisibility(View.GONE);
         }
-        Toast.makeText(this, listingid, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, listingid, Toast.LENGTH_SHORT).show();
         checkifShop = FirebaseDatabase.getInstance().getReference("Reservation");
 
         checkifShop.orderByChild("listid").equalTo(listingid).addChildEventListener(new ChildEventListener() {
@@ -209,6 +209,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                         reserve.setClickable(false);
                         reserve.setFocusable(false);
                     }
+
                 }
             }
 
@@ -322,7 +323,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void onClick(View view) {
+    public void onClick(final View view) {
         int id = view.getId();
 
         if(id == R.id.apply){
@@ -389,7 +390,8 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){
-                        Toast.makeText(ScrollingActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                        Snackbar.make(view, "Vehicle Added to favorites", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
                     }
                     else{
                         Toast.makeText(ScrollingActivity.this, "Error", Toast.LENGTH_SHORT).show();
@@ -428,7 +430,8 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
-                                        Toast.makeText(ScrollingActivity.this, "Report Addded. Thank you for making ezwheels improve", Toast.LENGTH_SHORT).show();
+                                        Snackbar.make(view, "User Reported. The admin will review your report", Snackbar.LENGTH_LONG)
+                                                .setAction("Action", null).show();
                                         dialogInterface.dismiss();
                                     }
                                     else{
@@ -487,7 +490,8 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                                     if(dataSnapshot.exists()){
                                         float finalRating = (rating + newRating) / 2;
                                         rateShop.child("rating").setValue(finalRating);
-                                        Toast.makeText(ScrollingActivity.this, "Rating Added to Shop", Toast.LENGTH_SHORT).show();
+                                        Snackbar.make(view, "Rating added. Enjoy browsing", Snackbar.LENGTH_LONG)
+                                                .setAction("Action", null).show();
                                         dialogInterface.dismiss();
                                     }
                                 }
@@ -530,7 +534,9 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if(dataSnapshot.exists()){
                                         carSold.child("status").setValue("SOLD");
-                                        finish();
+                                        Snackbar.make(view, "Car mark as sold", Snackbar.LENGTH_LONG)
+                                                .setAction("Action", null).show();
+                                        dialogInterface.dismiss();
                                     }
                                     else{
                                         final DatabaseReference motorSold = FirebaseDatabase.getInstance().getReference("Motor").child(listingid);
@@ -538,6 +544,8 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 motorSold.child("status").setValue("sold");
+                                                Snackbar.make(view, "Motorcycle mark as sold", Snackbar.LENGTH_LONG)
+                                                        .setAction("Action", null).show();
                                                 dialogInterface.dismiss();
                                             }
 
@@ -551,7 +559,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
 
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                                    Toast.makeText(ScrollingActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
 

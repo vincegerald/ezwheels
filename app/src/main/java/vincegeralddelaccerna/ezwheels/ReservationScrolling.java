@@ -190,7 +190,6 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
-
                     listdate = dataSnapshot.child("date").getValue().toString();
                     listedition = dataSnapshot.child("edition").getValue().toString();
                     finalBrand = dataSnapshot.child("finalBrand").getValue().toString();
@@ -315,7 +314,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                     pay.setVisibility(View.VISIBLE);
                 }
 
-                if(reserved.equals("TRUE")){
+                if(reserved.equals("true")){
                     pay.setVisibility(View.GONE);
                 }
 
@@ -389,7 +388,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                                         sellerName.setText(firstname + " " +lastname);
                                         sellerContact.setText(contactnumber);
                                         sellerAddress.setText(address);
-                                        if(status.equals("DECLINED") || status.equals("APPROVED")){
+                                        if(status.equals("DECLINED") || status.equals("APPROVED") || status.equals("DONE")){
                                             decline.setVisibility(View.GONE);
                                             approve.setVisibility(View.GONE);
                                             edit.setVisibility(View.GONE);
@@ -462,7 +461,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                                             textView13.setText("Buyer Details");
                                             sellerName.setText(firstname + " " +lastname);
                                             sellerContact.setText(contactnumber);
-                                            if(status.equals("DECLINED") || status.equals("APPROVED")){
+                                            if(status.equals("DECLINED") || status.equals("APPROVED") || status.equals("DONE")){
                                                 decline.setVisibility(View.GONE);
                                                 approve.setVisibility(View.GONE);
                                                 edit.setVisibility(View.GONE);

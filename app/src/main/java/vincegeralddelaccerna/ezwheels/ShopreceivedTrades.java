@@ -67,6 +67,8 @@ public class ShopreceivedTrades extends Fragment {
                 .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                 .bigText(content))
                 .setContentIntent(contentIntent)
                 .build();
 
