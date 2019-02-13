@@ -72,7 +72,7 @@ public class ShopothersFragment extends Fragment {
             }
         });
 
-                bottomNavigationView.setSelectedItemId(R.id.reservation);
+                bottomNavigationView.setSelectedItemId(R.id.favorites);
 
         return v;
     }
