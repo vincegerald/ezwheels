@@ -138,13 +138,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 if(TextUtils.isEmpty(logUsername)){
                     Snackbar.make(view, "Enter email...", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    .setAction("Action", null).show();
                     return;
                 }
 
                 if(TextUtils.isEmpty(logPassword)){
                     Snackbar.make(view, "Enter password...", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    .setAction("Action", null).show();
                     return;
                 }
 
@@ -156,18 +156,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()){
-                                    getBuyer.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            if(dataSnapshot.exists()){
-                                                successful();
-                                            }
-                                        }
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                                            Toast.makeText(MainActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+                                    successful();
                                 }
                                 else{
                                     mProgress.setVisibility(View.GONE);
@@ -177,11 +166,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     loginPassword.setText("");
                                     if(!networkConnection()){
                                         Snackbar.make(view, "No Internet Connection. Please check internet connection...", Snackbar.LENGTH_LONG)
-                                                .setAction("Action", null).show();
+                                        .setAction("Action", null).show();
                                     }
                                     else{
                                         Snackbar.make(view, "Invalid credentials...", Snackbar.LENGTH_LONG)
-                                                .setAction("Action", null).show();
+                                         .setAction("Action", null).show();
                                     }
                                 }
                             }
@@ -189,46 +178,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-//    public void login(){
-//        final String logUsername = this.loginUsername.getText().toString();
-//        final String logPassword = this.loginPassword.getText().toString();
-//
-//        if(TextUtils.isEmpty(logUsername)){
-//            Toast.makeText(this, "Enter email", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        if(TextUtils.isEmpty(logPassword)){
-//            Toast.makeText(this, "Enter password", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        mProgress.setVisibility(View.VISIBLE);
-//        loginUsername.setVisibility(View.INVISIBLE);
-//        loginPassword.setVisibility(View.INVISIBLE);
-//        mAuth.signInWithEmailAndPassword(logUsername, logPassword)
-//                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if(task.isSuccessful()){
-//                            mProgress.setVisibility(View.GONE);
-//                            loginUsername.setVisibility(View.VISIBLE);
-//                            loginPassword.setVisibility(View.VISIBLE);
-//                            FirebaseUser currentUser = mAuth.getCurrentUser();
-//                            successful();
-//                        }
-//                        else{
-//                            mProgress.setVisibility(View.GONE);
-//                            loginUsername.setVisibility(View.VISIBLE);
-//                            loginPassword.setVisibility(View.VISIBLE);
-//                            loginUsername.setText("");
-//                            loginPassword.setText("");
-//                            error();
-//                        }
-//                    }
-//                });
-//
-//    }
+
     public void successful(){
         Intent successIntent = new Intent(this, DashBoard.class);
         startActivity(successIntent);

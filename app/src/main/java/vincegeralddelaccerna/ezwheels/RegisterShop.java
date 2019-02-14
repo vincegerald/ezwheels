@@ -11,7 +11,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -68,11 +70,12 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
     ProgressBar progress;
     private FirebaseDatabase mDatabase;
     private StorageReference mStorageRef;
-    private FusedLocationProviderClient fusedLocationProviderClient;
     private static Double longitude, latitude;
     private String status = "NOT ACTIVATED";
     private Uri uriImage;
-    private static String imagePath;
+    private static String imagePath="";
+    private static final int REQUEST_LOCATION = 1;
+    private static double latti, longi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +111,9 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
         mAuth = FirebaseAuth.getInstance();
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_LOCATION);
+
 
 
     }
@@ -140,11 +145,11 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                        Toast.makeText(RegisterShop.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
-//            Toast.makeText(MainActivity.this, "Login First", Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -155,7 +160,7 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(final View view) {
 
         if(view.getId() == R.id.permit){
 
@@ -186,41 +191,50 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
         }
 
         if (view.getId() == R.id.btnFinish) {
-            final String sFirstname = shopFirstname.getText().toString();
-            final String sLastname = shopLastname.getText().toString();
-            final String sEmail = shopEmail.getText().toString();
-            final String sContact = shopContact.getText().toString();
-            final String sPassword = shopPassword.getText().toString();
-            final String sName = shopName.getText().toString();
-            final String sLocation = shopLocation.getText().toString();
-            final String sDescription = shopDescription.getText().toString();
+
+            final String sFirstname = shopFirstname.getText().toString().trim();
+            final String sLastname = shopLastname.getText().toString().trim();
+            final String sEmail = shopEmail.getText().toString().trim();
+            final String sContact = shopContact.getText().toString().trim();
+            final String sPassword = shopPassword.getText().toString().trim();
+            final String sName = shopName.getText().toString().trim();
+            final String sLocation = shopLocation.getText().toString().trim();
+            final String sDescription = shopDescription.getText().toString().trim();
+
 
             if (TextUtils.isEmpty(sFirstname)) {
-                Toast.makeText(getApplicationContext(), "Enter firstname", Toast.LENGTH_SHORT).show();
+                Snackbar.make(view, "Enter firstname...", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 return;
             }
             if (TextUtils.isEmpty(sLastname)) {
-                Toast.makeText(getApplicationContext(), "Enter lastname", Toast.LENGTH_SHORT).show();
+                Snackbar.make(view, "Enter lastname...", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 return;
             }
             if (TextUtils.isEmpty(sEmail)) {
-                Toast.makeText(getApplicationContext(), "Enter email", Toast.LENGTH_SHORT).show();
+                Snackbar.make(view, "Enter email...", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 return;
             }
             if (TextUtils.isEmpty(sContact)) {
-                Toast.makeText(getApplicationContext(), "Enter contactnumber", Toast.LENGTH_SHORT).show();
+                Snackbar.make(view, "Enter contactnumber...", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 return;
             }
             if (TextUtils.isEmpty(sPassword)) {
-                Toast.makeText(getApplicationContext(), "Enter password", Toast.LENGTH_SHORT).show();
+                Snackbar.make(view, "Enter password...", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 return;
             }
             if (TextUtils.isEmpty(sName)) {
-                Toast.makeText(getApplicationContext(), "Enter shopname", Toast.LENGTH_SHORT).show();
+                Snackbar.make(view, "Enter shopname...", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 return;
             }
             if (TextUtils.isEmpty(sLocation)) {
-                Toast.makeText(getApplicationContext(), "Enter shop location", Toast.LENGTH_SHORT).show();
+                Snackbar.make(view, "Enter location...", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 return;
             }
             if (TextUtils.isEmpty(sDescription)) {
@@ -228,131 +242,142 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
                 return;
             }
             if (sPassword.length() < 6) {
-                Toast.makeText(getApplicationContext(), "Enter at least 6 characters", Toast.LENGTH_SHORT).show();
+                Snackbar.make(view, "Enter at least 6 characters...", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 return;
             }
-            if (!sEmail.matches(emailPattern)) {
-                Toast.makeText(getApplicationContext(), "Invalid email", Toast.LENGTH_SHORT).show();
-                return;
-            }
+
             if (!sContact.matches(mobilePattern)) {
-                Toast.makeText(getApplicationContext(), "Invalid number", Toast.LENGTH_SHORT).show();
+                Snackbar.make(view, "Invalid number...", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 return;
             }
+
+//            if(imagePath.equals("")){
+//                Snackbar.make(view, "Enter business permit...", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//                return;
+//            }
 
             mProgress.setVisibility(View.VISIBLE);
 
-            getLocation();
 
-            Toast.makeText(this, String.valueOf(longitude), Toast.LENGTH_SHORT).show();
-            final String image = "https://firebasestorage.googleapis.com/v0/b/ezwheels-7396e.appspot.com/o/man.png?alt=media&token=ee7b4f1f-3212-4435-80b7-753ae164ebf2";
-            Uri uri  = Uri.parse(image);
-            StorageReference storageReference = mStorageRef.child("Images").child(image);
-            storageReference.putFile(uri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                    mStorageRef.child("Images/"+image).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            purl = uri.toString();
-                            Toast.makeText(RegisterShop.this, "Wait for a moment", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            });
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                showGPS();
+            }
+            else{
+                getLocation();
+            }
 
-            mAuth.createUserWithEmailAndPassword(sEmail, sPassword)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                Shop shop = new Shop(
-                                        sFirstname,
-                                        sLastname,
-                                        sContact,
-                                        sName,
-                                        sLocation,
-                                        sDescription,
-                                        image,
-                                        longitude,
-                                        latitude,
-                                        rating,
-                                        sEmail,
-                                        imagePath,
-                                        FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                                        status
-                                );
-                                FirebaseDatabase.getInstance().getReference("Shop")
-                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                        .setValue(shop).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if(task.isSuccessful()){
-                                            mProgress.setVisibility(View.GONE);
-                                            Toast.makeText(RegisterShop.this, "Registration Successful" + longitude, Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(RegisterShop.this, ShopDashboard.class);
-                                            startActivity(intent);
-                                        }
-                                        else{
-                                            Toast.makeText(RegisterShop.this, "Registration Fail", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    });
+
+            
+            
+            //Toast.makeText(this, String.valueOf(longitude), Toast.LENGTH_SHORT).show();
+//            final String image = "https://firebasestorage.googleapis.com/v0/b/ezwheels-7396e.appspot.com/o/man.png?alt=media&token=ee7b4f1f-3212-4435-80b7-753ae164ebf2";
+//            Uri uri  = Uri.parse(image);
+//            StorageReference storageReference = mStorageRef.child("Images").child(image);
+//            storageReference.putFile(uri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+//                @Override
+//                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+//                    mStorageRef.child("Images/"+image).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                        @Override
+//                        public void onSuccess(Uri uri) {
+//                            purl = uri.toString();
+//                            Toast.makeText(RegisterShop.this, "Wait for a moment", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                }
+//            });
+
+//            mAuth.createUserWithEmailAndPassword(sEmail, sPassword)
+//                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<AuthResult> task) {
+//                            if(task.isSuccessful()){
+//                                Shop shop = new Shop(
+//                                        sFirstname,
+//                                        sLastname,
+//                                        sContact,
+//                                        sName,
+//                                        sLocation,
+//                                        sDescription,
+//                                        image,
+//                                        longitude,
+//                                        latitude,
+//                                        rating,
+//                                        sEmail,
+//                                        imagePath,
+//                                        FirebaseAuth.getInstance().getCurrentUser().getUid(),
+//                                        status
+//                                );
+//                                FirebaseDatabase.getInstance().getReference("Shop")
+//                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                                        .setValue(shop).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                    @Override
+//                                    public void onComplete(@NonNull Task<Void> task) {
+//                                        if(task.isSuccessful()){
+//                                            mProgress.setVisibility(View.GONE);
+//                                            Toast.makeText(RegisterShop.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+//                                            Intent intent = new Intent(RegisterShop.this, ShopDashboard.class);
+//                                            startActivity(intent);
+//                                        }
+//                                        else{
+//                                            Snackbar.make(view, "Registration Unsuccessful...", Snackbar.LENGTH_LONG)
+//                                                    .setAction("Action", null).show();
+//                                        }
+//                                    }
+//                                });
+//                            }
+//                            else{
+//                                Snackbar.make(view, "Registration Unsuccessful...", Snackbar.LENGTH_LONG)
+//                                        .setAction("Action", null).show();
+//                            }
+//                        }
+//                    });
 
         }
     }
 
     private void getLocation() {
 
-        // Here, thisActivity is the current activity
-        if (ContextCompat.checkSelfPermission(RegisterShop.this,
-                Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
+        if(ActivityCompat.checkSelfPermission(RegisterShop.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(RegisterShop.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(RegisterShop.this,  new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        }
+        else{
+            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-            // Permission is not granted
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(RegisterShop.this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                new AlertDialog.Builder(this)
-                        .setTitle("Requires Permission")
-                        .setMessage("Ezwheels requires you to give permission to get your shop location")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                ActivityCompat.requestPermissions(RegisterShop.this,
-                                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
-                            }
-                        }).create().show();
-            } else {
-                // No explanation needed; request the permission
-                ActivityCompat.requestPermissions(RegisterShop.this,
-                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
+            if(location != null){
+                double lattiy = location.getLatitude();
+                longi = location.getLongitude();
+                Toast.makeText(this, String.valueOf(lattiy), Toast.LENGTH_SHORT).show();
             }
-        } else {
-            // Permission has already been granted
-            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    if(location != null){
-                        longitude = location.getLongitude();
-                        latitude = location.getLatitude();
-                    }
-                }
-            });
+
+
         }
     }
+
+    private void showGPS() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Please turn on your gps connection")
+                .setCancelable(false)
+                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -386,16 +411,6 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == MY_PERMISSIONS_REQUEST_READ_CONTACTS){
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
 
-            }
-            else{
-
-            }
-        }
-    }
 }
 

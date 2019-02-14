@@ -133,13 +133,12 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                                         Toast.makeText(Register.this, "Welcome Buyer!", Toast.LENGTH_SHORT).show();
                                     }
                                     else{
-
                                     }
                                 }
 
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                                    Toast.makeText(Register.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -147,7 +146,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                        Toast.makeText(Register.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -168,48 +167,52 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
         if(view.getId() == R.id.btnRegister){
 
-            final String finalFirstname = firstname.getText().toString();
-            final String finalLastname = lastname.getText().toString();
-            //final String finalUsername = username.getText().toString();
-            final String finalEmail = email.getText().toString();
-            final String finalContact = contactnumber.getText().toString();
-            final String finalPassword = password.getText().toString();
+            final String finalFirstname = firstname.getText().toString().trim();
+            final String finalLastname = lastname.getText().toString().trim();
+            final String finalEmail = email.getText().toString().trim();
+            final String finalContact = contactnumber.getText().toString().trim();
+            final String finalPassword = password.getText().toString().trim();
 
                 if(TextUtils.isEmpty(finalFirstname)){
-                    Toast.makeText(getApplicationContext(), "Enter firstname", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Enter firstname...", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
                     return;
                 }
 
                 if(TextUtils.isEmpty(finalLastname)){
-                    Toast.makeText(getApplicationContext(), "Enter lastname", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Enter lastname...", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
                     return;
                 }
-//                if(TextUtils.isEmpty(finalUsername)){
-//                    Toast.makeText(getApplicationContext(), "Enter username", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
+
                 if(TextUtils.isEmpty(finalEmail)){
-                    Toast.makeText(getApplicationContext(), "Enter email", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Enter email...", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
                     return;
                 }
                 if(TextUtils.isEmpty(finalContact)){
-                    Toast.makeText(getApplicationContext(), "Enter contact number", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Enter contact number...", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
                     return;
                 }
                 if(TextUtils.isEmpty(finalPassword)){
-                    Toast.makeText(getApplicationContext(), "Enter password", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Enter password...", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
                     return;
                 }
                 if(finalPassword.length() < 6){
-                    Toast.makeText(getApplicationContext(), "Password too short... Minimum of 6 characters", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Password too short. Minimum of 6 characters...", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
                     return;
                 }
                 if(!finalContact.matches(mobilePattern)){
-                    Toast.makeText(getApplicationContext(), "Please input a valid number", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Please input a valid number...", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
                     return;
                 }
                 if(!finalEmail.matches(emailPattern)){
-                    Toast.makeText(getApplicationContext(), "Please input a valid email", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Please input a valid email...", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
                     return;
                 }
                 final String image = "https://firebasestorage.googleapis.com/v0/b/ezwheels-7396e.appspot.com/o/man.png?alt=media&token=ee7b4f1f-3212-4435-80b7-753ae164ebf2";
@@ -250,14 +253,15 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                                                 startActivity(intent);
                                             }
                                             else{
-                                                Toast.makeText(Register.this, "Registration Unsuccessful", Toast.LENGTH_SHORT).show();
+                                                Snackbar.make(view, "Registration Unsucessful...", Snackbar.LENGTH_LONG)
+                                                .setAction("Action", null).show();
                                             }
                                         }
                                     });
-//                                    Toast.makeText(Register.this, "Registered Successful", Toast.LENGTH_SHORT).show();
                                 }
                                 else{
-                                    Toast.makeText(Register.this, "Registration Error", Toast.LENGTH_SHORT).show();
+                                    Snackbar.make(view, "Registration Unsuccessful...", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
                                 }
                             }
                         });

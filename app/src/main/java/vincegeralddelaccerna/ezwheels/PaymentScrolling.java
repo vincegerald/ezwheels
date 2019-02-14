@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 public class PaymentScrolling extends AppCompatActivity {
 
@@ -27,8 +29,9 @@ public class PaymentScrolling extends AppCompatActivity {
     private static String pid, uid, shopuid;
     DatabaseReference getPay, getShop, getBuyer;
     private static String amount, type, code, datee,shop, id;
-    private static String firstname, contact, shopname, lastname, contactnumber, location;
+    private static String firstname, contact, shopname, lastname, contactnumber, location, image;
     FirebaseAuth mAuth;
+    ImageView codeImage;
 
 
     @Override
@@ -48,6 +51,7 @@ public class PaymentScrolling extends AppCompatActivity {
         senderContact = findViewById(R.id.senderContact);
         senderShop = findViewById(R.id.senderShop);
         senderLocation = findViewById(R.id.senderLocation);
+        codeImage = findViewById(R.id.codeImage);
 
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -82,11 +86,13 @@ public class PaymentScrolling extends AppCompatActivity {
                     datee = dataSnapshot.child("date").getValue().toString();
                     shop = dataSnapshot.child("shopuid").getValue().toString();
                     id = dataSnapshot.child("uid").getValue().toString();
+                    image = dataSnapshot.child("image").getValue().toString();
 
                     codee.setText("Code: " + code);
                     payment.setText(type);
                     date.setText("Date: " + datee);
                     price.setText(amount);
+                    Picasso.get().load(image).fit().centerCrop().into(codeImage);
                 }
             }
 
@@ -199,20 +205,6 @@ public class PaymentScrolling extends AppCompatActivity {
                 }
             });
         }
-
-
-
-
-
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
     }
 
     @Override

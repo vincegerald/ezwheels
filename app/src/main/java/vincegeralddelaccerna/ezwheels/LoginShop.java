@@ -110,24 +110,7 @@ public class LoginShop extends AppCompatActivity implements View.OnClickListener
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            getShop.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    if(dataSnapshot.exists()){
-                                        successful();
-                                    }
-                                    else{
-                                        Snackbar.make(view, "Invalid credentials...", Snackbar.LENGTH_LONG)
-                                            .setAction("Action", null).show();
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-                                    Toast.makeText(LoginShop.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
+                            successful();
                         }
                         else{
                             mProgress.setVisibility(View.GONE);

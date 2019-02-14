@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -29,6 +30,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,7 +48,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-public class ScrollingActivity extends AppCompatActivity implements View.OnClickListener {
+public class ScrollingActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
 
     ImageView scrollImage;
     TextView shopName, vehicleName, priceView, priceCondition, date, transmissionView, mileageView, yearView,sellerName, sellerAddress, sellerContact, fuelType, seriesView, editionView, infoView,
@@ -54,9 +62,12 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     Float rating;
     TextView rateUser;
     Button apply;
-
+    MapView mapView;
+    GoogleMap map;
     //imageview
     ImageView imageView1, imageView2, imageView3, imageView4, edit;
+
+    private static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyCn5Caz2H3SqFIIrOSLMJCWYm7n21Oy3VI";
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseRef;
@@ -71,13 +82,32 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     private Float newRating;
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        Bundle mapViewBundle = outState.getBundle(MAP_VIEW_BUNDLE_KEY);
+        if(mapViewBundle == null){
+            mapViewBundle = new Bundle();
+            outState.putBundle(MAP_VIEW_BUNDLE_KEY, mapViewBundle);
+        }
+
+        mapView.onSaveInstanceState(mapViewBundle);
+
+    }
+
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_scrolling);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.parseColor("#000000"));
         setSupportActionBar(toolbar);
 
+
+        mapView = findViewById(R.id.map);
         scrollImage = findViewById(R.id.scrollImage);
         vehicleName = findViewById(R.id.textView22);
         priceView = findViewById(R.id.textView23);
@@ -108,6 +138,21 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         cardSeller = findViewById(R.id.cardSeller);
         cardReservation = findViewById(R.id.cardReservation);
         cardTrade = findViewById(R.id.cardTrade);
+
+        Bundle mapViewBundle = null;
+
+        if(savedInstanceState != null){
+            mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
+        }
+
+        mapView.onCreate(mapViewBundle);
+        mapView.getMapAsync(this);
+
+
+
+
+
+
 
 
         //buttons
@@ -285,7 +330,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Toast.makeText(ScrollingActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -580,4 +625,77 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+    @Override
+    protected void onPause() {
+        mapView.onPause();
+        super.onPause();
+    }
+    @Override
+    protected void onDestroy() {
+        mapView.onDestroy();
+        super.onDestroy();
+    }
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+//        map = googleMap;
+//
+
+//        LatLng ny = new LatLng(40.7143528, -74.0059731);
+//        map.moveCamera(CameraUpdateFactory.newLatLng(ny));
+        map = googleMap;
+        map.setMinZoomPreference(12);
+        LatLng ny = new LatLng(40.7143528, -74.0059731);
+
+        UiSettings uiSettings = map.getUiSettings();
+        uiSettings.setIndoorLevelPickerEnabled(true);
+        uiSettings.setMyLocationButtonEnabled(true);
+        uiSettings.setMapToolbarEnabled(true);
+        uiSettings.setCompassEnabled(true);
+        uiSettings.setZoomControlsEnabled(true);
+
+        CameraPosition.Builder camBuilder = CameraPosition.builder();
+        camBuilder.bearing(45);
+        camBuilder.tilt(30);
+        camBuilder.target(ny);
+        camBuilder.zoom(15);
+
+        CameraPosition cp = camBuilder.build();
+
+        map.moveCamera(CameraUpdateFactory.newCameraPosition(cp));
+//        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+//            @Override
+//            public void onMapClick(LatLng latLng) {
+//                if(ScrollingActivity.this.cameraPositionUpdate){
+//                    ScrollingActivity.this.cameraPositionUpdate = false;
+//                    map.moveCamera(CameraUpdateFactory.zoomTo(18));
+//                }else{
+//                    ScrollingActivity.this.cameraPositionUpdate = true;
+//                    map.moveCamera(CameraUpdateFactory.zoomTo(15));
+//                }
+//            }
+//        });
+//
+    }
 }
