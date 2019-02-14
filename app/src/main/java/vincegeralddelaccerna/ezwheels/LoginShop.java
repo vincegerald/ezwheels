@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,6 +20,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginShop extends AppCompatActivity implements View.OnClickListener {
 
@@ -26,6 +32,7 @@ public class LoginShop extends AppCompatActivity implements View.OnClickListener
     EditText shopUsername, shopPassword;
     Button shopLogin;
     ProgressBar mProgress;
+    DatabaseReference getShop;
 
     private FirebaseAuth mAuth;
 
@@ -68,7 +75,7 @@ public class LoginShop extends AppCompatActivity implements View.OnClickListener
         return cm.getActiveNetworkInfo() != null;
     }
     @Override
-    public void onClick(View view) {
+    public void onClick(final View view) {
 
         if(view.getId() == R.id.btnShopreg){
             Intent shopReg = new Intent(this, RegisterShop.class);
@@ -80,18 +87,21 @@ public class LoginShop extends AppCompatActivity implements View.OnClickListener
             startActivity(shopHome);
         }
         if(view.getId() == R.id.shopLogin){
-            final String user = shopUsername.getText().toString();
-            final String pass = shopPassword.getText().toString();
+            final String user = shopUsername.getText().toString().trim();
+            final String pass = shopPassword.getText().toString().trim();
 
             if(TextUtils.isEmpty(user)){
-                Toast.makeText(this, "Enter email", Toast.LENGTH_SHORT).show();
+                Snackbar.make(view, "Enter email...", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 return;
             }
             if(TextUtils.isEmpty(pass)){
-                Toast.makeText(this, "Enter password", Toast.LENGTH_SHORT).show();
+                Snackbar.make(view, "Enter password...", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 return;
             }
 
+            getShop = FirebaseDatabase.getInstance().getReference("Shop");
             mProgress.setVisibility(View.VISIBLE);
             shopUsername.setVisibility(View.INVISIBLE);
             shopPassword.setVisibility(View.INVISIBLE);
@@ -100,14 +110,37 @@ public class LoginShop extends AppCompatActivity implements View.OnClickListener
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            FirebaseUser currentUser = mAuth.getCurrentUser();
-                            successful();
+                            getShop.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists()){
+                                        successful();
+                                    }
+                                    else{
+                                        Snackbar.make(view, "Invalid credentials...", Snackbar.LENGTH_LONG)
+                                            .setAction("Action", null).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Toast.makeText(LoginShop.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
                         }
                         else{
                             mProgress.setVisibility(View.GONE);
                             shopUsername.setVisibility(View.VISIBLE);
                             shopPassword.setVisibility(View.VISIBLE);
-                            error();
+                            if(!networkConnection()){
+                                Snackbar.make(view, "No Internet Connection. Please check internet connection...", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                            }
+                            else{
+                                Snackbar.make(view, "Invalid credentials...", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                            }
                         }
                     }
                 });
@@ -122,13 +155,13 @@ public class LoginShop extends AppCompatActivity implements View.OnClickListener
         Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
     }
 
-    public void error(){
-        if(!networkConnection()){
-            Toast.makeText(this, "No Internet Connection. Please check internet connection", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show();
-
-        }
-    }
+//    public void error(){
+//        if(!networkConnection()){
+//            Toast.makeText(this, "No Internet Connection. Please check internet connection...", Toast.LENGTH_SHORT).show();
+//        }
+//        else{
+//            Toast.makeText(this, "Invalid email or password...", Toast.LENGTH_SHORT).show();
+//
+//        }
+//    }
 }
