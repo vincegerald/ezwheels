@@ -30,6 +30,8 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.TradeViewHol
     private List<Trade> mUploads;
     DatabaseReference getShop, getBuyer, getAdmin;
     private static double lat, lon;
+    private static String name;
+
 
     //firebase
     private FirebaseAuth mAuth;
@@ -114,6 +116,7 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.TradeViewHol
                 if(dataSnapshot.exists()){
                     lat = Double.parseDouble(dataSnapshot.child("lat").getValue().toString());
                     lon = Double.parseDouble(dataSnapshot.child("lon").getValue().toString());
+                    name = dataSnapshot.child("name").getValue().toString();
                 }
             }
 
@@ -128,6 +131,7 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.TradeViewHol
                 Intent intent = new Intent(mContext, TradeScrolling.class);
                 intent.putExtra("lat", lat);
                 intent.putExtra("lon", lon);
+                intent.putExtra("shopname", name);
                 intent.putExtra("listId", uploadCurrent.getListingid());
                 intent.putExtra("brand", uploadCurrent.getBrand());
                 intent.putExtra("model", uploadCurrent.getModel());

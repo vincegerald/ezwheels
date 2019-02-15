@@ -26,9 +26,6 @@
     </item>
 
 
-
-
-
     <item
         android:id="@+id/payment"
         android:icon="@drawable/ic_payment_black_24dp"

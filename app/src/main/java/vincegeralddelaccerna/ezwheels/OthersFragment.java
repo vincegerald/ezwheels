@@ -34,8 +34,10 @@ public class OthersFragment extends Fragment {
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
         final FavoriteFragment favoriteFragment = new FavoriteFragment();
-        final TradeinFragment tradeinFragment = new TradeinFragment();
+        final ShopmyTrades shopmyTrades = new ShopmyTrades();
         final DashboardFragment dashboardFragment = new DashboardFragment();
+        final MyLoanReq myLoanReq= new MyLoanReq();
+        final MyPayments myPayments = new MyPayments();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -47,9 +49,19 @@ public class OthersFragment extends Fragment {
                     setFragment(favoriteFragment);
                     return true;
                 }
+                if(id == R.id.payment){
+                    setFragment(myPayments);
+                    return true;
+                }
+
+                if(id == R.id.loan){
+                    setFragment(myLoanReq);
+                    return true;
+                }
+
 
                 if(id == R.id.tradein){
-                    setFragment(tradeinFragment);
+                    setFragment(shopmyTrades);
                     return  true;
                 }
 

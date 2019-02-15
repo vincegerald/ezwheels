@@ -69,7 +69,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
     private DatabaseReference mDatabaseRef;
     private DatabaseReference mDatabaseRef1, approveRef;
 
-
+    private static String shopname;
     private static String  contact, description, location, name, uid;
     private String brand, model;
     private String listingid;
@@ -165,6 +165,9 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
         mAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         mDatabaseRef1 = FirebaseDatabase.getInstance().getReference();
+
+
+        shopname = getIntent().getStringExtra("shopname");
 
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -697,7 +700,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
         //Toast.makeText(TradeScrolling.this, String.valueOf(lat), Toast.LENGTH_SHORT).show();
         LatLng ny = new LatLng(lat, lon);
 
-        map.addMarker(new MarkerOptions().position(ny).title("Vehicle Shop"));
+        map.addMarker(new MarkerOptions().position(ny).title(shopname));
 
 
 

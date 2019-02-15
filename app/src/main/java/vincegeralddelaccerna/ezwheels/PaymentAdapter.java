@@ -35,6 +35,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
     FirebaseAuth mAuth;
     DatabaseReference getShop, getBuyer, getAdmin;
     private static double lat, lon;
+    private static String name;
 
 
     public PaymentAdapter(Context context, List<Payments> uploads) {
@@ -113,6 +114,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
                         String lastname = dataSnapshot.child("lastname").getValue().toString();
                         lat = Double.parseDouble(dataSnapshot.child("lat").getValue().toString());
                         lon = Double.parseDouble(dataSnapshot.child("lon").getValue().toString());
+                        name = dataSnapshot.child("name").getValue().toString();
                         holder.shop.setText("Sent to: " + firstname + " " + lastname);
                     }
                     else{
@@ -120,10 +122,11 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()){
-                                    String name = dataSnapshot.child("name").getValue().toString();
+                                    String namee = dataSnapshot.child("name").getValue().toString();
                                     lat = Double.parseDouble(dataSnapshot.child("lat").getValue().toString());
                                     lon = Double.parseDouble(dataSnapshot.child("lon").getValue().toString());
-                                    holder.shop.setText("Sent to: " + name);
+                                    name = dataSnapshot.child("name").getValue().toString();
+                                    holder.shop.setText("Sent to: " + namee);
                                 }
                             }
 
@@ -147,6 +150,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
                 Intent intent = new Intent(mContext, PaymentScrolling.class);
                 intent.putExtra("lat", lat);
                 intent.putExtra("lon", lon);
+                intent.putExtra("shopname", name);
                 intent.putExtra("pid", uploadCurrent.getId());
                 intent.putExtra("uid", uploadCurrent.getUid());
                 intent.putExtra("shopuid", uploadCurrent.getShopuid());

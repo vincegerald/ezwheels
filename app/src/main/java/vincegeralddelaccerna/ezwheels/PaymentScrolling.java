@@ -44,7 +44,7 @@ public class PaymentScrolling extends AppCompatActivity implements OnMapReadyCal
     MapView mapView;
     GoogleMap map;
     private static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyCn5Caz2H3SqFIIrOSLMJCWYm7n21Oy3VI";
-
+    private static String shopnamee;
 
 
     @Override
@@ -114,6 +114,7 @@ public class PaymentScrolling extends AppCompatActivity implements OnMapReadyCal
 
         lat = getIntent().getDoubleExtra("lat", 0.2f);
         lon = getIntent().getDoubleExtra("lon", 0.2f);
+        shopnamee = getIntent().getStringExtra("shopname");
 
         Toast.makeText(this, String.valueOf(lat), Toast.LENGTH_SHORT).show();
 
@@ -305,7 +306,7 @@ public class PaymentScrolling extends AppCompatActivity implements OnMapReadyCal
         //Toast.makeText(PaymentScrolling.this, String.valueOf(lat), Toast.LENGTH_SHORT).show();
         LatLng ny = new LatLng(lat, lon);
 
-        map.addMarker(new MarkerOptions().position(ny).title("Vehicle Shop"));
+        map.addMarker(new MarkerOptions().position(ny).title(shopnamee));
 
 
 

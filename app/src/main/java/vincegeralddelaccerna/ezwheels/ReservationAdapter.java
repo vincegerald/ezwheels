@@ -29,6 +29,8 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
     private List<Reservation> mUploads;
     DatabaseReference getShop;
     private static double lat, lon;
+    private static String name;
+
 
     public ReservationAdapter(Context context, List<Reservation> uploads) {
         mContext = context;
@@ -62,6 +64,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
                 if(dataSnapshot.exists()){
                     lat = Double.parseDouble(dataSnapshot.child("lat").getValue().toString());
                     lon = Double.parseDouble(dataSnapshot.child("lon").getValue().toString());
+                    name = dataSnapshot.child("name").getValue().toString();
                 }
             }
 
@@ -88,6 +91,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
                 Intent intent = new Intent(mContext, ReservationScrolling.class);
                 intent.putExtra("lat", lat);
                 intent.putExtra("lon", lon);
+                intent.putExtra("shopname", name);
                 intent.putExtra("resId", uploadCurrent.getResId());
                 intent.putExtra("listingId", uploadCurrent.getListid());
                 intent.putExtra("shopId", uploadCurrent.getShopuid());

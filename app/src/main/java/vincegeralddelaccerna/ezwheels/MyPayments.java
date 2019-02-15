@@ -84,7 +84,7 @@ public class MyPayments extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_shop_received_reservations, container, false);
+        View v = inflater.inflate(R.layout.fragment_my_payments, container, false);
 
         recyclerView = v.findViewById(R.id.recyclerRequest);
         mProgressbar = v.findViewById(R.id.progress);

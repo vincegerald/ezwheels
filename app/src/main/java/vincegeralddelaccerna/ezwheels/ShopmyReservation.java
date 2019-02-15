@@ -106,9 +106,7 @@ public class ShopmyReservation extends Fragment {
         String id = mAuth.getCurrentUser().getUid();
         Query query = FirebaseDatabase.getInstance().getReference("Reservation")
                 .orderByChild("uid").equalTo(id);
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser =  mAuth.getCurrentUser();
-        uid = currentUser.getUid();
+        Toast.makeText(getActivity(), mAuth.getCurrentUser().getUid(), Toast.LENGTH_SHORT).show();
         databaseReference1 = FirebaseDatabase.getInstance().getReference("Reservation");
 
 

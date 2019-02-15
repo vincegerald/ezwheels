@@ -43,7 +43,7 @@
             android:layout_below="@+id/brokencar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="NO LOAN REQUESTS"
+            android:text="NO LOAN REQUESTS :("
             android:gravity="center"
             android:textColor="#505050"
             android:textSize="28sp"

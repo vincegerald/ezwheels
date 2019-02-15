@@ -54,7 +54,7 @@ public class DashBoard extends AppCompatActivity  {
         final ShopAddListing shopAddListing = new ShopAddListing();
         final ProfileFragment profileFragment = new ProfileFragment();
         final OthersFragment othersFragment = new OthersFragment();
-        final ReservationFragment reservationFragment = new ReservationFragment();
+        final ShopmyReservation shopmyReservation = new ShopmyReservation();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -67,13 +67,9 @@ public class DashBoard extends AppCompatActivity  {
                     return true;
                 }
 
-                if(id == R.id.search){
-                    setFragment(searchFragment);
-                    return  true;
-                }
 
                 if(id == R.id.reservation){
-                    setFragment(reservationFragment);
+                    setFragment(shopmyReservation);
                     return  true;
                 }
 

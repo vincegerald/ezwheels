@@ -54,6 +54,7 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
     CardView cardSeller, cardTrade, cardReservation;
     RatingBar ratingbar;
     TextView reportUser;
+    private static String shopname;
 
     //imageview
     ImageView imageView1, imageView2, imageView3, imageView4;
@@ -187,6 +188,7 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
 
         lat = getIntent().getDoubleExtra("lat", 0.2f);
         lon = getIntent().getDoubleExtra("lon", 0.2f);
+        shopname = getIntent().getStringExtra("shopname");
 
 
         //check if the listing is posted by current user
@@ -614,7 +616,7 @@ public class ScrollingActivity1 extends AppCompatActivity implements View.OnClic
         //Toast.makeText(ScrollingActivity1.this, String.valueOf(lat), Toast.LENGTH_SHORT).show();
         LatLng ny = new LatLng(lat, lon);
 
-        map.addMarker(new MarkerOptions().position(ny).title("Vehicle Shop"));
+        map.addMarker(new MarkerOptions().position(ny).title(shopname));
 
 
 

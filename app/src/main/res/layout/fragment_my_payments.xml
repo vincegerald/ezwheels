@@ -36,10 +36,10 @@
             android:layout_below="@+id/brokencar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="NO RESERVATIONS :( JUST BE PATIENT"
+            android:text="NO PAYMENTS :( "
             android:gravity="center"
             android:textColor="#505050"
-            android:textSize="22sp"
+            android:textSize="28sp"
             android:layout_marginTop="10dp"
             android:textStyle="bold"/>
     </LinearLayout>

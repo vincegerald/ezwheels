@@ -77,6 +77,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
     private static String  contact, description, location, name, uid;
     private String brand, model;
     private String listingid;
+    private static String shopname;
     private String image1;
     private String price, year, color;
     private String imageCar;
@@ -166,6 +167,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
 
         lat = getIntent().getDoubleExtra("lat", 0.2f);
         lon = getIntent().getDoubleExtra("lon", 0.2f);
+        shopname = getIntent().getStringExtra("shopname");
         //spinner
 
 
@@ -867,7 +869,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
         //Toast.makeText(ScrollingActivity.this, String.valueOf(lat), Toast.LENGTH_SHORT).show();
         LatLng ny = new LatLng(lat, lon);
 
-        map.addMarker(new MarkerOptions().position(ny).title("Vehicle Shop"));
+        map.addMarker(new MarkerOptions().position(ny).title(shopname));
 
 
 
