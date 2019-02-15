@@ -151,12 +151,12 @@ public class ActivateAccount extends AppCompatActivity implements View.OnClickLi
                             final String uid = mAuth.getCurrentUser().getUid();
                             final String payid = mDatabaseRef.push().getKey();
                             final String amount = "999.00";
-                            final String type = "Subscription";
+                            final String type = "Subscription Fee";
                             final String shopuid = "";
                             Calendar calendar = Calendar.getInstance();
                             String date = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
                             String seen = "false";
-                            Payments payments = new Payments(imagePath2, sendertext, codeText, uid, payid, amount, type, shopuid, "", date, seen);
+                            Payments payments = new Payments(imagePath2, sendertext, codeText, uid, payid, amount, type, "QWdackAtiFTPQmcxZqnF1wvgB782", "", date, seen);
                             mDatabaseRef.child("Payments").child(payid).setValue(payments).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {

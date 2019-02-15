@@ -49,9 +49,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-public class RegisterShop extends AppCompatActivity implements View.OnClickListener {
+public class RegisterShop extends AppCompatActivity implements View.OnClickListener, LocationListener {
 
-    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1 ;
+    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
     Button btnNext, btnBack, btnFinish, btnHome;
     private static double lon, lat;
     private static String purl;
@@ -70,10 +70,10 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
     ProgressBar progress;
     private FirebaseDatabase mDatabase;
     private StorageReference mStorageRef;
-    private static Double longitude, latitude;
+    private static double longitude , latitude;
     private String status = "NOT ACTIVATED";
     private Uri uriImage;
-    private static String imagePath="";
+    private static String imagePath = "";
     private static final int REQUEST_LOCATION = 1;
     private static double latti, longi;
 
@@ -112,7 +112,10 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
 
         mAuth = FirebaseAuth.getInstance();
 
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_LOCATION);
+
+
+
+
 
 
 
@@ -191,6 +194,22 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
         }
 
         if (view.getId() == R.id.btnFinish) {
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
+
+            onLocationChanged(location);
+
 
             final String sFirstname = shopFirstname.getText().toString().trim();
             final String sLastname = shopLastname.getText().toString().trim();
@@ -253,110 +272,82 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
                 return;
             }
 
-//            if(imagePath.equals("")){
-//                Snackbar.make(view, "Enter business permit...", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//                return;
-//            }
+            if(imagePath.equals("")){
+                Snackbar.make(view, "Enter business permit...", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                return;
+            }
 
             mProgress.setVisibility(View.VISIBLE);
 
 
-            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-                showGPS();
-            }
-            else{
-                getLocation();
-            }
 
+            final String image = "https://firebasestorage.googleapis.com/v0/b/ezwheels-7396e.appspot.com/o/man.png?alt=media&token=ee7b4f1f-3212-4435-80b7-753ae164ebf2";
+            Uri uri  = Uri.parse(image);
+            StorageReference storageReference = mStorageRef.child("Images").child(image);
+            storageReference.putFile(uri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    mStorageRef.child("Images/"+image).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            purl = uri.toString();
+                            Toast.makeText(RegisterShop.this, "Wait for a moment", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
 
-            
-            
-            //Toast.makeText(this, String.valueOf(longitude), Toast.LENGTH_SHORT).show();
-//            final String image = "https://firebasestorage.googleapis.com/v0/b/ezwheels-7396e.appspot.com/o/man.png?alt=media&token=ee7b4f1f-3212-4435-80b7-753ae164ebf2";
-//            Uri uri  = Uri.parse(image);
-//            StorageReference storageReference = mStorageRef.child("Images").child(image);
-//            storageReference.putFile(uri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-//                @Override
-//                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-//                    mStorageRef.child("Images/"+image).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                        @Override
-//                        public void onSuccess(Uri uri) {
-//                            purl = uri.toString();
-//                            Toast.makeText(RegisterShop.this, "Wait for a moment", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                }
-//            });
-
-//            mAuth.createUserWithEmailAndPassword(sEmail, sPassword)
-//                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<AuthResult> task) {
-//                            if(task.isSuccessful()){
-//                                Shop shop = new Shop(
-//                                        sFirstname,
-//                                        sLastname,
-//                                        sContact,
-//                                        sName,
-//                                        sLocation,
-//                                        sDescription,
-//                                        image,
-//                                        longitude,
-//                                        latitude,
-//                                        rating,
-//                                        sEmail,
-//                                        imagePath,
-//                                        FirebaseAuth.getInstance().getCurrentUser().getUid(),
-//                                        status
-//                                );
-//                                FirebaseDatabase.getInstance().getReference("Shop")
-//                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                                        .setValue(shop).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<Void> task) {
-//                                        if(task.isSuccessful()){
-//                                            mProgress.setVisibility(View.GONE);
-//                                            Toast.makeText(RegisterShop.this, "Registration Successful", Toast.LENGTH_SHORT).show();
-//                                            Intent intent = new Intent(RegisterShop.this, ShopDashboard.class);
-//                                            startActivity(intent);
-//                                        }
-//                                        else{
-//                                            Snackbar.make(view, "Registration Unsuccessful...", Snackbar.LENGTH_LONG)
-//                                                    .setAction("Action", null).show();
-//                                        }
-//                                    }
-//                                });
-//                            }
-//                            else{
-//                                Snackbar.make(view, "Registration Unsuccessful...", Snackbar.LENGTH_LONG)
-//                                        .setAction("Action", null).show();
-//                            }
-//                        }
-//                    });
+            mAuth.createUserWithEmailAndPassword(sEmail, sPassword)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                Shop shop = new Shop(
+                                        sFirstname,
+                                        sLastname,
+                                        sContact,
+                                        sName,
+                                        sLocation,
+                                        sDescription,
+                                        image,
+                                        longitude,
+                                        latitude,
+                                        rating,
+                                        sEmail,
+                                        imagePath,
+                                        FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                                        status
+                                );
+                                FirebaseDatabase.getInstance().getReference("Shop")
+                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                        .setValue(shop).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            mProgress.setVisibility(View.GONE);
+                                            Toast.makeText(RegisterShop.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(RegisterShop.this, ShopDashboard.class);
+                                            startActivity(intent);
+                                        }
+                                        else{
+                                            Snackbar.make(view, "Registration Unsuccessful...", Snackbar.LENGTH_LONG)
+                                                    .setAction("Action", null).show();
+                                        }
+                                    }
+                                });
+                            }
+                            else{
+                                Snackbar.make(view, "Registration Unsuccessful...", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                            }
+                        }
+                    });
 
         }
     }
 
-    private void getLocation() {
 
-        if(ActivityCompat.checkSelfPermission(RegisterShop.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(RegisterShop.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(RegisterShop.this,  new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-        }
-        else{
-            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-            if(location != null){
-                double lattiy = location.getLatitude();
-                longi = location.getLongitude();
-                Toast.makeText(this, String.valueOf(lattiy), Toast.LENGTH_SHORT).show();
-            }
-
-
-        }
-    }
 
     private void showGPS() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -412,5 +403,25 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    @Override
+    public void onLocationChanged(Location location) {
+        longitude = location.getLongitude();
+        latitude = location.getLatitude();
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
 }
 

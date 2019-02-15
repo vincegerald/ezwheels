@@ -33,7 +33,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
     DatabaseReference getListing, getMotor;
     private static String brand, model;
     FirebaseAuth mAuth;
-    DatabaseReference getShop, getBuyer;
+    DatabaseReference getShop, getBuyer, getAdmin;
 
     public PaymentAdapter(Context context, List<Payments> uploads) {
         mContext = context;
@@ -55,6 +55,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
         mAuth = FirebaseAuth.getInstance();
         getBuyer = FirebaseDatabase.getInstance().getReference("Buyer");
         getShop = FirebaseDatabase.getInstance().getReference("Shop");
+        getAdmin = FirebaseDatabase.getInstance().getReference("Admin");
         holder.image.setVisibility(View.GONE);
         holder.type.setVisibility(View.GONE);
         holder.textStatus.setVisibility(View.GONE);
@@ -79,9 +80,11 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
                         getShop.child(uploadCurrent.getUid()).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                String firstname = dataSnapshot.child("firstname").getValue().toString();
-                                String lastname = dataSnapshot.child("lastname").getValue().toString();
-                                holder.shop.setText("Sender: " + firstname + " " + lastname);
+                                if(dataSnapshot.exists()){
+                                    String firstname = dataSnapshot.child("firstname").getValue().toString();
+                                    String lastname = dataSnapshot.child("lastname").getValue().toString();
+                                    holder.shop.setText("Sender: " + firstname + " " + lastname);
+                                }
                             }
 
                             @Override
@@ -100,13 +103,29 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
         }
 
         if(mAuth.getCurrentUser().getUid().equals(uploadCurrent.getUid())){
-            getShop.child(uploadCurrent.getSeen()).addValueEventListener(new ValueEventListener() {
+            getShop.child(uploadCurrent.getShopuid()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists()){
                         String firstname = dataSnapshot.child("firstname").getValue().toString();
                         String lastname = dataSnapshot.child("lastname").getValue().toString();
-                        holder.shop.setText("Sender: " + firstname + " " + lastname);
+                        holder.shop.setText("Sent to: " + firstname + " " + lastname);
+                    }
+                    else{
+                        getAdmin.child(uploadCurrent.getShopuid()).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists()){
+                                    String name = dataSnapshot.child("name").getValue().toString();
+                                    holder.shop.setText("Sent to: " + name);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Toast.makeText(mContext, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 }
 
@@ -157,7 +176,6 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
             textStatus = itemView.findViewById(R.id.textStatus);
             imageView = itemView.findViewById(R.id.imageView6);
             finalStatus = itemView.findViewById(R.id.finalStatus);
-
 
         }
     }

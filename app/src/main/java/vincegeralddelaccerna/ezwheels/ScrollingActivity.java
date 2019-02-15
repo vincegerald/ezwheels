@@ -35,8 +35,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -80,6 +82,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     private String price, year, color;
     private String shopuid;
     private Float newRating;
+    private static double lon, lat;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -150,7 +153,8 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
 
 
 
-
+        lat = getIntent().getDoubleExtra("lat", 0.2f);
+        lon = getIntent().getDoubleExtra("lon", 0.2f);
 
 
 
@@ -291,6 +295,8 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                     description  = dataSnapshot.child("description").getValue().toString();
                     location = dataSnapshot.child("location").getValue().toString();
                     name = dataSnapshot.child("name").getValue().toString();
+//                    lon = Double.parseDouble(dataSnapshot.child("lon").getValue().toString());
+//                    lat = Double.parseDouble(dataSnapshot.child("lat").getValue().toString());
                     sellerName.setText(firstname + " " + lastname);
                     sellerAddress.setText(location);
                     sellerContact.setText(contact);
@@ -635,6 +641,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     protected void onStart() {
         super.onStart();
         mapView.onStart();
+
     }
 
     @Override
@@ -666,7 +673,14 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
 //        map.moveCamera(CameraUpdateFactory.newLatLng(ny));
         map = googleMap;
         map.setMinZoomPreference(12);
-        LatLng ny = new LatLng(40.7143528, -74.0059731);
+        double finalLat = lat;
+        double finatLong = lon;
+        Toast.makeText(ScrollingActivity.this, String.valueOf(lat), Toast.LENGTH_SHORT).show();
+        LatLng ny = new LatLng(lat, lon);
+
+        map.addMarker(new MarkerOptions().position(ny).title("Vehicle Shop"));
+
+
 
         UiSettings uiSettings = map.getUiSettings();
         uiSettings.setIndoorLevelPickerEnabled(true);

@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,15 +21,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapter.DashboardCarViewHolder> {
 
     private Context mContext;
     private List<Upload> mUploads;
-    private List<Shop> shop;
+    private List<Upload> temp;
     DatabaseReference databaseReference;
     private String name;
+    private static double lat, lon;
 
     public DashboardCarAdapter(Context context, List<Upload> uploads) {
         mContext = context;
@@ -65,6 +69,8 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
                     name = dataSnapshot.child("name").getValue().toString();
                     float rating  = Float.parseFloat(dataSnapshot.child("rating").getValue().toString());
                     String rate = String.format("%,.1f", rating);
+                    lat = Double.parseDouble(dataSnapshot.child("lat").getValue().toString());
+                    lon = Double.parseDouble(dataSnapshot.child("lon").getValue().toString());
                     holder.date.setText(name + " " +  "("  +rate+ ")");
                 }
             }
@@ -78,6 +84,8 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, ScrollingActivity.class);
+                intent.putExtra("lat", lat);
+                intent.putExtra("lon", lon);
                 intent.putExtra("image_url1", uploadCurrent.getImage());
                 intent.putExtra("image_url2", uploadCurrent.getImagePath1());
                 intent.putExtra("image_url3", uploadCurrent.getImagePath2());
@@ -110,6 +118,8 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
          return mUploads.size();
     }
 
+
+
     public class DashboardCarViewHolder extends RecyclerView.ViewHolder{
 
         public TextView brand, model, price, d1, d2, d3, d4, date, stat;
@@ -131,4 +141,6 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
 
         }
     }
+
+
 }

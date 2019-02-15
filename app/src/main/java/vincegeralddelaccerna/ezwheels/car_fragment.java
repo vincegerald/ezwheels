@@ -72,25 +72,20 @@ public class car_fragment extends Fragment {
         query = FirebaseDatabase.getInstance().getReference("Car")
                 .orderByChild("status").equalTo("AVAILABLE");
 
-    //        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-    //            @Override
-    //            public boolean onQueryTextSubmit(String s) {
-    //                for(int i = 0; i <= mUploads.size(); i++){
-    //                    Upload upload = new Upload();
-    //                    String searchedName = mUploads.get(i).getFinalBrand().concat(mUploads.get(i).getFinalModel());
-    //                    if(searchedName.contains(s)){
-    //                        temp.add(mUploads.add(upload(i)));
-    //                    }
-    //                }
-    //                return false;
-    //            }
-    //
-    //            @Override
-    //            public boolean onQueryTextChange(String s) {
-    //
-    //                return false;
-    //            }
-    //        });
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String s) {
+
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String s) {
+                    mAdapter.getFilter().filter(s);
+
+                    return false;
+                }
+            });
 
 
 
@@ -130,22 +125,5 @@ public class car_fragment extends Fragment {
         return v;
     }
 
-//    private void search(String s){
-//
-//        Query query = databaseReference.orderByChild("brand")
-//                .startAt(s)
-//                .endAt(s + "\uf8ff");
-//
-//        query.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
+
 }

@@ -140,7 +140,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         checkIfAlreadyPaid = FirebaseDatabase.getInstance().getReference("Payments");
 
-        checkIfAlreadyPaid.orderByChild("type").equalTo("Subscription").addChildEventListener(new ChildEventListener() {
+        checkIfAlreadyPaid.orderByChild("type").equalTo("Subscription Fee").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 String id = dataSnapshot.child("uid").getValue().toString();
@@ -168,7 +168,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
