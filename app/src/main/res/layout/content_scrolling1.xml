@@ -277,7 +277,7 @@
             android:layout_marginRight="10dp"
             app:cardCornerRadius="5dp">
 
-            <ImageView
+            <com.zolad.zoominimageview.ZoomInImageView
                 android:id="@+id/image2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -293,7 +293,7 @@
             android:layout_marginRight="10dp"
             app:cardCornerRadius="5dp">
 
-            <ImageView
+            <com.zolad.zoominimageview.ZoomInImageView
                 android:id="@+id/image3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -309,7 +309,7 @@
             android:layout_marginRight="10dp"
             app:cardCornerRadius="5dp">
 
-            <ImageView
+            <com.zolad.zoominimageview.ZoomInImageView
                 android:id="@+id/image4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -325,7 +325,7 @@
             android:layout_marginRight="10dp"
             app:cardCornerRadius="5dp">
 
-            <ImageView
+            <com.zolad.zoominimageview.ZoomInImageView
                 android:id="@+id/image1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
