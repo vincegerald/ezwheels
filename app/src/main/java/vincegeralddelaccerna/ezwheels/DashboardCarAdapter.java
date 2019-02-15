@@ -136,7 +136,7 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
                 String filterPattern = charSequence.toString().toLowerCase().trim();
 
                 for(Upload item : temp){
-                    if(item.getFinalModel().concat(item.getFinalBrand()).concat(item.getFinalPrice()).concat(item.finalPcondition).concat(item.finalTransmission).toLowerCase().contains(filterPattern)){
+                    if(item.getFinalModel().concat(item.getFinalBrand()).concat(item.getFuel()).concat(item.getFinalPrice()).concat(item.finalPcondition).concat(item.finalTransmission).toLowerCase().contains(filterPattern)){
                         filteredList.add(item);
                     }
                 }

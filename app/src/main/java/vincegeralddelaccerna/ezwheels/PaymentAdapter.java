@@ -31,9 +31,11 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
     private Context mContext;
     private List<Payments> mUploads;
     DatabaseReference getListing, getMotor;
-    private static String brand, model;
+
     FirebaseAuth mAuth;
     DatabaseReference getShop, getBuyer, getAdmin;
+    private static double lat, lon;
+
 
     public PaymentAdapter(Context context, List<Payments> uploads) {
         mContext = context;
@@ -109,6 +111,8 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
                     if(dataSnapshot.exists()){
                         String firstname = dataSnapshot.child("firstname").getValue().toString();
                         String lastname = dataSnapshot.child("lastname").getValue().toString();
+                        lat = Double.parseDouble(dataSnapshot.child("lat").getValue().toString());
+                        lon = Double.parseDouble(dataSnapshot.child("lon").getValue().toString());
                         holder.shop.setText("Sent to: " + firstname + " " + lastname);
                     }
                     else{
@@ -139,6 +143,8 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, PaymentScrolling.class);
+                intent.putExtra("lat", lat);
+                intent.putExtra("lon", lon);
                 intent.putExtra("pid", uploadCurrent.getId());
                 intent.putExtra("uid", uploadCurrent.getUid());
                 intent.putExtra("shopuid", uploadCurrent.getShopuid());

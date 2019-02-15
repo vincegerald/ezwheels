@@ -12,7 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -21,6 +27,8 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
 
     private Context mContext;
     private List<Reservation> mUploads;
+    DatabaseReference getShop;
+    private static double lat, lon;
 
     public ReservationAdapter(Context context, List<Reservation> uploads) {
         mContext = context;
@@ -47,6 +55,21 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
         holder.price.setText(uploadCurrent.getPrice());
         holder.status.setText(uploadCurrent.getStatus());
         holder.logoPeso.setVisibility(View.GONE);
+        getShop = FirebaseDatabase.getInstance().getReference("Shop");
+        getShop.child(uploadCurrent.getShopuid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    lat = Double.parseDouble(dataSnapshot.child("lat").getValue().toString());
+                    lon = Double.parseDouble(dataSnapshot.child("lon").getValue().toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(mContext, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
         if(uploadCurrent.getStatus().equals("PENDING")){
             holder.status.setTextColor(Color.parseColor("#ffa500"));
         }
@@ -63,6 +86,8 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, ReservationScrolling.class);
+                intent.putExtra("lat", lat);
+                intent.putExtra("lon", lon);
                 intent.putExtra("resId", uploadCurrent.getResId());
                 intent.putExtra("listingId", uploadCurrent.getListid());
                 intent.putExtra("shopId", uploadCurrent.getShopuid());

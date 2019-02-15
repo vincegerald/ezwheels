@@ -641,6 +641,12 @@
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/map"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"/>
+
 
     </LinearLayout>
 

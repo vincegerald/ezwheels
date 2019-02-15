@@ -64,12 +64,14 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     Float rating;
     TextView rateUser;
     Button apply;
+    private static double lon, lat;
     MapView mapView;
     GoogleMap map;
+    private static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyCn5Caz2H3SqFIIrOSLMJCWYm7n21Oy3VI";
     //imageview
     ImageView imageView1, imageView2, imageView3, imageView4, edit;
 
-    private static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyCn5Caz2H3SqFIIrOSLMJCWYm7n21Oy3VI";
+
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseRef;
@@ -82,7 +84,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     private String price, year, color;
     private String shopuid;
     private Float newRating;
-    private static double lon, lat;
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

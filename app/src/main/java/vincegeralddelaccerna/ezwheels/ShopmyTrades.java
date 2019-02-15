@@ -88,7 +88,7 @@ public class ShopmyTrades extends Fragment {
         recyclerView = v.findViewById(R.id.recyclerRequest);
         mProgressbar = v.findViewById(R.id.progress);
         recyclerView.setHasFixedSize(true);
-        notificationManagerCompat = NotificationManagerCompat.from(getContext());
+            notificationManagerCompat = NotificationManagerCompat.from(getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mUploads = new ArrayList<>();
         brokencar = v.findViewById(R.id.brokencar);

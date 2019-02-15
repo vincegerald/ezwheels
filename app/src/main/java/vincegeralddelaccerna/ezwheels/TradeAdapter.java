@@ -15,6 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -23,6 +28,8 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.TradeViewHol
 
     private Context mContext;
     private List<Trade> mUploads;
+    DatabaseReference getShop, getBuyer, getAdmin;
+    private static double lat, lon;
 
     //firebase
     private FirebaseAuth mAuth;
@@ -99,10 +106,28 @@ public class TradeAdapter extends RecyclerView.Adapter<TradeAdapter.TradeViewHol
             }
 
         }
+
+        getShop = FirebaseDatabase.getInstance().getReference("Shop");
+        getShop.child(uploadCurrent.getShopuid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    lat = Double.parseDouble(dataSnapshot.child("lat").getValue().toString());
+                    lon = Double.parseDouble(dataSnapshot.child("lon").getValue().toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(mContext, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, TradeScrolling.class);
+                intent.putExtra("lat", lat);
+                intent.putExtra("lon", lon);
                 intent.putExtra("listId", uploadCurrent.getListingid());
                 intent.putExtra("brand", uploadCurrent.getBrand());
                 intent.putExtra("model", uploadCurrent.getModel());

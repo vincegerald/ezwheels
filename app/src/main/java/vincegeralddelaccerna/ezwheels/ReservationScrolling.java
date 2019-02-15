@@ -27,6 +27,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,7 +45,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-public class ReservationScrolling extends AppCompatActivity implements View.OnClickListener {
+public class ReservationScrolling extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
 
     ImageView scrollImage;
     TextView shopName, vehicleName, priceView, priceCondition, date, transmissionView, mileageView, yearView,sellerName, sellerAddress, sellerContact, fuelType, seriesView, editionView, infoView,
@@ -45,6 +53,10 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
     Button call, message, approve, decline, done;
     FloatingActionButton fab;
     VideoView video;
+    private static double lon, lat;
+    MapView mapView;
+    GoogleMap map;
+    private static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyCn5Caz2H3SqFIIrOSLMJCWYm7n21Oy3VI";
     Button pay;
     CardView cardSeller, cardTrade, cardReservation;
 
@@ -80,6 +92,19 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
 
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        Bundle mapViewBundle = outState.getBundle(MAP_VIEW_BUNDLE_KEY);
+        if(mapViewBundle == null){
+            mapViewBundle = new Bundle();
+            outState.putBundle(MAP_VIEW_BUNDLE_KEY, mapViewBundle);
+        }
+
+        mapView.onSaveInstanceState(mapViewBundle);
+
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation_scrolling);
@@ -87,7 +112,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
         toolbar.setTitleTextColor(Color.parseColor("#000000"));
         setSupportActionBar(toolbar);
 
-
+        mapView = findViewById(R.id.map);
         pay = findViewById(R.id.pay);
         done = findViewById(R.id.done);
         typeView = findViewById(R.id.textView10);
@@ -128,7 +153,19 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
 
         approveRef = FirebaseDatabase.getInstance().getReference();
 
+        Bundle mapViewBundle = null;
 
+        if(savedInstanceState != null){
+            mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
+        }
+
+        mapView.onCreate(mapViewBundle);
+        mapView.getMapAsync(this);
+
+
+
+        lat = getIntent().getDoubleExtra("lat", 0.2f);
+        lon = getIntent().getDoubleExtra("lon", 0.2f);
         //spinner
 
 
@@ -780,11 +817,89 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
             editIntent.putExtra("resId", resId);
             startActivity(editIntent);
         }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mapView.onStart();
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+    @Override
+    protected void onPause() {
+        mapView.onPause();
+        super.onPause();
+    }
+    @Override
+    protected void onDestroy() {
+        mapView.onDestroy();
+        super.onDestroy();
+    }
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+//        map = googleMap;
+//
+
+//        LatLng ny = new LatLng(40.7143528, -74.0059731);
+//        map.moveCamera(CameraUpdateFactory.newLatLng(ny));
+        map = googleMap;
+        map.setMinZoomPreference(12);
+        double finalLat = lat;
+        double finatLong = lon;
+        //Toast.makeText(ScrollingActivity.this, String.valueOf(lat), Toast.LENGTH_SHORT).show();
+        LatLng ny = new LatLng(lat, lon);
+
+        map.addMarker(new MarkerOptions().position(ny).title("Vehicle Shop"));
+
+
+
+        UiSettings uiSettings = map.getUiSettings();
+        uiSettings.setIndoorLevelPickerEnabled(true);
+        uiSettings.setMyLocationButtonEnabled(true);
+        uiSettings.setMapToolbarEnabled(true);
+        uiSettings.setCompassEnabled(true);
+        uiSettings.setZoomControlsEnabled(true);
+
+        CameraPosition.Builder camBuilder = CameraPosition.builder();
+        camBuilder.bearing(45);
+        camBuilder.tilt(30);
+        camBuilder.target(ny);
+        camBuilder.zoom(15);
+
+        CameraPosition cp = camBuilder.build();
+
+        map.moveCamera(CameraUpdateFactory.newCameraPosition(cp));
+//        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+//            @Override
+//            public void onMapClick(LatLng latLng) {
+//                if(ScrollingActivity.this.cameraPositionUpdate){
+//                    ScrollingActivity.this.cameraPositionUpdate = false;
+//                    map.moveCamera(CameraUpdateFactory.zoomTo(18));
+//                }else{
+//                    ScrollingActivity.this.cameraPositionUpdate = true;
+//                    map.moveCamera(CameraUpdateFactory.zoomTo(15));
+//                }
+//            }
+//        });
+//
+    }
 
 }
