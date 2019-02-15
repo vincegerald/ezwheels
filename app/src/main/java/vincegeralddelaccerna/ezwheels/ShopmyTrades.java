@@ -105,7 +105,7 @@ public class ShopmyTrades extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUploads.clear();
                 if(dataSnapshot.exists()){
-                    for(DataSnapshot snapshot :dataSnapshot.getChildren()){
+                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                         Trade trade = snapshot.getValue(Trade.class);
                         if(trade.getStatus().equals("APPROVED") && trade.getFromSeen().equals("false") && trade.getUid().equals(mAuth.getCurrentUser().getUid())){
                             PushNotification("Trade Approved","Your trade for " + trade.getBrand() + " " + trade.getModel() + " has been approved by the shop... Contact the shop for further details");

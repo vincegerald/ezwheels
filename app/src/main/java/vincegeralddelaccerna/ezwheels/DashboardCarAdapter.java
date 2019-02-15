@@ -24,7 +24,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapter.DashboardCarViewHolder> {
+public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapter.DashboardCarViewHolder> implements Filterable {
 
     private Context mContext;
     private List<Upload> mUploads;
@@ -36,6 +36,7 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
     public DashboardCarAdapter(Context context, List<Upload> uploads) {
         mContext = context;
         mUploads = uploads;
+        temp = new ArrayList<>(mUploads);
     }
 
     @NonNull
@@ -118,7 +119,41 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
          return mUploads.size();
     }
 
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
 
+    private Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<Upload> filteredList = new ArrayList<>();
+
+            if(charSequence == null || charSequence.length() == 0){
+                filteredList.addAll(temp);
+            }
+            else{
+                String filterPattern = charSequence.toString().toLowerCase().trim();
+
+                for(Upload item : temp){
+                    if(item.getFinalModel().concat(item.getFinalBrand()).concat(item.getFinalPrice()).concat(item.finalPcondition).concat(item.finalTransmission).toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }
+                }
+            }
+                FilterResults results = new FilterResults();
+                results.values = filteredList;
+
+                return  results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            mUploads.clear();
+            mUploads.addAll((List)filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public class DashboardCarViewHolder extends RecyclerView.ViewHolder{
 
@@ -142,5 +177,8 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
         }
     }
 
-
+    DashboardCarAdapter(List<Upload> mUploads){
+        this.mUploads = mUploads;
+        temp = new ArrayList<>(mUploads);
+    }
 }
