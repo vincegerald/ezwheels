@@ -121,6 +121,8 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()){
                                     String name = dataSnapshot.child("name").getValue().toString();
+                                    lat = Double.parseDouble(dataSnapshot.child("lat").getValue().toString());
+                                    lon = Double.parseDouble(dataSnapshot.child("lon").getValue().toString());
                                     holder.shop.setText("Sent to: " + name);
                                 }
                             }

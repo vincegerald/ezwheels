@@ -32,6 +32,7 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
     DatabaseReference databaseReference;
     private String name;
     private static double lat, lon;
+    private static String shopname;
 
     public DashboardCarAdapter(Context context, List<Upload> uploads) {
         mContext = context;
@@ -73,6 +74,7 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
                     lat = Double.parseDouble(dataSnapshot.child("lat").getValue().toString());
                     lon = Double.parseDouble(dataSnapshot.child("lon").getValue().toString());
                     holder.date.setText(name + " " +  "("  +rate+ ")");
+                    shopname = dataSnapshot.child("name").getValue().toString();
                 }
             }
 
@@ -88,6 +90,7 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
                 intent.putExtra("lat", lat);
                 intent.putExtra("lon", lon);
                 intent.putExtra("image_url1", uploadCurrent.getImage());
+                intent.putExtra("shopname", shopname);
                 intent.putExtra("image_url2", uploadCurrent.getImagePath1());
                 intent.putExtra("image_url3", uploadCurrent.getImagePath2());
                 intent.putExtra("image_url4", uploadCurrent.getImagePath3());

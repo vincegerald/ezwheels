@@ -115,6 +115,7 @@ public class PaymentScrolling extends AppCompatActivity implements OnMapReadyCal
         lat = getIntent().getDoubleExtra("lat", 0.2f);
         lon = getIntent().getDoubleExtra("lon", 0.2f);
 
+        Toast.makeText(this, String.valueOf(lat), Toast.LENGTH_SHORT).show();
 
 
         getPay.orderByChild("id").equalTo(pid).addChildEventListener(new ChildEventListener() {

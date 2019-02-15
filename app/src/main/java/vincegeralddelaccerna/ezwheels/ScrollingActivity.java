@@ -84,6 +84,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     private String price, year, color;
     private String shopuid;
     private Float newRating;
+    private static String shopname;
 
 
     @Override
@@ -157,7 +158,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
 
         lat = getIntent().getDoubleExtra("lat", 0.2f);
         lon = getIntent().getDoubleExtra("lon", 0.2f);
-
+        shopname = getIntent().getStringExtra("shopname");
 
 
 
@@ -677,13 +678,13 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         map.setMinZoomPreference(12);
         double finalLat = lat;
         double finatLong = lon;
-        Toast.makeText(ScrollingActivity.this, String.valueOf(lat), Toast.LENGTH_SHORT).show();
+        //.makeText(ScrollingActivity.this, String.valueOf(lat), Toast.LENGTH_SHORT).show();
         LatLng ny = new LatLng(lat, lon);
 
-        map.addMarker(new MarkerOptions().position(ny).title("Vehicle Shop"));
+        map.addMarker(new MarkerOptions().position(ny).title(shopname));
 
 
-
+        Toast.makeText(this, shopname, Toast.LENGTH_SHORT).show();
         UiSettings uiSettings = map.getUiSettings();
         uiSettings.setIndoorLevelPickerEnabled(true);
         uiSettings.setMyLocationButtonEnabled(true);

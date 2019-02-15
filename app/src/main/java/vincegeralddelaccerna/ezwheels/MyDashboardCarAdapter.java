@@ -3,6 +3,7 @@ package vincegeralddelaccerna.ezwheels;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -21,6 +28,7 @@ public class MyDashboardCarAdapter extends RecyclerView.Adapter<MyDashboardCarAd
     private Context mContext;
     private List<Upload> mUploads;
     private List<Shop> shop;
+    DatabaseReference getName;
 
     public MyDashboardCarAdapter(Context context, List<Upload> uploads) {
         mContext = context;
@@ -57,6 +65,8 @@ public class MyDashboardCarAdapter extends RecyclerView.Adapter<MyDashboardCarAd
             holder.stat.setTextColor(Color.parseColor("#FF0000"));
             holder.stat.setText(uploadCurrent.getStatus());
         }
+
+
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
