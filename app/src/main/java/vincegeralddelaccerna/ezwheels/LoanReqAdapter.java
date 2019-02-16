@@ -30,7 +30,10 @@ public class LoanReqAdapter extends RecyclerView.Adapter<LoanReqAdapter.LoanReqA
     private Context mContext;
     private List<LoanReq> mUploads;
     DatabaseReference getListing, getMotor;
+    DatabaseReference getShop;
     private static String brand, model;
+    private static double lat, lon;
+    private static String name;
 
     public LoanReqAdapter(Context context, List<LoanReq> uploads) {
         mContext = context;
@@ -136,6 +139,23 @@ public class LoanReqAdapter extends RecyclerView.Adapter<LoanReqAdapter.LoanReqA
             holder.status.setTextColor(Color.parseColor("#FF0000"));
         }
 
+        getShop = FirebaseDatabase.getInstance().getReference("Shop");
+        getShop.child(uploadCurrent.getShopUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    lat = Double.parseDouble(dataSnapshot.child("lat").getValue().toString());
+                    lon = Double.parseDouble(dataSnapshot.child("lon").getValue().toString());
+                    name = dataSnapshot.child("name").getValue().toString();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(mContext, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
         //        holder.list.setText(uploadCurrent.getBrand() + " " + uploadCurrent.getModel());
 //        holder.shop.setText(uploadCurrent.getName());
 //        holder.date.setText(uploadCurrent.getCurrentDate() + " : " + uploadCurrent.getCurrentTime());
@@ -149,6 +169,9 @@ public class LoanReqAdapter extends RecyclerView.Adapter<LoanReqAdapter.LoanReqA
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, LoanReqScrolling.class);
+                intent.putExtra("lat", lat);
+                intent.putExtra("lon", lon);
+                intent.putExtra("shopname", name);
                 intent.putExtra("aid", uploadCurrent.getAid());
                 intent.putExtra("listid", uploadCurrent.getListId());
                 intent.putExtra("shopid", uploadCurrent.getShopUid());

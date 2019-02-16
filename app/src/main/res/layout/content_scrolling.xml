@@ -309,6 +309,22 @@
             app:cardCornerRadius="5dp">
 
             <com.zolad.zoominimageview.ZoomInImageView
+                android:id="@+id/image1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            app:cardCornerRadius="5dp">
+
+            <com.zolad.zoominimageview.ZoomInImageView
                 android:id="@+id/image2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -342,22 +358,6 @@
 
             <com.zolad.zoominimageview.ZoomInImageView
                 android:id="@+id/image4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="10dp"
-            app:cardCornerRadius="5dp">
-
-            <com.zolad.zoominimageview.ZoomInImageView
-                android:id="@+id/image1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

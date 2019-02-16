@@ -17,6 +17,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -67,7 +68,7 @@ import co.gofynd.gravityview.GravityView;
 
 import static android.app.Activity.RESULT_OK;
 
-public class ShopAddListing extends Activity implements View.OnClickListener {
+public class ShopAddListing extends AppCompatActivity implements View.OnClickListener {
 
     private static final String [] brands = new String[]{
             "Toyota","Suzuki","Mitsubishi","Kia","Chevrolet"
@@ -146,7 +147,12 @@ public class ShopAddListing extends Activity implements View.OnClickListener {
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.parseColor("#fefefe"));
-        toolbar.setTitle("Add Listing");
+        toolbar.setTitle("Shop Add Listing");
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         progressBar = findViewById(R.id.progressBar5);
         editText5 = findViewById(R.id.editText5);
@@ -621,7 +627,8 @@ public class ShopAddListing extends Activity implements View.OnClickListener {
             else{
                 mDatabaseRef1 = mDatabaseRef1.child("Motor");
                 String listid1 = mDatabaseRef1.push().getKey();
-                mDatabaseRef1.child(listid1).setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
+                Upload upload1 = new Upload(listid1, edition, series, info, uid, formattedDate, fuel, imagePath4, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
+                mDatabaseRef1.child(listid1).setValue(upload1).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){

@@ -29,6 +29,9 @@ public class MyDashboardCarAdapter extends RecyclerView.Adapter<MyDashboardCarAd
     private List<Upload> mUploads;
     private List<Shop> shop;
     DatabaseReference getName;
+    private static double lat, lon;
+    DatabaseReference databaseReference;
+    private static String shopname;
 
     public MyDashboardCarAdapter(Context context, List<Upload> uploads) {
         mContext = context;
@@ -55,7 +58,28 @@ public class MyDashboardCarAdapter extends RecyclerView.Adapter<MyDashboardCarAd
         holder.d3.setText(uploadCurrent.getFinalColor());
         holder.d4.setText(uploadCurrent.getFinalYear());
         holder.price.setText(uploadCurrent.getFinalPrice());
-        Picasso.get().load(uploadCurrent.getImagePath1()).fit().centerCrop().into(holder.image);
+        Picasso.get().load(uploadCurrent.getImage()).fit().centerCrop().into(holder.image);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("Shop").child(uploadCurrent.getUid());
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                   // name = dataSnapshot.child("name").getValue().toString();
+                    float rating  = Float.parseFloat(dataSnapshot.child("rating").getValue().toString());
+                    String rate = String.format("%,.1f", rating);
+                    lat = Double.parseDouble(dataSnapshot.child("lat").getValue().toString());
+                    lon = Double.parseDouble(dataSnapshot.child("lon").getValue().toString());
+                    //holder.date.setText(name + " " +  "("  +rate+ ")");
+                    shopname = dataSnapshot.child("name").getValue().toString();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(mContext, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
         holder.date.setText(uploadCurrent.getDate());
         if(uploadCurrent.getStatus().equals("AVAILABLE")){
             holder.stat.setTextColor(Color.parseColor("#006600"));
@@ -67,11 +91,16 @@ public class MyDashboardCarAdapter extends RecyclerView.Adapter<MyDashboardCarAd
         }
 
 
+
+
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, ScrollingActivity.class);
                 intent.putExtra("image_url1", uploadCurrent.getImage());
+                intent.putExtra("lat", lat);
+                intent.putExtra("lon", lon);
+                intent.putExtra("shopname", shopname);
                 intent.putExtra("image_url2", uploadCurrent.getImagePath1());
                 intent.putExtra("image_url3", uploadCurrent.getImagePath2());
                 intent.putExtra("image_url4", uploadCurrent.getImagePath3());
@@ -92,6 +121,7 @@ public class MyDashboardCarAdapter extends RecyclerView.Adapter<MyDashboardCarAd
                 intent.putExtra("series", uploadCurrent.getSeries());
                 intent.putExtra("listingid", uploadCurrent.getListid());
                 intent.putExtra("status", uploadCurrent.getStatus());
+
                 mContext.startActivity(intent);
             }
         });

@@ -56,7 +56,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
     public void onBindViewHolder(@NonNull final PaymentAdapter.PaymentHolder holder, int position) {
         final Payments uploadCurrent = mUploads.get(position);
         mAuth = FirebaseAuth.getInstance();
-        getBuyer = FirebaseDatabase.getInstance().getReference("Buyer");
+        getBuyer = FirebaseDatabase.getInstance().getReference("Buyers");
         getShop = FirebaseDatabase.getInstance().getReference("Shop");
         getAdmin = FirebaseDatabase.getInstance().getReference("Admin");
         holder.image.setVisibility(View.GONE);
@@ -69,7 +69,6 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
         holder.list.setText(uploadCurrent.getType());
         holder.price.setText(uploadCurrent.getAmount());
         holder.date.setText(uploadCurrent.getDate());
-
         if(mAuth.getCurrentUser().getUid().equals(uploadCurrent.getShopuid())){
             getBuyer.child(uploadCurrent.getUid()).addValueEventListener(new ValueEventListener() {
                 @Override

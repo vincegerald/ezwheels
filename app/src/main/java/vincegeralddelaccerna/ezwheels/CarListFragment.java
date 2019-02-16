@@ -47,7 +47,7 @@ public class CarListFragment extends Fragment implements View.OnClickListener {
     private ProgressBar mProgressbar;
     FloatingActionButton fab;
 
-    MyDashboardCarAdapter mAdapter;
+    DashboardCarAdapter mAdapter;
     ImageView brokencar;
     TextView nolisting;
     private List<Upload> mUploads;
@@ -85,7 +85,7 @@ public class CarListFragment extends Fragment implements View.OnClickListener {
                         mUploads.add(upload);
                     }
 
-                    mAdapter = new MyDashboardCarAdapter(getActivity(), mUploads);
+                    mAdapter = new DashboardCarAdapter(getActivity(), mUploads);
                     recyclerView.setAdapter(mAdapter);
                     mProgressbar.setVisibility(View.INVISIBLE);
                     nolisting.setVisibility(View.GONE);

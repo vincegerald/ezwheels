@@ -4,13 +4,16 @@ package vincegeralddelaccerna.ezwheels;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -34,8 +37,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -223,18 +229,37 @@ public class SetReservationFragment extends AppCompatActivity implements DatePic
 //        }
 
         if(id == R.id.reservebtn){
-            final String senderText = sender.getText().toString().trim();
-            final String codeText = code.getText().toString().trim();
-            final String addressText = address.getText().toString().trim();
-            final String reminderText = reminder.getText().toString().trim();
-            final String shopuid = getIntent().getStringExtra("shopuid");
-            final String image1 = getIntent().getStringExtra("image1");
-            final String uid = mAuth.getCurrentUser().getUid();
-            final String name = getIntent().getStringExtra("name");
-            final String model = getIntent().getStringExtra("model");
-            final String brand = getIntent().getStringExtra("brand");
-            final String price = getIntent().getStringExtra("price");
-            reservation(senderText, codeText,model, brand,name, image1, addressText, reminderText, shopuid, currentDate, currentTime, uid, price);
+
+            final AlertDialog.Builder builder = new AlertDialog.Builder(SetReservationFragment.this);
+            builder.setMessage("Do you want to proceed?").setCancelable(false)
+                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(final DialogInterface dialogInterface, int i) {
+                            final String senderText = sender.getText().toString().trim();
+                            final String codeText = code.getText().toString().trim();
+                            final String addressText = address.getText().toString().trim();
+                            final String reminderText = reminder.getText().toString().trim();
+                            final String shopuid = getIntent().getStringExtra("shopuid");
+                            final String image1 = getIntent().getStringExtra("image1");
+                            final String uid = mAuth.getCurrentUser().getUid();
+                            final String name = getIntent().getStringExtra("name");
+                            final String model = getIntent().getStringExtra("model");
+                            final String brand = getIntent().getStringExtra("brand");
+                            final String price = getIntent().getStringExtra("price");
+                            reservation(senderText, codeText,model, brand,name, image1, addressText, reminderText, shopuid, currentDate, currentTime, uid, price);
+
+                        }
+                    }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setTitle("Submit Reservation?");
+            alertDialog.show();
+//
         }
     }
 

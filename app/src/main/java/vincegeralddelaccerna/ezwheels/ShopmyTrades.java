@@ -94,7 +94,7 @@ public class ShopmyTrades extends Fragment {
         brokencar = v.findViewById(R.id.brokencar);
         nolisting = v.findViewById(R.id.nolisting);
 
-        databaseReference1 = FirebaseDatabase.getInstance().getReference("Reservation");
+        databaseReference1 = FirebaseDatabase.getInstance().getReference("Trade");
         mAuth = FirebaseAuth.getInstance();
         String id = mAuth.getCurrentUser().getUid();
         Query query = FirebaseDatabase.getInstance().getReference("Trade")

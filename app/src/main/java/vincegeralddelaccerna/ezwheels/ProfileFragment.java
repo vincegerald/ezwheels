@@ -234,6 +234,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     descriptionn.setVisibility(View.GONE);
                     click.setVisibility(View.GONE);
                     account.setVisibility(View.GONE);
+                    addComp.setVisibility(View.GONE);
+                    addCompany.setVisibility(View.GONE);
 
                 }
                 else{
@@ -420,7 +422,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 if(dataSnapshot.exists()){
-                                                    shopProf.child("contactnumber").setValue(contact);
+                                                    shopProf.child("contact").setValue(contact);
                                                     shopProf.child("firstname").setValue(name);
                                                     shopProf.child("lastname").setValue(lnameText);
                                                     shopProf.child("description").setValue(descText);

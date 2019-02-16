@@ -109,7 +109,7 @@ public class ActivateAccount extends AppCompatActivity implements View.OnClickLi
                             Toast.makeText(ActivateAccount.this, "Proof Image Added", Toast.LENGTH_SHORT).show();
                             imagePath2 = uri.toString();
                             Picasso.get().load(uriImage).fit().centerCrop().into(iv);
-                            progressBar.setVisibility(View.INVISIBLE);
+                            iv.setVisibility(View.GONE);
                         }
                     });
                 }
@@ -139,6 +139,7 @@ public class ActivateAccount extends AppCompatActivity implements View.OnClickLi
         }
 
         if(id == R.id.pay){
+
 
             final AlertDialog.Builder builder = new AlertDialog.Builder(ActivateAccount.this);
             builder.setMessage("Proceed?").setCancelable(false)

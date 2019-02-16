@@ -81,7 +81,7 @@ public class car_fragment extends Fragment {
 
                 @Override
                 public boolean onQueryTextChange(String s) {
-                    mAdapter.getFilter().filter(s);
+                        mAdapter.getFilter().filter(s);
                     return false;
                 }
             });

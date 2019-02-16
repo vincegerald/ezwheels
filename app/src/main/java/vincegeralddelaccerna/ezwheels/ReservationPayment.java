@@ -1,11 +1,13 @@
 package vincegeralddelaccerna.ezwheels;
 
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -52,6 +54,7 @@ public class ReservationPayment extends AppCompatActivity implements View.OnClic
     private static String imagePath1;
     ProgressBar p1;
     FirebaseAuth mAuth;
+    private static String resType;
 
 
     @Override
@@ -98,6 +101,35 @@ public class ReservationPayment extends AppCompatActivity implements View.OnClic
 
         shopuid = getIntent().getStringExtra("shopuid");
         resid = getIntent().getStringExtra("resid");
+
+        changeReserved.orderByChild("resId").equalTo(resid).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                if(dataSnapshot.exists()){
+                    resType = dataSnapshot.child("type").getValue().toString();
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(ReservationPayment.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         getShopDetails.orderByChild("uid").equalTo(shopuid).addChildEventListener(new ChildEventListener() {
@@ -150,29 +182,47 @@ public class ReservationPayment extends AppCompatActivity implements View.OnClic
         }
 
         if(id == R.id.pay){
-            final String senderText = sender.getText().toString();
-            final String codeText = code.getText().toString();
-            String pid = res.push().getKey();
-            String amount = "999.00";
-            String type = "Reservation Fee";
-            Calendar calendar = Calendar.getInstance();
-            String date = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
-            //String image, String name, String code, String uid, String id, String amount, String type, String shopuid
-            String seen = "false";
-            Payments payments = new Payments(imagePath1, senderText, codeText, mAuth.getCurrentUser().getUid(), pid,  amount, type, shopuid, resid, date, seen);
-            res.child(pid).setValue(payments).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+            final AlertDialog.Builder builder = new AlertDialog.Builder(ReservationPayment.this);
+            builder.setMessage("Do you want to proceed?").setCancelable(false)
+                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(final DialogInterface dialogInterface, int i) {
+                            final String senderText = sender.getText().toString();
+                            final String codeText = code.getText().toString();
+                            String pid = res.push().getKey();
+                            String amount = "999.00";
+                            String type = "Reservation Fee";
+                            Calendar calendar = Calendar.getInstance();
+                            String date = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+                            //String image, String name, String code, String uid, String id, String amount, String type, String shopuid
+                            String seen = "false";
+                            Payments payments = new Payments(imagePath1, senderText, codeText, mAuth.getCurrentUser().getUid(), pid,  amount, type, shopuid, resid, date, seen);
+                            res.child(pid).setValue(payments).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        changeReserved.child(resid).child("reserved").setValue("true");
+                                        finish();
+                                    }
+                                    else{
+                                        Toast.makeText(ReservationPayment.this, "Error", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    }
+                                }
+                            });
+                        }
+                    }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                 @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        changeReserved.child(resid).child("reserved").setValue("true");
-                        finish();
-                    }
-                    else{
-                        Toast.makeText(ReservationPayment.this, "Error", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
                 }
             });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setTitle("Pay Reservation");
+            alertDialog.show();
+
          }
 
         if(id == R.id.proof){
@@ -209,7 +259,8 @@ public class ReservationPayment extends AppCompatActivity implements View.OnClic
                             Toast.makeText(ReservationPayment.this, "Proof Image Added", Toast.LENGTH_SHORT).show();
                             imagePath1 = uri.toString();
                             Picasso.get().load(imageUri).fit().centerCrop().into(proof);
-                            p1.setVisibility(View.INVISIBLE);
+                            p1.setVisibility(View.GONE);
+                            proof.setVisibility(View.VISIBLE);
 
                         }
                     });

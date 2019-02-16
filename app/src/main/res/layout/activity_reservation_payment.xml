@@ -36,7 +36,7 @@
                 android:layout_marginTop="100dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                android:text="This feature requires a payment of Php 199.00(At shop) and Php 299.00(At address)"
+                android:text="This feature requires a payment of Php 599.00(At shop) and Php 999.00(At address)"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textAlignment="textStart"/>

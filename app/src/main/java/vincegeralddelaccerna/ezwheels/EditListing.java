@@ -158,6 +158,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
         toolbar.setTitle("Edit Listing");
         setSupportActionBar(toolbar);
 
+
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -301,10 +302,10 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                         finalTransmission = dataSnapshot.child("finalTransmission").getValue().toString();
                         finalYear = dataSnapshot.child("finalYear").getValue().toString();
                         fuell = dataSnapshot.child("fuel").getValue().toString();
-                        imagePath1 = dataSnapshot.child("image").getValue().toString();
-                        imagePath2 = dataSnapshot.child("imagePath1").getValue().toString();
-                        imagePath3 = dataSnapshot.child("imagePath2").getValue().toString();
-                        imagePath4 = dataSnapshot.child("imagePath3").getValue().toString();
+                        imagePath4 = dataSnapshot.child("image").getValue().toString();
+                        imagePath1 = dataSnapshot.child("imagePath1").getValue().toString();
+                        imagePath2 = dataSnapshot.child("imagePath2").getValue().toString();
+                        imagePath3 = dataSnapshot.child("imagePath3").getValue().toString();
                         info = dataSnapshot.child("info").getValue().toString();
                         listid = dataSnapshot.child("listid").getValue().toString();
                         seriess = dataSnapshot.child("series").getValue().toString();
@@ -324,10 +325,10 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                         edition.setText(editionn);
                         series.setText(seriess);
                         editText5.setText(info);
-                        Picasso.get().load(imagePath1).fit().centerCrop().into(image1);
-                        Picasso.get().load(imagePath2).fit().centerCrop().into(image2);
-                        Picasso.get().load(imagePath3).fit().centerCrop().into(image3);
-                        Picasso.get().load(imagePath4).fit().centerCrop().into(image4);
+                        Picasso.get().load(imagePath4).fit().centerCrop().into(image1);
+                        Picasso.get().load(imagePath1).fit().centerCrop().into(image2);
+                        Picasso.get().load(imagePath2).fit().centerCrop().into(image3);
+                        Picasso.get().load(imagePath3).fit().centerCrop().into(image4);
                         Uri uri = Uri.parse(videoP);
                         videoView.setVideoURI(uri);
                         car.setChecked(true);
@@ -352,10 +353,10 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                                 finalTransmission = dataSnapshot.child("finalTransmission").getValue().toString();
                                 finalYear = dataSnapshot.child("finalYear").getValue().toString();
                                 fuell = dataSnapshot.child("fuel").getValue().toString();
-                                imagePath1 = dataSnapshot.child("image").getValue().toString();
-                                imagePath2 = dataSnapshot.child("imagePath1").getValue().toString();
-                                imagePath3 = dataSnapshot.child("imagePath2").getValue().toString();
-                                imagePath4 = dataSnapshot.child("imagePath3").getValue().toString();
+                                imagePath4 = dataSnapshot.child("image").getValue().toString();
+                                imagePath1 = dataSnapshot.child("imagePath1").getValue().toString();
+                                imagePath2 = dataSnapshot.child("imagePath2").getValue().toString();
+                                imagePath3 = dataSnapshot.child("imagePath3").getValue().toString();
                                 info = dataSnapshot.child("info").getValue().toString();
                                 listid = dataSnapshot.child("listid").getValue().toString();
                                 seriess = dataSnapshot.child("series").getValue().toString();
@@ -375,10 +376,10 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                                 edition.setText(editionn);
                                 series.setText(seriess);
                                 editText5.setText(info);
-                                Picasso.get().load(imagePath1).fit().centerCrop().into(image1);
-                                Picasso.get().load(imagePath2).fit().centerCrop().into(image2);
-                                Picasso.get().load(imagePath3).fit().centerCrop().into(image3);
-                                Picasso.get().load(imagePath4).fit().centerCrop().into(image4);
+                                Picasso.get().load(imagePath4).fit().centerCrop().into(image1);
+                                Picasso.get().load(imagePath1).fit().centerCrop().into(image2);
+                                Picasso.get().load(imagePath2).fit().centerCrop().into(image3);
+                                Picasso.get().load(imagePath3).fit().centerCrop().into(image4);
                                 Uri uri = Uri.parse(videoP);
                                 videoView.setVideoURI(uri);
                                 motor.setChecked(true);
@@ -737,25 +738,19 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
     private void uploadFile(final String edition, final String series, final String info, final String fuel, final String formattedData, final String uid, Uri videoUri, final Uri uriImage, final Uri uriImage1, final Uri uriImage2, final Uri uriImage3, final String finalBrand, final String finalModel, final String finalYear, final String finalColor, final String finalTransmission, final String finalPcondition, final String finalMileage, final String finalPrice, final String shop, final String status){
 
 
+                                progressBar.setVisibility(View.VISIBLE);
 
-
-
-            //Toast.makeText(getActivity(), imageUrl, Toast.LENGTH_SHORT).show();
-            progressBar.setVisibility(View.VISIBLE);
-//                                mDatabaseRef = mDatabaseRef.child("Car");
-                                final String listid = mDatabaseRef.push().getKey();
-                                forCar = FirebaseDatabase.getInstance().getReference("Car");
+                                forCar = FirebaseDatabase.getInstance().getReference("Car").child(listingid);
                                 final Upload upload = new Upload(listingid, edition, series, info, uid, formattedDate, fuel, imagePath4, imagePath1, imagePath2, imagePath3, videoP, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
-
                                 forCar.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         if(dataSnapshot.exists()){
-                                            forCar.child(listingid).setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            forCar.setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if(task.isSuccessful()){
-                                                        Toast.makeText(EditListing.this, "Updated Listing", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(EditListing.this, "Updated Car Listing", Toast.LENGTH_SHORT).show();
                                                         Intent intent = new Intent(EditListing.this, ShopDashboard.class);
                                                         startActivity(intent);
                                                     }
@@ -763,16 +758,16 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                                             });
                                         }
                                         else{
-                                            forMotor = FirebaseDatabase.getInstance().getReference("Motor");
+                                            forMotor = FirebaseDatabase.getInstance().getReference("Motor").child(listingid);
                                             forMotor.addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                     if(dataSnapshot.exists()){
-                                                        forMotor.child(listingid).setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        forMotor.setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 if(task.isSuccessful()){
-                                                                    Toast.makeText(EditListing.this, "Updated Listing", Toast.LENGTH_SHORT).show();
+                                                                    Toast.makeText(EditListing.this, "Updated Motor Listing", Toast.LENGTH_SHORT).show();
                                                                     Intent intent = new Intent(EditListing.this, ShopDashboard.class);
                                                                     startActivity(intent);
                                                                 }

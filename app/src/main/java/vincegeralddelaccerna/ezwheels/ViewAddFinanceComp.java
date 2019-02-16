@@ -35,7 +35,7 @@ public class ViewAddFinanceComp extends AppCompatActivity implements View.OnClic
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     DatabaseReference getFinanceComp;
-    private static String loanReq1, loanReq2, loanReq3, loanReq4, loanReq5,loanCompId;
+    private static String loanReq1, loanReq2, loanReq3, loanReq4, loanReq5, loanCompId;
 
     private static final String [] companies = new String[]{
             "BDO","Security Bank","BPI","Metrobank","Eastwest", "RCBC", "PNB", "ChinaBank"

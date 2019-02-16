@@ -35,7 +35,7 @@ public class PaymentScrolling extends AppCompatActivity implements OnMapReadyCal
 
     TextView payment, price, date, codee, senderName, sender, senderContact, senderShop, senderLocation;
     private static String pid, uid, shopuid;
-    DatabaseReference getPay, getShop, getBuyer;
+    DatabaseReference getPay, getShop, getAdmin, getBuyer;
     private static String amount, type, code, datee,shop, id;
     private static String firstname, contact, shopname, lastname, contactnumber, location, image;
     FirebaseAuth mAuth;
@@ -91,7 +91,8 @@ public class PaymentScrolling extends AppCompatActivity implements OnMapReadyCal
 
         getPay = FirebaseDatabase.getInstance().getReference("Payments");
         getShop = FirebaseDatabase.getInstance().getReference("Shop");
-        getBuyer = FirebaseDatabase.getInstance().getReference("Buyer");
+        getAdmin = FirebaseDatabase.getInstance().getReference("Admin");
+        getBuyer = FirebaseDatabase.getInstance().getReference("Buyers");
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -178,11 +179,19 @@ public class PaymentScrolling extends AppCompatActivity implements OnMapReadyCal
                         senderShop.setText("Shopname: " + shopname);
                     }
                     else{
-                        getBuyer.child(shopuid).addValueEventListener(new ValueEventListener() {
+                        getAdmin.child(shopuid).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.exists()){
+                                    firstname = dataSnapshot.child("name").getValue().toString();
+                                    contactnumber = dataSnapshot.child("contact").getValue().toString();
 
+
+                                    sender.setText("Sendee Details");
+                                    senderName.setText("Name: " + firstname);
+                                    senderContact.setText("Contact number: " + contactnumber);
+                                    senderLocation.setVisibility(View.GONE);
+                                    senderShop.setVisibility(View.GONE);
                                 }
                             }
 

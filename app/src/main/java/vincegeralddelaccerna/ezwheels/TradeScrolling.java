@@ -49,7 +49,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
     ImageView scrollImage;
     TextView shopName, vehicleName, priceView, priceCondition, date, transmissionView, mileageView, yearView,sellerName, sellerAddress, sellerContact, fuelType, seriesView, editionView, infoView,
             textView13, textView14, typeView, statusView;
-    Button call, message, approve, decline;
+    Button call, message, approve, decline, cancel;
     FloatingActionButton fab;
     VideoView video;
     CardView cardSeller, cardTrade, cardReservation;
@@ -109,6 +109,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
         setSupportActionBar(toolbar);
 
         mapView = findViewById(R.id.map);
+        cancel = findViewById(R.id.cancel);
         typeView = findViewById(R.id.textView10);
         scrollImage = findViewById(R.id.scrollImage);
         vehicleName = findViewById(R.id.textView22);
@@ -223,6 +224,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                     imagePath1  = dataSnapshot.child("imagePath1").getValue().toString();
                     imagePath2 = dataSnapshot.child("imagePath2").getValue().toString();
                     status = dataSnapshot.child("status").getValue().toString();
+
                 }
 
                 String id = mAuth.getCurrentUser().getUid();
@@ -335,7 +337,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                 if(shopUid.equals(id)){
                     fab.setVisibility(View.GONE);
                     {
-                        mDatabaseRef1 = FirebaseDatabase.getInstance().getReference("Buyers").child(shopUid);
+                        mDatabaseRef1 = FirebaseDatabase.getInstance().getReference("Buyers").child(UserUId);
 
                         mDatabaseRef1.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -347,8 +349,8 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                                             if(dataSnapshot.exists()){
                                                 firstname = dataSnapshot.child("firstname").getValue().toString();
                                                 lastname = dataSnapshot.child("lastname").getValue().toString();
-                                                contactnumber = dataSnapshot.child("contact").getValue().toString();
-                                                status = dataSnapshot.child("status").getValue().toString();
+                                                contactnumber = dataSnapshot.child("contactnumber").getValue().toString();
+                                                //status = dataSnapshot.child("status").getValue().toString();
                                                 Toast.makeText(TradeScrolling.this, firstname, Toast.LENGTH_SHORT).show();
                                                 Log.d("number" ,contactnumber);
                                                 Log.d("fname" ,firstname);
@@ -377,7 +379,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                                 }
 
                                 else{
-                                    shopRef = FirebaseDatabase.getInstance().getReference("Shop").child(shopUid);
+                                    shopRef = FirebaseDatabase.getInstance().getReference("Shop").child(UserUId);
                                     shopRef.addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -465,12 +467,18 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                     approve.setVisibility(View.GONE);
                     statusView.setTextColor(Color.parseColor("#004c00"));
                     statusView.setText("("+status+")");
+                    edit.setVisibility(View.GONE);
+                    fab.setVisibility(View.GONE);
+                    cancel.setVisibility(View.VISIBLE);
+
                 }
                 else{
                     statusView.setTextColor(Color.parseColor("#FF0000"));
                     decline.setVisibility(View.GONE);
                     approve.setVisibility(View.GONE);
                     statusView.setText("("+status+")");
+                    edit.setVisibility(View.GONE);
+                    fab.setVisibility(View.GONE);
                 }
 
                 transmissionView.setText(offeredBrand + " " +offeredModel + "(" + fyear + ")");

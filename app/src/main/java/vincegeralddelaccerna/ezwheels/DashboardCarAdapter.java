@@ -61,7 +61,7 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
         holder.d3.setText(uploadCurrent.getFinalColor());
         holder.d4.setText(uploadCurrent.getFinalYear());
 
-        Picasso.get().load(uploadCurrent.getImagePath1()).fit().centerCrop().into(holder.image);
+        Picasso.get().load(uploadCurrent.getImage()).fit().centerCrop().into(holder.image);
         holder.price.setText(uploadCurrent.getFinalPrice());
         databaseReference = FirebaseDatabase.getInstance().getReference("Shop").child(uploadCurrent.getUid());
         databaseReference.addValueEventListener(new ValueEventListener() {

@@ -50,7 +50,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
     ImageView scrollImage;
     TextView shopName, vehicleName, priceView, priceCondition, date, transmissionView, mileageView, yearView,sellerName, sellerAddress, sellerContact, fuelType, seriesView, editionView, infoView,
             textView13, textView14, typeView, statusView, offerView;
-    Button call, message, approve, decline, done;
+    Button call, message, approve, decline, done, cancel;
     FloatingActionButton fab;
     VideoView video;
     private static double lon, lat;
@@ -139,6 +139,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
         edit = findViewById(R.id.edit);
         statusView = findViewById(R.id.status);
         offerView = findViewById(R.id.offer);
+        cancel = findViewById(R.id.cancel);
 
         datee = findViewById(R.id.date);
         time = findViewById(R.id.time);
@@ -349,17 +350,18 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                     reserved = dataSnapshot.child("reserved").getValue().toString();
                 }
 
-                if(status.equals("APPROVED") && reserved.equals("false")){
-                    pay.setVisibility(View.VISIBLE);
-                }
-
-                if(reserved.equals("true")){
-                    pay.setVisibility(View.GONE);
-                }
-
-                if(status.equals("DONE")){
-                    pay.setVisibility(View.GONE);
-                }
+//                if(status.equals("APPROVED") && reserved.equals("false")){
+//                    pay.setVisibility(View.VISIBLE);
+//                }
+//
+//                if(reserved.equals("true")){
+//                    pay.setVisibility(View.GONE);
+//                    cancel.setVisibility(View.VISIBLE);
+//                }
+//
+//                if(status.equals("DONE")){
+//                    pay.setVisibility(View.GONE);
+//                }
 
                 datee.setText(currentDate);
                 time.setText(currentTime);
@@ -431,7 +433,9 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                                             decline.setVisibility(View.GONE);
                                             approve.setVisibility(View.GONE);
                                             edit.setVisibility(View.GONE);
+                                            pay.setVisibility(View.GONE);
                                             fab.setVisibility(View.GONE);
+                                            done.setVisibility(View.VISIBLE);
                                         }
 
                                     }
@@ -478,6 +482,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
 
                 if(shopUid.equals(id)){
                     fab.setVisibility(View.GONE);
+                    edit.setVisibility(View.GONE);
                     {
                         mDatabaseRef1 = FirebaseDatabase.getInstance().getReference("Buyers").child(UserUId);
 
@@ -490,8 +495,8 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                             firstname = dataSnapshot.child("firstname").getValue().toString();
                                             lastname = dataSnapshot.child("lastname").getValue().toString();
-                                            contactnumber = dataSnapshot.child("contact").getValue().toString();
-                                            status = dataSnapshot.child("status").getValue().toString();
+                                            contactnumber = dataSnapshot.child("contactnumber").getValue().toString();
+                                            //status = dataSnapshot.child("status").getValue().toString();
                                             Toast.makeText(ReservationScrolling.this, firstname, Toast.LENGTH_SHORT).show();
                                             Log.d("number" ,contactnumber);
                                             Log.d("fname" ,firstname);
@@ -505,6 +510,8 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                                                 approve.setVisibility(View.GONE);
                                                 edit.setVisibility(View.GONE);
                                                 fab.setVisibility(View.GONE);
+                                                pay.setVisibility(View.GONE);
+
                                             }
 
 
@@ -580,6 +587,8 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                 if(status.equals("PENDING")){
                     statusView.setTextColor(Color.parseColor("#FFA500"));
                     statusView.setText("("+status+")");
+
+
                 }
 
                 else if(status.equals("APPROVED")){

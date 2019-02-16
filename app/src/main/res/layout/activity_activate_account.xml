@@ -34,7 +34,7 @@
                 android:layout_marginTop="100dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                android:text="To activate your account and be able to access all the features of the app. You will need to pay the amount of Php 999.00 and this is a one-time payment subscription only."
+                android:text="To activate your account and be able to access all the features of the app. You will need to pay the amount of Php 1,999.00 and this is a one-time payment subscription only."
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textAlignment="textStart"/>

@@ -194,6 +194,9 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
         }
 
         if (view.getId() == R.id.btnFinish) {
+
+            //Toast.makeText(this, "finished", Toast.LENGTH_SHORT).show();
+
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

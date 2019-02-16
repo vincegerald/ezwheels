@@ -75,7 +75,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseRef;
-    private DatabaseReference mDatabaseRef1, checkifShop, checkRes;
+    private DatabaseReference mDatabaseRef1, checkifShop, checkRes, checkFin;
 
     private  String firstname, lastname, contact, description, location, name, uid, status;
     private String brand, model;
@@ -194,6 +194,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         mDatabaseRef1 = FirebaseDatabase.getInstance().getReference();
         checkifShop = FirebaseDatabase.getInstance().getReference("Shop");
         checkRes = FirebaseDatabase.getInstance().getReference("Reservation");
+        checkFin = FirebaseDatabase.getInstance().getReference("Finance Company");
 
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -247,7 +248,28 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             approve.setVisibility(View.GONE);
             edit.setVisibility(View.GONE);
         }
+
+        Toast.makeText(this, uid, Toast.LENGTH_SHORT).show();
         //Toast.makeText(this, listingid, Toast.LENGTH_SHORT).show();
+        checkFin = FirebaseDatabase.getInstance().getReference("Finance Company");
+        checkFin.orderByChild("shopUid").equalTo(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists()){
+                    apply.setBackgroundColor(Color.parseColor("#696969"));
+                    apply.setFocusable(false);
+                    apply.setClickable(false);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(ScrollingActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         checkifShop = FirebaseDatabase.getInstance().getReference("Reservation");
 
         checkifShop.orderByChild("listid").equalTo(listingid).addChildEventListener(new ChildEventListener() {
@@ -261,7 +283,6 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                         reserve.setClickable(false);
                         reserve.setFocusable(false);
                     }
-
                 }
             }
 

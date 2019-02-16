@@ -143,6 +143,16 @@
                 android:textColor="#fefefe"
                 android:layout_marginRight="10dp"
                 android:background="@color/colorPrimary"/>
+            <Button
+                android:id="@+id/cancel"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="CANCEL"
+                android:textColor="#fefefe"
+                android:layout_marginRight="10dp"
+                android:background="@color/colorPrimary"/>
         </LinearLayout>
 
         <android.support.v7.widget.CardView
@@ -246,14 +256,8 @@
                     android:layout_marginBottom="30dp"
                     android:orientation="horizontal">
 
-
                 </LinearLayout>
-
-
-
             </LinearLayout>
-
-
         </android.support.v7.widget.CardView>
 
         <TextView
@@ -435,7 +439,7 @@
             android:layout_marginRight="10dp"
             app:cardCornerRadius="5dp">
 
-            <ImageView
+            <com.zolad.zoominimageview.ZoomInImageView
                 android:id="@+id/image2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -451,7 +455,7 @@
             android:layout_marginRight="10dp"
             app:cardCornerRadius="5dp">
 
-            <ImageView
+            <com.zolad.zoominimageview.ZoomInImageView
                 android:id="@+id/image3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -467,7 +471,7 @@
             android:layout_marginRight="10dp"
             app:cardCornerRadius="5dp">
 
-            <ImageView
+            <com.zolad.zoominimageview.ZoomInImageView
                 android:id="@+id/image4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -483,7 +487,7 @@
             android:layout_marginRight="10dp"
             app:cardCornerRadius="5dp">
 
-            <ImageView
+            <com.zolad.zoominimageview.ZoomInImageView
                 android:id="@+id/image1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -675,6 +679,12 @@
                     android:text="Call" />
             </LinearLayout>
         </android.support.v7.widget.CardView>
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/map"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"/>
 
 
     </LinearLayout>

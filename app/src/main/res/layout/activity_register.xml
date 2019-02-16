@@ -22,6 +22,15 @@
             android:layout_marginTop="10dp"
             app:srcCompat="@drawable/logo" />
 
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Vehicle Buyers"
+            android:textColor="#fefefe"
+            android:textSize="20sp" />
+
         <EditText
             android:id="@+id/registerFirstname"
             android:layout_width="match_parent"
