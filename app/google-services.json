@@ -1,35 +1,35 @@
 {
   "project_info": {
-    "project_number": "400330449533",
-    "firebase_url": "https://ezwheels-7396e.firebaseio.com",
-    "project_id": "ezwheels-7396e",
-    "storage_bucket": "ezwheels-7396e.appspot.com"
+    "project_number": "127397136942",
+    "firebase_url": "https://ezwheels1-a8d36.firebaseio.com",
+    "project_id": "ezwheels1-a8d36",
+    "storage_bucket": "ezwheels1-a8d36.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:400330449533:android:fd7332830f29ef01",
+        "mobilesdk_app_id": "1:127397136942:android:fd7332830f29ef01",
         "android_client_info": {
           "package_name": "vincegeralddelaccerna.ezwheels"
         }
       },
       "oauth_client": [
         {
-          "client_id": "400330449533-1javiuh4fau4297fn0bj9v55ejj23gu5.apps.googleusercontent.com",
+          "client_id": "127397136942-vak4tbcl0737qjp7st8rv51h9kg6vv4v.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "vincegeralddelaccerna.ezwheels",
-            "certificate_hash": "2c1f9a7c823272eacf2ed868054fa9d5d41386b8"
+            "certificate_hash": "2671f7d436e76c9d8430e4c01b7673bf2fe11c86"
           }
         },
         {
-          "client_id": "400330449533-tor8pooop1jikb5t7b97cnc2pof7hqnk.apps.googleusercontent.com",
+          "client_id": "127397136942-io1jin6i5reltvs5gahcpgeb0v93th5h.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB5NzotF4T7BGspUP70i6USxhweQBjz1K4"
+          "current_key": "AIzaSyASO7JE5N4GjwzDR7SYdMAr2ZO3VtDLy8I"
         }
       ],
       "services": {
@@ -40,15 +40,8 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "400330449533-tor8pooop1jikb5t7b97cnc2pof7hqnk.apps.googleusercontent.com",
+              "client_id": "127397136942-io1jin6i5reltvs5gahcpgeb0v93th5h.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "400330449533-2diqbehr2ga0c6bq98d4b5b42qsn2l2m.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "vincegeralddelaccerna.ezwheels"
-              }
             }
           ]
         },

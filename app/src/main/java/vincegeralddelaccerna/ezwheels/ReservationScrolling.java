@@ -224,7 +224,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
 
 
         //check if the listing is posted by current user
-        Toast.makeText(this, listingId, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, listingId, Toast.LENGTH_SHORT).show();
         mDatabaseRef2 = FirebaseDatabase.getInstance().getReference("Car").child(listingId);
         mDatabaseRef2.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -405,6 +405,11 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                                         sellerAddress.setVisibility(View.GONE);
                                         sellerName.setText(firstname + " " +lastname);
                                         sellerContact.setText(contactnumber);
+                                        if(status.equals("DECLINED") || status.equals("APPROVED") || status.equals("DONE")){
+                                            pay.setVisibility(View.GONE);
+                                            done.setVisibility(View.VISIBLE);
+                                            fab.setVisibility(View.GONE);
+                                        }
                                     }
 
                                     @Override
@@ -433,9 +438,13 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                                             decline.setVisibility(View.GONE);
                                             approve.setVisibility(View.GONE);
                                             edit.setVisibility(View.GONE);
-                                            pay.setVisibility(View.GONE);
+                                            pay.setVisibility(View.VISIBLE);
                                             fab.setVisibility(View.GONE);
-                                            done.setVisibility(View.VISIBLE);
+                                            done.setVisibility(View.GONE);
+                                        }
+
+                                        if(reserved.equals("true")){
+                                            pay.setVisibility(View.GONE);
                                         }
 
                                     }
@@ -476,13 +485,13 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                         }
                     });
 
-
                 }
 
 
                 if(shopUid.equals(id)){
                     fab.setVisibility(View.GONE);
                     edit.setVisibility(View.GONE);
+
                     {
                         mDatabaseRef1 = FirebaseDatabase.getInstance().getReference("Buyers").child(UserUId);
 
@@ -497,7 +506,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                                             lastname = dataSnapshot.child("lastname").getValue().toString();
                                             contactnumber = dataSnapshot.child("contactnumber").getValue().toString();
                                             //status = dataSnapshot.child("status").getValue().toString();
-                                            Toast.makeText(ReservationScrolling.this, firstname, Toast.LENGTH_SHORT).show();
+                                            //Toast.makeText(ReservationScrolling.this, firstname, Toast.LENGTH_SHORT).show();
                                             Log.d("number" ,contactnumber);
                                             Log.d("fname" ,firstname);
                                             Log.d("lname" ,lastname);
@@ -505,6 +514,7 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                                             textView13.setText("Buyer Details");
                                             sellerName.setText(firstname + " " +lastname);
                                             sellerContact.setText(contactnumber);
+                                            done.setVisibility(View.GONE);
                                             if(status.equals("DECLINED") || status.equals("APPROVED") || status.equals("DONE")){
                                                 decline.setVisibility(View.GONE);
                                                 approve.setVisibility(View.GONE);
@@ -513,8 +523,9 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                                                 pay.setVisibility(View.GONE);
 
                                             }
-
-
+                                            if(status.equals("APPROVED")){
+                                                done.setVisibility(View.VISIBLE);
+                                            }
 
                                         }
 
@@ -541,6 +552,18 @@ public class ReservationScrolling extends AppCompatActivity implements View.OnCl
                                             sellerName.setText(firstname + " " +lastname);
                                             sellerContact.setText(contactnumber);
                                             sellerAddress.setText(address);
+                                            if(status.equals("DECLINED") || status.equals("APPROVED") || status.equals("DONE")){
+                                                decline.setVisibility(View.GONE);
+                                                approve.setVisibility(View.GONE);
+                                                edit.setVisibility(View.GONE);
+                                                fab.setVisibility(View.GONE);
+                                                pay.setVisibility(View.GONE);
+
+                                            }
+                                            if(status.equals("APPROVED")){
+                                                done.setVisibility(View.VISIBLE);
+                                            }
+
 
                                         }
 

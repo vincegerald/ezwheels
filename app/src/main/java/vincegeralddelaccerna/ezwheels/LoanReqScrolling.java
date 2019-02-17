@@ -208,14 +208,14 @@ public class LoanReqScrolling extends AppCompatActivity implements View.OnClickL
 
 
 
-        brand = getIntent().getStringExtra("brand");
-        model = getIntent().getStringExtra("model");
+//        brand = getIntent().getStringExtra("brand");
+//        model = getIntent().getStringExtra("model");
 
         aid = getIntent().getStringExtra("aid");
         listingId = getIntent().getStringExtra("listid");
         shopUid = getIntent().getStringExtra("shopid");
         //Toast.makeText(this, shopUid, Toast.LENGTH_SHORT).show();
-        getSupportActionBar().setTitle(brand + " " + model);
+        getSupportActionBar().setTitle("Loan Request");
 
 
         //check if the listing is posted by current user

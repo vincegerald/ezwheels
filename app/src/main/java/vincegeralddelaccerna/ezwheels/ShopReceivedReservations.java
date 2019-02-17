@@ -60,20 +60,18 @@ public class ShopReceivedReservations extends Fragment {
     private List<Reservation> mUploads;
 
     public void PushNotification(String title, String content) {
-        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
-        Notification notification = new NotificationCompat.Builder(getContext(), reservationReceived)
+//        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
+//        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getActivity(), reservationReceived)
                 .setSmallIcon(R.drawable.logo)
                 .setContentTitle(title)
                 .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setStyle(new NotificationCompat.BigTextStyle()
-                .bigText(content))
-                .setContentIntent(contentIntent)
-                .build();
+                .bigText(content));
 
-        notificationManagerCompat.notify(2, notification);
+        notificationManagerCompat.notify(2, mBuilder.build());
 
 
 
@@ -113,7 +111,7 @@ public class ShopReceivedReservations extends Fragment {
         mUploads = new ArrayList<>();
         brokencar = v.findViewById(R.id.brokencar);
         nolisting = v.findViewById(R.id.nolisting);
-        notificationManagerCompat = NotificationManagerCompat.from(getContext());
+        notificationManagerCompat = NotificationManagerCompat.from(getActivity());
 
         mAuth = FirebaseAuth.getInstance();
         final String id = mAuth.getCurrentUser().getUid();

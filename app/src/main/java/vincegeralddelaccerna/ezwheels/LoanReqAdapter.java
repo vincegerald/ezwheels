@@ -20,6 +20,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
@@ -54,9 +55,9 @@ public class LoanReqAdapter extends RecyclerView.Adapter<LoanReqAdapter.LoanReqA
         final LoanReq uploadCurrent = mUploads.get(position);
         getListing = FirebaseDatabase.getInstance().getReference("Car");
         //Toast.makeText(mContext, uploadCurrent.getListId(), Toast.LENGTH_SHORT).show();
-        getListing.orderByChild("listid").equalTo(uploadCurrent.getListId()).addChildEventListener(new ChildEventListener() {
+        getListing.child(uploadCurrent.getListId()).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
                     String image = dataSnapshot.child("image").getValue().toString();
                     brand = dataSnapshot.child("finalBrand").getValue().toString();
@@ -68,27 +69,18 @@ public class LoanReqAdapter extends RecyclerView.Adapter<LoanReqAdapter.LoanReqA
                 }
                 else{
                     getMotor = FirebaseDatabase.getInstance().getReference("Motor");
-                    getMotor.orderByChild("listid").equalTo(uploadCurrent.getListId()).addChildEventListener(new ChildEventListener() {
+                    getMotor.child(uploadCurrent.getListId()).addValueEventListener(new ValueEventListener() {
                         @Override
-                        public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if(dataSnapshot.exists()){
                                 String image = dataSnapshot.child("image").getValue().toString();
+                                brand = dataSnapshot.child("finalBrand").getValue().toString();
+                                model = dataSnapshot.child("finalModel").getValue().toString();
+                                String price = dataSnapshot.child("finalPrice").getValue().toString();
+                                Picasso.get().load(image).fit().centerCrop().into(holder.image);
+                                holder.list.setText(brand + " " + model);
+                                holder.price.setText(price);
                             }
-                        }
-
-                        @Override
-                        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                        }
-
-                        @Override
-                        public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                        }
-
-                        @Override
-                        public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
                         }
 
                         @Override
@@ -100,25 +92,12 @@ public class LoanReqAdapter extends RecyclerView.Adapter<LoanReqAdapter.LoanReqA
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(mContext, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+
         holder.shop.setText("Applied Loan Company : " + uploadCurrent.getComp1() + " " + uploadCurrent.getComp2() + " " +  uploadCurrent.getComp3() + " " +  uploadCurrent.getComp4() + " " +  uploadCurrent.getComp5());
         holder.logoPeso.setVisibility(View.GONE);
         holder.type.setText("Months to pay: " + uploadCurrent.getMonth());

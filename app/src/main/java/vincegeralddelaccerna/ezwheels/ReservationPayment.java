@@ -54,7 +54,7 @@ public class ReservationPayment extends AppCompatActivity implements View.OnClic
     private static String imagePath1;
     ProgressBar p1;
     FirebaseAuth mAuth;
-    private static String resType;
+    private static String resType, amount;
 
 
     @Override
@@ -191,7 +191,12 @@ public class ReservationPayment extends AppCompatActivity implements View.OnClic
                             final String senderText = sender.getText().toString();
                             final String codeText = code.getText().toString();
                             String pid = res.push().getKey();
-                            String amount = "999.00";
+                            if(resType.equals("At Shop")){
+                                 amount = "599.00";
+                            }
+                            else{
+                                 amount = "999.00";
+                            }
                             String type = "Reservation Fee";
                             Calendar calendar = Calendar.getInstance();
                             String date = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
@@ -259,7 +264,7 @@ public class ReservationPayment extends AppCompatActivity implements View.OnClic
                             Toast.makeText(ReservationPayment.this, "Proof Image Added", Toast.LENGTH_SHORT).show();
                             imagePath1 = uri.toString();
                             Picasso.get().load(imageUri).fit().centerCrop().into(proof);
-                            p1.setVisibility(View.GONE);
+                            p1.setVisibility(View.INVISIBLE);
                             proof.setVisibility(View.VISIBLE);
 
                         }

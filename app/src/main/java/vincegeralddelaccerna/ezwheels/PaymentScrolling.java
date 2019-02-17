@@ -33,18 +33,18 @@ import com.squareup.picasso.Picasso;
 public class PaymentScrolling extends AppCompatActivity implements OnMapReadyCallback {
 
 
-    TextView payment, price, date, codee, senderName, sender, senderContact, senderShop, senderLocation;
+    TextView payment, price, date, codee, senderName, sender, senderContact, senderShop, senderLocation, name, res;
     private static String pid, uid, shopuid;
     DatabaseReference getPay, getShop, getAdmin, getBuyer;
     private static String amount, type, code, datee,shop, id;
-    private static String firstname, contact, shopname, lastname, contactnumber, location, image;
+    private static String firstname, contact, shopname, lastname, contactnumber, location, image, namee;
     FirebaseAuth mAuth;
     ImageView codeImage;
     private static double lon, lat;
     MapView mapView;
     GoogleMap map;
     private static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyCn5Caz2H3SqFIIrOSLMJCWYm7n21Oy3VI";
-    private static String shopnamee;
+    private static String shopnamee, rese, brand, model;
 
 
     @Override
@@ -79,6 +79,8 @@ public class PaymentScrolling extends AppCompatActivity implements OnMapReadyCal
         senderShop = findViewById(R.id.senderShop);
         senderLocation = findViewById(R.id.senderLocation);
         codeImage = findViewById(R.id.codeImage);
+        name = findViewById(R.id.name);
+        res = findViewById(R.id.res);
 
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -116,8 +118,12 @@ public class PaymentScrolling extends AppCompatActivity implements OnMapReadyCal
         lat = getIntent().getDoubleExtra("lat", 0.2f);
         lon = getIntent().getDoubleExtra("lon", 0.2f);
         shopnamee = getIntent().getStringExtra("shopname");
+        rese = getIntent().getStringExtra("resid");
+        brand = getIntent().getStringExtra("brand");
+        model = getIntent().getStringExtra("model");
 
-        Toast.makeText(this, String.valueOf(lat), Toast.LENGTH_SHORT).show();
+
+        //Toast.makeText(this, String.valueOf(lat), Toast.LENGTH_SHORT).show();
 
 
         getPay.orderByChild("id").equalTo(pid).addChildEventListener(new ChildEventListener() {
@@ -131,12 +137,14 @@ public class PaymentScrolling extends AppCompatActivity implements OnMapReadyCal
                     shop = dataSnapshot.child("shopuid").getValue().toString();
                     id = dataSnapshot.child("uid").getValue().toString();
                     image = dataSnapshot.child("image").getValue().toString();
+                    namee = dataSnapshot.child("name").getValue().toString();
 
                     codee.setText("Code: " + code);
                     payment.setText(type);
                     date.setText("Date: " + datee);
                     price.setText(amount);
                     Picasso.get().load(image).fit().centerCrop().into(codeImage);
+                    name.setText("Name: " + namee);
                 }
             }
 
@@ -162,6 +170,10 @@ public class PaymentScrolling extends AppCompatActivity implements OnMapReadyCal
         });
 
         if(id.equals(uid)){
+            if(rese.equals("")){
+                res.setVisibility(View.GONE);
+            }
+            res.setText("Reservation for: " + model + " " + brand);
             getShop.child(shopuid).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -211,6 +223,10 @@ public class PaymentScrolling extends AppCompatActivity implements OnMapReadyCal
         }
 
         if(id.equals(shopuid)){
+            if(rese.equals("")){
+                res.setVisibility(View.GONE);
+            }
+            res.setText("Reservation for: " + model + " " + brand);
             getBuyer.child(uid).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

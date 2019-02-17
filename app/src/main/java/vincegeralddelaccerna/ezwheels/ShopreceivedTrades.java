@@ -2,6 +2,7 @@ package vincegeralddelaccerna.ezwheels;
 
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
@@ -59,42 +60,21 @@ public class ShopreceivedTrades extends Fragment {
     private List<Trade> mUploads;
 
     public void PushNotification(String title, String content) {
-        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
-        Notification notification = new NotificationCompat.Builder(getContext(), reservationReceived)
+
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getActivity(), reservationReceived)
                 .setSmallIcon(R.drawable.logo)
                 .setContentTitle(title)
                 .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setStyle(new NotificationCompat.BigTextStyle()
-                 .bigText(content))
-                .setContentIntent(contentIntent)
-                .build();
+                 .bigText(content));
 
-        notificationManagerCompat.notify(4, notification);
+        notificationManagerCompat.notify(4, mBuilder.build());
 
 
 
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder()
-//
-//
-//        //set
-//        builder.setContentIntent(contentIntent);
-//        builder.setSmallIcon(R.drawable.logo);
-//        builder.setContentText(content);
-//        builder.setContentTitle(title);
-//        builder.setAutoCancel(true);
-//        builder.setDefaults(Notification.PRIORITY_MAX);
-//
-//
-//
-//        Notification notification = builder.build();
-//        nm.notify((int)System.currentTimeMillis(),notification);
-//        NotificationManager nm = (NotificationManager)getActivity().getSystemService(NOTIFICATION_SERVICE);
-//        Notification.Builder builder = new Notification.Builder(getActivity());
-//        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
-//        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
 
     }
 

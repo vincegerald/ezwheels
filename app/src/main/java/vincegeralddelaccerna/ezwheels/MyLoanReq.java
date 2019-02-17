@@ -63,20 +63,19 @@ public class MyLoanReq extends Fragment {
 
 
     public void PushNotification(String title, String content) {
-        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
-        Notification notification = new NotificationCompat.Builder(getContext(), myLoanreq)
+//        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
+ //       PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getActivity(), myLoanreq)
                 .setSmallIcon(R.drawable.logo)
                 .setContentTitle(title)
                 .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setContentIntent(contentIntent)
+//                .setContentIntent(contentIntent)
                 .setStyle(new NotificationCompat.BigTextStyle()
-                .bigText(content))
-                .build();
+                .bigText(content));
 
-        notificationManagerCompat.notify(5, notification);
+        notificationManagerCompat.notify(5, mBuilder.build());
 
 
     }

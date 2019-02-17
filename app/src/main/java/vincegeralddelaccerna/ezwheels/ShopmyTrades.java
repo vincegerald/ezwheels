@@ -51,6 +51,7 @@ public class ShopmyTrades extends Fragment {
     FirebaseAuth mAuth;
     ImageView brokencar;
     TextView nolisting;
+    private NotificationCompat.Builder mBuilder;
 
     private ProgressBar mProgressbar;
 
@@ -60,20 +61,21 @@ public class ShopmyTrades extends Fragment {
     private List<Trade> mUploads;
 
     public void PushNotification(String title, String content) {
-        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
-        Notification notification = new NotificationCompat.Builder(getContext(), myTrades)
+//        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
+//        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getActivity(), myTrades)
                 .setSmallIcon(R.drawable.logo)
                 .setContentTitle(title)
                 .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setContentIntent(contentIntent)
+//                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+//                .setContentIntent(contentIntent)
                 .setStyle(new NotificationCompat.BigTextStyle()
-                 .bigText(content))
-                .build();
+                 .bigText(content));
 
-        notificationManagerCompat.notify(3, notification);
+
+
+        notificationManagerCompat.notify(3, mBuilder.build());
 
 
     }

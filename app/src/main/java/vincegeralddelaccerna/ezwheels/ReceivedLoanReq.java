@@ -62,20 +62,18 @@ public class ReceivedLoanReq extends Fragment {
     NotificationManagerCompat notificationManagerCompat;
 
     public void PushNotification(String title, String content) {
-        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
-        Notification notification = new NotificationCompat.Builder(getContext(), loanreqReceived)
+//        Intent notificationIntent = new Intent(getContext(), ShopDashboard.class);
+//        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getActivity(), loanreqReceived)
                 .setSmallIcon(R.drawable.logo)
                 .setContentTitle(title)
                 .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setStyle(new NotificationCompat.BigTextStyle()
-                .bigText(content))
-                .setContentIntent(contentIntent)
-                .build();
+                .bigText(content));
 
-        notificationManagerCompat.notify(6, notification);
+        notificationManagerCompat.notify(6, mBuilder.build());
 
 
     }
@@ -116,6 +114,7 @@ public class ReceivedLoanReq extends Fragment {
                             PushNotification("New Loan Request", "You have a new loan request.");
                             databaseReference.child(loanReq.getAid()).child("seenShop").setValue("true");
                         }
+
                         mUploads.add(loanReq);
                     }
 

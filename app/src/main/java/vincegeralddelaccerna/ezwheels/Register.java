@@ -215,7 +215,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                     .setAction("Action", null).show();
                     return;
                 }
-                final String image = "https://firebasestorage.googleapis.com/v0/b/ezwheels-7396e.appspot.com/o/man.png?alt=media&token=ee7b4f1f-3212-4435-80b7-753ae164ebf2";
+                final String image = "https://firebasestorage.googleapis.com/v0/b/ezwheels1-a8d36.appspot.com/o/man.png?alt=media&token=5f8996b7-e995-48b2-9026-b55554f2f701";
                 firstname.setVisibility(View.INVISIBLE);
                 lastname.setVisibility(View.INVISIBLE);
                 //username.setVisibility(View.INVISIBLE);

@@ -72,14 +72,12 @@ public class ShopDashboard extends AppCompatActivity {
 
 
         final ShopDashBoardFragment shopDashboard = new ShopDashBoardFragment();
-        final ShopAddListing shopAddListing = new ShopAddListing();
-        final ReservationFragment reservationFragment = new ReservationFragment();
-        final SearchFragment searchFragment = new SearchFragment();
+
         final ShopothersFragment shopothersFragment = new ShopothersFragment();
         final ShopmyListings shopmyListings = new ShopmyListings();
         final loanreqq loanreqq = new loanreqq();
-        final ProfileFragment profileFragment = new ProfileFragment();
         final FavoriteFragment favoriteFragment = new FavoriteFragment();
+        final ProfileFragment profileFragment = new ProfileFragment();
 
         //if(status.e)
 
@@ -95,8 +93,8 @@ public class ShopDashboard extends AppCompatActivity {
                     return true;
                 }
 
-                if(id == R.id.loan){
-                    setFragment(loanreqq);
+                if(id == R.id.favorites){
+                    setFragment(favoriteFragment);
                     return  true;
                 }
 //

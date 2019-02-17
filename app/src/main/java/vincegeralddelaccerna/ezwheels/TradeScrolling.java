@@ -469,7 +469,7 @@ public class TradeScrolling extends AppCompatActivity implements View.OnClickLis
                     statusView.setText("("+status+")");
                     edit.setVisibility(View.GONE);
                     fab.setVisibility(View.GONE);
-                    cancel.setVisibility(View.VISIBLE);
+                    //cancel.setVisibility(View.VISIBLE);
 
                 }
                 else{

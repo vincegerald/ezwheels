@@ -61,20 +61,18 @@ public class ReceivedPayments extends Fragment {
     private List<Payments> mUploads;
 
     public void PushNotification(String title, String content) {
-        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
-        Notification notification = new NotificationCompat.Builder(getContext(), paymentReceived)
+//        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
+//        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getActivity(), paymentReceived)
                 .setSmallIcon(R.drawable.logo)
                 .setContentTitle(title)
                 .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setStyle(new NotificationCompat.BigTextStyle()
-                 .bigText(content))
-                .setContentIntent(contentIntent)
-                .build();
+                 .bigText(content));
 
-        notificationManagerCompat.notify(8, notification);
+        notificationManagerCompat.notify(8, mBuilder.build());
 
 
 

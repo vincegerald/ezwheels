@@ -249,7 +249,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             edit.setVisibility(View.GONE);
         }
 
-        Toast.makeText(this, uid, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, uid, Toast.LENGTH_SHORT).show();
         //Toast.makeText(this, listingid, Toast.LENGTH_SHORT).show();
         checkFin = FirebaseDatabase.getInstance().getReference("Finance Company");
         checkFin.orderByChild("shopUid").equalTo(uid).addValueEventListener(new ValueEventListener() {
@@ -277,7 +277,8 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if(dataSnapshot.exists()){
                     String status = dataSnapshot.child("status").getValue().toString();
-                    if(status.equals("APPROVED")){
+                    String reserved = dataSnapshot.child("reserved").getValue().toString();
+                    if(status.equals("APPROVED") && reserved.equals("true")){
                         reserve.setText("Reservations for this vehicle is currently unavailable");
                         reserve.setBackgroundColor(Color.parseColor("#808080"));
                         reserve.setClickable(false);
@@ -367,6 +368,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         //set the datas
         video.setVideoURI(uriVideo);
         video.start();
+        //
         Picasso.get().load(image1).fit().centerCrop().into(scrollImage);
         Picasso.get().load(image1).fit().centerCrop().into(imageView1);
         Picasso.get().load(image2).fit().centerCrop().into(imageView2);
@@ -705,7 +707,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         map.addMarker(new MarkerOptions().position(ny).title(shopname));
 
 
-        Toast.makeText(this, shopname, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, shopname, Toast.LENGTH_SHORT).show();
         UiSettings uiSettings = map.getUiSettings();
         uiSettings.setIndoorLevelPickerEnabled(true);
         uiSettings.setMyLocationButtonEnabled(true);

@@ -49,8 +49,8 @@ public class ShopothersFragment extends Fragment {
                     return true;
                 }
 
-                if(id == R.id.favorites){
-                    setFragment(favoriteFragment);
+                if(id == R.id.loan){
+                    setFragment(loanreqq);
                     return true;
                 }
 

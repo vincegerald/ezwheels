@@ -73,7 +73,7 @@
                 android:layout_marginTop="20dp"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:text="2. Send your payment (Php 999.00) to our official representative:"
+                android:text="2. Send your payment (Php 1,999.00) to our official representative:"
                 />
 
             <TextView

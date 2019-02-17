@@ -67,20 +67,19 @@ public class ShopmyReservation extends Fragment {
     private List<Reservation> mUploads;
 
     public void PushNotification(String title, String content) {
-        Intent notificationIntent = new Intent(getActivity(), ShopDashboard.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
-        Notification notification = new NotificationCompat.Builder(getContext(), myReservations)
+//        Intent notificationIntent = new Intent(getContext(), ShopDashboard.class);
+//        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(),0,notificationIntent,0);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getActivity(), myReservations)
                 .setSmallIcon(R.drawable.logo)
                 .setContentTitle(title)
                 .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setStyle(new NotificationCompat.BigTextStyle()
-                 .bigText(content))
-                .setContentIntent(contentIntent)
-                .build();
+                 .bigText(content));
+//                .setContentIntent(contentIntent);
 
-        notificationManagerCompat.notify(1, notification);
+        notificationManagerCompat.notify(1, mBuilder.build());
 
     }
 
@@ -106,7 +105,7 @@ public class ShopmyReservation extends Fragment {
         String id = mAuth.getCurrentUser().getUid();
         Query query = FirebaseDatabase.getInstance().getReference("Reservation")
                 .orderByChild("uid").equalTo(id);
-        Toast.makeText(getActivity(), mAuth.getCurrentUser().getUid(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), mAuth.getCurrentUser().getUid(), Toast.LENGTH_SHORT).show();
         databaseReference1 = FirebaseDatabase.getInstance().getReference("Reservation");
 
 

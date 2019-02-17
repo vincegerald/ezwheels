@@ -33,9 +33,9 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
     DatabaseReference getListing, getMotor;
 
     FirebaseAuth mAuth;
-    DatabaseReference getShop, getBuyer, getAdmin;
+    DatabaseReference getShop, getBuyer, getAdmin, getRes;
     private static double lat, lon;
-    private static String name;
+    private static String name, brand, model;
 
 
     public PaymentAdapter(Context context, List<Payments> uploads) {
@@ -59,6 +59,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
         getBuyer = FirebaseDatabase.getInstance().getReference("Buyers");
         getShop = FirebaseDatabase.getInstance().getReference("Shop");
         getAdmin = FirebaseDatabase.getInstance().getReference("Admin");
+        getRes = FirebaseDatabase.getInstance().getReference("Reservation");
         holder.image.setVisibility(View.GONE);
         holder.type.setVisibility(View.GONE);
         holder.textStatus.setVisibility(View.GONE);
@@ -104,6 +105,23 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
             });
         }
 
+        getRes.child(uploadCurrent.getResid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    brand = dataSnapshot.child("brand").getValue().toString();
+                    model = dataSnapshot.child("model").getValue().toString();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(mContext, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
         if(mAuth.getCurrentUser().getUid().equals(uploadCurrent.getUid())){
             getShop.child(uploadCurrent.getShopuid()).addValueEventListener(new ValueEventListener() {
                 @Override
@@ -147,12 +165,15 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, PaymentScrolling.class);
+                intent.putExtra("brand", brand);
+                intent.putExtra("model", model);
                 intent.putExtra("lat", lat);
                 intent.putExtra("lon", lon);
                 intent.putExtra("shopname", name);
                 intent.putExtra("pid", uploadCurrent.getId());
                 intent.putExtra("uid", uploadCurrent.getUid());
                 intent.putExtra("shopuid", uploadCurrent.getShopuid());
+                intent.putExtra("resid", uploadCurrent.getResid());
                 mContext.startActivity(intent);
             }
         });

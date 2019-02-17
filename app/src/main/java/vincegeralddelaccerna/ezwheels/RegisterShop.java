@@ -70,7 +70,7 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
     ProgressBar progress;
     private FirebaseDatabase mDatabase;
     private StorageReference mStorageRef;
-    private static double longitude , latitude;
+    private static double longitude = 0.0 , latitude = 0.0;
     private String status = "NOT ACTIVATED";
     private Uri uriImage;
     private static String imagePath = "";
@@ -114,7 +114,21 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
 
 
 
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
+
+        onLocationChanged(location);
 
 
 
@@ -197,21 +211,7 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
 
             //Toast.makeText(this, "finished", Toast.LENGTH_SHORT).show();
 
-            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
-            Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
-
-            onLocationChanged(location);
 
 
             final String sFirstname = shopFirstname.getText().toString().trim();
@@ -285,22 +285,7 @@ public class RegisterShop extends AppCompatActivity implements View.OnClickListe
 
 
 
-            final String image = "https://firebasestorage.googleapis.com/v0/b/ezwheels-7396e.appspot.com/o/man.png?alt=media&token=ee7b4f1f-3212-4435-80b7-753ae164ebf2";
-            Uri uri  = Uri.parse(image);
-            StorageReference storageReference = mStorageRef.child("Images").child(image);
-            storageReference.putFile(uri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                    mStorageRef.child("Images/"+image).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            purl = uri.toString();
-                            Toast.makeText(RegisterShop.this, "Wait for a moment", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            });
-
+            final String image = "https://firebasestorage.googleapis.com/v0/b/ezwheels1-a8d36.appspot.com/o/man.png?alt=media&token=5f8996b7-e995-48b2-9026-b55554f2f701";
             mAuth.createUserWithEmailAndPassword(sEmail, sPassword)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
