@@ -25,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -38,6 +39,8 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -58,6 +61,9 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -68,7 +74,7 @@ import co.gofynd.gravityview.GravityView;
 
 import static android.app.Activity.RESULT_OK;
 
-public class ShopAddListing extends AppCompatActivity implements View.OnClickListener {
+public class ShopAddListing extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private static final String [] brands = new String[]{
             "Toyota","Suzuki","Mitsubishi","Kia","Chevrolet"
@@ -93,22 +99,24 @@ public class ShopAddListing extends AppCompatActivity implements View.OnClickLis
     private static final String [] fuels = new String[]{
             "Diesel","Gasoline"
     };
+    private static String finalPcondition, finalTransmission, finalFuel, finalCategory, finalDoors;
 
 
 
     private List<String> Shop = new ArrayList<>();
 
-    private Uri videoUri, imageUri1, imageUri2, imageUri3, imageUri4;
+    private Uri videoUri, imageUri1, imageUri2, imageUri3, imageUri4, proofUri;
     private static final int SINGLE_VIDEO = 1;
     private static final int PANORAMA_IMAGE = 2 ;
     private static final int IMAGE_REQUEST_1 = 3;
     private static final int IMAGE_REQUEST_2 = 4;
     private static final int IMAGE_REQUEST_3 = 5;
     private static final int IMAGE_REQUEST_4 = 6;
+    private static final int PROOF_IMAGE = 7;
     ImageButton image;
     AutoCompleteTextView brandText, modelText, yearText, transmissionText, colorText, priceConditionText, fuel;
     Button btn3, btn4, btnBack, btnStep2, btn6, btn5, btn7, btn8, btn9, btn10, addImage, btnVideo, addPanorama, btnFront, btnfSide, btnBackImage, addFside, buttonBack, buttonSside, buttonVideo,
-            buttonFside, addImageSside;
+            buttonFside, addImageSside, payment, videoback, got, cancel;
     ScrollView addList1, addList2;
     LinearLayout addList3, addList4, addList5, addListImage1, addListFside, addListSside;
     ImageView image1, image2, image3, image4, imagePanorama;
@@ -121,11 +129,20 @@ public class ShopAddListing extends AppCompatActivity implements View.OnClickLis
     RadioGroup vehicleType;
     EditText editText5;
     ProgressBar progressBar;
+    Spinner transSpinner, fuelSpinner, priceConSpinner;
     Toolbar toolbar;
+    ScrollView instructions, paymentt;
+    ImageView proof;
+    EditText sender, code;
+    ProgressBar progress;
+    TextView reminder, stepp2;
+    Spinner doors, category;
+
 
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
     private DatabaseReference mDatabaseRef1;
+    private DatabaseReference addPayment;
     private FirebaseAuth mAuth;
     private StorageTask mUploadTask;
 
@@ -133,6 +150,7 @@ public class ShopAddListing extends AppCompatActivity implements View.OnClickLis
     private static  String imagePath2 = "";
     private static  String imagePath3 = "";
     private static  String imagePath4 = "";
+    private static  String imageProof = "";
     private static String videoPath = "";
     private static String type = "car";
     private static String formattedDate;
@@ -153,6 +171,52 @@ public class ShopAddListing extends AppCompatActivity implements View.OnClickLis
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //payment and listeners
+
+        //text view
+
+        reminder = findViewById(R.id.reminder);
+        stepp2 = findViewById(R.id.stepp2);
+
+        //edittext
+        sender = findViewById(R.id.sender);
+        code = findViewById(R.id.code);
+
+        progress = findViewById(R.id.progress);
+        //imageview
+
+        proof = findViewById(R.id.proof);
+        proof.setOnClickListener(this);
+
+        //end of payment
+
+        //linear layouts
+        instructions = findViewById(R.id.instructions);
+        paymentt = findViewById(R.id.paymentt);
+
+        //button and listeners
+        got = findViewById(R.id.got);
+        cancel = findViewById(R.id.cancel);
+        videoback = findViewById(R.id.videoback);
+
+        got.setOnClickListener(this);
+        cancel.setOnClickListener(this);
+        videoback.setOnClickListener(this);
+
+        //end of button and listeners
+
+
+        payment = findViewById(R.id.payment);
+        videoback = findViewById(R.id.videoback);
+        payment.setOnClickListener(this);
+        videoback.setOnClickListener(this);
+        //spinner
+
+        category = findViewById(R.id.category);
+        doors = findViewById(R.id.doors);
+        transSpinner = findViewById(R.id.transmission);
+        fuelSpinner = findViewById(R.id.fuel);
+        priceConSpinner = findViewById(R.id.pricecondition);
 
         progressBar = findViewById(R.id.progressBar5);
         editText5 = findViewById(R.id.editText5);
@@ -162,13 +226,13 @@ public class ShopAddListing extends AppCompatActivity implements View.OnClickLis
         price = findViewById(R.id.price);
         series = findViewById(R.id.editText3);
         edition = findViewById(R.id.editText4);
-        fuel = findViewById(R.id.fuelText);
+        //fuel = findViewById(R.id.fuelText);
         brandText = findViewById(R.id.brandText);
         modelText = findViewById(R.id.modelText);
         yearText = findViewById(R.id.yearText);
         colorText = findViewById(R.id.colorText);
-        transmissionText = findViewById(R.id.transmissionText);
-        priceConditionText = findViewById(R.id.PriceCondition);
+        //transmissionText = findViewById(R.id.transmissionText);
+        //priceConditionText = findViewById(R.id.PriceCondition);
         videoView = findViewById(R.id.videoView);
         mediaController = new MediaController(this);
         btn3 = findViewById(R.id.button3);
@@ -212,14 +276,14 @@ public class ShopAddListing extends AppCompatActivity implements View.OnClickLis
         modelText.setAdapter(modelAdapter);
         ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, year);
         yearText.setAdapter(yearAdapter);
-        ArrayAdapter<String> transmissionAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, transmission);
-        transmissionText.setAdapter(transmissionAdapter);
+//        ArrayAdapter<String> transmissionAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, transmission);
+//        transmissionText.setAdapter(transmissionAdapter);
         ArrayAdapter<String> colorAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, color);
         colorText.setAdapter(colorAdapter);
-        ArrayAdapter<String> condtionAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, priceCondition);
-        priceConditionText.setAdapter(condtionAdapter);
-        ArrayAdapter<String> fuelAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fuels);
-        fuel.setAdapter(fuelAdapter);
+//        ArrayAdapter<String> condtionAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, priceCondition);
+//        priceConditionText.setAdapter(condtionAdapter);
+//        ArrayAdapter<String> fuelAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fuels);
+//        fuel.setAdapter(fuelAdapter);
         btn3.setOnClickListener(this);
         btn4.setOnClickListener(this);
         btn5.setOnClickListener(this);
@@ -266,11 +330,39 @@ public class ShopAddListing extends AppCompatActivity implements View.OnClickLis
             }
         });
 
+        //spinner adapters
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.transmission, android.R.layout.simple_list_item_1);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        transSpinner.setAdapter(adapter);
+        transSpinner.setOnItemSelectedListener(this);
+
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.fuel, android.R.layout.simple_list_item_1);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        fuelSpinner.setAdapter(adapter1);
+        fuelSpinner.setOnItemSelectedListener(this);
+
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.pricecondition, android.R.layout.simple_list_item_1);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        priceConSpinner.setAdapter(adapter2);
+        priceConSpinner.setOnItemSelectedListener(this);
+
+        ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_list_item_1);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        category.setAdapter(adapter3);
+        category.setOnItemSelectedListener(this);
+
+        ArrayAdapter<CharSequence> adapter4 = ArrayAdapter.createFromResource(this, R.array.doors, android.R.layout.simple_list_item_1);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        doors.setAdapter(adapter4);
+        doors.setOnItemSelectedListener(this);
+
 
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         mDatabaseRef1 = FirebaseDatabase.getInstance().getReference();
+        addPayment = FirebaseDatabase.getInstance().getReference();
         gravityView = GravityView.getInstance(this);
 
 //        adapter = new ListViewAdapter(Shop, getActivity());
@@ -369,12 +461,48 @@ public class ShopAddListing extends AppCompatActivity implements View.OnClickLis
 
         if(view.getId() == R.id.button7){
             addList1.setVisibility(View.GONE);
+            paymentt.setVisibility(View.GONE);
+            instructions.setVisibility(View.VISIBLE);
+        }
+
+        if(view.getId() == R.id.videoback){
+            addList1.setVisibility(View.GONE);
             addListSside.setVisibility(View.VISIBLE);
             addList4.setVisibility(View.GONE);
         }
 
+        if(view.getId() == R.id.payment){
+            final String pricee = price.getText().toString();
+            NumberFormat f = NumberFormat.getInstance();
+            double payPrice = 0.00;
+            try {
+                payPrice = f.parse(pricee).doubleValue() * 0.005;
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+//            int priceTemp = Integer.parseInt(pricee);
+//            Float payPrice = Float.parseFloat(pricee);
+            reminder.setText("To post this listing, you should pay .5% of your listing price Php(" + String.valueOf(payPrice) + ")");
+            stepp2.setText("Send your payment Php(" + String.valueOf(payPrice) + ") to our official representative");
+            instructions.setVisibility(View.VISIBLE);
+            addList4.setVisibility(View.GONE);
+            addList1.setVisibility(View.GONE);
+        }
+
+        if(view.getId() == R.id.got){
+            instructions.setVisibility(View.GONE);
+            addList1.setVisibility(View.GONE);
+            paymentt.setVisibility(View.VISIBLE);
+        }
+
+        if(view.getId() == R.id.cancel){
+            instructions.setVisibility(View.GONE);
+            addList4.setVisibility(View.VISIBLE);
+            addList1.setVisibility(View.GONE);
+        }
+
         if(view.getId() == R.id.buttonBack){
-             addList1.setVisibility(View.GONE);
+            addList1.setVisibility(View.GONE);
             addListImage1.setVisibility(View.VISIBLE);
             addListFside.setVisibility(View.GONE);
         }
@@ -384,11 +512,11 @@ public class ShopAddListing extends AppCompatActivity implements View.OnClickLis
             final String finalModel = modelText.getText().toString();
             final String finalYear = yearText.getText().toString();
             final String finalColor = colorText.getText().toString();
-            final String finalTransmission = transmissionText.getText().toString();
-            final String finalPcondition = priceConditionText.getText().toString();
+            //final String finalTransmission = transmissionText.getText().toString();
+            //final String finalPcondition = priceConditionText.getText().toString();
             final String finalMileage = mileage.getText().toString();
             final String finalPrice = price.getText().toString();
-            final String finalFuel = fuel.getText().toString();
+            //final String finalFuel = fuel.getText().toString();
             final String finalEdition = edition.getText().toString();
             final String finalSeries = series.getText().toString();
             Date c = Calendar.getInstance().getTime();
@@ -399,10 +527,10 @@ public class ShopAddListing extends AppCompatActivity implements View.OnClickLis
             formattedDate = df.format(c);
 
             final String shop = "";
-            final String status = "AVAILABLE";
+            final String status = "PENDING";
             final String uid = mAuth.getCurrentUser().getUid();
 
-            if(TextUtils.isEmpty(finalBrand) || TextUtils.isEmpty(finalModel) || TextUtils.isEmpty(finalYear) || TextUtils.isEmpty(finalColor) || TextUtils.isEmpty(finalTransmission) || TextUtils.isEmpty(finalPcondition) || TextUtils.isEmpty(finalMileage) || TextUtils.isEmpty(finalPrice)){
+            if(TextUtils.isEmpty(finalBrand) || TextUtils.isEmpty(finalModel) || TextUtils.isEmpty(finalYear) || TextUtils.isEmpty(finalColor)   || TextUtils.isEmpty(finalMileage) || TextUtils.isEmpty(finalPrice)){
                 Toast.makeText(this, "Input all fields", Toast.LENGTH_SHORT).show();
             }
 
@@ -419,6 +547,15 @@ public class ShopAddListing extends AppCompatActivity implements View.OnClickLis
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(intent, IMAGE_REQUEST_1);
+        }
+
+        if(view.getId() == R.id.proof){
+
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(intent, PROOF_IMAGE);
+
         }
 
         if(view.getId() == R.id.btnBackImage){
@@ -451,13 +588,7 @@ public class ShopAddListing extends AppCompatActivity implements View.OnClickLis
             startActivityForResult(gallery, SINGLE_VIDEO);
         }
 
-        if(view.getId() == R.id.addPanorama){
-            startActivityForResult(Intent.createChooser(new Intent().
-                            setAction(Intent.ACTION_GET_CONTENT).
-                            setType("panorama/*"),
-                    "Select panorama"),
-                    PANORAMA_IMAGE);
-        }
+
 
     }
 
@@ -494,9 +625,26 @@ public class ShopAddListing extends AppCompatActivity implements View.OnClickLis
             }
         }
 
-        else if(requestCode == PANORAMA_IMAGE && resultCode == RESULT_OK){
-            Uri imageUri = data.getData();
+        else if(requestCode == PROOF_IMAGE && resultCode == RESULT_OK){
 
+            proofUri = data.getData();
+            Picasso.get().load(proofUri).fit().centerCrop().into(proof);
+            final String path5 = System.currentTimeMillis() + "." + getFileExtension(proofUri);
+            progress.setVisibility(View.VISIBLE);
+            StorageReference storageReference = mStorageRef.child("Images").child(path5);
+            storageReference.putFile(proofUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    mStorageRef.child("Images/"+path5).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            imageProof = uri.toString();
+                            progress.setVisibility(View.INVISIBLE);
+                            Toast.makeText(ShopAddListing.this, "Added Proof Image", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
         }
 
         else if(requestCode == IMAGE_REQUEST_1 && resultCode == RESULT_OK){
@@ -600,22 +748,53 @@ public class ShopAddListing extends AppCompatActivity implements View.OnClickLis
 
         if(uriImage != null){
 
+            final String codeText = code.getText().toString().trim();
+            final String senderText = sender.getText().toString().trim();
+
+
+            NumberFormat f = NumberFormat.getInstance();
+            double payPrice = 0.00;
+            try {
+                payPrice = f.parse(finalPrice).doubleValue() * 0.005;
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
+            final String fpayPrice = String.valueOf(payPrice);
 
             final String imageUrl = uriImage.toString();
             //Toast.makeText(getActivity(), imageUrl, Toast.LENGTH_SHORT).show();
             progressBar.setVisibility(View.VISIBLE);
             mDatabaseRef = mDatabaseRef.child("Car");
-            String listid = mDatabaseRef.push().getKey();
-            Upload upload = new Upload(listid, edition, series, info, uid, formattedDate, fuel, imagePath4, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
+            final String listid = mDatabaseRef.push().getKey();
+            Upload upload = new Upload(listid, edition, series, info, uid, formattedDate, fuel, imagePath4, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status, finalCategory, finalDoors);
             if(type.equals("car")){
                 Toast.makeText(ShopAddListing.this, type, Toast.LENGTH_SHORT).show();
                 mDatabaseRef.child(listid).setValue(upload).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(ShopAddListing.this, "saved", Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.GONE);
-                            finish();
+                            addPayment = addPayment.child("Payments");
+                            String pid = addPayment.push().getKey();
+                            Calendar calendar = Calendar.getInstance();
+                            String date = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+                            //(String image, String name, String code, String uid, String id, String amount, String type, String shopuid, String resid, String listingid, String date, String seen)
+                            Payments payments = new Payments(imageProof, senderText, codeText, mAuth.getCurrentUser().getUid(), pid, fpayPrice, "Listing Payment", "A3vBEHzSZlUcwuWTWlBoj8FHRkD2", "", listid, date, "false");
+                            addPayment.child(pid).setValue(payments).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Toast.makeText(ShopAddListing.this, "Saved", Toast.LENGTH_SHORT).show();
+                                        progressBar.setVisibility(View.GONE);
+                                        finish();
+                                    }
+                                    else{
+                                        Toast.makeText(ShopAddListing.this, "Error Occured", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                         }
                         else{
                             Toast.makeText(ShopAddListing.this, "error", Toast.LENGTH_SHORT).show();
@@ -627,15 +806,31 @@ public class ShopAddListing extends AppCompatActivity implements View.OnClickLis
             else{
                 mDatabaseRef1 = mDatabaseRef1.child("Motor");
                 String listid1 = mDatabaseRef1.push().getKey();
-                Upload upload1 = new Upload(listid1, edition, series, info, uid, formattedDate, fuel, imagePath4, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
+
+                Upload upload1 = new Upload(listid1, edition, series, info, uid, formattedDate, fuel, imagePath4, imagePath1, imagePath2, imagePath3, videoPath, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status, finalCategory, finalDoors);
                 mDatabaseRef1.child(listid1).setValue(upload1).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(ShopAddListing.this, "saved", Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.GONE);
-                            Intent intent = new Intent(ShopAddListing.this, ShopDashboard.class);
-                            startActivity(intent);
+                            addPayment = addPayment.child("Payments");
+                            String pid = addPayment.push().getKey();
+                            Calendar calendar = Calendar.getInstance();
+                            String date = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+                            //(String image, String name, String code, String uid, String id, String amount, String type, String shopuid, String resid, String listingid, String date, String seen)
+                            Payments payments = new Payments(imageProof, senderText, codeText, mAuth.getCurrentUser().getUid(), pid, fpayPrice, "Listing Payment", "A3vBEHzSZlUcwuWTWlBoj8FHRkD2", "", listid, date, "false");
+                            addPayment.child(pid).setValue(payments).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Toast.makeText(ShopAddListing.this, "Saved", Toast.LENGTH_SHORT).show();
+                                        progressBar.setVisibility(View.GONE);
+                                        finish();
+                                    }
+                                    else{
+                                        Toast.makeText(ShopAddListing.this, "Error Occured", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                         }
                         else{
                             Toast.makeText(ShopAddListing.this, "error", Toast.LENGTH_SHORT).show();
@@ -647,4 +842,36 @@ public class ShopAddListing extends AppCompatActivity implements View.OnClickLis
     }
 
 
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+        int id = adapterView.getId();
+
+        if(id == R.id.transmission){
+            finalTransmission = adapterView.getItemAtPosition(i).toString();
+            //Toast.makeText(this, finalTransmission, Toast.LENGTH_SHORT).show();
+        }
+
+        if(id == R.id.fuel){
+            finalFuel = adapterView.getItemAtPosition(i).toString();
+        }
+
+        if(id == R.id.pricecondition){
+            finalPcondition = adapterView.getItemAtPosition(i).toString();
+        }
+
+        if(id == R.id.category){
+            finalCategory = adapterView.getItemAtPosition(i).toString();
+        }
+
+        if(id == R.id.doors){
+            finalDoors = adapterView.getItemAtPosition(i).toString();
+        }
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 }

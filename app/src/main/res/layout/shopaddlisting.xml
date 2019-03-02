@@ -182,24 +182,15 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <AutoCompleteTextView
-                android:id="@+id/transmissionText"
+            <Spinner
+                android:background="@drawable/blackborder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/transmission"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/blackborder"
-                android:completionHint="Enter Transmission"
-                android:completionThreshold="1"
-                android:cursorVisible="true"
-                android:hint="Enter Transmission"
-                android:padding="10dp"
-                android:textColor="#000000"
-                android:textColorHighlight="#000000"
-                android:textColorHint="#000000"
-                android:textColorLink="#000000"
-                android:textCursorDrawable="@drawable/cursor"
-                android:textSize="16sp" />
+                android:layout_marginTop="10dp">
+            </Spinner>
 
             <TextView
                 android:id="@+id/textViewFuel"
@@ -212,24 +203,57 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <AutoCompleteTextView
-                android:id="@+id/fuelText"
+            <Spinner
+                android:background="@drawable/blackborder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/fuel"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp">
+            </Spinner>
+
+            <TextView
+                android:id="@+id/textViewCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/blackborder"
-                android:completionHint="Enter Fuel"
-                android:completionThreshold="1"
-                android:cursorVisible="true"
-                android:hint="Enter Fuel"
-                android:padding="10dp"
+                android:layout_marginTop="20dp"
+                android:text="Category"
                 android:textColor="#000000"
-                android:textColorHighlight="#000000"
-                android:textColorHint="#000000"
-                android:textColorLink="#000000"
-                android:textCursorDrawable="@drawable/cursor"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:background="@drawable/blackborder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/category"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp">
+            </Spinner>
+
+            <TextView
+                android:id="@+id/textViewDoors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Doors"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:background="@drawable/blackborder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/doors"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp">
+            </Spinner>
 
 
             <LinearLayout
@@ -457,7 +481,7 @@
                 android:background="@drawable/blackborder"
                 android:ems="10"
                 android:hint="Input price"
-                android:inputType="textPersonName"
+                android:inputType="phone"
                 android:padding="10dp"
                 android:textColor="#000000"
                 android:textColorHighlight="#000000"
@@ -477,22 +501,15 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <AutoCompleteTextView
-                android:id="@+id/PriceCondition"
+            <Spinner
+                android:background="@drawable/blackborder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/pricecondition"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/blackborder"
-                android:completionHint="Enter Price Condition"
-                android:completionThreshold="1"
-                android:cursorVisible="true"
-                android:hint="Enter price condition"
-                android:padding="10dp"
-                android:textColor="#000000"
-                android:textColorHint="#000000"
-                android:textCursorDrawable="@drawable/cursor"
-                android:textSize="16sp" />
+                android:layout_marginTop="10dp">
+            </Spinner>
 
             <TextView
                 android:id="@+id/textView22"
@@ -1078,7 +1095,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button7"
+                android:id="@+id/videoback"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:background="#528aed"
@@ -1093,15 +1110,252 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/button8"
+                    android:id="@+id/payment"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:background="#528aed"
                     android:textColor="#fefefe"
-                    android:text="Finish" />
+                    android:text="Proceed to Payment" />
             </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
+
+
+        <ScrollView
+            android:id="@+id/instructions"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/reminder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:text=""
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textAlignment="textStart"/>
+
+                <TextView
+                    android:id="@+id/process"
+                    android:layout_below="@+id/reminder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Details will be shown regarding to the payment."
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/stepp1"
+                    android:layout_below="@+id/process"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="1. Go to nearest 'Palawan Remittance Center' "
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/stepp2"
+                    android:layout_below="@+id/stepp1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+
+                    />
+
+                <TextView
+                    android:id="@+id/details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Details:"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_below="@+id/stepp2"/>
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/details"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="10dp"
+                    android:text="Name: Vince Gerald C. dela Cerna"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/contact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Contact No.: 09239567606"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_below="@+id/name"/>
+
+
+
+
+                <TextView
+                    android:id="@+id/stepp3"
+                    android:layout_below="@+id/contact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text=" 3. After paying, enter the code and a picture of the receipt."
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/stepp4"
+                    android:layout_below="@+id/stepp3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text=" 4. EZWHEELS will review and approve your listing right away."
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+                <LinearLayout
+                    android:layout_below="@+id/stepp4"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/cancel"
+                        android:text="Cancel"
+                        android:layout_weight="1"/>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/got"
+                        android:text="Got it"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <ScrollView
+            android:id="@+id/paymentt"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <ProgressBar
+                    android:visibility="invisible"
+                    android:id="@+id/progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"/>
+
+                <ImageView
+                    android:id="@+id/proof"
+                    android:layout_below="@+id/progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/ic_add_to_photos_black_24dp" />
+
+                <EditText
+                    android:layout_below="@+id/proof"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sender"
+                    android:hint="Enter name of sender"
+                    android:padding="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/code"
+                    android:hint="Enter code here"
+                    android:padding="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="15dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/button7"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:background="#528aed"
+                        android:textColor="#fefefe"
+                        android:text="Back" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/button8"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:background="#528aed"
+                            android:textColor="#fefefe"
+                            android:text="Finish" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
 </LinearLayout>
 

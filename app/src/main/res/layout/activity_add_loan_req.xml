@@ -6,10 +6,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".AddLoanReq">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".AddLoanReq">
 
@@ -109,45 +110,489 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <CheckBox
-            android:id="@+id/comp1"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_below="@+id/select"
+        <LinearLayout
+            android:id="@+id/l1"
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/select">
 
-        <CheckBox
-            android:id="@+id/comp2"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_below="@+id/comp1"
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            <CheckBox
+                android:id="@+id/comp1"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
 
-        <CheckBox
-            android:id="@+id/comp3"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_below="@+id/comp2"
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            <ImageView
+                android:id="@+id/view1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_arrow_drop_down_black_24dp"/>
 
-        <CheckBox
-            android:id="@+id/comp4"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_below="@+id/comp3"
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
+        </LinearLayout>
 
-        <CheckBox
-            android:id="@+id/comp5"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_below="@+id/comp4"
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/h1"
+            android:padding="10dp"
+            android:layout_below="@+id/l1"
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/interest1"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Interest Rate"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textSize="18sp"
+                android:textColor="#000000"/>
+            <ImageView
+                android:id="@+id/hide1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_arrow_drop_up_black_24dp"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/l2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/select">
+
+            <CheckBox
+                android:id="@+id/comp2"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <ImageView
+                android:id="@+id/view2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_arrow_drop_down_black_24dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/h2"
+            android:padding="10dp"
+            android:layout_below="@+id/l1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/interest2"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Interest Rate"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textSize="18sp"
+                android:textColor="#000000"/>
+            <ImageView
+                android:id="@+id/hide2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_arrow_drop_up_black_24dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/l3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/select">
+
+            <CheckBox
+                android:id="@+id/comp3"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <ImageView
+                android:id="@+id/view3"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_arrow_drop_down_black_24dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/h3"
+            android:padding="10dp"
+            android:layout_below="@+id/l1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/interest3"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Interest Rate"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textSize="18sp"
+                android:textColor="#000000"/>
+            <ImageView
+                android:id="@+id/hide3"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_arrow_drop_up_black_24dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/l4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/select">
+
+            <CheckBox
+                android:id="@+id/comp4"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <ImageView
+                android:id="@+id/view4"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_arrow_drop_down_black_24dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/h4"
+            android:padding="10dp"
+            android:layout_below="@+id/l1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/interest4"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Interest Rate"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textSize="18sp"
+                android:textColor="#000000"/>
+            <ImageView
+                android:id="@+id/hide4"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_arrow_drop_up_black_24dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/l5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/select">
+
+            <CheckBox
+                android:id="@+id/comp5"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <ImageView
+                android:id="@+id/view5"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_arrow_drop_down_black_24dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/h5"
+            android:padding="10dp"
+            android:layout_below="@+id/l1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/interest5"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Interest Rate"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textSize="18sp"
+                android:textColor="#000000"/>
+            <ImageView
+                android:id="@+id/hide5"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_arrow_drop_up_black_24dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/l6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/select">
+
+            <CheckBox
+                android:id="@+id/comp6"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <ImageView
+                android:id="@+id/view6"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_arrow_drop_down_black_24dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/h6"
+            android:padding="10dp"
+            android:layout_below="@+id/l1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/interest6"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Interest Rate"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textSize="18sp"
+                android:textColor="#000000"/>
+            <ImageView
+                android:id="@+id/hide6"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_arrow_drop_up_black_24dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/l7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/select">
+
+            <CheckBox
+                android:id="@+id/comp7"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <ImageView
+                android:id="@+id/view7"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_arrow_drop_down_black_24dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/h7"
+            android:padding="10dp"
+            android:layout_below="@+id/l1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/interest7"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Interest Rate"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textSize="18sp"
+                android:textColor="#000000"/>
+            <ImageView
+                android:id="@+id/hide7"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_arrow_drop_up_black_24dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/l8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/select">
+
+            <CheckBox
+                android:id="@+id/comp8"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <ImageView
+                android:id="@+id/view8"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_arrow_drop_down_black_24dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/h8"
+            android:padding="10dp"
+            android:layout_below="@+id/l1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/interest8"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Interest Rate"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textSize="18sp"
+                android:textColor="#000000"/>
+            <ImageView
+                android:id="@+id/hide8"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_arrow_drop_up_black_24dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/l9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/select">
+
+            <CheckBox
+                android:id="@+id/comp9"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <ImageView
+                android:id="@+id/view9"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_arrow_drop_down_black_24dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/h9"
+            android:padding="10dp"
+            android:layout_below="@+id/l1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/interest9"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Interest Rate"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textSize="18sp"
+                android:textColor="#000000"/>
+            <ImageView
+                android:id="@+id/hide9"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_arrow_drop_up_black_24dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/l10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/select">
+
+            <CheckBox
+                android:id="@+id/comp10"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <ImageView
+                android:id="@+id/view10"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_arrow_drop_down_black_24dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/h10"
+            android:padding="10dp"
+            android:layout_below="@+id/l1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/interest10"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Interest Rate"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textSize="18sp"
+                android:textColor="#000000"/>
+            <ImageView
+                android:id="@+id/hide10"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_arrow_drop_up_black_24dp"/>
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -187,5 +632,5 @@
         </LinearLayout>
 
 
-    </RelativeLayout>
+    </LinearLayout>
 </ScrollView>

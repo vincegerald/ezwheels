@@ -105,20 +105,22 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentH
             });
         }
 
-        getRes.child(uploadCurrent.getResid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    brand = dataSnapshot.child("brand").getValue().toString();
-                    model = dataSnapshot.child("model").getValue().toString();
+        if(!uploadCurrent.getResid().equals("")){
+            getRes.child(uploadCurrent.getResid()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()){
+                        brand = dataSnapshot.child("brand").getValue().toString();
+                        model = dataSnapshot.child("model").getValue().toString();
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(mContext, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(mContext, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
 
 

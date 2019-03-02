@@ -72,6 +72,7 @@ public class EditTrade extends AppCompatActivity implements View.OnClickListener
     private String status = "PENDING";
     private static String imagePath1;
     private static  String imagePath2;
+    private static  String imagePath3;
 
     //uri
     private Uri imageUri1, imageUri2;
@@ -212,6 +213,7 @@ public class EditTrade extends AppCompatActivity implements View.OnClickListener
                     image1 = dataSnapshot.child("image1").getValue().toString();
                     imagePath1 = dataSnapshot.child("imagePath1").getValue().toString();
                     imagePath2 = dataSnapshot.child("imagePath2").getValue().toString();
+                    imagePath3 = dataSnapshot.child("imagePath3").getValue().toString();
                     listingid = dataSnapshot.child("listingid").getValue().toString();
                     model = dataSnapshot.child("model").getValue().toString();
                     name = dataSnapshot.child("name").getValue().toString();
@@ -300,7 +302,7 @@ public class EditTrade extends AppCompatActivity implements View.OnClickListener
     private void updateTrade(final String finalPrice,final String finalPrice1,final String finalBrand,final String finalModel,final String finalYear) {
 
 
-        Trade trade = new Trade(listingid, imagePath1, imagePath2, finalPrice, finalPrice1, finalBrand, finalModel,finalYear, uid, shopuid, typeTrade, image1, model, brand, year, name, statusFinal, priceList, tidFinal,seen, fromSeen);
+        Trade trade = new Trade(listingid, imagePath1, imagePath2, imagePath3, finalPrice, finalPrice1, finalBrand, finalModel,finalYear, uid, shopuid, typeTrade, image1, model, brand, year, name, statusFinal, priceList, tidFinal,seen, fromSeen);
         mDatabaseRef1.child("Trade").child(tid).setValue(trade).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

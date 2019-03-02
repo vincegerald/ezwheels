@@ -95,7 +95,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
             "Diesel","Gasoline"
     };
 
-
+    private static String finalCategory , finalDoors;
 
     private List<String> Shop = new ArrayList<>();
 
@@ -313,6 +313,8 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                         status = dataSnapshot.child("status").getValue().toString();
                         uid = dataSnapshot.child("uid").getValue().toString();
                         videoP = dataSnapshot.child("videoPath").getValue().toString();
+                        finalCategory = dataSnapshot.child("category").getValue().toString();
+                        finalDoors = dataSnapshot.child("doors").getValue().toString();
                         brandText.setText(finalBrand);
                         modelText.setText(finalModel);
                         yearText.setText(finalYear);
@@ -361,6 +363,8 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                                 listid = dataSnapshot.child("listid").getValue().toString();
                                 seriess = dataSnapshot.child("series").getValue().toString();
                                 date = dataSnapshot.child("date").getValue().toString();
+                                finalCategory = dataSnapshot.child("category").getValue().toString();
+                                finalDoors = dataSnapshot.child("doors").getValue().toString();
                                 status = dataSnapshot.child("status").getValue().toString();
                                 uid = dataSnapshot.child("uid").getValue().toString();
                                 videoP = dataSnapshot.child("videoPath").getValue().toString();
@@ -741,7 +745,7 @@ public class EditListing extends AppCompatActivity implements View.OnClickListen
                                 progressBar.setVisibility(View.VISIBLE);
 
                                 forCar = FirebaseDatabase.getInstance().getReference("Car").child(listingid);
-                                final Upload upload = new Upload(listingid, edition, series, info, uid, formattedDate, fuel, imagePath4, imagePath1, imagePath2, imagePath3, videoP, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status);
+                                final Upload upload = new Upload(listingid, edition, series, info, uid, formattedDate, fuel, imagePath4, imagePath1, imagePath2, imagePath3, videoP, finalBrand, finalModel, finalYear, finalColor, finalTransmission, finalPcondition, finalMileage, finalPrice, shop, status, finalCategory, finalDoors);
                                 forCar.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

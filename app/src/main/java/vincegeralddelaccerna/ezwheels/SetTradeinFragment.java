@@ -49,6 +49,7 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
 
     private static final int IMAGE_REQUEST_1 = 1;
     private static final int IMAGE_REQUEST_2 = 2;
+    private static final int PROOF_OF_COMPLETION = 3;
 
     //strings
     private static final String [] brands = new String[]{
@@ -66,10 +67,11 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
     private String status = "PENDING";
     private static String imagePath1;
     private static  String imagePath2;
-    ProgressBar p1, p2;
+    private static  String imagePath3;
+    ProgressBar p1, p2, p3;
 
     //uri
-    private Uri imageUri1, imageUri2;
+    private Uri imageUri1, imageUri2, imageUri3;
 
     //properties
 
@@ -78,7 +80,7 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
     AutoCompleteTextView brand, model, year;
     TextView input, input1;
     EditText price, price1;
-    ImageView image1, image2;
+    ImageView image1, image2, image3;
     Button tradeBtn;
 
 //    public SetTradeinFragment() {
@@ -118,9 +120,12 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
         type3 = findViewById(R.id.radioButton3);
         image1 = findViewById(R.id.image1);
         image2 = findViewById(R.id.image2);
+        image3 = findViewById(R.id.image3);
+        image3.setOnClickListener(this);
         tradeBtn = findViewById(R.id.tradeBtn);
         p1 = findViewById(R.id.p1);
         p2 = findViewById(R.id.p2);
+        p3 = findViewById(R.id.p3);
 
         //toolbar
 
@@ -211,6 +216,13 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
             intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(intent, IMAGE_REQUEST_2);
         }
+
+        if(id == R.id.image3){
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(intent, PROOF_OF_COMPLETION);
+        }
         
         if(id == R.id.tradeBtn){
 
@@ -240,7 +252,7 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
         String id = mDatabaseRef.push().getKey();
         String seen = "false";
         String fromSeen = "false";
-        Trade trade = new Trade(listid, imagePath1, imagePath2, price, price1, finalbrand, finalmodel,finalYear, uid, shopuid, type, image1, model, brand, yearr, name, status, priceList, id, seen, fromSeen);
+        Trade trade = new Trade(listid, imagePath1, imagePath2, imagePath3, price, price1, finalbrand, finalmodel,finalYear, uid, shopuid, type, image1, model, brand, yearr, name, status, priceList, id, seen, fromSeen);
         mDatabaseRef.child("Trade").child(id).setValue(trade).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -298,6 +310,30 @@ public class SetTradeinFragment extends AppCompatActivity implements View.OnClic
                             imagePath2 = uri.toString();
                             Picasso.get().load(imageUri2).fit().centerCrop().into(image2);
                             p2.setVisibility(View.GONE);
+                        }
+                    });
+                }
+            });
+        }
+
+        if(requestCode == PROOF_OF_COMPLETION && resultCode == RESULT_OK){
+
+            imageUri3 = data.getData();
+
+
+            final String path2 = System.currentTimeMillis() + "." + getFileExtension(imageUri3);
+            p3.setVisibility(View.VISIBLE);
+            StorageReference storageReference = mStorageRef.child("Images").child(path2);
+            storageReference.putFile(imageUri3).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    mStorageRef.child("Images/"+path2).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Toast.makeText(SetTradeinFragment.this, "Proof of Completion Added", Toast.LENGTH_SHORT).show();
+                            imagePath3 = uri.toString();
+                            Picasso.get().load(imageUri3).fit().centerCrop().into(image3);
+                            p3.setVisibility(View.GONE);
                         }
                     });
                 }

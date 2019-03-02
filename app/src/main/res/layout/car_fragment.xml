@@ -6,13 +6,27 @@
     android:background="#fefefe"
     android:orientation="vertical">
 
-    <SearchView
-        android:id="@+id/search"
+    <LinearLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint="Search Here">
+        android:orientation="horizontal">
+        <SearchView
+            android:id="@+id/search"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:queryHint="Search Here">
 
-    </SearchView>
+        </SearchView>
+
+        <ImageView
+            android:id="@+id/sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_more_vert_black_24dp"
+            />
+    </LinearLayout>
 
     <ProgressBar
         android:layout_width="wrap_content"
@@ -21,7 +35,7 @@
         android:id="@+id/progress"/>
 
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/search"
+        android:layout_below="@+id/layout"
         android:id="@+id/recyclerRequest"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

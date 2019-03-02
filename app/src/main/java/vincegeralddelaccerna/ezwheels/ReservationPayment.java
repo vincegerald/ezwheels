@@ -202,7 +202,7 @@ public class ReservationPayment extends AppCompatActivity implements View.OnClic
                             String date = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
                             //String image, String name, String code, String uid, String id, String amount, String type, String shopuid
                             String seen = "false";
-                            Payments payments = new Payments(imagePath1, senderText, codeText, mAuth.getCurrentUser().getUid(), pid,  amount, type, shopuid, resid, date, seen);
+                            Payments payments = new Payments(imagePath1, senderText, codeText, mAuth.getCurrentUser().getUid(), pid,  amount, type, shopuid, resid, "", date, seen);
                             res.child(pid).setValue(payments).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {

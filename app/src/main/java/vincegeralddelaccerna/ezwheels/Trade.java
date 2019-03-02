@@ -1,15 +1,18 @@
 package vincegeralddelaccerna.ezwheels;
 
 public class Trade {
-    public String year, fyear, listingid, imagePath1, imagePath2,  addPrice,  shopAddPrice,  fbrand,  fmodel,  uid,  shopuid,  type, image1, model, brand, name, status, priceList, tid, seen, fromSeen;
+    public String year, imagePath3,  fyear, listingid, imagePath1, imagePath2,  addPrice,  shopAddPrice,  fbrand,  fmodel,  uid,  shopuid,  type, image1, model, brand, name, status, priceList, tid, seen, fromSeen;
 
     public Trade() {
     }
 
-    public Trade(String listingid, String imagePath1, String imagePath2, String addPrice, String shopAddPrice, String fbrand, String fmodel, String fyear, String uid, String shopuid, String type, String image1, String model, String brand, String year, String name, String status, String priceList, String tradeId, String seen, String fromSeen) {
+
+
+    public Trade(String listingid, String imagePath1, String imagePath2, String imagePath3, String addPrice, String shopAddPrice, String fbrand, String fmodel, String fyear, String uid, String shopuid, String type, String image1, String model, String brand, String year, String name, String status, String priceList, String tradeId, String seen, String fromSeen) {
         this.listingid = listingid;
         this.imagePath1 = imagePath1;
         this.imagePath2 = imagePath2;
+        this.imagePath3 = imagePath3;
         this.addPrice = addPrice;
         this.shopAddPrice = shopAddPrice;
         this.fbrand = fbrand;
@@ -28,6 +31,14 @@ public class Trade {
         this.year = year;
         this.seen = seen;
         this.fromSeen = fromSeen;
+    }
+
+    public String getImagePath3() {
+        return imagePath3;
+    }
+
+    public void setImagePath3(String imagePath3) {
+        this.imagePath3 = imagePath3;
     }
 
     public String getFromSeen() {

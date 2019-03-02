@@ -130,6 +130,7 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
     private Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
+
             List<Upload> filteredList = new ArrayList<>();
 
             if(charSequence == null || charSequence.length() == 0){
@@ -139,7 +140,8 @@ public class DashboardCarAdapter extends RecyclerView.Adapter<DashboardCarAdapte
                 String filterPattern = charSequence.toString().toLowerCase().trim();
 
                 for(Upload item : temp){
-                    if(item.getFinalModel().concat(item.getFinalBrand()).concat(item.getFuel()).concat(item.getFinalPrice()).concat(item.finalPcondition).concat(item.finalTransmission).toLowerCase().contains(filterPattern)){
+                    if(item.getFinalModel().concat(item.getDoors()).concat(item.getSeries()).concat(item.getCategory()).concat(item.getFinalMileage()).
+                    concat(item.getFinalTransmission()).concat(item.getFinalBrand()).concat(item.getFuel()).concat(item.getFinalPrice()).concat(item.finalPcondition).concat(item.finalTransmission).toLowerCase().contains(filterPattern)){
                         filteredList.add(item);
                     }
                 }
